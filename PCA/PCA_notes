@@ -1,0 +1,72 @@
+Basic:
+-----------------------------------------------------------------------------------------------
+http://control.ucsd.edu/mauricio/courses/mae280a/lecture11.pdf
+
+Theorem: Any symmetric matrix
+1) has only real eigenvalues;
+2) is always diagonalizable;
+3) has orthogonal eigenvectors.
+
+
+https://lazyprogrammer.me/covariance-matrix-divide-by-n-or-n-1/
+How to Calculate Covariance Matrix
+
+
+https://en.wikipedia.org/wiki/Eigendecomposition_of_a_matrix
+In linear algebra, eigendecomposition or sometimes spectral decomposition is the factorization of a matrix into a canonical form, whereby the matrix is represented in terms of its eigenvalues and eigenvectors. Only diagonalizable matrices can be factorized in this way.
+
+
+https://en.wikipedia.org/wiki/Singular-value_decomposition
+It is the generalization of the eigendecomposition of a positive semidefinite normal matrix (for example, a symmetric matrix with positive eigenvalues) to any {\displaystyle m\times n} m\times n matrix via an extension of the polar decomposition. 
+
+
+https://www.mathworks.com/help/matlab/math/singular-values.html
+General Sigular Decompostion Introduction
+
+
+Note: Usually there is no special function in common languages to specifically handle the eigendecompstion of diagonable matrix. 
+But common 'SVD' could actually handle this case, where [U, S, V] = SVD(cov_matrix) and U is the transpose of V. 
+-----------------------------------------------------------------------------------------------
+
+
+
+
+Why 'minimize reconstruction error' equals to 'maximize variance of projected data'?
+-----------------------------------------------------------------------------------------------
+https://stats.stackexchange.com/questions/32174/pca-objective-function-what-is-the-connection-between-maximizing-variance-and-m/136072#136072
+
+Key note:
+So minimizing reconstruction error is equivalent to maximizing the variance; both formulations yield the same w.
+-----------------------------------------------------------------------------------------------
+
+
+
+
+Why the eigenvector with the largest eigenvalue is the Principal direction to maximize variance of projected data(minimize reconstruction error)? 
+-----------------------------------------------------------------------------------------------
+https://stats.stackexchange.com/questions/217995/what-is-an-intuitive-explanation-for-how-pca-turns-from-a-geometric-problem-wit
+
+Key note:
+(Just in case this is not clear: if X is the centered data matrix, then the projection is given by Xw and its variance is ...)
+
+It turns out that the first principal direction is given by the eigenvector with the largest eigenvalue. This is a nontrivial and surprising statement.
+
+We want to maximize w⊤Cw under the constraint that ‖w‖=w⊤w=1; this can be done introducing a Lagrange multiplier and minimizing w⊤Cw−λ(w⊤w−1); differentiating, we obtain Cw−λw=0, which is the eigenvector equation. We see that λ has in fact to be the largest eigenvalue by substituting this solution into the objective function, which gives w⊤Cw−λ(w⊤w−1)=w⊤Cw=λw⊤w=λ.
+
+Note that the value of w⊤Cw does not depend on the basis! Changing to the eigenvector basis amounts to a rotation, so in 2D one can imagine simply rotating a piece of paper with the scatterplot; obviously this cannot change any variances.
+=> For symetric matrix (N * N), we could have N eigenvectors. It just matter how many of them you actually want to keep(original variance info)! 
+
+* Eigenvalue is exactly the variance of projecting data onto that eigenvector direction.
+* C  is symmetric matrix, it is diagonal in its eigenvector basis. (This is actually called spectral theorem.) So we can choose an orthogonal basis, namely the one given by the eigenvectors, where C is diagonal and has eigenvalues λi on the diagonal.
+-----------------------------------------------------------------------------------------------
+
+
+
+
+The relationship between explainning PCA via an eigen-decomposition of the covariance matrix and singular value decomposition (SVD) of the data matrix X.
+-----------------------------------------------------------------------------------------------
+https://stats.stackexchange.com/questions/134282/relationship-between-svd-and-pca-how-to-use-svd-to-perform-pca
+
+Key note:
+Principal component analysis (PCA) is usually explained via an eigen-decomposition of the covariance matrix. However, it can also be performed via singular value decomposition (SVD) of the data matrix X.
+-----------------------------------------------------------------------------------------------
