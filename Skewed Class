@@ -1,0 +1,18 @@
+Skewed Class 
+1. Label rare samples as 1
+2. Draw True Positive, True Negative, False Positive, False Negative matrix
+3. Calculate Precision and Recall, F1 Score
+
+Note:
+1. True Postive != # Positive in the sample
+=> True Positive is tied to prediction, while '# Postive in the sample' is ground truth.
+
+2. Precision != Accuracy
+=> Precision is tied with True Positive (specfically for 'Label 1' classification), where 'Accuracy' do not different 'Label 1' or 'Label 0
+
+
+
+
+Anomly Detection VS Supervised Learning
+1. Anormly Problem usually comes from the dataset that is usually very skewed! (Not enough to learn characteristic of Positive Example)
+2. The Anormlies could caused by various reasons (thus to have various characterisitcs). You could not easily generlize the knowledge you have learned from trainning examples. 
