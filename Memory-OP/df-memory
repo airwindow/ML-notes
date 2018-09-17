@@ -1,0 +1,16 @@
+https://stackoverflow.com/questions/2123925/when-does-python-allocate-new-memory-for-identical-strings
+------------------------------------------------------------------------------------------------------------------------------------------
+BUT write the list to disk and read it back in again: the "same" list now has N different id() s, way more memory, see below ...
+
+Each implementation of the Python language is free to make its own tradeoffs in allocating immutable objects (such as strings) -- either making a new one, or finding an existing equal one and using one more reference to it, are just fine from the language's point of view. In practice, of course, real-world implementation strike reasonable compromise: one more reference to a suitable existing object when locating such an object is cheap and easy, just make a new object if the task of locating a suitable existing one (which may or may not exist) looks like it could potentially take a long time searching.
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+https://docs.python.org/3/library/sys.html
+Note: getsizeof() is not guaranteed to be right(reported by object)
+------------------------------------------------------------------------------------------------------------------------------------------
+Return the size of an object in bytes. The object can be any type of object. All built-in objects will return correct results, but this does not have to hold true for third-party extensions as it is implementation specific.
+
+getsizeof() calls the object’s __sizeof__ method and adds an additional garbage collector overhead if the object is managed by the garbage collector.
+------------------------------------------------------------------------------------------------------------------------------------------
