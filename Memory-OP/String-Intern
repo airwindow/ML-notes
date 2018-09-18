@@ -1,0 +1,61 @@
+https://stackoverflow.com/questions/2123925/when-does-python-allocate-new-memory-for-identical-strings
+------------------------------------------------------------------------------------------------------------------------------------------
+BUT write the list to disk and read it back in again: the "same" list now has N different id() s, way more memory, see below ...
+
+Each implementation of the Python language is free to make its own tradeoffs in allocating immutable objects (such as strings) -- either making a new one, or finding an existing equal one and using one more reference to it, are just fine from the language's point of view. In practice, of course, real-world implementation strike reasonable compromise: one more reference to a suitable existing object when locating such an object is cheap and easy, just make a new object if the task of locating a suitable existing one (which may or may not exist) looks like it could potentially take a long time searching.
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+https://docs.python.org/3/library/sys.html
+Note: getsizeof() is not guaranteed to be right(reported by object)
+------------------------------------------------------------------------------------------------------------------------------------------
+Return the size of an object in bytes. The object can be any type of object. All built-in objects will return correct results, but this does not have to hold true for third-party extensions as it is implementation specific.
+
+getsizeof() calls the object’s __sizeof__ method and adds an additional garbage collector overhead if the object is managed by the garbage collector.
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+https://medium.com/@tyastropheus/tricky-python-i-memory-management-for-mutable-immutable-objects-21507d1e5b95
+------------------------------------------------------------------------------------------------------------------------------------------
+Python employs a different approach. Instead of storing values in the memory space reserved by the variable, Python has the variable refer to the value. Similar to pointers in C, variables in Python refer to values (or objects) stored somewhere in memory. In fact, all variable names in Python are said to be references to the values, some of which are front loaded by Python and therefore exist before the name references occur (more on this later). Python keeps an internal counter on how many references an object has.
+
+...
+This is a result of string interning, which allows two variables to refer to the same string object. Python automatically does this, although the exact rules remain fuzzy. 
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+Understanding Python variables and Memory Management
+http://foobarnbaz.com/2012/07/08/understanding-python-variables/
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Even after assigning the same integer values to different variable names, we are getting two different ids here. These are actually the effects of CPython optimization we are observing here. CPython implementation keeps an array of integer objects for all integers between -5 and 256. So when we create an integer in that range, they simply back reference to the existing object. 
+
+
+When the string was a simple and shorter one the variable names where referring to the same object in memory. But when they became bigger, this was not the case. This is called interning, and Python does interning (to some extent) of shorter string literals (as in s1 and s2) which are created at compile time. But in general, Python string literals creates a new string object each time (as in s3 and s4). Interning is runtime dependant and is always a trade-off between memory use and the cost of checking if you are creating the same string.
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+The internals of Python string interning
+http://guilload.com/python-string-interning/
+------------------------------------------------------------------------------------------------------------------------------------------
+As you can see, keys in the interned dictionary are pointers to string objects and values are the same pointers. Furthermore, string subclasses cannot be interned. Let me set aside error checking and reference counting and rewrite this function in pseudo Python code:
+
+
+Pointer comparison
+Secondly, strings can be compared by a O(1) pointer comparison instead of a O(n) byte-per-byte comparison.
+
+To prove so, I have measured the time required to verify the equality of two strings as a function of their length when they are interned and when they are not. The following should convince you:
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+String interning
+https://en.wikipedia.org/wiki/String_interning
+------------------------------------------------------------------------------------------------------------------------------------------
+In computer science, string interning is a method of storing only one copy of each distinct string value, which must be immutable.[1] Interning strings makes some string processing tasks more time- or space-efficient at the cost of requiring more time when the string is created or interned. The distinct values are stored in a string intern pool.
+------------------------------------------------------------------------------------------------------------------------------------------
