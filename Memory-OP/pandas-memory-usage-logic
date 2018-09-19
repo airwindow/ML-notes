@@ -1,0 +1,49 @@
+https://github.com/pandas-dev/pandas/blob/master/pandas/core/frame.py#L2368
+result = Series([c.memory_usage(index=False, deep=deep)
+                for col, c in self.iteritems()], index=self.columns)
+
+
+https://github.com/pandas-dev/pandas/blob/master/pandas/core/frame.py#L762
+if self.columns.is_unique and hasattr(self, '_item_cache'):
+    for k in self.columns:
+        yield k, self._get_item_cache(k)
+
+
+https://github.com/pandas-dev/pandas/blob/master/pandas/core/frame.py#L2315
+Series.memory_usage : Bytes consumed by a Series.
+
+https://github.com/pandas-dev/pandas/blob/master/pandas/core/frame.py#L74
+from pandas.core.series import Series
+
+
+https://github.com/pandas-dev/pandas/blob/master/pandas/core/series.py#L3583
+https://github.com/pandas-dev/pandas/blob/master/pandas/core/series.py#L3632
+v = super(Series, self).memory_usage(deep=deep)
+
+
+https://github.com/pandas-dev/pandas/blob/master/pandas/core/series.py#L3606
+numpy.ndarray.nbytes : Total bytes consumed by the elements of the
+            array.
+
+https://github.com/pandas-dev/pandas/blob/master/pandas/core/base.py#L1120
+https://github.com/pandas-dev/pandas/blob/master/pandas/core/base.py#L1147
+https://github.com/pandas-dev/pandas/blob/master/pandas/core/base.py#L24
+v = self.values.nbytes
+if deep and is_object_dtype(self) and not PYPY:
+    v += lib.memory_usage_of_objects(self.values)
+return v
+
+https://github.com/pandas-dev/pandas/blob/master/pandas/_libs/lib.pyx
+https://github.com/pandas-dev/pandas/blob/master/pandas/_libs/lib.pyx#L90
+def memory_usage_of_objects(arr: object[:]) -> int64_t:
+    """ return the memory usage of an object array in bytes,
+    does not include the actual bytes of the pointers """
+    i: Py_ssize_t
+    n: Py_ssize_t
+    size: int64_t
+
+    size = 0
+    n = len(arr)
+    for i in range(n):
+        size += arr[i].__sizeof__()
+    return size
