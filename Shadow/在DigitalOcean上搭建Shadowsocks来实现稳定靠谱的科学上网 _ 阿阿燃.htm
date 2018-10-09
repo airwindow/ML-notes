@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="科学上网,DigitalOcean,Shadowsocks," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="阿阿燃" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="如果下面这些情形你经常遇到：   经常会折腾各种各样的 Web 应用(Java、nodejs、python等各种语言环境)，但是国内的云服务无法提供对应的环境。 你只是临时的折腾这些应用，并不会长期的运营这些服务。国内的云服务费用昂贵，并需要持续较长时间购买。 虽然可能是临时或者短时间折腾这些服务，你也希望可以有稳定的 IP 或者域名来访问服务。而国内的云服务域名需要备案，而你却懒得折腾这些。 你">
+<meta name="keywords" content="科学上网,DigitalOcean,Shadowsocks">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网">
+<meta property="og:url" content="http://linfuyan.com/shadowsocks-with-digitalocean/index.html">
+<meta property="og:site_name" content="阿阿燃">
+<meta property="og:description" content="如果下面这些情形你经常遇到：   经常会折腾各种各样的 Web 应用(Java、nodejs、python等各种语言环境)，但是国内的云服务无法提供对应的环境。 你只是临时的折腾这些应用，并不会长期的运营这些服务。国内的云服务费用昂贵，并需要持续较长时间购买。 虽然可能是临时或者短时间折腾这些服务，你也希望可以有稳定的 IP 或者域名来访问服务。而国内的云服务域名需要备案，而你却懒得折腾这些。 你">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_1.png">
+<meta property="og:image" content="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_2.png">
+<meta property="og:image" content="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_3.png">
+<meta property="og:image" content="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_4.png">
+<meta property="og:image" content="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_5.png">
+<meta property="og:image" content="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_6.png">
+<meta property="og:updated_time" content="2016-10-22T03:38:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网">
+<meta name="twitter:description" content="如果下面这些情形你经常遇到：   经常会折腾各种各样的 Web 应用(Java、nodejs、python等各种语言环境)，但是国内的云服务无法提供对应的环境。 你只是临时的折腾这些应用，并不会长期的运营这些服务。国内的云服务费用昂贵，并需要持续较长时间购买。 虽然可能是临时或者短时间折腾这些服务，你也希望可以有稳定的 IP 或者域名来访问服务。而国内的云服务域名需要备案，而你却懒得折腾这些。 你">
+<meta name="twitter:image" content="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://linfuyan.com/shadowsocks-with-digitalocean/"/>
+
+
+
+
+
+  <title>在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网 | 阿阿燃</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">阿阿燃</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://linfuyan.com/shadowsocks-with-digitalocean/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Aaron">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="阿阿燃">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-22T09:25:00+08:00">
+                2016-10-22
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2016-10-22T11:38:10+08:00">
+                2016-10-22
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件工具/" itemprop="url" rel="index">
+                    <span itemprop="name">软件工具</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/软件工具/Shadowsocks/" itemprop="url" rel="index">
+                    <span itemprop="name">Shadowsocks</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如果下面这些情形你经常遇到：</p>
+<blockquote>
+<ol>
+<li>经常会折腾各种各样的 Web 应用(Java、nodejs、python等各种语言环境)，但是国内的云服务无法提供对应的环境。</li>
+<li>你只是临时的折腾这些应用，并不会长期的运营这些服务。国内的云服务费用昂贵，并需要持续较长时间购买。</li>
+<li>虽然可能是临时或者短时间折腾这些服务，你也希望可以有稳定的 IP 或者域名来访问服务。而国内的云服务域名需要备案，而你却懒得折腾这些。</li>
+<li>你经常有科学上网的需求，却苦于免费的 VPN 不稳定，稳定的却死贵。</li>
+</ol>
+</blockquote>
+<p>那么，可能 DigitalOcean 是你需要的。请往下继续看。否则，你已经可以关闭这个页面了。</p>
+<p>先说说 DigitalOcean：</p>
+<blockquote>
+<ol>
+<li>可以把 DigitalOcean 看做是 VPS，你对上面的环境有完全的支配权，想折腾什么类型的 Web 应用都可以。</li>
+<li>DigitalOcean 通过创建 droplet 来快速搭建基础环境，可视化的管理配置，轻而易举的可以与你的域名绑定。从而快速稳定的访问你的服务。</li>
+<li>DigitalOcean 最低的收费是每月5美刀，并且按照使用时长(每小时结算)收费。创建的 droplet 如果关闭，则不再继续收费。非常适合需要临时折腾的你。而且，通过这个<strong><a href="https://m.do.co/c/c6ceb25187c4" target="_blank" rel="noopener">邀请链接</a></strong>进行注册，将自动赠送10美刀。</li>
+<li>DigitalOcean 的旧金山节点，国内链接速度快，很适合通过搭建 Shadowsocks 来提供稳定靠谱的科学上网服务。</li>
+</ol>
+</blockquote>
+<h2 id="在-DigitalOcean-上配置-droplet"><a href="#在-DigitalOcean-上配置-droplet" class="headerlink" title="在 DigitalOcean 上配置 droplet"></a>在 DigitalOcean 上配置 droplet</h2><p>注册 DigitalOcean 账户就不说了。需要提醒的是，使用 DigitalOcean 需要绑定银行卡。</p>
+<p>新建 droplet 的步骤： </p>
+<p><img src="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_1.png" alt="在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网"></p>
+<p>1. 选择系统镜像，这里选了 ubuntu 16.04</p>
+<p><img src="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_2.png" alt="在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网"></p>
+<p>2. 选择配置，这里选$5/月</p>
+<p><img src="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_3.png" alt="在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网"></p>
+<p>3. 选择机房位置，旧金山的访问速度比较快</p>
+<p><img src="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_4.png" alt="在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网"></p>
+<p>4. 添加 SSH key，用于后面远程登录的验证。具体操作可以看<a href="https://www.digitalocean.com/community/tutorials/how-to-use-ssh-keys-with-digitalocean-droplets" target="_blank" rel="noopener">官方文档</a>或者<a href="http://linfuyan.com/generating-ssh-keys/">生成SSH密钥</a>。</p>
+<p><img src="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_5.png" alt="在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网"></p>
+<p>5. 这样，不到1分钟时间，就创建好了一个 droplet，带有固定IP，还可以绑定域名。</p>
+<p><img src="http://7sbydj.com1.z0.glb.clouddn.com/static/images/ss_do_6.png" alt="在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网"></p>
+<h2 id="安装并配置-Shadowsocks-服务"><a href="#安装并配置-Shadowsocks-服务" class="headerlink" title="安装并配置 Shadowsocks 服务"></a>安装并配置 Shadowsocks 服务</h2><p>在第一步中配置完 ssh key，就可以远程登录到 DigitalOcean 的 droplet 上，直接用 root 用户即可：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ssh</span> root<span class="variable">@your_droplet_ip</span></span><br></pre></td></tr></table></figure>
+<p>刚才我们的 droplet 环境是 ubuntu 16.04，通过如下命令安装 shadowsocks：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get <span class="keyword">install</span> python-pip</span><br><span class="line">pip <span class="keyword">install</span> shadowsocks</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我遇到了 <code>locale.Error: unsupported locale setting</code> 的问题，解决方案看这里：<a href="https://linfuyan.com/locale_error_unsupported_locale_setting/index.html">解决 pip install 时 locale.Error: unsupported locale setting 错误</a></p>
+</blockquote>
+<p>安装好以后，就可以通过以下指令启动服务：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssserver -p <span class="number">8836</span> -k `password` -m rc4-md5</span><br><span class="line"></span><br><span class="line"># 或者可以通过以下指令在后台启动shadowsocks的服务：</span><br><span class="line">ssserver -p <span class="number">8843</span> -k `password` -m rc4-md5 -d start</span><br><span class="line">ssserver -p <span class="number">8843</span> -k `password` -m rc4-md5 -d stop</span><br></pre></td></tr></table></figure>
+<p>上面的指令方式不太方便，推荐通过文件配置的方式。新建一个 <code>/etc/shadowsocks.json</code> 文件，内容如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"server"</span>: <span class="string">"your_droplet_ip"</span>,</span><br><span class="line">    <span class="attr">"server_port"</span>: <span class="number">8388</span>,</span><br><span class="line">    <span class="attr">"local_address"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line">    <span class="attr">"local_port"</span>: <span class="number">1080</span>,</span><br><span class="line">    <span class="attr">"password"</span>: <span class="string">"your_password"</span>,</span><br><span class="line">    <span class="attr">"timeout"</span>: <span class="number">300</span>,</span><br><span class="line">    <span class="attr">"method"</span>: <span class="string">"aes-256-cfb"</span>,</span><br><span class="line">    <span class="attr">"fast_open"</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来使用下面的指令启动服务：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssserver -c /etc/shadowsocks.json</span><br><span class="line"></span><br><span class="line">#或者在后台运行</span><br><span class="line">ssserver -c /etc/shadowsocks<span class="selector-class">.json</span> -d start</span><br><span class="line">ssserver -c /etc/shadowsocks<span class="selector-class">.json</span> -d stop</span><br></pre></td></tr></table></figure>
+<p>以上操作以后，就可以通过各种 Shadowsocks 客户端科学上网啦。稳定又靠谱！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Aaron
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://linfuyan.com/shadowsocks-with-digitalocean/" title="在DigitalOcean上搭建Shadowsocks来实现稳定靠谱的科学上网">http://linfuyan.com/shadowsocks-with-digitalocean/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/科学上网/" rel="tag"># 科学上网</a>
+          
+            <a href="/tags/DigitalOcean/" rel="tag"># DigitalOcean</a>
+          
+            <a href="/tags/Shadowsocks/" rel="tag"># Shadowsocks</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/$q_and_promise_in_angular/" rel="next" title="形象的讲解 angular 中的 $q 与 promise">
+                <i class="fa fa-chevron-left"></i> 形象的讲解 angular 中的 $q 与 promise
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/locale_error_unsupported_locale_setting/" rel="prev" title="解决pip install时unsupported locale setting错误">
+                解决pip install时unsupported locale setting错误 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Aaron</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">85</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">220</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/linfuyan" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-DigitalOcean-上配置-droplet"><span class="nav-text">在 DigitalOcean 上配置 droplet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装并配置-Shadowsocks-服务"><span class="nav-text">安装并配置 Shadowsocks 服务</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Aaron</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+  <div class="footer-custom">Hosted by <a href="https://pages.coding.me" style="font-weight:bold">Coding Pages</a></div>
+
+
+        
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1256375489&web_id=1256375489" language="JavaScript"></script>
+  </div>
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,3846 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)https://pypi.org/project/tqdm/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="defaultLanguage" content="en">
+    <meta name="availableLanguages" content="en">
+
+    
+
+    <title>tqdm · PyPI</title>
+    <meta name="description" content="Fast, Extensible Progress Meter">
+
+    <link rel="stylesheet" href="./tqdm · PyPI_files/warehouse.a1809af1.css">
+    <link rel="stylesheet" href="./tqdm · PyPI_files/fontawesome.4b73fd92.css">
+    <link rel="stylesheet" href="./tqdm · PyPI_files/regular.19624371.css">
+    <link rel="stylesheet" href="./tqdm · PyPI_files/solid.f478cfb1.css">
+    <link rel="stylesheet" href="./tqdm · PyPI_files/brands.1ea560bf.css">
+    <link rel="stylesheet" href="./tqdm · PyPI_files/css">
+    <noscript>
+      <link rel="stylesheet" href="/static/css/noscript.ea8974d1.css">
+    </noscript>
+
+    
+
+    <link rel="icon" href="https://pypi.org/static/images/favicon.6a76275d.ico" type="image/x-icon">
+
+    <link rel="alternate" type="application/rss+xml" title="RSS: 40 latest updates" href="https://pypi.org/rss/updates.xml">
+    <link rel="alternate" type="application/rss+xml" title="RSS: 40 newest packages" href="https://pypi.org/rss/packages.xml">
+    
+    <link rel="canonical" href="https://pypi.org/project/tqdm/">
+    
+
+    <meta property="og:url" content="https://pypi.org/project/tqdm/">
+    <meta property="og:site_name" content="PyPI">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://pypi.org/static/images/twitter.c0030826.jpg">
+    <meta property="og:title" content="tqdm">
+    <meta property="og:description" content="Fast, Extensible Progress Meter">
+
+    <link rel="search" type="application/opensearchdescription+xml" title="PyPI" href="https://pypi.org/opensearch.xml">
+
+    
+    <script src="./tqdm · PyPI_files/lib.5843e086683830162775f76fdb46b608be2a29cf.js"></script><script type="text/javascript" async="" src="./tqdm · PyPI_files/analytics.js"></script><script src="./tqdm · PyPI_files/raven.min.js" integrity="sha384-D6LXy67EIC102DTuqypxwQsTHgiatlbvg7q/1YAWFb6lRyZ1lIZ6bGDsX7jxHNKA" crossorigin="anonymous">
+    </script>
+    
+    <script async="" data-ga-id="UA-55961911-1" data-sentry-frontend-dsn="https://3a67b35c9dc248a191d761410b095861@sentry.io/1231155" src="./tqdm · PyPI_files/warehouse.b56a7115.js">
+    </script>
+    
+    
+    <script async="" src="./tqdm · PyPI_files/js"></script>
+    <script defer="" src="./tqdm · PyPI_files/insights.js"></script>
+  </head>
+
+  <body data-controller="viewport-toggle" style="padding-top: 0px;">
+    
+
+    <!-- Accessibility: this link should always be the first piece of content inside the body-->
+    <a href="https://pypi.org/project/tqdm/#content" class="skip-to-content">Skip to main content</a>
+
+    <button class="button button--primary button--switch-to-mobile hidden" data-target="viewport-toggle.switchToMobile" data-action="viewport-toggle#switchToMobile">
+      Switch to mobile version
+    </button>
+
+    <section id="sticky-notifications" class="stick-to-top js-stick-to-top">
+      <!-- Add browser warning. Will show for ie9 and below -->
+      <!--[if IE]>
+      <div class="notification-bar notification-bar--danger">
+        <span class="notification-bar__icon">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          <span class="sr-only">Warning:</span>
+        </span>
+        <span class="notification-bar__message">You are using an unsupported browser, upgrade to a newer version.</span>
+      </div>
+      <![endif]-->
+      
+      <noscript>
+      <div class="notification-bar notification-bar--danger">
+        
+        <span class="notification-bar__icon">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          <span class="sr-only">Warning:</span>
+        </span>
+        <span class="notification-bar__message">Some features may not work without JavaScript. Please try enabling it if you encounter problems.</span>
+      </div>
+      </noscript>
+    </section>
+
+    
+      <div data-html-include="/_includes/flash-messages/">
+
+
+
+</div>
+    
+
+    
+
+    
+
+    <header class="site-header ">
+      <div class="site-container">
+        <div class="split-layout">
+          
+          <div class="split-layout">
+            <div>
+              <a class="site-header__logo" href="https://pypi.org/">
+                <img alt="PyPI" src="./tqdm · PyPI_files/logo-small.6eef541e.svg">
+              </a>
+            </div>
+
+            <form class="search-form search-form--primary" action="https://pypi.org/search/">
+              <div role="search">
+                <label for="search" class="sr-only">Search PyPI</label>
+                <input id="search" class="search-form__search" type="text" name="q" placeholder="Search projects" value="">
+                
+                <button type="submit" class="search-form__button">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                  <span class="sr-only">Search</span>
+                </button>
+              </div>
+            </form>
+          </div>
+          
+
+          <div data-html-include="/_includes/current-user-indicator/">
+    
+    <nav id="user-indicator" class="horizontal-menu horizontal-menu--light horizontal-menu--tall" aria-label="Main navigation">
+  <a class="horizontal-menu__link horizontal-menu__link--remove-on-mobile" href="https://pypi.org/help/">Help</a>
+  <a class="horizontal-menu__link horizontal-menu__link--remove-on-mobile" href="https://donate.pypi.org/">Donate</a>
+  <a class="horizontal-menu__link" href="https://pypi.org/account/login/">Log in</a>
+  <a class="horizontal-menu__link" href="https://pypi.org/account/register/">Register</a>
+</nav>
+  </div>
+        </div>
+      </div>
+    </header>
+
+    
+    <section class="mobile-search">
+      <form class="search-form search-form--fullwidth" action="https://pypi.org/search/">
+        <div role="search">
+          <label for="mobile-search" class="sr-only">Search PyPI</label>
+          <input id="mobile-search" class="search-form__search" type="text" name="q" placeholder="Search projects" value="">
+          
+          <button type="submit" class="search-form__button">
+            <i class="fa fa-search" aria-hidden="true"></i>
+            <span class="sr-only">Search</span>
+          </button>
+          
+        </div>
+      </form>
+    </section>
+    
+
+    <main id="content">
+      
+<section class="banner">
+  <div class="package-header">
+    <div class="package-header__left">
+      <h1 class="package-header__name">
+        tqdm 4.26.0
+      </h1>
+
+      
+        
+          
+        
+      <p class="package-header__pip-instructions">
+        <span id="pip-command">pip install tqdm</span>
+        <button class="-js-copy-pip-command tooltipped tooltipped-s" data-clipboard-target="#pip-command" aria-label="Copy to clipboard" data-original-label="Copy to clipboard">
+          <i class="fa fa-copy" aria-hidden="true"></i>
+          <span class="sr-only">Copy PIP instructions<span>
+        </span></span></button>
+      </p>
+      
+    </div>
+
+    <div class="package-header__right">
+      
+      <a class="status-badge status-badge--good" href="https://pypi.org/project/tqdm/">Latest version</a>
+      
+      <p class="package-header__date">Last released: <time class="-js-relative-time" datetime="2018-09-11T19:28:42+0000">
+  Sep 11, 2018
+</time></p>
+    </div>
+  </div>
+</section>
+
+<section class="horizontal-section horizontal-section--grey horizontal-section--thin">
+  <div class="site-container">
+    <div class="split-layout split-layout--middle package-description">
+    
+      <p class="package-description__summary">Fast, Extensible Progress Meter</p>
+    
+    <div data-html-include="/_includes/edit-project-button/tqdm"></div>
+    </div>
+  </div>
+</section>
+
+<section data-controller="project-tabs" data-project-tabs-content="description">
+  <div class="tabs-container">
+    <div class="vertical-tabs">
+      <div class="vertical-tabs__tabs">
+        <div class="sidebar-section">
+          <h3 class="sidebar-section__title">Navigation</h3>
+            <nav role="tablist">
+              <a id="description-tab" data-target="project-tabs.tab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--is-active" href="https://pypi.org/project/tqdm/#description" role="tab">
+                <i class="fa fa-align-left" aria-hidden="true"></i>
+                Project description
+              </a>
+              <a id="history-tab" data-target="project-tabs.tab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon" href="https://pypi.org/project/tqdm/#history" role="tab">
+                <i class="fa fa-history" aria-hidden="true"></i>
+                Release history
+              </a>
+              
+                <a id="files-tab" data-target="project-tabs.tab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon" href="https://pypi.org/project/tqdm/#files" role="tab">
+                  <i class="fa fa-download" aria-hidden="true"></i>
+                  Download files
+                </a>
+              
+            </nav>
+        </div>
+        
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Project links</h3>
+  
+  
+  <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed" href="https://github.com/tqdm/tqdm" rel="nofollow">
+    
+    
+
+
+  
+
+
+<i class="fab fa-github" aria-hidden="true"></i>Homepage
+  </a>
+  
+  
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Statistics</h3>
+  
+  <div class="github-repo-info hidden" data-url="https://api.github.com/repos/tqdm/tqdm">
+    <em>GitHub statistics:</em>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/stargazers" rel="noopener" target="_blank">
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <strong>Stars: </strong>
+      <span class="github-repo-info__item" data-key="stargazers_count"></span>
+    </a>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/network" rel="noopener" target="_blank">
+      <i class="fa fa-code-branch" aria-hidden="true"></i>
+      <strong>Forks: </strong>
+      <span class="github-repo-info__item" data-key="forks_count"></span>
+    </a>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/issues" rel="noopener" target="_blank">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      <strong>Open issues/PRs: </strong>
+      <span class="github-repo-info__item" data-key="open_issues_count"></span>
+    </a>
+  </div>
+  
+  <p>View statistics for this project via <a href="https://libraries.io/pypi/tqdm">Libraries.io</a>, or by using
+    <a href="https://packaging.python.org/guides/analyzing-pypi-package-downloads/">Google
+      BigQuery</a></p>
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Meta</h3>
+  
+  <p><strong>License:</strong> MIT License, Mozilla Public License 2.0 (MPL 2.0) (MPLv2.0, MIT Licences)</p>
+  
+  
+    <p><strong>Author:</strong> <a href="mailto:noamraph@gmail.com">Noam Yorav-Raphael</a></p>
+  
+  
+    <p><strong>Maintainer:</strong> <a href="mailto:python.tqdm@gmail.com">tqdm developers</a></p>
+  
+  
+  <p class="tags">
+    <i class="fa fa-tags" aria-hidden="true"></i>
+    <span class="sr-only">Tags:</span>
+    
+    <span class="package-keyword">
+      progressbar,
+    </span>
+    
+    <span class="package-keyword">
+      progressmeter,
+    </span>
+    
+    <span class="package-keyword">
+      progress,
+    </span>
+    
+    <span class="package-keyword">
+      bar,
+    </span>
+    
+    <span class="package-keyword">
+      meter,
+    </span>
+    
+    <span class="package-keyword">
+      rate,
+    </span>
+    
+    <span class="package-keyword">
+      eta,
+    </span>
+    
+    <span class="package-keyword">
+      console,
+    </span>
+    
+    <span class="package-keyword">
+      terminal,
+    </span>
+    
+    <span class="package-keyword">
+      time
+    </span>
+    
+  </p>
+  
+  
+  <p>
+    <strong>Requires:</strong> Python &gt;=2.6, !=3.0.*, !=3.1.*
+  </p>
+  
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Maintainers</h3>
+  
+    
+    <span class="sidebar-section__maintainer">
+      <a href="https://pypi.org/user/casper.dcl/" aria-label="casper.dcl" class="sidebar-section__user-gravatar">
+        <img src="./tqdm · PyPI_files/68747470733a2f2f7365637572652e67726176617461722e636f6d2f6176617461722f30373562346431623532343565393135396437663734636539613436346639373f73697a653d3530" height="50" width="50" alt="Avatar for casper.dcl from gravatar.com" title="Avatar for casper.dcl from gravatar.com">
+      </a>
+      <a href="https://pypi.org/user/casper.dcl/" class="sidebar-section__user-gravatar-text">
+        casper.dcl
+      </a>
+    </span>
+  
+    
+    <span class="sidebar-section__maintainer">
+      <a href="https://pypi.org/user/noamraph/" aria-label="noamraph" class="sidebar-section__user-gravatar">
+        <img src="./tqdm · PyPI_files/68747470733a2f2f7365637572652e67726176617461722e636f6d2f6176617461722f33656631616633663433653931613061636431376330373339363831646535643f73697a653d3530" height="50" width="50" alt="Avatar for noamraph from gravatar.com" title="Avatar for noamraph from gravatar.com">
+      </a>
+      <a href="https://pypi.org/user/noamraph/" class="sidebar-section__user-gravatar-text">
+        noamraph
+      </a>
+    </span>
+  
+    
+    <span class="sidebar-section__maintainer">
+      <a href="https://pypi.org/user/tqdm/" aria-label="tqdm" class="sidebar-section__user-gravatar">
+        <img src="./tqdm · PyPI_files/68747470733a2f2f7365637572652e67726176617461722e636f6d2f6176617461722f33623630336337333531353539616232333961383066323039306562636433353f73697a653d3530" height="50" width="50" alt="Avatar for tqdm from gravatar.com" title="Avatar for tqdm from gravatar.com">
+      </a>
+      <a href="https://pypi.org/user/tqdm/" class="sidebar-section__user-gravatar-text">
+        tqdm
+      </a>
+    </span>
+  
+</div>
+
+
+<div class="sidebar-section classifiers">
+  <h3>Classifiers</h3>
+  <dl>
+    
+    <dt>Development Status</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Development+Status+%3A%3A+5+-+Production%2FStable">
+      5 - Production/Stable
+    </a>
+    </dd>
+    
+    
+    <dt>Environment</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+Console">
+      Console
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+MacOS+X">
+      MacOS X
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+Other+Environment">
+      Other Environment
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+Win32+%28MS+Windows%29">
+      Win32 (MS Windows)
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+X11+Applications">
+      X11 Applications
+    </a>
+    </dd>
+    
+    
+    <dt>Framework</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Framework+%3A%3A+IPython">
+      IPython
+    </a>
+    </dd>
+    
+    
+    <dt>Intended Audience</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+Developers">
+      Developers
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+Education">
+      Education
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+End+Users%2FDesktop">
+      End Users/Desktop
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+Other+Audience">
+      Other Audience
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+System+Administrators">
+      System Administrators
+    </a>
+    </dd>
+    
+    
+    <dt>License</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=License+%3A%3A+OSI+Approved+%3A%3A+MIT+License">
+      OSI Approved :: MIT License
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=License+%3A%3A+OSI+Approved+%3A%3A+Mozilla+Public+License+2.0+%28MPL+2.0%29">
+      OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)
+    </a>
+    </dd>
+    
+    
+    <dt>Operating System</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+MacOS+%3A%3A+MacOS+X">
+      MacOS :: MacOS X
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+Microsoft+%3A%3A+Windows">
+      Microsoft :: Windows
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+POSIX">
+      POSIX
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+POSIX+%3A%3A+BSD">
+      POSIX :: BSD
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+POSIX+%3A%3A+BSD+%3A%3A+FreeBSD">
+      POSIX :: BSD :: FreeBSD
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+POSIX+%3A%3A+Linux">
+      POSIX :: Linux
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+POSIX+%3A%3A+SunOS%2FSolaris">
+      POSIX :: SunOS/Solaris
+    </a>
+    </dd>
+    
+    
+    <dt>Programming Language</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python">
+      Python
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2">
+      Python :: 2
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2.6">
+      Python :: 2.6
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2.7">
+      Python :: 2.7
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3">
+      Python :: 3
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.2">
+      Python :: 3.2
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.3">
+      Python :: 3.3
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.4">
+      Python :: 3.4
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.5">
+      Python :: 3.5
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.6">
+      Python :: 3.6
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.7">
+      Python :: 3.7
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+Implementation">
+      Python :: Implementation
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+Implementation+%3A%3A+IronPython">
+      Python :: Implementation :: IronPython
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+Implementation+%3A%3A+PyPy">
+      Python :: Implementation :: PyPy
+    </a>
+    </dd>
+    
+    
+    <dt>Topic</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Desktop+Environment">
+      Desktop Environment
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Education+%3A%3A+Testing">
+      Education :: Testing
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Office%2FBusiness">
+      Office/Business
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Other%2FNonlisted+Topic">
+      Other/Nonlisted Topic
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Software+Development+%3A%3A+Libraries">
+      Software Development :: Libraries
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Software+Development+%3A%3A+Libraries+%3A%3A+Python+Modules">
+      Software Development :: Libraries :: Python Modules
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Software+Development+%3A%3A+User+Interfaces">
+      Software Development :: User Interfaces
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+System+%3A%3A+Logging">
+      System :: Logging
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+System+%3A%3A+Monitoring">
+      System :: Monitoring
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+System+%3A%3A+Shells">
+      System :: Shells
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Terminals">
+      Terminals
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Utilities">
+      Utilities
+    </a>
+    </dd>
+    
+    
+  </dl>
+</div>
+
+
+      </div>
+      <div class="vertical-tabs__panel">
+        <!-- mobile menu -->
+        <nav>
+          <a id="mobile-description-tab" data-target="project-tabs.mobileTab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--mobile vertical-tabs__tab--no-top-border vertical-tabs__tab--is-active" href="https://pypi.org/project/tqdm/#description">
+            <i class="fa fa-align-left" aria-hidden="true"></i>
+            Project description
+          </a>
+          <a id="mobile-data-tab" data-target="project-tabs.mobileTab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--mobile" href="https://pypi.org/project/tqdm/#data">
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+            Project details
+          </a>
+          <a id="mobile-history-tab" data-target="project-tabs.mobileTab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--mobile" href="https://pypi.org/project/tqdm/#history">
+            <i class="fa fa-history" aria-hidden="true"></i>
+            Release history
+          </a>
+          
+          <a id="mobile-files-tab" data-target="project-tabs.mobileTab" data-action="project-tabs#onTabClick" class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--mobile" href="https://pypi.org/project/tqdm/#files">
+            <i class="fa fa-download" aria-hidden="true"></i>
+            Download files
+          </a>
+          
+        </nav>
+
+        
+        <div id="description" data-target="project-tabs.content" class="vertical-tabs__content" role="tabpanel" aria-labelledby="description-tab mobile-description-tab" style="display: block;">
+          <h2 class="page-title">Project description</h2>
+          
+          <div class="project-description">
+            <p><img alt="Logo" src="./tqdm · PyPI_files/68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f7471646d2f7471646d2f6d61737465722f696d616765732f6c6f676f2e676966"></p>
+<div id="tqdm">
+<h2>tqdm</h2>
+<p><a href="https://pypi.org/project/tqdm" rel="nofollow"><img alt="PyPI-Status" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f707970692f762f7471646d2e737667"></a> <a href="https://pypi.org/project/tqdm" rel="nofollow"><img alt="PyPI-Versions" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f707970692f707976657273696f6e732f7471646d2e737667"></a> <a href="https://anaconda.org/conda-forge/tqdm" rel="nofollow"><img alt="Conda-Forge-Status" src="./tqdm · PyPI_files/68747470733a2f2f616e61636f6e64612e6f72672f636f6e64612d666f7267652f7471646d2f6261646765732f76657273696f6e2e737667"></a></p>
+<p><a href="https://travis-ci.org/tqdm/tqdm" rel="nofollow"><img alt="Build-Status" src="./tqdm · PyPI_files/68747470733a2f2f7472617669732d63692e6f72672f7471646d2f7471646d2e7376673f6272616e63683d6d6173746572"></a> <a href="https://coveralls.io/github/tqdm/tqdm" rel="nofollow"><img alt="Coverage-Status" src="./tqdm · PyPI_files/68747470733a2f2f636f766572616c6c732e696f2f7265706f732f7471646d2f7471646d2f62616467652e7376673f6272616e63683d6d6173746572"></a> <a href="https://codecov.io/gh/tqdm/tqdm" rel="nofollow"><img alt="Branch-Coverage-Status" src="./tqdm · PyPI_files/68747470733a2f2f636f6465636f762e696f2f67682f7471646d2f7471646d2f6272616e63682f6d61737465722f67726170682f62616467652e737667"></a> <a href="https://www.codacy.com/app/tqdm/tqdm?utm_source=github.com&amp;amp;utm_medium=referral&amp;amp;utm_content=tqdm/tqdm&amp;amp;utm_campaign=Badge_Grade" rel="nofollow"><img alt="Codacy-Grade" src="./tqdm · PyPI_files/68747470733a2f2f6170692e636f646163792e636f6d2f70726f6a6563742f62616467652f47726164652f3366393635353731353938663434353439633738313866323963646366313737"></a></p>
+<p><a href="https://zenodo.org/badge/latestdoi/21637/tqdm/tqdm" rel="nofollow"><img alt="DOI-URI" src="./tqdm · PyPI_files/68747470733a2f2f7a656e6f646f2e6f72672f62616467652f32313633372f7471646d2f7471646d2e737667"></a> <a href="https://raw.githubusercontent.com/tqdm/tqdm/master/LICENCE" rel="nofollow"><img alt="LICENCE" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f707970692f6c2f7471646d2e737667"></a> <a href="https://www.openhub.net/p/tqdm?ref=Thin+badge" rel="nofollow"><img alt="OpenHub-Status" src="./tqdm · PyPI_files/68747470733a2f2f7777772e6f70656e6875622e6e65742f702f7471646d2f776964676574732f70726f6a6563745f7468696e5f62616467653f666f726d61743d676966"></a></p>
+<p><tt>tqdm</tt> means “progress” in Arabic (taqadum, تقدّم)
+and is an abbreviation for “I love you so much” in Spanish (te quiero demasiado).</p>
+<p>Instantly make your loops show a smart progress meter - just wrap any
+iterable with <tt>tqdm(iterable)</tt>, and you’re done!</p>
+<pre><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">)):</span>
+    <span class="o">...</span>
+</pre>
+<p><tt><span class="pre">76%|████████████████████████████</span>  | 7568/10000 [00:33&lt;00:10, 229.00it/s]</tt></p>
+<p><tt>trange(N)</tt> can be also used as a convenient shortcut for
+<tt>tqdm(xrange(N))</tt>.</p>
+<dl>
+<dt><img alt="Screenshot" src="./tqdm · PyPI_files/68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f7471646d2f7471646d2f6d61737465722f696d616765732f7471646d2e676966"></dt>
+<dd>REPL: <a href="https://github.com/jonathanslenders/ptpython" rel="nofollow">ptpython</a></dd>
+</dl>
+<p>It can also be executed as a module with pipes:</p>
+<pre>$ seq <span class="m">9999999</span> <span class="p">|</span> tqdm --unit_scale <span class="p">|</span> wc -l
+<span class="m">10</span>.0Mit <span class="o">[</span><span class="m">00</span>:02, <span class="m">3</span>.58Mit/s<span class="o">]</span>
+<span class="m">9999999</span>
+$ 7z a -bd -r backup.7z docs/ <span class="p">|</span> grep Compressing <span class="p">|</span> <span class="se">\
+</span>    tqdm --total <span class="k">$(</span>find docs/ -type f <span class="p">|</span> wc -l<span class="k">)</span> --unit files &gt;&gt; backup.log
+<span class="m">100</span>%<span class="p">|</span>███████████████████████████████▉<span class="p">|</span> <span class="m">8014</span>/8014 <span class="o">[</span><span class="m">01</span>:37&lt;<span class="m">00</span>:00, <span class="m">82</span>.29files/s<span class="o">]</span>
+</pre>
+<p>Overhead is low – about 60ns per iteration (80ns with <tt>tqdm_gui</tt>), and is
+unit tested against performance regression.
+By comparison, the well-established
+<a href="https://github.com/niltonvolpato/python-progressbar" rel="nofollow">ProgressBar</a> has
+an 800ns/iter overhead.</p>
+<p>In addition to its low overhead, <tt>tqdm</tt> uses smart algorithms to predict
+the remaining time and to skip unnecessary iteration displays, which allows
+for a negligible overhead in most cases.</p>
+<p><tt>tqdm</tt> works on any platform
+(Linux, Windows, Mac, FreeBSD, NetBSD, Solaris/SunOS),
+in any console or in a GUI, and is also friendly with IPython/Jupyter notebooks.</p>
+<p><tt>tqdm</tt> does not require any dependencies (not even <tt>curses</tt>!), just
+Python and an environment supporting <tt>carriage return \r</tt> and
+<tt>line feed \n</tt> control characters.</p>
+<hr class="docutils">
+<div id="table-of-contents">
+<p>Table of contents</p>
+<ul>
+<li><a href="https://pypi.org/project/tqdm/#installation" id="id1" rel="nofollow">Installation</a><ul>
+<li><a href="https://pypi.org/project/tqdm/#latest-pypi-stable-release" id="id2" rel="nofollow">Latest PyPI stable release</a></li>
+<li><a href="https://pypi.org/project/tqdm/#latest-development-release-on-github" id="id3" rel="nofollow">Latest development release on GitHub</a></li>
+<li><a href="https://pypi.org/project/tqdm/#latest-conda-release" id="id4" rel="nofollow">Latest Conda release</a></li>
+</ul>
+</li>
+<li><a href="https://pypi.org/project/tqdm/#changelog" id="id5" rel="nofollow">Changelog</a></li>
+<li><a href="https://pypi.org/project/tqdm/#usage" id="id6" rel="nofollow">Usage</a><ul>
+<li><a href="https://pypi.org/project/tqdm/#iterable-based" id="id7" rel="nofollow">Iterable-based</a></li>
+<li><a href="https://pypi.org/project/tqdm/#manual" id="id8" rel="nofollow">Manual</a></li>
+<li><a href="https://pypi.org/project/tqdm/#module" id="id9" rel="nofollow">Module</a></li>
+</ul>
+</li>
+<li><a href="https://pypi.org/project/tqdm/#faq-and-known-issues" id="id10" rel="nofollow">FAQ and Known Issues</a></li>
+<li><a href="https://pypi.org/project/tqdm/#documentation" id="id11" rel="nofollow">Documentation</a><ul>
+<li><a href="https://pypi.org/project/tqdm/#parameters" id="id12" rel="nofollow">Parameters</a></li>
+<li><a href="https://pypi.org/project/tqdm/#extra-cli-options" id="id13" rel="nofollow">Extra CLI Options</a></li>
+<li><a href="https://pypi.org/project/tqdm/#returns" id="id14" rel="nofollow">Returns</a></li>
+</ul>
+</li>
+<li><a href="https://pypi.org/project/tqdm/#examples-and-advanced-usage" id="id15" rel="nofollow">Examples and Advanced Usage</a><ul>
+<li><a href="https://pypi.org/project/tqdm/#description-and-additional-stats" id="id16" rel="nofollow">Description and additional stats</a></li>
+<li><a href="https://pypi.org/project/tqdm/#nested-progress-bars" id="id17" rel="nofollow">Nested progress bars</a></li>
+<li><a href="https://pypi.org/project/tqdm/#hooks-and-callbacks" id="id18" rel="nofollow">Hooks and callbacks</a></li>
+<li><a href="https://pypi.org/project/tqdm/#pandas-integration" id="id19" rel="nofollow">Pandas Integration</a></li>
+<li><a href="https://pypi.org/project/tqdm/#ipython-jupyter-integration" id="id20" rel="nofollow">IPython/Jupyter Integration</a></li>
+<li><a href="https://pypi.org/project/tqdm/#writing-messages" id="id21" rel="nofollow">Writing messages</a></li>
+<li><a href="https://pypi.org/project/tqdm/#redirecting-writing" id="id22" rel="nofollow">Redirecting writing</a></li>
+<li><a href="https://pypi.org/project/tqdm/#monitoring-thread-intervals-and-miniters" id="id23" rel="nofollow">Monitoring thread, intervals and miniters</a></li>
+</ul>
+</li>
+<li><a href="https://pypi.org/project/tqdm/#contributions" id="id24" rel="nofollow">Contributions</a><ul>
+<li><a href="https://pypi.org/project/tqdm/#ports-to-other-languages" id="id25" rel="nofollow">Ports to Other Languages</a></li>
+</ul>
+</li>
+<li><a href="https://pypi.org/project/tqdm/#licence" id="id26" rel="nofollow">LICENCE</a></li>
+<li><a href="https://pypi.org/project/tqdm/#authors" id="id27" rel="nofollow">Authors</a></li>
+</ul>
+</div>
+<div id="installation">
+<h3><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Installation</a></h3>
+<div id="latest-pypi-stable-release">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Latest PyPI stable release</a></h4>
+<p><a href="https://pypi.org/project/tqdm" rel="nofollow"><img alt="PyPI-Status" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f707970692f762f7471646d2e737667"></a></p>
+<pre>pip install tqdm
+</pre>
+</div>
+<div id="latest-development-release-on-github">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Latest development release on GitHub</a></h4>
+<p><a href="https://github.com/tqdm/tqdm/releases" rel="nofollow"><img alt="GitHub-Status" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f7461672f7471646d2f7471646d2e7376673f6d61784167653d3836343030"></a> <a href="https://github.com/tqdm/tqdm/stargazers" rel="nofollow"><img alt="GitHub-Stars" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f73746172732f7471646d2f7471646d2e737667"></a> <a href="https://github.com/tqdm/tqdm/graphs/commit-activity" rel="nofollow"><img alt="GitHub-Commits" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f636f6d6d69742d61637469766974792f792f7471646d2f7471646d2e737667"></a> <a href="https://github.com/tqdm/tqdm/network" rel="nofollow"><img alt="GitHub-Forks" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f666f726b732f7471646d2f7471646d2e737667"></a></p>
+<p>Pull and install in the current directory:</p>
+<pre>pip install -e git+https://github.com/tqdm/tqdm.git@master#egg<span class="o">=</span>tqdm
+</pre>
+</div>
+<div id="latest-conda-release">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Latest Conda release</a></h4>
+<p><a href="https://anaconda.org/conda-forge/tqdm" rel="nofollow"><img alt="Conda-Forge-Status" src="./tqdm · PyPI_files/68747470733a2f2f616e61636f6e64612e6f72672f636f6e64612d666f7267652f7471646d2f6261646765732f76657273696f6e2e737667"></a></p>
+<pre>conda install -c conda-forge tqdm
+</pre>
+</div>
+</div>
+<div id="changelog">
+<h3><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Changelog</a></h3>
+<p>The list of all changes is available either on GitHub’s Releases:
+<a href="https://github.com/tqdm/tqdm/releases" rel="nofollow"><img alt="GitHub-Status" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f7461672f7471646d2f7471646d2e7376673f6d61784167653d3836343030"></a>, on the
+<a href="https://github.com/tqdm/tqdm/wiki/Releases" rel="nofollow">wiki</a> or on crawlers such as
+<a href="https://allmychanges.com/p/python/tqdm/" rel="nofollow">allmychanges.com</a>.</p>
+</div>
+<div id="usage">
+<h3><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Usage</a></h3>
+<p><tt>tqdm</tt> is very versatile and can be used in a number of ways.
+The three main ones are given below.</p>
+<div id="iterable-based">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Iterable-based</a></h4>
+<p>Wrap <tt>tqdm()</tt> around any iterable:</p>
+<pre><span class="n">text</span> <span class="o">=</span> <span class="s2">""</span>
+<span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">([</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">,</span> <span class="s2">"d"</span><span class="p">]):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="n">char</span>
+</pre>
+<p><tt>trange(i)</tt> is a special optimised instance of <tt>tqdm(range(i))</tt>:</p>
+<pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre>
+<p>Instantiation outside of the loop allows for manual control over <tt>tqdm()</tt>:</p>
+<pre><span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">([</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">,</span> <span class="s2">"d"</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">pbar</span><span class="p">:</span>
+    <span class="n">pbar</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="s2">"Processing </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">char</span><span class="p">)</span>
+</pre>
+</div>
+<div id="manual">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Manual</a></h4>
+<p>Manual control on <tt>tqdm()</tt> updates by using a <tt>with</tt> statement:</p>
+<pre><span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> <span class="k">as</span> <span class="n">pbar</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre>
+<p>If the optional variable <tt>total</tt> (or an iterable with <tt>len()</tt>) is
+provided, predictive stats are displayed.</p>
+<p><tt>with</tt> is also optional (you can just assign <tt>tqdm()</tt> to a variable,
+but in this case don’t forget to <tt>del</tt> or <tt>close()</tt> at the end:</p>
+<pre><span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">pbar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre>
+</div>
+<div id="module">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Module</a></h4>
+<p>Perhaps the most wonderful use of <tt>tqdm</tt> is in a script or on the command
+line. Simply inserting <tt>tqdm</tt> (or <tt>python <span class="pre">-m</span> tqdm</tt>) between pipes will pass
+through all <tt>stdin</tt> to <tt>stdout</tt> while printing progress to <tt>stderr</tt>.</p>
+<p>The example below demonstrated counting the number of lines in all Python files
+in the current directory, with timing information included.</p>
+<pre>$ <span class="nb">time</span> find . -name <span class="s1">'*.py'</span> -exec cat <span class="se">\{</span><span class="o">}</span> <span class="se">\;</span> <span class="p">|</span> wc -l
+<span class="m">857365</span>
+
+real    0m3.458s
+user    0m0.274s
+sys     0m3.325s
+
+$ <span class="nb">time</span> find . -name <span class="s1">'*.py'</span> -exec cat <span class="se">\{</span><span class="o">}</span> <span class="se">\;</span> <span class="p">|</span> tqdm <span class="p">|</span> wc -l
+857366it <span class="o">[</span><span class="m">00</span>:03, <span class="m">246471</span>.31it/s<span class="o">]</span>
+<span class="m">857365</span>
+
+real    0m3.585s
+user    0m0.862s
+sys     0m3.358s
+</pre>
+<p>Note that the usual arguments for <tt>tqdm</tt> can also be specified.</p>
+<pre>$ find . -name <span class="s1">'*.py'</span> -exec cat <span class="se">\{</span><span class="o">}</span> <span class="se">\;</span> <span class="p">|</span>
+    tqdm --unit loc --unit_scale --total <span class="m">857366</span> &gt;&gt; /dev/null
+<span class="m">100</span>%<span class="p">|</span>███████████████████████████████████<span class="p">|</span> 857K/857K <span class="o">[</span><span class="m">00</span>:04&lt;<span class="m">00</span>:00, 246Kloc/s<span class="o">]</span>
+</pre>
+<p>Backing up a large directory?</p>
+<pre>$ 7z a -bd -r backup.7z docs/ <span class="p">|</span> grep Compressing <span class="p">|</span>
+    tqdm --total <span class="k">$(</span>find docs/ -type f <span class="p">|</span> wc -l<span class="k">)</span> --unit files &gt;&gt; backup.log
+<span class="m">100</span>%<span class="p">|</span>███████████████████████████████▉<span class="p">|</span> <span class="m">8014</span>/8014 <span class="o">[</span><span class="m">01</span>:37&lt;<span class="m">00</span>:00, <span class="m">82</span>.29files/s<span class="o">]</span>
+</pre>
+</div>
+</div>
+<div id="faq-and-known-issues">
+<h3><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">FAQ and Known Issues</a></h3>
+<p><a href="https://github.com/tqdm/tqdm/issues" rel="nofollow"><img alt="GitHub-Issues" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732d636c6f7365642f7471646d2f7471646d2e737667"></a></p>
+<p>The most common issues relate to excessive output on multiple lines, instead
+of a neat one-line progress bar.</p>
+<ul>
+<li>Consoles in general: require support for carriage return (<tt>CR</tt>, <tt>\r</tt>).</li>
+<li><dl>
+<dt>Nested progress bars:</dt>
+<dd><ul>
+<li>Consoles in general: require support for moving cursors up to the
+previous line. For example,
+<a href="https://github.com/tqdm/tqdm/issues/191#issuecomment-230168030" rel="nofollow">IDLE</a>,
+<a href="https://github.com/tqdm/tqdm/issues/254" rel="nofollow">ConEmu</a> and
+<a href="https://github.com/tqdm/tqdm/issues/203" rel="nofollow">PyCharm</a> (also
+<a href="https://github.com/tqdm/tqdm/issues/208" rel="nofollow">here</a>,
+<a href="https://github.com/tqdm/tqdm/issues/307" rel="nofollow">here</a>, and
+<a href="https://github.com/tqdm/tqdm/issues/454#issuecomment-335416815" rel="nofollow">here</a>)
+lack full support.</li>
+<li>Windows: additionally may require the Python module <tt>colorama</tt>
+to ensure nested bars stay within their respective lines.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>Unicode:</dt>
+<dd><ul>
+<li>Environments which report that they support unicode will have solid smooth
+progressbars. The fallback is an <cite>ascii</cite>-only bar.</li>
+<li>Windows consoles often only partially support unicode and thus
+<a href="https://github.com/tqdm/tqdm/issues/454#issuecomment-335416815" rel="nofollow">often require explicit ascii=True</a>
+(also <a href="https://github.com/tqdm/tqdm/issues/499" rel="nofollow">here</a>). This is due to
+either normal-width unicode characters being incorrectly displayed as
+“wide”, or some unicode characters not rendering.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Wrapping enumerated iterables: use <tt><span class="pre">enumerate(tqdm(...))</span></tt> instead of
+<tt><span class="pre">tqdm(enumerate(...))</span></tt>. The same applies to <tt>numpy.ndenumerate</tt>.
+This is because enumerate functions tend to hide the length of iterables.
+<tt>tqdm</tt> does not.</li>
+<li>Wrapping zipped iterables has similar issues due to internal optimisations.
+<tt>tqdm(zip(a, b))</tt> should be replaced with <tt>zip(tqdm(a), b)</tt> or even
+<tt>zip(tqdm(a), tqdm(b))</tt>.</li>
+</ul>
+<p>If you come across any other difficulties, browse and file <a href="https://github.com/tqdm/tqdm/issues" rel="nofollow"><img alt="GitHub-Issues" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732d636c6f7365642f7471646d2f7471646d2e737667"></a>.</p>
+</div>
+<div id="documentation">
+<h3><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Documentation</a></h3>
+<p><a href="https://pypi.org/project/tqdm" rel="nofollow"><img alt="PyPI-Versions" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f707970692f707976657273696f6e732f7471646d2e737667"></a> <a href="https://caspersci.uk.to/cgi-bin/hits.cgi?q=tqdm&amp;a=plot&amp;r=https://github.com/tqdm/tqdm&amp;l=https://caspersci.uk.to/images/tqdm.png&amp;f=https://raw.githubusercontent.com/tqdm/tqdm/master/images/logo.gif&amp;style=social" rel="nofollow"><img alt="README-Hits" src="./tqdm · PyPI_files/68747470733a2f2f6361737065727363692e756b2e746f2f6367692d62696e2f686974732e6367693f713d7471646d267374796c653d736f6369616c26723d68747470733a2f2f6769746875622e636f6d2f7471646d2f7471646d266c3d68747470733a2f2f6361737065727363692e756b2e746f2f696d616765732f74716"></a> (Since 19 May 2016)</p>
+<pre><span class="k">class</span> <span class="nc">tqdm</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">"""
+  Decorate an iterable object, returning an iterator which acts exactly
+  like the original iterable, but prints a dynamically updating
+  progressbar every time a value is requested.
+  """</span>
+
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+               <span class="nb">file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mininterval</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+               <span class="n">maxinterval</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">miniters</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ascii</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">disable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+               <span class="n">unit</span><span class="o">=</span><span class="s1">'it'</span><span class="p">,</span> <span class="n">unit_scale</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">dynamic_ncols</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+               <span class="n">smoothing</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">bar_format</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">postfix</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+</pre>
+<div id="parameters">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Parameters</a></h4>
+<ul>
+<li><dl>
+<dt>iterable <span class="classifier-delimiter">:</span> <span class="classifier">iterable, optional</span></dt>
+<dd><p>Iterable to decorate with a progressbar.
+Leave blank to manually manage the updates.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>desc <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p>Prefix for the progressbar.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>total <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd><p>The number of expected iterations. If (default: None),
+len(iterable) is used if possible. As a last resort, only basic
+progress statistics are displayed (no ETA, no progressbar).
+If <tt>gui</tt> is True and this parameter needs subsequent updating,
+specify an initial arbitrary large positive integer,
+e.g. int(9e9).</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>leave <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p>If [default: True], keeps all traces of the progressbar
+upon termination of iteration.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>file <span class="classifier-delimiter">:</span> <span class="classifier"><tt>io.TextIOWrapper</tt> or <tt>io.StringIO</tt>, optional</span></dt>
+<dd><p>Specifies where to output the progress messages
+(default: sys.stderr). Uses <tt>file.write(str)</tt> and <tt>file.flush()</tt>
+methods.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>ncols <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd><p>The width of the entire output message. If specified,
+dynamically resizes the progressbar to stay within this bound.
+If unspecified, attempts to use environment width. The
+fallback is a meter width of 10 and no limit for the counter and
+statistics. If 0, will not print any meter (only stats).</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>mininterval <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
+<dd><p>Minimum progress display update interval, in seconds [default: 0.1].</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>maxinterval <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
+<dd><p>Maximum progress display update interval, in seconds [default: 10].
+Automatically adjusts <tt>miniters</tt> to correspond to <tt>mininterval</tt>
+after long display update lag. Only works if <tt>dynamic_miniters</tt>
+or monitor thread is enabled.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>miniters <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd><p>Minimum progress display update interval, in iterations.
+If 0 and <tt>dynamic_miniters</tt>, will automatically adjust to equal
+<tt>mininterval</tt> (more CPU efficient, good for tight loops).
+If &gt; 0, will skip display of specified number of iterations.
+Tweak this and <tt>mininterval</tt> to get very efficient loops.
+If your progress is erratic with both fast and slow iterations
+(network, skipping items, etc) you should set miniters=1.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>ascii <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p>If unspecified or False, use unicode (smooth blocks) to fill
+the meter. The fallback is to use ASCII characters <tt><span class="pre">1-9</span> #</tt>.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>disable <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p>Whether to disable the entire progressbar wrapper
+[default: False].</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>unit <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p>String that will be used to define the unit of each iteration
+[default: it].</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>unit_scale <span class="classifier-delimiter">:</span> <span class="classifier">bool or int or float, optional</span></dt>
+<dd><p>If 1 or True, the number of iterations will be reduced/scaled
+automatically and a metric prefix following the
+International System of Units standard will be added
+(kilo, mega, etc.) [default: False]. If any other non-zero
+number, will scale <cite>total</cite> and <cite>n</cite>.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>dynamic_ncols <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd><p>If set, constantly alters <tt>ncols</tt> to the environment (allowing
+for window resizes) [default: False].</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>smoothing <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
+<dd><p>Exponential moving average smoothing factor for speed estimates
+(ignored in GUI mode). Ranges from 0 (average speed) to 1
+(current/instantaneous speed) [default: 0.3].</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>bar_format <span class="classifier-delimiter">:</span> <span class="classifier">str, optional</span></dt>
+<dd><p>Specify a custom bar string formatting. May impact performance.
+[default: ‘{l_bar}{bar}{r_bar}’], where
+l_bar=’{desc}: {percentage:3.0f}%|’ and
+r_bar=’| {n_fmt}/{total_fmt} [{elapsed}&lt;{remaining}, ‘
+‘{rate_fmt}{postfix}]’
+Possible vars: l_bar, bar, r_bar, n, n_fmt, total, total_fmt,
+percentage, rate, rate_fmt, rate_noinv, rate_noinv_fmt,
+rate_inv, rate_inv_fmt, elapsed, remaining, desc, postfix.
+Note that a trailing “: ” is automatically removed after {desc}
+if the latter is empty.</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>initial <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd><p>The initial counter value. Useful when restarting a progress
+bar [default: 0].</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>position <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd><p>Specify the line offset to print this bar (starting from 0)
+Automatic if unspecified.
+Useful to manage multiple bars at once (eg, from threads).</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>postfix <span class="classifier-delimiter">:</span> <span class="classifier">dict or <tt>*</tt>, optional</span></dt>
+<dd><p>Specify additional stats to display at the end of the bar.
+Calls <tt><span class="pre">set_postfix(**postfix)</span></tt> if possible (dict).</p>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>unit_divisor <span class="classifier-delimiter">:</span> <span class="classifier">float, optional</span></dt>
+<dd><p>[default: 1000], ignored unless <cite>unit_scale</cite> is True.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div id="extra-cli-options">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Extra CLI Options</a></h4>
+<ul>
+<li><dl>
+<dt>delim <span class="classifier-delimiter">:</span> <span class="classifier">chr, optional</span></dt>
+<dd>Delimiting character [default: ‘n’]. Use ‘0’ for null.
+N.B.: on Windows systems, Python converts ‘n’ to ‘rn’.</dd>
+</dl>
+</li>
+<li><dl>
+<dt>buf_size <span class="classifier-delimiter">:</span> <span class="classifier">int, optional</span></dt>
+<dd>String buffer size in bytes [default: 256]
+used when <tt>delim</tt> is specified.</dd>
+</dl>
+</li>
+<li><dl>
+<dt>bytes <span class="classifier-delimiter">:</span> <span class="classifier">bool, optional</span></dt>
+<dd>If true, will count bytes and ignore <tt>delim</tt>.</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div id="returns">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Returns</a></h4>
+<ul>
+<li>out  : decorated iterator.</li>
+</ul>
+<pre>  <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+      <span class="sd">"""
+      Manually update the progress bar, useful for streams
+      such as reading files.
+      E.g.:
+      &gt;&gt;&gt; t = tqdm(total=filesize) # Initialise
+      &gt;&gt;&gt; for current_buffer in stream:
+      ...    ...
+      ...    t.update(len(current_buffer))
+      &gt;&gt;&gt; t.close()
+      The last line is highly recommended, but possibly not necessary if
+      ``t.update()`` will be called in such a way that ``filesize`` will be
+      exactly reached and printed.
+
+      Parameters
+      ----------
+      n  : int, optional
+          Increment to add to the internal counter of iterations
+          [default: 1].
+      """</span>
+
+  <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="sd">"""
+      Cleanup and (if leave=False) close the progressbar.
+      """</span>
+
+  <span class="k">def</span> <span class="nf">unpause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="sd">"""
+      Restart tqdm timer from last print time.
+      """</span>
+
+  <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nomove</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+      <span class="sd">"""
+      Clear current bar display
+      """</span>
+
+  <span class="k">def</span> <span class="nf">refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="sd">"""
+      Force refresh the display of this bar
+      """</span>
+
+  <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">):</span>
+      <span class="sd">"""
+      Print a message via tqdm (without overlap with bars)
+      """</span>
+
+  <span class="k">def</span> <span class="nf">set_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">refresh</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+      <span class="sd">"""
+      Set/modify description of the progress bar.
+
+      Parameters
+      ----------
+      desc  : str, optional
+      refresh  : bool, optional
+          Forces refresh [default: True].
+      """</span>
+
+  <span class="k">def</span> <span class="nf">set_postfix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ordered_dict</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">refresh</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+      <span class="sd">"""
+      Set/modify postfix (additional stats)
+      with automatic formatting based on datatype.
+
+      Parameters
+      ----------
+      refresh  : bool, optional
+          Forces refresh [default: True].
+      """</span>
+
+<span class="k">def</span> <span class="nf">trange</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">"""
+    A shortcut for tqdm(xrange(*args), **kwargs).
+    On Python3+ range is used instead of xrange.
+    """</span>
+
+<span class="k">class</span> <span class="nc">tqdm_gui</span><span class="p">(</span><span class="n">tqdm</span><span class="p">):</span>
+    <span class="sd">"""
+    Experimental GUI version of tqdm!
+    """</span>
+
+<span class="k">def</span> <span class="nf">tgrange</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">"""
+    Experimental GUI version of trange!
+    """</span>
+
+<span class="k">class</span> <span class="nc">tqdm_notebook</span><span class="p">(</span><span class="n">tqdm</span><span class="p">):</span>
+    <span class="sd">"""
+    Experimental IPython/Jupyter Notebook widget using tqdm!
+    """</span>
+
+<span class="k">def</span> <span class="nf">tnrange</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">"""
+    Experimental IPython/Jupyter Notebook widget using tqdm!
+    """</span>
+</pre>
+</div>
+</div>
+<div id="examples-and-advanced-usage">
+<h3><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Examples and Advanced Usage</a></h3>
+<ul>
+<li>See the <a href="https://github.com/tqdm/tqdm/tree/master/examples" rel="nofollow">examples</a>
+folder;</li>
+<li>import the module and run <tt>help()</tt>, or</li>
+<li><dl>
+<dt>consult the <a href="https://github.com/tqdm/tqdm/wiki" rel="nofollow">wiki</a>.</dt>
+<dd><ul>
+<li>this has an
+<a href="https://github.com/tqdm/tqdm/wiki/How-to-make-a-great-Progress-Bar" rel="nofollow">excellent article</a>
+on how to make a <strong>great</strong> progressbar.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div id="description-and-additional-stats">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Description and additional stats</a></h4>
+<p>Custom information can be displayed and updated dynamically on <tt>tqdm</tt> bars
+with the <tt>desc</tt> and <tt>postfix</tt> arguments:</p>
+<pre><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">trange</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span><span class="p">,</span> <span class="n">randint</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+<span class="k">with</span> <span class="n">trange</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
+        <span class="c1"># Description will be displayed on the left</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="s1">'GEN </span><span class="si">%i</span><span class="s1">'</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+        <span class="c1"># Postfix will be displayed on the right,</span>
+        <span class="c1"># formatted automatically based on argument's datatype</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">set_postfix</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">random</span><span class="p">(),</span> <span class="n">gen</span><span class="o">=</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">999</span><span class="p">),</span> <span class="nb">str</span><span class="o">=</span><span class="s1">'h'</span><span class="p">,</span>
+                      <span class="n">lst</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bar_format</span><span class="o">=</span><span class="s2">"{postfix[0]} {postfix[1][value]:&gt;8.2g}"</span><span class="p">,</span>
+          <span class="n">postfix</span><span class="o">=</span><span class="p">[</span><span class="s2">"Batch"</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)])</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">postfix</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">"value"</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</pre>
+<p>Points to remember when using <tt><span class="pre">{postfix[...]}</span></tt> in the <tt>bar_format</tt> string:</p>
+<ul>
+<li><tt>postfix</tt> also needs to be passed as an initial argument in a compatible
+format, and</li>
+<li><tt>postfix</tt> will be auto-converted to a string if it is a <tt>dict</tt>-like
+object. To prevent this behaviour, insert an extra item into the dictionary
+where the key is not a string.</li>
+</ul>
+</div>
+<div id="nested-progress-bars">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Nested progress bars</a></h4>
+<p><tt>tqdm</tt> supports nested progress bars. Here’s an example:</p>
+<pre><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">trange</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">'1st loop'</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">'2nd loop'</span><span class="p">,</span> <span class="n">leave</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">'3nd loop'</span><span class="p">):</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+</pre>
+<p>On Windows <a href="https://github.com/tartley/colorama" rel="nofollow">colorama</a> will be used if
+available to keep nested bars on their respective lines.</p>
+<p>For manual control over positioning (e.g. for multi-threaded use),
+you may specify <tt>position=n</tt> where <tt>n=0</tt> for the outermost bar,
+<tt>n=1</tt> for the next, and so on:</p>
+<pre><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">trange</span><span class="p">,</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span><span class="p">,</span> <span class="n">freeze_support</span><span class="p">,</span> <span class="n">RLock</span>
+
+<span class="n">L</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">9</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">progresser</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">interval</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">5000</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">"#{}, est. {:&lt;04.2}s"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">interval</span> <span class="o">*</span> <span class="n">total</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">trange</span><span class="p">(</span><span class="n">total</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="n">interval</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">freeze_support</span><span class="p">()</span>  <span class="c1"># for Windows support</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">),</span>
+             <span class="c1"># again, for Windows support</span>
+             <span class="n">initializer</span><span class="o">=</span><span class="n">tqdm</span><span class="o">.</span><span class="n">set_lock</span><span class="p">,</span> <span class="n">initargs</span><span class="o">=</span><span class="p">(</span><span class="n">RLock</span><span class="p">(),))</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">progresser</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span>
+</pre>
+</div>
+<div id="hooks-and-callbacks">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Hooks and callbacks</a></h4>
+<p><tt>tqdm</tt> can easily support callbacks/hooks and manual updates.
+Here’s an example with <tt>urllib</tt>:</p>
+<p><strong>urllib.urlretrieve documentation</strong></p>
+<blockquote>
+<div>
+<div>[…]</div>
+<div>If present, the hook function will be called once</div>
+<div>on establishment of the network connection and once after each block read</div>
+<div>thereafter. The hook will be passed three arguments; a count of blocks</div>
+<div>transferred so far, a block size in bytes, and the total size of the file.</div>
+<div>[…]</div>
+</div>
+</blockquote>
+<pre><span class="kn">import</span> <span class="nn">urllib</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="k">class</span> <span class="nc">TqdmUpTo</span><span class="p">(</span><span class="n">tqdm</span><span class="p">):</span>
+    <span class="sd">"""Provides `update_to(n)` which uses `tqdm.update(delta_n)`."""</span>
+    <span class="k">def</span> <span class="nf">update_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bsize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tsize</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">"""
+        b  : int, optional
+            Number of blocks transferred so far [default: 1].
+        bsize  : int, optional
+            Size of each block (in tqdm units) [default: 1].
+        tsize  : int, optional
+            Total size (in tqdm units). If [default: None] remains unchanged.
+        """</span>
+        <span class="k">if</span> <span class="n">tsize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">total</span> <span class="o">=</span> <span class="n">tsize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">bsize</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>  <span class="c1"># will also set self.n = b * bsize</span>
+
+<span class="n">eg_link</span> <span class="o">=</span> <span class="s2">"https://caspersci.uk.to/matryoshka.zip"</span>
+<span class="k">with</span> <span class="n">TqdmUpTo</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="s1">'B'</span><span class="p">,</span> <span class="n">unit_scale</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">miniters</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+              <span class="n">desc</span><span class="o">=</span><span class="n">eg_link</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>  <span class="c1"># all optional kwargs</span>
+    <span class="n">urllib</span><span class="o">.</span><span class="n">urlretrieve</span><span class="p">(</span><span class="n">eg_link</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span>
+                       <span class="n">reporthook</span><span class="o">=</span><span class="n">t</span><span class="o">.</span><span class="n">update_to</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre>
+<p>Inspired by <a href="https://github.com/pypa/twine/pull/242" rel="nofollow">twine#242</a>.
+Functional alternative in
+<a href="https://github.com/tqdm/tqdm/blob/master/examples/tqdm_wget.py" rel="nofollow">examples/tqdm_wget.py</a>.</p>
+<p>It is recommend to use <tt>miniters=1</tt> whenever there is potentially
+large differences in iteration speed (e.g. downloading a file over
+a patchy connection).</p>
+</div>
+<div id="pandas-integration">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Pandas Integration</a></h4>
+<p>Due to popular demand we’ve added support for <tt>pandas</tt> – here’s an example
+for <tt>DataFrame.progress_apply</tt> and <tt>DataFrameGroupBy.progress_apply</tt>:</p>
+<pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="mi">6</span><span class="p">)))</span>
+
+<span class="c1"># Register `pandas.progress_apply` and `pandas.Series.map_apply` with `tqdm`</span>
+<span class="c1"># (can use `tqdm_gui`, `tqdm_notebook`, optional kwargs, etc.)</span>
+<span class="n">tqdm</span><span class="o">.</span><span class="n">pandas</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s2">"my bar!"</span><span class="p">)</span>
+
+<span class="c1"># Now you can use `progress_apply` instead of `apply`</span>
+<span class="c1"># and `progress_map` instead of `map`</span>
+<span class="n">df</span><span class="o">.</span><span class="n">progress_apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1"># can also groupby:</span>
+<span class="c1"># df.groupby(0).progress_apply(lambda x: x**2)</span>
+</pre>
+<p>In case you’re interested in how this works (and how to modify it for your
+own callbacks), see the
+<a href="https://github.com/tqdm/tqdm/tree/master/examples" rel="nofollow">examples</a>
+folder or import the module and run <tt>help()</tt>.</p>
+</div>
+<div id="ipython-jupyter-integration">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">IPython/Jupyter Integration</a></h4>
+<p>IPython/Jupyter is supported via the <tt>tqdm_notebook</tt> submodule:</p>
+<pre><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tnrange</span><span class="p">,</span> <span class="n">tqdm_notebook</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tnrange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">'1st loop'</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">tqdm_notebook</span><span class="p">(</span><span class="nb">xrange</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s1">'2nd loop'</span><span class="p">):</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+</pre>
+<p>In addition to <tt>tqdm</tt> features, the submodule provides a native Jupyter
+widget (compatible with IPython v1-v4 and Jupyter), fully working nested bars
+and color hints (blue: normal, green: completed, red: error/interrupt,
+light blue: no ETA); as demonstrated below.</p>
+<p><img alt="Screenshot-Jupyter1" src="./tqdm · PyPI_files/68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f7471646d2f7471646d2f6d61737465722f696d616765732f7471646d2d6a7570797465722d312e676966">
+<img alt="Screenshot-Jupyter2" src="./tqdm · PyPI_files/68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f7471646d2f7471646d2f6d61737465722f696d616765732f7471646d2d6a7570797465722d322e676966">
+<img alt="Screenshot-Jupyter3" src="./tqdm · PyPI_files/68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f7471646d2f7471646d2f6d61737465722f696d616765732f7471646d2d6a7570797465722d332e676966"></p>
+<p>It is also possible to let <tt>tqdm</tt> automatically choose between
+console or notebook versions by using the <tt>autonotebook</tt> submodule:</p>
+<pre><span class="kn">from</span> <span class="nn">tqdm.autonotebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="n">tqdm</span><span class="o">.</span><span class="n">pandas</span><span class="p">()</span>
+</pre>
+<p>Note that this will issue a <tt>TqdmExperimentalWarning</tt> if run in a notebook
+since it is not meant to be possible to distinguish between <tt>jupyter notebook</tt>
+and <tt>jupyter console</tt>.</p>
+</div>
+<div id="writing-messages">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Writing messages</a></h4>
+<p>Since <tt>tqdm</tt> uses a simple printing mechanism to display progress bars,
+you should not write any message in the terminal using <tt>print()</tt> while
+a progressbar is open.</p>
+<p>To write messages in the terminal without any collision with <tt>tqdm</tt> bar
+display, a <tt>.write()</tt> method is provided:</p>
+<pre><span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span><span class="p">,</span> <span class="n">trange</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+
+<span class="n">bar</span> <span class="o">=</span> <span class="n">trange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">bar</span><span class="p">:</span>
+    <span class="c1"># Print using tqdm class method .write()</span>
+    <span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"Done task </span><span class="si">%i</span><span class="s2">"</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
+    <span class="c1"># Can also use bar.write()</span>
+</pre>
+<p>By default, this will print to standard output <tt>sys.stdout</tt>. but you can
+specify any file-like object using the <tt>file</tt> argument. For example, this
+can be used to redirect the messages writing to a log file or class.</p>
+</div>
+<div id="redirecting-writing">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Redirecting writing</a></h4>
+<p>If using a library that can print messages to the console, editing the library
+by  replacing <tt>print()</tt> with <tt>tqdm.write()</tt> may not be desirable.
+In that case, redirecting <tt>sys.stdout</tt> to <tt>tqdm.write()</tt> is an option.</p>
+<p>To redirect <tt>sys.stdout</tt>, create a file-like class that will write
+any input string to <tt>tqdm.write()</tt>, and supply the arguments
+<tt>file=sys.stdout, dynamic_ncols=True</tt>.</p>
+<p>A reusable canonical example is given below:</p>
+<pre><span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="k">class</span> <span class="nc">DummyTqdmFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">"""Dummy file-like that will write to tqdm"""</span>
+    <span class="nb">file</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">file</span>
+
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Avoid print() second call (useless \n)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="s2">"flush"</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">None</span><span class="p">)()</span>
+
+<span class="nd">@contextlib.contextmanager</span>
+<span class="k">def</span> <span class="nf">std_out_err_redirect_tqdm</span><span class="p">():</span>
+    <span class="n">orig_out_err</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">DummyTqdmFile</span><span class="p">,</span> <span class="n">orig_out_err</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">orig_out_err</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Relay exceptions</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">exc</span>
+    <span class="c1"># Always restore sys.stdout/err if necessary</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">orig_out_err</span>
+
+<span class="k">def</span> <span class="nf">some_fun</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">"Fee, fi, fo,"</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="c1"># Redirect stdout to tqdm.write() (don't forget the `as save_stdout`)</span>
+<span class="k">with</span> <span class="n">std_out_err_redirect_tqdm</span><span class="p">()</span> <span class="k">as</span> <span class="n">orig_stdout</span><span class="p">:</span>
+    <span class="c1"># tqdm needs the original stdout</span>
+    <span class="c1"># and dynamic_ncols=True to autodetect console width</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="nb">file</span><span class="o">=</span><span class="n">orig_stdout</span><span class="p">,</span> <span class="n">dynamic_ncols</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">some_fun</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+<span class="c1"># After the `with`, printing is restored</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">"Done!"</span><span class="p">)</span>
+</pre>
+</div>
+<div id="monitoring-thread-intervals-and-miniters">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Monitoring thread, intervals and miniters</a></h4>
+<p><tt>tqdm</tt> implements a few tricks to to increase efficiency and reduce overhead.</p>
+<ul>
+<li>Avoid unnecessary frequent bar refreshing: <tt>mininterval</tt> defines how long
+to wait between each refresh. <tt>tqdm</tt> always gets updated in the background,
+but it will diplay only every <tt>mininterval</tt>.</li>
+<li>Reduce number of calls to check system clock/time.</li>
+<li><tt>mininterval</tt> is more intuitive to configure than <tt>miniters</tt>.
+A clever adjustment system <tt>dynamic_miniters</tt> will automatically adjust
+<tt>miniters</tt> to the amount of iterations that fit into time <tt>mininterval</tt>.
+Essentially, <tt>tqdm</tt> will check if it’s time to print without actually
+checking time. This behaviour can be still be bypassed by manually setting
+<tt>miniters</tt>.</li>
+</ul>
+<p>However, consider a case with a combination of fast and slow iterations.
+After a few fast iterations, <tt>dynamic_miniters</tt> will set <tt>miniters</tt> to a
+large number. When iteration rate subsequently slows, <tt>miniters</tt> will
+remain large and thus reduce display update frequency. To address this:</p>
+<ul>
+<li><tt>maxinterval</tt> defines the maximum time between display refreshes.
+A concurrent monitoring thread checks for overdue updates and forces one
+where necessary.</li>
+</ul>
+<p>The monitoring thread should not have a noticeable overhead, and guarantees
+updates at least every 10 seconds by default.
+This value can be directly changed by setting the <tt>monitor_interval</tt> of
+any <tt>tqdm</tt> instance (i.e. <tt>t = <span class="pre">tqdm.tqdm(...);</span> t.monitor_interval = 2</tt>).
+The monitor thread may be disabled application-wide by setting
+<tt>tqdm.tqdm.monitor_interval = 0</tt> before instantiatiation of any <tt>tqdm</tt> bar.</p>
+</div>
+</div>
+<div id="contributions">
+<h3><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Contributions</a></h3>
+<p><a href="https://github.com/tqdm/tqdm/graphs/commit-activity" rel="nofollow"><img alt="GitHub-Commits" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f636f6d6d69742d61637469766974792f792f7471646d2f7471646d2e737667"></a> <a href="https://github.com/tqdm/tqdm/issues" rel="nofollow"><img alt="GitHub-Issues" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732d636c6f7365642f7471646d2f7471646d2e737667"></a> <a href="https://github.com/tqdm/tqdm/pulls" rel="nofollow"><img alt="GitHub-PRs" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f6973737565732d70722d636c6f7365642f7471646d2f7471646d2e737667"></a> <a href="https://www.openhub.net/p/tqdm?ref=Thin+badge" rel="nofollow"><img alt="OpenHub-Status" src="./tqdm · PyPI_files/68747470733a2f2f7777772e6f70656e6875622e6e65742f702f7471646d2f776964676574732f70726f6a6563745f7468696e5f62616467653f666f726d61743d676966"></a></p>
+<p>All source code is hosted on <a href="https://github.com/tqdm/tqdm" rel="nofollow">GitHub</a>.
+Contributions are welcome.</p>
+<p>See the
+<a href="https://raw.githubusercontent.com/tqdm/tqdm/master/CONTRIBUTING.md" rel="nofollow">CONTRIBUTING</a>
+file for more information.</p>
+<div id="ports-to-other-languages">
+<h4><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Ports to Other Languages</a></h4>
+<p>A list is available on
+<a href="https://github.com/tqdm/tqdm/wiki/tqdm-ports" rel="nofollow">this wiki page</a>.</p>
+</div>
+</div>
+<div id="licence">
+<h3><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">LICENCE</a></h3>
+<p>Open Source (OSI approved): <a href="https://raw.githubusercontent.com/tqdm/tqdm/master/LICENCE" rel="nofollow"><img alt="LICENCE" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f707970692f6c2f7471646d2e737667"></a></p>
+<p>Citation information: <a href="https://zenodo.org/badge/latestdoi/21637/tqdm/tqdm" rel="nofollow"><img alt="DOI-URI" src="./tqdm · PyPI_files/68747470733a2f2f7a656e6f646f2e6f72672f62616467652f32313633372f7471646d2f7471646d2e737667"></a></p>
+</div>
+<div id="authors">
+<h3><a href="https://pypi.org/project/tqdm/#table-of-contents" rel="nofollow">Authors</a></h3>
+<p>The main developers, ranked by surviving lines of code
+(<a href="https://github.com/casperdcl/git-fame" rel="nofollow">git fame -wMC</a>), are:</p>
+<ul>
+<li>Casper da Costa-Luis (<a href="https://github.com/casperdcl" rel="nofollow">casperdcl</a>, ~2/3, <a href="https://caspersci.uk.to/donate.html" rel="nofollow"><img alt="Gift-Casper" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f676966742d646f6e6174652d6666363962342e737667"></a>)</li>
+<li>Stephen Larroque (<a href="https://github.com/lrq3000" rel="nofollow">lrq3000</a>, ~1/5)</li>
+<li>Hadrien Mary (<a href="https://github.com/hadim" rel="nofollow">hadim</a>, ~2%)</li>
+<li>Guangshuo Chen (<a href="https://github.com/chengs" rel="nofollow">chengs</a>, ~1%)</li>
+<li>Noam Yorav-Raphael (<a href="https://github.com/noamraph" rel="nofollow">noamraph</a>, ~1%, original author)</li>
+<li>Mikhail Korobov (<a href="https://github.com/kmike" rel="nofollow">kmike</a>, ~1%)</li>
+</ul>
+<p>There are also many <a href="https://github.com/tqdm/tqdm/graphs/contributors" rel="nofollow"><img alt="GitHub-Contributions" src="./tqdm · PyPI_files/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f636f6e7472696275746f72732f7471646d2f7471646d2e737667"></a> which we are grateful for.</p>
+<p><a href="https://caspersci.uk.to/cgi-bin/hits.cgi?q=tqdm&amp;a=plot&amp;r=https://github.com/tqdm/tqdm&amp;l=https://caspersci.uk.to/images/tqdm.png&amp;f=https://raw.githubusercontent.com/tqdm/tqdm/master/images/logo.gif&amp;style=social" rel="nofollow"><img alt="README-Hits" src="./tqdm · PyPI_files/68747470733a2f2f6361737065727363692e756b2e746f2f6367692d62696e2f686974732e6367693f713d7471646d267374796c653d736f6369616c26723d68747470733a2f2f6769746875622e636f6d2f7471646d2f7471646d266c3d68747470733a2f2f6361737065727363692e756b2e746f2f696d616765732f74716"></a> (Since 19 May 2016)</p>
+</div>
+</div>
+
+          </div>
+          
+        </div>
+
+        
+        <div id="data" data-target="project-tabs.content" class="vertical-tabs__content" role="tabpanel" aria-labelledby="mobile-data-tab" style="display: none;">
+          <h2 class="page-title">Project details</h2>
+          
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Project links</h3>
+  
+  
+  <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed" href="https://github.com/tqdm/tqdm" rel="nofollow">
+    
+    
+
+
+  
+
+
+<i class="fab fa-github" aria-hidden="true"></i>Homepage
+  </a>
+  
+  
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Statistics</h3>
+  
+  <div class="github-repo-info hidden" data-url="https://api.github.com/repos/tqdm/tqdm">
+    <em>GitHub statistics:</em>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/stargazers" rel="noopener" target="_blank">
+      <i class="fa fa-star" aria-hidden="true"></i>
+      <strong>Stars: </strong>
+      <span class="github-repo-info__item" data-key="stargazers_count"></span>
+    </a>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/network" rel="noopener" target="_blank">
+      <i class="fa fa-code-branch" aria-hidden="true"></i>
+      <strong>Forks: </strong>
+      <span class="github-repo-info__item" data-key="forks_count"></span>
+    </a>
+    <a class="vertical-tabs__tab vertical-tabs__tab--with-icon vertical-tabs__tab--condensed github-repo-info__item" data-key="html_url" data-attr="href" data-supplement="/issues" rel="noopener" target="_blank">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      <strong>Open issues/PRs: </strong>
+      <span class="github-repo-info__item" data-key="open_issues_count"></span>
+    </a>
+  </div>
+  
+  <p>View statistics for this project via <a href="https://libraries.io/pypi/tqdm">Libraries.io</a>, or by using
+    <a href="https://packaging.python.org/guides/analyzing-pypi-package-downloads/">Google
+      BigQuery</a></p>
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Meta</h3>
+  
+  <p><strong>License:</strong> MIT License, Mozilla Public License 2.0 (MPL 2.0) (MPLv2.0, MIT Licences)</p>
+  
+  
+    <p><strong>Author:</strong> <a href="mailto:noamraph@gmail.com">Noam Yorav-Raphael</a></p>
+  
+  
+    <p><strong>Maintainer:</strong> <a href="mailto:python.tqdm@gmail.com">tqdm developers</a></p>
+  
+  
+  <p class="tags">
+    <i class="fa fa-tags" aria-hidden="true"></i>
+    <span class="sr-only">Tags:</span>
+    
+    <span class="package-keyword">
+      progressbar,
+    </span>
+    
+    <span class="package-keyword">
+      progressmeter,
+    </span>
+    
+    <span class="package-keyword">
+      progress,
+    </span>
+    
+    <span class="package-keyword">
+      bar,
+    </span>
+    
+    <span class="package-keyword">
+      meter,
+    </span>
+    
+    <span class="package-keyword">
+      rate,
+    </span>
+    
+    <span class="package-keyword">
+      eta,
+    </span>
+    
+    <span class="package-keyword">
+      console,
+    </span>
+    
+    <span class="package-keyword">
+      terminal,
+    </span>
+    
+    <span class="package-keyword">
+      time
+    </span>
+    
+  </p>
+  
+  
+  <p>
+    <strong>Requires:</strong> Python &gt;=2.6, !=3.0.*, !=3.1.*
+  </p>
+  
+</div>
+
+
+<div class="sidebar-section">
+  <h3 class="sidebar-section__title">Maintainers</h3>
+  
+    
+    <span class="sidebar-section__maintainer">
+      <a href="https://pypi.org/user/casper.dcl/" aria-label="casper.dcl" class="sidebar-section__user-gravatar">
+        <img src="./tqdm · PyPI_files/68747470733a2f2f7365637572652e67726176617461722e636f6d2f6176617461722f30373562346431623532343565393135396437663734636539613436346639373f73697a653d3530" height="50" width="50" alt="Avatar for casper.dcl from gravatar.com" title="Avatar for casper.dcl from gravatar.com">
+      </a>
+      <a href="https://pypi.org/user/casper.dcl/" class="sidebar-section__user-gravatar-text">
+        casper.dcl
+      </a>
+    </span>
+  
+    
+    <span class="sidebar-section__maintainer">
+      <a href="https://pypi.org/user/noamraph/" aria-label="noamraph" class="sidebar-section__user-gravatar">
+        <img src="./tqdm · PyPI_files/68747470733a2f2f7365637572652e67726176617461722e636f6d2f6176617461722f33656631616633663433653931613061636431376330373339363831646535643f73697a653d3530" height="50" width="50" alt="Avatar for noamraph from gravatar.com" title="Avatar for noamraph from gravatar.com">
+      </a>
+      <a href="https://pypi.org/user/noamraph/" class="sidebar-section__user-gravatar-text">
+        noamraph
+      </a>
+    </span>
+  
+    
+    <span class="sidebar-section__maintainer">
+      <a href="https://pypi.org/user/tqdm/" aria-label="tqdm" class="sidebar-section__user-gravatar">
+        <img src="./tqdm · PyPI_files/68747470733a2f2f7365637572652e67726176617461722e636f6d2f6176617461722f33623630336337333531353539616232333961383066323039306562636433353f73697a653d3530" height="50" width="50" alt="Avatar for tqdm from gravatar.com" title="Avatar for tqdm from gravatar.com">
+      </a>
+      <a href="https://pypi.org/user/tqdm/" class="sidebar-section__user-gravatar-text">
+        tqdm
+      </a>
+    </span>
+  
+</div>
+
+
+<div class="sidebar-section classifiers">
+  <h3>Classifiers</h3>
+  <dl>
+    
+    <dt>Development Status</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Development+Status+%3A%3A+5+-+Production%2FStable">
+      5 - Production/Stable
+    </a>
+    </dd>
+    
+    
+    <dt>Environment</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+Console">
+      Console
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+MacOS+X">
+      MacOS X
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+Other+Environment">
+      Other Environment
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+Win32+%28MS+Windows%29">
+      Win32 (MS Windows)
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Environment+%3A%3A+X11+Applications">
+      X11 Applications
+    </a>
+    </dd>
+    
+    
+    <dt>Framework</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Framework+%3A%3A+IPython">
+      IPython
+    </a>
+    </dd>
+    
+    
+    <dt>Intended Audience</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+Developers">
+      Developers
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+Education">
+      Education
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+End+Users%2FDesktop">
+      End Users/Desktop
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+Other+Audience">
+      Other Audience
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Intended+Audience+%3A%3A+System+Administrators">
+      System Administrators
+    </a>
+    </dd>
+    
+    
+    <dt>License</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=License+%3A%3A+OSI+Approved+%3A%3A+MIT+License">
+      OSI Approved :: MIT License
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=License+%3A%3A+OSI+Approved+%3A%3A+Mozilla+Public+License+2.0+%28MPL+2.0%29">
+      OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)
+    </a>
+    </dd>
+    
+    
+    <dt>Operating System</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+MacOS+%3A%3A+MacOS+X">
+      MacOS :: MacOS X
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+Microsoft+%3A%3A+Windows">
+      Microsoft :: Windows
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+POSIX">
+      POSIX
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+POSIX+%3A%3A+BSD">
+      POSIX :: BSD
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+POSIX+%3A%3A+BSD+%3A%3A+FreeBSD">
+      POSIX :: BSD :: FreeBSD
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+POSIX+%3A%3A+Linux">
+      POSIX :: Linux
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Operating+System+%3A%3A+POSIX+%3A%3A+SunOS%2FSolaris">
+      POSIX :: SunOS/Solaris
+    </a>
+    </dd>
+    
+    
+    <dt>Programming Language</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python">
+      Python
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2">
+      Python :: 2
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2.6">
+      Python :: 2.6
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+2.7">
+      Python :: 2.7
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3">
+      Python :: 3
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.2">
+      Python :: 3.2
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.3">
+      Python :: 3.3
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.4">
+      Python :: 3.4
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.5">
+      Python :: 3.5
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.6">
+      Python :: 3.6
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+3.7">
+      Python :: 3.7
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+Implementation">
+      Python :: Implementation
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+Implementation+%3A%3A+IronPython">
+      Python :: Implementation :: IronPython
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Programming+Language+%3A%3A+Python+%3A%3A+Implementation+%3A%3A+PyPy">
+      Python :: Implementation :: PyPy
+    </a>
+    </dd>
+    
+    
+    <dt>Topic</dt>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Desktop+Environment">
+      Desktop Environment
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Education+%3A%3A+Testing">
+      Education :: Testing
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Office%2FBusiness">
+      Office/Business
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Other%2FNonlisted+Topic">
+      Other/Nonlisted Topic
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Software+Development+%3A%3A+Libraries">
+      Software Development :: Libraries
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Software+Development+%3A%3A+Libraries+%3A%3A+Python+Modules">
+      Software Development :: Libraries :: Python Modules
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Software+Development+%3A%3A+User+Interfaces">
+      Software Development :: User Interfaces
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+System+%3A%3A+Logging">
+      System :: Logging
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+System+%3A%3A+Monitoring">
+      System :: Monitoring
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+System+%3A%3A+Shells">
+      System :: Shells
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Terminals">
+      Terminals
+    </a>
+    </dd>
+    
+    <dd>
+    <a href="https://pypi.org/search/?c=Topic+%3A%3A+Utilities">
+      Utilities
+    </a>
+    </dd>
+    
+    
+  </dl>
+</div>
+
+          <br>
+        </div>
+
+        
+        <div id="history" data-target="project-tabs.content" class="vertical-tabs__content" role="tabpanel" aria-labelledby="history-tab mobile-history-tab" style="display: none;">
+          <h2 class="page-title split-layout">
+            <span>Release history</span>
+            <a class="reset-text margin-top" href="https://pypi.org/help/#project-release-notifications">Release notifications</a>
+          </h2>
+
+          <section class="release-timeline">
+            
+            
+            
+            
+            <div class="release release--latest release--current">
+              <div class="release__meta">
+                
+                <span class="badge">This version</span>
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/blue-cube.e6165d35.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.26.0/">
+                <p class="release__version">
+                  4.26.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-09-11T19:28:42+0000">
+  Sep 11, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.25.0/">
+                <p class="release__version">
+                  4.25.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-08-20T12:47:10+0000">
+  Aug 20, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.24.0/">
+                <p class="release__version">
+                  4.24.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-07-26T16:27:19+0000">
+  Jul 26, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.23.4/">
+                <p class="release__version">
+                  4.23.4 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-05-22T19:10:40+0000">
+  May 22, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.23.3/">
+                <p class="release__version">
+                  4.23.3 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-05-08T13:59:54+0000">
+  May 8, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.23.2/">
+                <p class="release__version">
+                  4.23.2 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-05-02T16:57:48+0000">
+  May 2, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.23.1/">
+                <p class="release__version">
+                  4.23.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-04-25T17:29:27+0000">
+  Apr 25, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.23.0/">
+                <p class="release__version">
+                  4.23.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-04-15T20:16:10+0000">
+  Apr 15, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.22.0/">
+                <p class="release__version">
+                  4.22.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-04-11T23:44:51+0000">
+  Apr 11, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.21.0/">
+                <p class="release__version">
+                  4.21.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-04-08T03:22:08+0000">
+  Apr 8, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.20.0/">
+                <p class="release__version">
+                  4.20.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-04-03T10:47:17+0000">
+  Apr 3, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.19.9/">
+                <p class="release__version">
+                  4.19.9 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-03-27T18:17:18+0000">
+  Mar 27, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.19.8/">
+                <p class="release__version">
+                  4.19.8 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-03-16T18:11:21+0000">
+  Mar 16, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.19.7/">
+                <p class="release__version">
+                  4.19.7 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-03-12T14:00:40+0000">
+  Mar 12, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.19.6/">
+                <p class="release__version">
+                  4.19.6 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2018-02-27T00:02:43+0000">
+  Feb 27, 2018
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.19.5/">
+                <p class="release__version">
+                  4.19.5 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-12-10T18:57:20+0000">
+  Dec 10, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.19.4/">
+                <p class="release__version">
+                  4.19.4 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-10-15T15:42:49+0000">
+  Oct 15, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.19.2/">
+                <p class="release__version">
+                  4.19.2 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-10-08T23:34:12+0000">
+  Oct 8, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.19.1.post1/">
+                <p class="release__version">
+                  4.19.1.post1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-10-03T20:14:56+0000">
+  Oct 3, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.19.1/">
+                <p class="release__version">
+                  4.19.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-10-03T19:16:51+0000">
+  Oct 3, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.18.0/">
+                <p class="release__version">
+                  4.18.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-09-30T22:13:48+0000">
+  Sep 30, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.17.1/">
+                <p class="release__version">
+                  4.17.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-09-22T09:50:00+0000">
+  Sep 22, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.17.0/">
+                <p class="release__version">
+                  4.17.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-09-20T21:35:18+0000">
+  Sep 20, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.16.0/">
+                <p class="release__version">
+                  4.16.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-09-20T21:27:22+0000">
+  Sep 20, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.15.0/">
+                <p class="release__version">
+                  4.15.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-07-22T14:30:50+0000">
+  Jul 22, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.14.0/">
+                <p class="release__version">
+                  4.14.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-05-29T16:51:51+0000">
+  May 29, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.13.0/">
+                <p class="release__version">
+                  4.13.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-05-29T00:58:12+0000">
+  May 29, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.12.0/">
+                <p class="release__version">
+                  4.12.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-05-28T23:01:07+0000">
+  May 28, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.11.2/">
+                <p class="release__version">
+                  4.11.2 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-01-24T00:02:07+0000">
+  Jan 24, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.11.1/">
+                <p class="release__version">
+                  4.11.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-01-17T12:48:36+0000">
+  Jan 17, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.11.0/">
+                <p class="release__version">
+                  4.11.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2017-01-12T22:59:17+0000">
+  Jan 12, 2017
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.10.0/">
+                <p class="release__version">
+                  4.10.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-11-12T14:44:17+0000">
+  Nov 12, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.9.0/">
+                <p class="release__version">
+                  4.9.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-10-31T02:46:39+0000">
+  Oct 31, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.8.4/">
+                <p class="release__version">
+                  4.8.4 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-08-17T22:38:45+0000">
+  Aug 17, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.8.3/">
+                <p class="release__version">
+                  4.8.3 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-08-01T10:37:45+0000">
+  Aug 1, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.8.2/">
+                <p class="release__version">
+                  4.8.2 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-07-30T18:45:16+0000">
+  Jul 30, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.8.1/">
+                <p class="release__version">
+                  4.8.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-07-25T07:53:31+0000">
+  Jul 25, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.7.6/">
+                <p class="release__version">
+                  4.7.6 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-06-26T11:48:20+0000">
+  Jun 26, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.7.4/">
+                <p class="release__version">
+                  4.7.4 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-06-04T14:11:34+0000">
+  Jun 4, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.7.2/">
+                <p class="release__version">
+                  4.7.2 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-05-30T11:54:13+0000">
+  May 30, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.7.1/">
+                <p class="release__version">
+                  4.7.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-05-23T16:58:35+0000">
+  May 23, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.7.0/">
+                <p class="release__version">
+                  4.7.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-05-15T19:41:38+0000">
+  May 15, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.6.2/">
+                <p class="release__version">
+                  4.6.2 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-05-15T17:04:45+0000">
+  May 15, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.6.1/">
+                <p class="release__version">
+                  4.6.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-05-15T13:30:45+0000">
+  May 15, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.5.2/">
+                <p class="release__version">
+                  4.5.2 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-05-15T14:01:23+0000">
+  May 15, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.5.0/">
+                <p class="release__version">
+                  4.5.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-04-25T20:42:24+0000">
+  Apr 25, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.4.3/">
+                <p class="release__version">
+                  4.4.3 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-04-24T19:43:28+0000">
+  Apr 24, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.4.1/">
+                <p class="release__version">
+                  4.4.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-04-13T20:24:08+0000">
+  Apr 13, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.4.0/">
+                <p class="release__version">
+                  4.4.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-04-07T18:24:52+0000">
+  Apr 7, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/4.1.0/">
+                <p class="release__version">
+                  4.1.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-04-07T18:42:33+0000">
+  Apr 7, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/3.8.0/">
+                <p class="release__version">
+                  3.8.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-01-31T21:19:48+0000">
+  Jan 31, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/3.7.1/">
+                <p class="release__version">
+                  3.7.1 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-01-13T11:19:46+0000">
+  Jan 13, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/3.7.0/">
+                <p class="release__version">
+                  3.7.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2016-01-13T10:50:15+0000">
+  Jan 13, 2016
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/3.4.0/">
+                <p class="release__version">
+                  3.4.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2015-12-18T01:20:45+0000">
+  Dec 18, 2015
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/3.1.4/">
+                <p class="release__version">
+                  3.1.4 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2015-11-28T13:50:52+0000">
+  Nov 28, 2015
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/3.1.3/">
+                <p class="release__version">
+                  3.1.3 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2015-11-28T02:40:57+0000">
+  Nov 28, 2015
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/2.2.4/">
+                <p class="release__version">
+                  2.2.4 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2015-11-08T06:34:39+0000">
+  Nov 8, 2015
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/2.2.3/">
+                <p class="release__version">
+                  2.2.3 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2015-11-07T22:47:05+0000">
+  Nov 7, 2015
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/2.0.0/">
+                <p class="release__version">
+                  2.0.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2015-10-11T20:29:33+0000">
+  Oct 11, 2015
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/2.0.0.dev0/">
+                <p class="release__version">
+                  2.0.0.dev0 <span class="badge badge--warning release__version-badge">pre-release</span>
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2015-10-12T10:23:05+0000">
+  Oct 12, 2015
+</time></p>
+              </a>
+            </div>
+            
+            
+            <div class="release release--oldest">
+              <div class="release__meta">
+                
+              </div>
+
+              <div class="release__graphic">
+                
+                <div class="release__line"></div>
+                
+                
+                <img class="release__node" alt="History Node" src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg">
+                
+              </div>
+
+              <a class="card release__card" href="https://pypi.org/project/tqdm/1.0/">
+                <p class="release__version">
+                  1.0 
+                </p>
+                <p class="release__version-date"><time class="-js-relative-time" datetime="2013-10-26T20:06:34+0000">
+  Oct 26, 2013
+</time></p>
+              </a>
+            </div>
+            
+          </section>
+        </div>
+
+        
+          
+          <div id="files" data-target="project-tabs.content" class="vertical-tabs__content" role="tabpanel" aria-labelledby="files-tab mobile-files-tab" style="display: none;">
+            <h2 class="page-title">Download files</h2>
+            <p>Download the file for your platform. If you're not sure which to choose, learn more about <a href="https://packaging.python.org/installing/">installing packages</a>.</p>
+
+            <table class="table table--downloads">
+              <thead>
+                <tr>
+                  <th class="table__filename">
+                    Filename, size &amp; hash
+                    <a href="https://pip.pypa.io/en/stable/reference/pip_install/#hash-checking-mode" class="tooltipped tooltipped-n" aria-label="what&#39;s this?" data-original-label="what&#39;s this?" target="_blank">
+                      <i class="fa fa-question-circle" aria-hidden="true"></i>
+                      <span class="sr-only">SHA256 hash help</span>
+                    </a>
+                  </th>
+                  <th class="table__type">File type</th>
+                  <th class="table__version">Python version</th>
+                  <th class="table__upload-date">Upload date</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr>
+                  <td>
+                    <a href="https://files.pythonhosted.org/packages/79/43/19c9fee28110cd47f73e6bc596394337fe9f3e5825b4de402bbf30b3beb5/tqdm-4.26.0-py2.py3-none-any.whl">
+                      tqdm-4.26.0-py2.py3-none-any.whl
+                    </a>
+                     (43.7 kB)
+                    <a class="-js-copy-hash table__sha256-link tooltipped tooltipped-s" aria-label="Copy to clipboard" data-original-label="Copy to clipboard" data-clipboard-text="18f1818ce951aeb9ea162ae1098b43f583f7d057b34d706f66939353d1208889">
+                      <i class="fa fa-copy" aria-hidden="true"></i>
+                      <span class="sr-only">Copy SHA256 hash</span>
+                      SHA256
+                    </a>
+                  </td>
+                  <td>
+                    Wheel
+                  </td>
+                  <td>
+                    
+                      py2.py3
+                    
+                  </td>
+                  <td>Sep 11, 2018</td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <a href="https://files.pythonhosted.org/packages/5a/53/05ac96b04b6417d5d8d4638ac22e39b39a8c8e5e2a35cda5e8d2efa275c3/tqdm-4.26.0.tar.gz">
+                      tqdm-4.26.0.tar.gz
+                    </a>
+                     (106.7 kB)
+                    <a class="-js-copy-hash table__sha256-link tooltipped tooltipped-s" aria-label="Copy to clipboard" data-original-label="Copy to clipboard" data-clipboard-text="df02c0650160986bac0218bb07952245fc6960d23654648b5d5526ad5a4128c9">
+                      <i class="fa fa-copy" aria-hidden="true"></i>
+                      <span class="sr-only">Copy SHA256 hash</span>
+                      SHA256
+                    </a>
+                  </td>
+                  <td>
+                    Source
+                  </td>
+                  <td>
+                    
+                      None
+                    
+                  </td>
+                  <td>Sep 11, 2018</td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <div class="footer__logo">
+        <img src="./tqdm · PyPI_files/white-cube.8c3a6fe9.svg" alt="Logo" class="-js-white-cube">
+      </div>
+
+      <div class="footer__menus">
+        <ul class="footer__menu">
+          <li>
+            <h2>Help</h2>
+          </li>
+          <li><a href="https://packaging.python.org/installing/">Installing packages</a></li>
+          <li><a href="https://packaging.python.org/distributing/">Uploading packages</a></li>
+          <li><a href="https://packaging.python.org/">User guide</a></li>
+          <li><a href="https://pypi.org/help/">FAQs</a></li>
+        </ul>
+        <ul class="footer__menu">
+          <li>
+            <h2>About PyPI</h2>
+          </li>
+          
+          <li><a href="https://status.python.org/">Status: <span data-statuspage-domain="https://2p66nmmycsj3.statuspage.io">All Systems Operational</span></a></li>
+          
+          <li><a href="https://dtdg.co/pypi">Infrastructure dashboard</a></li>
+          <li><a href="https://www.python.org/dev/peps/pep-0541/">Package index name retention</a></li>
+          <li><a href="https://pypi.org/sponsors/">Our sponsors</a></li>
+        </ul>
+
+
+        <ul class="footer__menu">
+          <li>
+            <h2>Contributing to PyPI</h2>
+          </li>
+          <li><a href="https://pypi.org/help/#feedback">Bugs and feedback</a></li>
+          <li><a href="https://github.com/pypa/warehouse">Contribute on GitHub</a></li>
+          <li><a href="https://github.com/pypa/warehouse/graphs/contributors">Development credits</a></li>
+        </ul>
+        <ul class="footer__menu">
+          <li>
+            <h2>Using PyPI</h2>
+          </li>
+          <li><a href="https://www.pypa.io/en/latest/code-of-conduct/">Code of conduct</a></li>
+          <li><a href="https://pypi.org/security/">Report security issue</a></li>
+          <li><a href="https://www.python.org/privacy/">Privacy policy</a></li>
+          <li><a href="https://pypi.org/policy/terms-of-use/">Terms of use</a></li>
+        </ul>
+      </div>
+
+      <hr class="footer__divider">
+
+      <div class="footer__text">
+        <p>
+          Developed and maintained by the Python community, for the Python community.
+          <br>
+          <a href="https://donate.pypi.org/">Donate today!</a>
+        </p>
+        <p>© 2018 <a href="https://www.python.org/psf/">Python Software Foundation</a></p>
+      </div>
+
+      <div class="centered hide-on-desktop">
+        <button class="button button--switch-to-desktop" data-target="viewport-toggle.switchToDesktop" data-action="viewport-toggle#switchToDesktop">
+          Desktop version
+        </button>
+      </div>
+    </footer>
+
+    
+
+<div class="sponsors">
+  <p class="sponsors__title">Supported by</p>
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.elastic.co/">
+        <img class="sponsors__image" alt="Elastic" src="./tqdm · PyPI_files/elastic.a912fb87.png">
+        <span class="sponsors__name">Elastic</span>
+        <span class="sponsors__service">Search</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.pingdom.com/">
+        <img class="sponsors__image" alt="Pingdom" src="./tqdm · PyPI_files/pingdom.07446398.png">
+        <span class="sponsors__name">Pingdom</span>
+        <span class="sponsors__service">Monitoring</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://cloud.google.com/">
+        <img class="sponsors__image" alt="Google" src="./tqdm · PyPI_files/google.2f72f26f.png">
+        <span class="sponsors__name">Google</span>
+        <span class="sponsors__service">BigQuery</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://getsentry.com/for/python">
+        <img class="sponsors__image" alt="Sentry" src="./tqdm · PyPI_files/sentry.5ab437bc.png">
+        <span class="sponsors__name">Sentry</span>
+        <span class="sponsors__service">Error logging</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://aws.amazon.com/">
+        <img class="sponsors__image" alt="AWS" src="./tqdm · PyPI_files/aws.5f800271.png">
+        <span class="sponsors__name">AWS</span>
+        <span class="sponsors__service">Cloud computing</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.datadoghq.com/">
+        <img class="sponsors__image" alt="DataDog" src="./tqdm · PyPI_files/datadog.e569d741.png">
+        <span class="sponsors__name">DataDog</span>
+        <span class="sponsors__service">Monitoring</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.fastly.com/">
+        <img class="sponsors__image" alt="Fastly" src="./tqdm · PyPI_files/fastly.0563c6f5.png">
+        <span class="sponsors__name">Fastly</span>
+        <span class="sponsors__service">CDN</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.signalfx.com/">
+        <img class="sponsors__image" alt="SignalFx" src="./tqdm · PyPI_files/signalfx.560cb5c4.png">
+        <span class="sponsors__name">SignalFx</span>
+        <span class="sponsors__service">Financial sponsor</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://www.digicert.com/">
+        <img class="sponsors__image" alt="DigiCert" src="./tqdm · PyPI_files/digicert.79748718.png">
+        <span class="sponsors__name">DigiCert</span>
+        <span class="sponsors__service">EV certificate</span>
+      </a>
+    
+  
+    
+      <a class="sponsors__sponsor" target="_blank" rel="noopener" href="https://statuspage.io/">
+        <img class="sponsors__image" alt="StatusPage" src="./tqdm · PyPI_files/statuspage.67af0b3d.png">
+        <span class="sponsors__name">StatusPage</span>
+        <span class="sponsors__service">Status page</span>
+      </a>
+    
+  
+</div>
+
+    
+  
+
+</body></html>

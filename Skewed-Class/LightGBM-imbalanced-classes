@@ -1,0 +1,2 @@
+LightGBM to work with imbalanced classes
+https://github.com/Microsoft/LightGBM/blob/master/python-package/lightgbm/sklearn.py#L164
