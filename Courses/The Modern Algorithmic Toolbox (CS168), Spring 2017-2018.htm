@@ -1,0 +1,692 @@
+<html>
+<head>
+<TITLE>The Modern Algorithmic Toolbox (CS168), Spring 2017-2018</TITLE>
+  <link rel="stylesheet" type="text/css" href="main.css">
+
+</head>
+<body>
+
+<h1>CS 168: The Modern Algorithmic Toolbox</h1>
+
+<p>
+<p class="header">Announcements</p>
+
+<ul>
+<!--
+<li>5/19: <a href="p8.pdf">Project 8</a> is out. Scripts for <a href="qwop.m">MATLAB</a> and <a href="qwop.py">Python</a>. It is due Tuesday, May 26th. [NOTE: PYTHON VERSION UPDATED 5pm  5/23!!!!!]</li>
+<li>5/12: <a href="p7.pdf">Project 7</a> is out.
+It is due Tuesday, May 19th. </li>
+<li>5/11: Fixed the boundary condition in the definition of convolution in
+Project 6.</li>
+<li>5/24: 
+and <a href="instructions.txt">installation instructions</a>.
+<li>5/17: <A HREF="p8.pdf">Mini-project 8</A> is out.
+It is due Tuesday, May 24th.
+</li>
+<li>5/11: The final exam will be Friday, June 8th, 3:30-6:30 PM
+<li>5/10: <A HREF="p7.pdf">Mini-project 7</A> is out.
+It is due Tuesday, May 17th.  <a href="parks.csv">Here</a> is the data
+    file of national parks for Part 2.
+</li>
+<li>4/26: <a href="p5.pdf">Mini-project #5</a> is available.  It is due Tuesday, May 3rd.  The datasets are here: <a href="county_results.csv">county_results.csv</a> and <a href="county_facts_dictionary.csv">county_facts_dictionary.csv</a>.</li>
+
+<li>4/19: <a href="p4.pdf">Here</a> is mini-project #4
+  and <a href="p4dataset.txt">here</a> is the dataset.
+
+<li>6/5: The final exam will be Monday, June 12th, 3:30-6:30 PM, in Bishop
+  auditorium.  It is closed book, though you can bring one double-sided
+  sheet of notes.
+<li>6/5: <a href="main.pdf">Here</a>
+is last year's final.  
+<li>5/31: 
+<a href="p9.pdf">Here</a> is mini-project 9, with
+<a href="p9_images.tar">images</a>.
+It is due <b>Wednesday, June 7.</b></li>
+<li>5/24: I updated the laurel_yanny.wav file for p8---originally it contained 2-channel audio (for left/right speakers) which was a 2x43k matrix; now it is just a single channel, so just a single vector.  Also slightly updated footnote for problem 2... 
+<li>5/23: <a href="p8.pdf">Mini-project #8</a> is available. It is due Tuesday, May 30th. 
+</li> 
+<li>5/16: <a href="p7.pdf">Mini-project #7</a> is available.  <a href="parks.csv">Here</a> is the data
+    file of national parks for Part 2.  For Part 3, the QWOP scripts are available for MATLAB <a href="qwop.m">here</a> and Python <a href="qwop.py">here</a>. It is due Tuesday, May 23rd.  
+<li>5/9: <A HREF="p6.pdf">Mini-project 6</A> is out.
+It is due Tuesday, May 16th.  <a href="cs168mp6.csv">Here</a> is the data
+    file for Part 2.
+</li>
+<li>5/2: <a href="hw5.pdf">Mini-project #5</a> is available.</li> It is
+due Tuesday, May 9th at 11:59pm.   The data files you will need are: <a href="dictionary.txt">dictionary.txt</a>, <a href="co_occur.csv">co_occur.csv</a>, <a href="analogy_task.txt">analogy_task.txt</a>, and <a href="p5_image.gif">p5_image.gif</a>.
+<li>4/24: <a href="hw4.pdf">Mini-project #4</a> is available.</li> It is
+due Tuesday, May 2nd at 11:59pm.  <a href="p4dataset2017.txt">Here</a> is
+data set for Part 1.
+<li>4/24: For the rest of the quarter, Tim's office hours will be
+  Wednesdays 3-4pm.
+<li>4/23:  Greg's Monday 3-4pm office hours are cancelled this week (out of town this week).
+<li>4/19:  Minor updates to mini-project 3, part 2(a) to clarify test vs training error (updated 11pm).
+<li>4/18: <a href="p3.pdf">Mini-project #3</a> is available.</li> It is due Tuesday, April 25th at 11:59pm.
+  --> 
+  <li>Final Exam, Friday June 8th, 3:30-6:30pm @ Bishop Auditorium in Lathrop Library (closed book, though you can bring one double-sided sheet of notes that you prepare yourself).
+  <li>6/4: Due to popular demand, we have posted solution sketches for last year's final exam on Piazza <a href="https://piazza.com/class/jfczsgtrusiwi?cid=328">here</a>.  Feel free to use that page to discuss any of the problems.
+  <li>5/30: 
+<a href="p9.pdf">Here</a> is mini-project 9, with
+<a href="p9_images.tar">images</a>.
+It is due Wednesday, June 6 at 11:59pm.</li>
+<li>5/30: The final exam will be Friday, June 8th.  It is closed book, though you can bring one double-sided
+  sheet of notes that you prepare yourself (though feel free to discuss with eachother).  <a href="final_lastYear.pdf">Here</a>
+is last year's final.  
+  <li>5/24: I updated the laurel/yanny .wav file for p8---originally it contained 2-channel audio (for left/right speakers) which corresponded to a 2x43k matrix; now it is just a single channel, so just a single vector.  Also slightly updated footnote for problem 2... 
+  <li>5/23: <a href="p8.pdf">Mini-project #8</a> is available.  <a href="laurel_yanny.wav">Here</a> is the Laurel/Yanny .wav file for Part 3. This is due WEDNESDAY, May 30th at 11:59pm---note the extra day.</li>  
+  <li>5/15: <a href="p7.pdf">Mini-project #7</a> is available.  <a href="parks.csv">Here</a> is the data
+    file of national parks for Part 2.  For Part 3, the QWOP scripts are available for MATLAB <a href="qwop.m">here</a> and Python <a href="qwop.py">here</a>. It is due Tuesday, May 22nd at 11:59pm.</li>  
+  <li>5/11: My Monday 4:30-5:30 office hour will be moved back to 5-6pm this coming week (5/14).  Sorry for any inconvenience. -g
+</li>
+<li>5/7: <A HREF="p6.pdf">Mini-project 6</A> is posted.
+It is due Tuesday, May 15th at 11:59pm.  <a href="cs168mp6.csv">Here</a> is the data
+    file for Part 2.
+</li>
+<li>5/6: Minor correction to miniproject #5:  in part 1(c), it said that since M is symmetric, for the SVD M = USV', it should be the case that U=V.  This is not the case, though they are equal up to flipping the signs of some of their columns (and hence there is no point in looking at both the word embeddings derived from U and those derived from V---they will have identical properties.  Sorry for any confusion this caused.</li>  
+<li>4/30: <a href="p5.pdf">Mini-project #5</a> is available.</li> It is
+due Tuesday, May 8th at 11:59pm.  The data files you will need are: <a href="dictionary.txt">dictionary.txt</a>, <a href="co_occur.csv">co_occur.csv</a>, <a href="analogy_task.txt">analogy_task.txt</a>, and <a href="p5_image.gif">p5_image.gif</a>.</li>
+<li>4/23: <a href="p4.pdf">Mini-project #4</a> is available.</li> It is
+due Tuesday, May 1st at 11:59pm.  <a href="p4dataset2018.txt">Here</a> is the
+data set for Part 1.</li>
+<li>4/19: Here is a link to some notes on Gradient Descent, which might be helpful for mini-project #3 if you haven't seen gradient descent before.  <a href="l/grad_desc_notes.pdf">Gradient Descent Notes</a>.</li>
+It is due Tuesday, April 24th at 11:59pm.  
+<li>4/17: <a href="p3.pdf">Mini-project #3</a> is available.</li>
+It is due Tuesday, April 24th at 11:59pm.
+<li>4/13: There was some confusion on Problem 3 (c);  I re-worded that part of the problem to make it more clear.  (Though any good answer to the original wording is also a valid answer to the re-worded question. Sorry for the confusion, and please download the latest version.</li>
+<li>4/10: Fixed some minor typos in Miniproject 2 at 11pm.  Please download the latest version.</li>
+<li>4/9: <a href="p2.pdf">Mini-project #2</a> is available.</li>
+It is due Tuesday, April 17th at 11:59pm. The dataset is available <a href="p2_data.zip">here</a>.
+<ul>
+<li><a href="makeHeatMap.py">Here</a> is some starter code for drawing
+  heatmaps in Python (and/or check Stack Overflow).
+</ul>
+<li>4/9: <a href="http://ee263.stanford.edu/notes/notes-matrix-primer.pdf">Here</a>
+  is a review (courtesy of EE263) of the most basic aspects of vectors and matrices (e.g., how
+  to multiply them).  Most relevant for CS168 are pages 1--9 (up to "Block
+  matrices and submatrices") and the "Linear functions" and "Linear
+  equations" sections on pages 10--11.
+<li>4/4: We updated the miniproject submission instructions, and set up the Gradescope submission page (entry code 986PDG).  
+<li>4/2: <a href="p1.pdf">Mini-project #1</a> is available.
+It is due Tuesday, April 10th (at 11:59pm).
+<ul>
+<li><a href="histogram.py">Here</a> is some starter code for drawing
+  histograms in Python (and/or check Stack Overflow).
+</ul>
+
+<li>4/2: First class, 3-4:20pm in <a href="https://campus-map.stanford.edu/?srch=320-105">320-105</a>. Welcome to CS168!</li>
+</ul>
+
+
+<p class="header">Administrative Information</p>
+
+
+<b>Instructor:</b>
+<ul>
+<li>
+<A HREF="http://theory.stanford.edu/~valiant/">Gregory Valiant</A> (Office hours: Mon 4:30-5:30pm, Gates 470. Email: last name at stanford.edu).
+</ul>
+<p>
+
+<b>Course Assistants:</b>
+<ul>
+<li>
+Matthew Katzman 
+(Office hours: Mon 9-11am, Huang Basement, 
+Email: mkatzman at stanford.edu).
+<li>
+Stephen Mussmann
+(Office hours: Mon 1-3pm, Gates 459 (starting 4/16)
+Email: mussmann at stanford).
+<li>
+Vatsal Sharan
+(Office hours: Tues 4:15-6:15pm, Gates 460, 
+Email: first initial last name at stanford.edu).
+<li>
+Warut Suksompong
+(Office hours: Fri 3-5pm, Gates 498, 
+Email: jungs at stanford).
+
+</ul>
+
+<p> <b>Time/location:</b> 3:00 - 4:20pm Mon/Wed in 320-105.
+
+<p> <b>Piazza site:</b> <a href="http://piazza.com/stanford/spring2018/cs168">Here</a>.
+
+<p> <b>Prerequisites</b>: CS107 and CS161, or permission from the instructor.
+
+<p class="header">Course Description</p> 
+This course will provide a rigorous and hands-on
+introduction to the central ideas and algorithms that constitute the
+core of the modern algorithms toolkit. Emphasis will be on
+understanding the high-level theoretical intuitions and principles
+underlying the algorithms we discuss, as well as developing a concrete
+understanding of when and how to implement and apply the algorithms.
+The course will be structured as a sequence of one-week
+investigations; each week will introduce one algorithmic idea, and
+discuss the motivation, theoretical underpinning, and practical
+applications of that algorithmic idea. Each topic will be accompanied
+by a mini-project in which students will be guided through a practical
+application of the ideas of the week. Topics include modern techniques
+in hashing, dimension reduction, linear and convex programming,
+gradient descent and regression, sampling and estimation, compressive
+sensing, and linear-algebraic techniques (principal components
+analysis, singular value decomposition, spectral techniques).
+
+<p>
+
+<p class="header">Detailed Schedule</p>
+
+<ul>
+
+<li><h3>Week 1: Modern Hashing</h3>
+
+<ul>
+<li><b>Lecture 1 (Mon 4/2):</b> Course introduction.  Consistent hashing.
+<ul>
+<li><A HREF="l/l1.pdf">Lecture notes</A>
+</ul>
+Supplementary material:
+<ul>
+<li>The Akamai paper:
+Karger/Lehman/Leighton/Levine/Lewin/Panigrahy,
+<a href="http://www.akamai.com/dl/technical_publications/ConsistenHashingandRandomTreesDistributedCachingprotocolsforrelievingHotSpotsontheworldwideweb.pdf">Consistent
+  Hashing and Random Trees:
+Distributed Caching Protocols for Relieving Hot Spots on the World Wide
+  Web</a>, STOC 1997.
+<li><a href="https://www.youtube.com/watch?v=apHAqUG3Pi8">Akamai
+    stories</a> by co-founder Tom Leighton.
+<li><a href="http://www.sigcomm.org/sites/default/files/ccr/papers/2015/July/0000000-0000009.pdf">Further
+    implementation details</a> (see Section 3).
+<li>The Chord paper: Stoica et al.,
+<a href="http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf">Chord:
+  A Scalable Peer-to-peer Lookup Service for Internet
+Applications</a>, SIGCOMM 2001.
+<li> The Amazon Dynamo paper: DeCandia et al.,
+<a href="http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf">Dynamo:
+  Amazon's Highly Available Key-value Store</a>, SOSP 2007.
+<li>Review videos on hashing:
+<a href="https://www.youtube.com/watch?v=Qu183GFHbZQ&index=67&list=PLXFMmlk03Dt7Q0xr1PIAriY5623cKiH7V">Operations and
+  Applications</a>, 
+<a href="https://www.youtube.com/watch?v=j5KkC-wjlK4&index=68&list=PLXFMmlk03Dt7Q0xr1PIAriY5623cKiH7V">Implementation
+  Details Part 1</a> and <a href="https://www.youtube.com/watch?v=2MocX5A3pSs&index=69&list=PLXFMmlk03Dt7Q0xr1PIAriY5623cKiH7V">
+Part 2</a>.
+</ul>
+
+<p>
+
+<li><b>Lecture 2 (Wed 4/4):</b>
+Property-preserving lossy compression.
+From majority elements to approximate heavy hitters.
+From bloom filters to the count-min sketch.
+<ul>
+<li><a href="l/l2.pdf">Lecture notes</a> 
+</ul>
+Supplementary material:
+<ul>
+<li>Review videos on bloom filters:
+<a href="https://www.youtube.com/watch?v=zYlxP7F3Z3c&list=PLXFMmlk03Dt7Q0xr1PIAriY5623cKiH7V&index=74">The Basics</a>
+and <a href="https://www.youtube.com/watch?v=oT-Zhry0hBI&list=PLXFMmlk03Dt7Q0xr1PIAriY5623cKiH7V&index=75">Heuristic
+  Analysis</a>
+<li>Broder/Mitzenmacher,
+<a href="http://www.eecs.harvard.edu/~michaelm/postscripts/im2005b.pdf">Network
+  Applications of
+Bloom Filters: A Survey</a>, 2005.
+<li>Cormode/Muthukrishnan,
+<a href="http://dimacs.rutgers.edu/~graham/pubs/papers/cm-full.pdf">An
+  Improved Data Stream Summary:
+The Count-Min Sketch and its Applications</a>, 2003.
+<li>One of
+  several <a href="https://github.com/addthis/stream-lib">count-min sketch
+  implementations</a>.
+</ul>
+</ul>
+<li><h3>Week 2: Data with Distances (Similarity Search, Nearest Neighbor,
+    Dimension Reduction, LSH)</h3></h3>
+
+<ul>
+<li><b>Lecture 3 (Mon 4/9):</b>
+Similarity Search.
+(Dis)similarity metrics: Jaccard, Euclidean, Lp.
+Efficient algorithm for finding similar elements in small/medium (ie. <20)
+dimensions using k-d-trees.
+<ul>
+<li><a href="l/l3.pdf">lecture notes</a> 
+</ul>
+
+Supplementary material:
+<ul>
+<li>Original paper of Bentley:
+<a href="http://dl.acm.org/citation.cfm?id=361007">Multidimensional binary search trees used for associative searching</a>, 1975.
+<li>Python scipy kd-tree implementation
+<a href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.KDTree.html">here</a>.
+<!--<li>One of the earlier papers on the human gut microbiome:
+<a href="http://www.sciencemag.org/content/312/5778/1355.short">Metagenomic Analysis of the Human Distal Gut Microbiome</a>, 2006.
+-->
+</ul>
+</ul>
+<p>
+
+<ul>
+<li><b>Lecture 4 (Wed 4/12):</b>
+Curse of Dimensionality, kissing number.
+Distance-preserving compression.
+Estimating Jaccard similarity using MinHash.
+JL dimensionality reduction.
+<ul>
+<li><a href="l/l4.pdf">Lecture notes (from last year--will update soon)</a>
+</ul>
+Supplementary material:
+<ul>
+<li>A nice survey of "kissing number", and some other strange phenomena from high dimensional spaces:
+<a href="http://www.ams.org/notices/200408/fea-pfender.pdf">Kissing Numbers, Sphere Packings, and some Unexpected Proofs</a> (from 2000).
+<li>Origins of MinHash at Alta Vista:
+Broder,
+<a href="http://cs.brown.edu/courses/cs253/papers/nearduplicate.pdf">Identifying
+  and Filtering Near-Duplicate
+Documents</a> (from 2000).
+<li>Ailon/Chazelle, <a href="https://www.cs.princeton.edu/~chazelle/pubs/fasterdim-ac10.pdf">Faster
+    Dimension Reduction</a>, CACM '10.
+<li>Andoni/Indyk,
+<a href="http://mags.acm.org/communications/200801/#pg119">Near-Optimal
+  Hashing Algorithms for Approximate Nearest Neighbor in High
+  Dimensions</a>, CACM '08.
+<li>For much more on LSH, see <a href="http://infolab.stanford.edu/~ullman/mmds/ch3.pdf">this chapter</a> of
+the CS246 textbook (by Leskovec, Rajaraman, and Ullman).
+</ul>
+
+</ul>
+
+
+<li><h3>Week 3: Generalization and Regularization</h3>
+
+<ul>
+<li><b>Lecture 5 (Mon 4/16):</b>
+Generalization (or, how much data is enough?).  
+Learning an unknown function from samples from an unknown distribution.
+Training error vs. test error. PAC guarantees for linear classifiers.  Empirical risk minimization.
+<ul>
+<li>
+<a href="l/l5.pdf">Lecture notes</a>
+</ul>
+</ul>
+
+<p>
+<ul>
+<li><b>Lecture 6 (Wed 4/18):</b> Regularization.  The polynomial embedding and random projection, L2 regularization, and L1 regularization as a computationally tractable surrogate for L0 regularization. 
+<ul>
+<li>
+<a href="l/l6_reg.pdf">Lecture notes</a>
+</ul>
+<li>A nice/short technical description of recovering sparse signals via L1 regularization: <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.534.2872&rep=rep1&type=pdf">Candes/Wakin'08</a>.
+<li>Very recent paper on generalization and implicit regularization in deep learning, which raises more questions than it answers:  <a href="https://arxiv.org/abs/1611.03530">Understanding deep learning requires rethinking generalization</a>, ICLR'17.
+</ul>
+<!--
+<li><h3>Week 3: Gradient Descent and Regression</h3>
+
+
+<ul>
+<li><b>Lecture 5 (Mon 4/11):</b>
+The intuition and geometry of gradient descent.
+Application to linear regression.
+<ul>
+<li>
+<a href="l/l5.pdf">Lecture notes</a> (updated 5/3/16)
+</ul>
+</ul>
+
+<p>
+
+<ul>
+<li><b>Lecture 6 (Wed 4/13):</b> Stochastic gradient descent and
+  regularization.
+<ul>
+<li>
+<a href="l/l6.pdf">Lecture notes</a> 
+</ul>
+Supplementary material:
+<ul>
+<li>Data
+  sets: <a href="https://archive.ics.uci.edu/ml/datasets/Iris">Iris</a>,
+  <a href="https://en.wikipedia.org/wiki/Wikipedia:Database_download">Wikipedia</a>,
+  <a href="http://horatio.cs.nyu.edu/mit/tiny/data/">Tiny Images</a>
+<li>Moritz Hardt's blog post on gradient descent/accelerated gradient descent <a href="http://blog.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html">The Zen of Gradient Descent.</a>
+<li>QWOP in the real world: <a href="http://www.popularmechanics.com/technology/robots/a15907/best-falls-from-darpa-robot-challenge/">funny videos from darpa grand challenge</a>.
+</ul>
+</ul>
+Regularized regression problems.
+Convergence rate of gradient descent.
+Accelerated gradient descent.
+<ul>
+</ul>
+Supplementary material:
+<ul>
+<li>Moritz Hardt's blog post on gradient descent/accelerated gradient descent <a href="http://blog.mrtz.org/2013/09/07/the-zen-of-gradient-descent.html">The Zen of Gradient Descent.</a>
+<li>QWOP in the real world: <a href="http://www.popularmechanics.com/technology/robots/a15907/best-falls-from-darpa-robot-challenge/">funny videos from darpa grand challenge</a>.
+</ul>
+
+-->
+
+<li><h3>Week 4: Linear-Algebraic Techniques:
+Understanding Principal Components Analysis</h3>
+<ul>
+<li><b>Lecture 7 (Mon 4/23):</b>
+Understanding Principal Component Analysis (PCA).
+Minimizing squared distances equals maximizing variance.
+Use cases for data visualization and data compression.
+Failure modes for PCA.  
+<ul>
+<li><a href="l/l7.pdf">Lecture notes</a>
+</ul>
+Supplementary material:
+<ul>
+<li>A nice exposition by 23andMe of the fact that the top 2 principal components of genetic SNP data of Europeans essentially recovers the geography of europe:  <a href="http://blog.23andme.com/news/a-different-kind-of-gene-mapping-comparing-genetic-and-geographic-structure-in-europe-the-return/">nice exposition w. figures</a>.  Original Nature paper: <a href="http://www.nature.com/nature/journal/v456/n7218/abs/nature07331.html">Genes mirror geography in Europe</a>, Nature, Aug. 2008.
+<li><a href="http://www.cs.ucsb.edu/~mturk/Papers/jcn.pdf">Eigenfaces</a>
+(see also this <a href="http://jeremykun.com/2011/07/27/eigenfaces/">blog post</a>)
+<LI>There's tons of PCA tutorials floating around the Web (some good, some
+  not so good), which you can also refer to.
+</ul>
+</ul>
+<p>
+<ul>
+<li><b>Lecture 8 (Wed 4/26):</b>
+How PCA works.  Maximizing variance as finding the
+"direction of maximum stretch" of the covariance matrix.
+The simple geometry of "diagonals in disguise."
+The power iteration algorithm.  
+
+<!--Connection between the
+  principal component/power iteration algorithm and the stationary
+  distribution of Markov Chains.
+-->
+<ul>
+<li><a href="l/l8.pdf">Lecture notes</a>
+</ul>
+</ul>
+
+<!--
+Supplementary material:
+<ul>
+</ul>
+-->
+
+<li><h3>Week 5: Linear-Algebraic Techniques: Understanding the Singular Value Decomposition</h3>
+<ul>
+<li><b>Lecture 9 (Mon 4/30):</b>
+Low-rank matrix approximations.  The singular value decomposition (SVD),  applications to matrix compression, de-noising, and matrix completion (i.e. recovering missing entries).
+<ul>
+<li><a href="l/l9.pdf">Lecture notes</a>
+</ul>
+</ul>
+
+<p>
+
+<ul>
+<li><b>Lecture 10 (Wed 5/2):</b>
+Tensor methods!!   Differences between matrices and tenors, the uniqueness of low-rank tensor factorizations, and Jenrich's algorithm.
+<ul>
+<li><a href="l/l10.pdf">Lecture notes</a>
+</ul>
+Supplementary material:
+<ul>
+<li>A blog post discussing Spearman's original experiment and the motivation for tensor methods: <a href="http://www.offconvex.org/2015/12/17/tensor-decompositions/">here</a>.
+<li> See chapter 3 of Ankur Moitra's course notes  <a href="http://people.csail.mit.edu/moitra/docs/bookex.pdf">here</a> for a more technical in depth discussion of tensor methods, and Jenrich's algorithm.
+</ul>
+
+</ul>
+
+
+<li><h3>Week 6: Spectral Graph Theory</h3>
+<ul>
+<li><b>Lecture 11 (Mon 5/7):</b> 
+Graphs as matrices and the Laplacian of a graph.  Interpretations of the largest and smallest eigenvectors/eigenvalues of the Laplacian.  Spectral embeddings, and an overview of applications (e.g. graph coloring, spectral clustering.)
+<ul>
+<li>
+<a href="l/l11.pdf">Lecture notes for 11 and 12 [lecture 12 content still in-progress].</a>
+</ul>
+Supplementary material:
+<ul>
+<li>Dan Spielman's <a href="http://www.cs.yale.edu/homes/spielman/561/">excellent lecture notes</a> for his semester-long course on Spectral Graph Theory.  The notes include a number of helpful plots.
+
+<li>
+Amin Saberi offered a <a href="http://web.stanford.edu/class/msande337/">grad course</a> in 2016 that covered some of the research frontier of Spectral Graph Theory.
+</ul>
+</ul>
+
+<p>
+
+<ul>
+<li><b>Lecture 12 (Wed 5/9):</b> 
+
+Spectral techniques, part 2.  Interpretations of the second eigenvalue
+  (via conductance and isoperimetric number), and connections with the
+  speed at which random walks convergence to the stationary distribution
+  and the power iteration method.
+<!--
+<ul>
+<li>
+<a href="l/l17.pdf">Lecture notes for 17 and 18 [in progress].</a>
+</ul>
+</ul>
+
+-->
+</ul>
+
+<p>
+
+
+<li><h3>Week 7: Sampling and Estimation</h3>
+
+<ul>
+<li><b>Lecture 13 (Mon 5/14):</b>
+Reservoir sampling (how to select a random sample from a datastream).  Basic probability tools: Markov's inequality and Chebyshev's inequality.  Importance Sampling (how to make inferences about one distribution based on samples from a different distribution).  Description of the Good-Turing estimate of the missing/unseen mass.
+<ul>
+<li><a href="l/l13.pdf">Lecture notes</a>
+</ul>
+Supplementary material:
+<ul>
+<li>A nice description of the probabilistic tools/approach that go into Nate Silver's political forecasting model:   <a href=" http://fivethirtyeight.com/features/how-the-fivethirtyeight-senate-forecast-model-works/">here</a>.
+</ul>
+</ul>
+<p>
+
+<ul>
+<li><b>Lecture 14 (Wed 5/16):</b>
+Markov Chains, stationary distributions. Markov Chain Monte Carlo (MCMC)
+  as approaches to solving hard problems by sampling from carefully
+  crafted distributions. 
+<ul>
+<li><a href="l/l14.pdf">Lecture notes</a>
+</ul>
+Supplementary material:
+<ul>
+<li>A basic description of MCMC, <a href="http://jeremykun.com/2015/04/06/markov-chain-monte-carlo-without-all-the-bullshit/">here</a>.
+<li>Lecture notes from Persi Diaconis on MCMC, including a description of the MCMC approach to decoding substitution-ciphers,
+<a href="http://statweb.stanford.edu/~cgates/PERSI/papers/MCMCRev.pdf">here</a>.
+<li>Example of MCMC used for fitting extremely complex biological models:
+<a href="http://www.sciencemag.org/content/347/6218/1254806.full">The human splicing code...</a> Science, Jan. 2015.
+<li>For those interested in computer Go: <a href="http://www.nature.com/nature/journal/v529/n7587/full/nature16961.html">here</a> is the Jan, 2016 Nature paper from Google's DeepMind group.
+</ul>
+</ul>
+
+
+<li><h3>Week 8: The Fourier Perspective (and other bases)</h3>
+<ul>
+<li><b>Lecture 15 (Mon 5/21):</b>
+Fourier methods, part 1.  
+<ul>
+<li><a href="l/l15.pdf">Lecture notes for Lectures 15 and 16</a>
+</ul>
+Supplementary material:
+<ul>
+<li> A very basic intro to Fourier transformations with some nice visualizations:  <a href="http://betterexplained.com/articles/an-interactive-guide-to-the-fourier-transform/">here</a>.
+<li>A book version of a Stanford course on the Fourier Transform, which has many extremely nice applications:  <a href="http://see.stanford.edu/materials/lsoftaee261/book-fall-07.pdf">pdf here</a>.
+</ul>
+</ul>
+
+<p>
+
+<ul>
+<li><b>Lecture 16 (Wed 5/23):</b>
+Fourier methods, part 2 (emphasis on convolutions).
+<ul>
+<li>Lecture  <a href="l/l15.pdf">notes</a> combined with Lecture 15
+</ul>
+</ul>
+<li><h3>Week 9: Mathematical Programming and Sparse Vector/Matrix Recovery (Compressive Sensing)</h3>
+<ul>
+<li><b>Lecture 17 (Wed 5/30):</b>
+Compressive sensing.
+<ul>
+<li>
+<a href="l/l17.pdf">Lecture notes</a>
+</ul>
+Supplementary material:
+<ul>
+<li>A <a href="https://www.youtube.com/watch?v=c6OEZQ3Hhp4">video</a>
+and <a href="http://theory.stanford.edu/~tim/f14/l/l9.pdf">lecture notes</a>
+    from CS264 with more of the mathematics behind compressive sensing.
+<li><a href="https://www.youtube.com/watch?v=W-b4aDGsbJk">Survey talk</a>
+by Candes from ICM 2014.
+
+<li>Rice's <a href="http://dsp.rice.edu/cscamera">single-pixel camera</a>
+
+<li><a href="http://spectrum.ieee.org/semiconductors/optoelectronics/camera-chip-makes-alreadycompressed-images">More</a>
+  on potential applications in cameras.
+<li>Developments
+  in <a href="http://www.eecs.berkeley.edu/~mlustig/l1-SPIRiT.pdf">medical imaging</a>.
+<li>More
+  <a href="http://nuit-blanche.blogspot.com/p/teaching-compressed-sensing.html">resources</a>
+  on compressive sensing.
+</ul>
+</ul>
+
+<ul>
+<li><b>Lecture 18 (Mon 6/4):</b>
+Linear and convex programming.  Matrix completion.
+<ul>
+<li>
+<a href="l/l18.pdf">Lecture notes</a>
+</ul>
+Supplementary material:
+<ul>
+<li><a href="http://lpsolve.sourceforge.net/4.0/LinearProgrammingFAQ.htm">Linear
+    programming FAQ</a>, out of date but still with lots of useful info.
+<li>For convex optimization at Stanford,
+start with <a href="http://stanford.edu/~boyd/index.html">Stephen
+    Boyd</a>.
+<li>For more on matrix completion, start with Chapter 7
+of <a href="http://people.csail.mit.edu/moitra/docs/bookex.pdf">Moitra's
+    notes</a>.
+</ul>
+</ul>
+<li><h3>Week 10: Privacy Preserving Data Analysis</h3>
+<ul>
+<li><b>Lecture 19 (Wed 6/6):</b>
+ Intro to Differential Privacy
+<ul>
+<li>
+Lecture notes will be posted at some point, but not before the final exam (Friday).  This material will not be covered on the final.</a>
+</ul>
+Supplementary material:
+<ul>
+<li>An excellent book on differential privacy, written by Cynthia Dwork and Aaron Roth, from 2014: <a href="https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf">here</a>.
+</ul>
+</ul>
+
+<!--
+<ul>
+<li><b>No lecture on Mon 5/30 (Memorial Day)</b>
+</ul>
+-->
+<!--
+<p>
+
+<ul>
+<li><b>Lecture 19 (Wed 6/7):</b>
+Expander codes.  (optional lecture)
+<ul>
+<li><a href="l/l19.pdf">Lecture notes</a>
+</ul>
+Optional supplementary material:
+<ul>
+<li>Sipser/Spielman, <a href="http://www.cs.yale.edu/homes/spielman/PAPERS/expandersIT.pdf">Expander
+    Codes</a>.
+<li>
+<a href="http://theory.stanford.edu/~tim/f14/l/l11.pdf">Lecture notes</a>
+    from CS264.
+
+</ul>
+-->
+</ul>
+
+
+<p class="header">Coursework</p>
+
+    <ul>
+      <li><b>Assignments (75%)</b>: There will be 9 weekly mini-projects centered around the topics covered that week. Each mini-project contains both written and programming parts. The projects can be done individually or in pairs. If you work in a pair, <b>only one member</b> should submit all of the relevant files.
+
+      <p></p>
+
+      <p>For the written part, you are encouraged to use LaTeX to typeset your homeworks;
+      we've provided a <a href="homework.tex">template</a> for your
+      convenience. We will be using the <a href="https://gradescope.com/"> GradeScope </a> online submission system. You should have received an email saying that you've been enrolled in CS168 on Gradescope. If not, create an account on Gradescope using your Stanford ID and join CS168 using entry code 986PDG. 
+
+<!--
+You must turn in a single PDF file --
+  --through <a href="https://scoryst.com/enroll/0jj4i6sNNK/">Scoryst</a>. 
+-->
+</p>
+
+      <p>For the programming part, you are encouraged to use matlab (<a href="http://www.cyclismo.org/tutorial/matlab/">tutorial</a>), Numpy and Pyplot in Python (<a href="https://docs.python.org/2/tutorial/">Python tutorial</a>, <a href="http://www.numpy.org/">Numpy tutorial</a>, <a href="http://matplotlib.org/users/pyplot_tutorial.html">Pyplot tutorial</a>), or some other scientific computing tool (with plotting). <a href="cs168-python-tutorial.ipynb">Here</a> is a comprehensive python tutorial using IPython Notebook. IPython Notebook is an interactive computational environment, especially useful for scientific computing (<a href="http://cs231n.github.io/ipython-tutorial/">tutorial</a> on how to set up). For easy reference, you can also view the notebook <a href="http://nbviewer.jupyter.org/url/web.stanford.edu/class/cs168/cs168-python-tutorial.ipynb">here</a>.
+
+	<p>To turn in your programming part:</p>
+        <ol>
+            <li>Compress all your files into a .zip file, such
+            as <code>p1.zip</code>.
+
+<li>See the instructions on the mini-project for details about what files to
+            submit.  For example, we generally want your code in addition
+            to your answers.
+</li>
+            <li>Copy the zip file to the cardinal machine (don't miss the colon in the end):
+scp &lt;zip file&gt; &lt;your SUNetID&gt;@cardinal.stanford.edu:
+      </pre></li>
+            <li>Log onto the cardinal machine:
+<pre>
+ssh &lt;your SUNetID&gt;cardinal.stanford.edu
+</pre></li>
+            <li>Run the submit script (run the script without any argument to see its usage):
+
+<pre>
+/usr/class/cs168/WWW/submit.py &lt;project ID&gt; .
+</pre></li>
+Note: your file must have the proper name (such as <code>p1.zip</code>) for the submit script to process it.
+
+        </ol>
+      <p>You can submit multiple times; each submission will just replace the previous one.</p>
+
+      <p>Assignments are released on Mondays, and are due at 11:59pm on Tuesdays the following week (both the written and the programming parts). <b>No late assignments will be accepted</b>, but we will drop your lowest assignment grade when calculating your final grade.</p>
+      </li>
+      <li><b>Exam (25%)</b>:
+      Date: Friday, June 8th, 3:30 - 6:30 pm.
+      </li>
+    </ul>
+    <p>
+  </div>
+
+  <p class="header">Collaboration Policy</p>
+
+<p>Except where otherwise noted, you may refer to your course notes, the
+  textbooks and research papers listed on the course Web
+  page <b>only</b>. You cannot refer to textbooks, handouts, or research
+  papers that are not listed on the course home page. If you do use any
+  approved sources, make you sure you cite them appropriately, and make
+  sure that all your words are your own.</p>
+
+<p>
+You are also permitted to use general resources for whatever programming
+language you choose to use.
+<p>
+
+<p>You can discuss the problems verbally at a high level with other groups. And of course, you are encouraged to contact the course staff (via Piazza or office hours) for additional help.</p>
+
+<p>Please follow the <a href="http://studentaffairs.stanford.edu/judicialaffairs/policy/honor-code">honor code</a>.</p>
