@@ -1,0 +1,1731 @@
+<!doctype html>
+<head lang="en-US" prefix="og: http://ogp.me/ns#">
+
+<meta name="google-play-app" content="app-id=com.analyticsvidhya.android">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="//www.google-analytics.com" rel="dns-prefetch">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="pingback" href="https://www.analyticsvidhya.com/xmlrpc.php">
+<link rel='icon' id='favicon' type='image/png' href='https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg'><link rel='apple-touch-icon' href='https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg'><link rel='apple-touch-icon' sizes='76x76' href='https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg'><link rel='apple-touch-icon' sizes='114x114' href='https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg'><link rel='apple-touch-icon' sizes='144x144' href='https://www.analyticsvidhya.com/wp-content/uploads/2015/02/logo_square_v2.jpg'>
+<link rel='stylesheet' href="https://www.analyticsvidhya.com/wp-content/themes/Curated/custom/custom_style.css" type='text/css' media='all'>
+<link rel="stylesheet" href="https://www.analyticsvidhya.com/wp-content/themes/Curated/custom/smart-app-banner.css" type="text/css" media="screen">
+<link rel="stylesheet" href="https://www.analyticsvidhya.com/wp-content/themes/Curated/custom/special-offer-strip-2.css" type="text/css" media="screen">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<title>Which algorithm takes the crown: Light GBM vs XGBOOST?</title>
+<script>
+                            /* You can add more configuration options to webfontloader by previously defining the WebFontConfig with your options */
+                            if ( typeof WebFontConfig === "undefined" ) {
+                                WebFontConfig = new Object();
+                            }
+                            WebFontConfig['google'] = {families: ['Oswald:400', 'Raleway:400&amp;subset=latin']};
+
+                            (function() {
+                                var wf = document.createElement( 'script' );
+                                wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.5.3/webfont.js';
+                                wf.type = 'text/javascript';
+                                wf.async = 'true';
+                                var s = document.getElementsByTagName( 'script' )[0];
+                                s.parentNode.insertBefore( wf, s );
+                            })();
+                        </script>
+<style>
+.stb-container-css {margin: 10px 10px 10px 10px;}.stb-box {}.stb-caption-box {}.stb-body-box {}
+/* Class Dependent Parameters */
+.stb-border.stb-alert-container {border: 1px none #FF4F4A;}.stb-side.stb-alert-container {background: #FF4F4A;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FF4F4A', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #FF4F4A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FF4F4A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -o-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -ms-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: linear-gradient(#FF4F4A 30%, #504848 90%);}.stb-side-none.stb-alert-container {background: #FFE7E6;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFE7E6', endColorstr='#fb7d78',GradientType=0 );background: -moz-linear-gradient(top,  #FFE7E6 30%, #fb7d78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FFE7E6), color-stop(90%,#fb7d78));background: -webkit-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -o-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -ms-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: linear-gradient(#FFE7E6 30%, #fb7d78 90%);}.stb-alert_box {background: #FFE7E6;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFE7E6', endColorstr='#fb7d78',GradientType=0 );background: -moz-linear-gradient(top,  #FFE7E6 30%, #fb7d78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FFE7E6), color-stop(90%,#fb7d78));background: -webkit-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -o-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -ms-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: linear-gradient(#FFE7E6 30%, #fb7d78 90%);color: #000000;}.stb-alert-caption_box {background: #FF4F4A;background: -moz-linear-gradient(top,  #FF4F4A 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FF4F4A), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -o-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: -ms-linear-gradient(top,  #FF4F4A 30%,#504848 90%);background: linear-gradient(#FF4F4A 30%, #504848 90%);color: #FFFFFF;}.stb-alert-body_box {background: #FFE7E6;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFE7E6', endColorstr='#fb7d78',GradientType=0 );background: -moz-linear-gradient(top,  #FFE7E6 30%, #fb7d78 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FFE7E6), color-stop(90%,#fb7d78));background: -webkit-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -o-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: -ms-linear-gradient(top,  #FFE7E6 30%,#fb7d78 90%);background: linear-gradient(#FFE7E6 30%, #fb7d78 90%);color: #000000;}.stb-border.stb-black-container {border: 1px none #6E6E6E;}.stb-side.stb-black-container {background: #333333;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #333333 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#333333), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #333333 30%,#504848 90%);background: -o-linear-gradient(top,  #333333 30%,#504848 90%);background: -ms-linear-gradient(top,  #333333 30%,#504848 90%);background: linear-gradient(#333333 30%, #504848 90%);}.stb-side-none.stb-black-container {background: #000000;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #000000 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#000000), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #000000 30%,#000000 90%);background: -o-linear-gradient(top,  #000000 30%,#000000 90%);background: -ms-linear-gradient(top,  #000000 30%,#000000 90%);background: linear-gradient(#000000 30%, #000000 90%);}.stb-black_box {background: #000000;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #000000 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#000000), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #000000 30%,#000000 90%);background: -o-linear-gradient(top,  #000000 30%,#000000 90%);background: -ms-linear-gradient(top,  #000000 30%,#000000 90%);background: linear-gradient(#000000 30%, #000000 90%);color: #FFFFFF;}.stb-black-caption_box {background: #333333;background: -moz-linear-gradient(top,  #333333 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#333333), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #333333 30%,#504848 90%);background: -o-linear-gradient(top,  #333333 30%,#504848 90%);background: -ms-linear-gradient(top,  #333333 30%,#504848 90%);background: linear-gradient(#333333 30%, #504848 90%);color: #FFFFFF;}.stb-black-body_box {background: #000000;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000',GradientType=0 );background: -moz-linear-gradient(top,  #000000 30%, #000000 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#000000), color-stop(90%,#000000));background: -webkit-linear-gradient(top,  #000000 30%,#000000 90%);background: -o-linear-gradient(top,  #000000 30%,#000000 90%);background: -ms-linear-gradient(top,  #000000 30%,#000000 90%);background: linear-gradient(#000000 30%, #000000 90%);color: #FFFFFF;}.stb-border.stb-custom-container {border: 1px none #f844ee;}.stb-side.stb-custom-container {background: #f844ee;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f844ee', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #f844ee 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f844ee), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -o-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -ms-linear-gradient(top,  #f844ee 30%,#504848 90%);background: linear-gradient(#f844ee 30%, #504848 90%);}.stb-side-none.stb-custom-container {background: #f7cdf5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7cdf5', endColorstr='#f77df1',GradientType=0 );background: -moz-linear-gradient(top,  #f7cdf5 30%, #f77df1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f7cdf5), color-stop(90%,#f77df1));background: -webkit-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -o-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -ms-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: linear-gradient(#f7cdf5 30%, #f77df1 90%);}.stb-custom_box {background: #f7cdf5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7cdf5', endColorstr='#f77df1',GradientType=0 );background: -moz-linear-gradient(top,  #f7cdf5 30%, #f77df1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f7cdf5), color-stop(90%,#f77df1));background: -webkit-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -o-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -ms-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: linear-gradient(#f7cdf5 30%, #f77df1 90%);color: #000000;}.stb-custom-caption_box {background: #f844ee;background: -moz-linear-gradient(top,  #f844ee 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f844ee), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -o-linear-gradient(top,  #f844ee 30%,#504848 90%);background: -ms-linear-gradient(top,  #f844ee 30%,#504848 90%);background: linear-gradient(#f844ee 30%, #504848 90%);color: #ffffff;}.stb-custom-body_box {background: #f7cdf5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7cdf5', endColorstr='#f77df1',GradientType=0 );background: -moz-linear-gradient(top,  #f7cdf5 30%, #f77df1 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#f7cdf5), color-stop(90%,#f77df1));background: -webkit-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -o-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: -ms-linear-gradient(top,  #f7cdf5 30%,#f77df1 90%);background: linear-gradient(#f7cdf5 30%, #f77df1 90%);color: #000000;}.stb-border.stb-download-container {border: 1px none #65ADFE;}.stb-side.stb-download-container {background: #65ADFE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#65ADFE', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #65ADFE 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#65ADFE), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -o-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -ms-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: linear-gradient(#65ADFE 30%, #504848 90%);}.stb-side-none.stb-download-container {background: #DFF0FF;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DFF0FF', endColorstr='#2e7cb9',GradientType=0 );background: -moz-linear-gradient(top,  #DFF0FF 30%, #2e7cb9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#DFF0FF), color-stop(90%,#2e7cb9));background: -webkit-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -o-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -ms-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: linear-gradient(#DFF0FF 30%, #2e7cb9 90%);}.stb-download_box {background: #DFF0FF;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DFF0FF', endColorstr='#2e7cb9',GradientType=0 );background: -moz-linear-gradient(top,  #DFF0FF 30%, #2e7cb9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#DFF0FF), color-stop(90%,#2e7cb9));background: -webkit-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -o-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -ms-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: linear-gradient(#DFF0FF 30%, #2e7cb9 90%);color: #000000;}.stb-download-caption_box {background: #65ADFE;background: -moz-linear-gradient(top,  #65ADFE 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#65ADFE), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -o-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: -ms-linear-gradient(top,  #65ADFE 30%,#504848 90%);background: linear-gradient(#65ADFE 30%, #504848 90%);color: #FFFFFF;}.stb-download-body_box {background: #DFF0FF;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#DFF0FF', endColorstr='#2e7cb9',GradientType=0 );background: -moz-linear-gradient(top,  #DFF0FF 30%, #2e7cb9 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#DFF0FF), color-stop(90%,#2e7cb9));background: -webkit-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -o-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: -ms-linear-gradient(top,  #DFF0FF 30%,#2e7cb9 90%);background: linear-gradient(#DFF0FF 30%, #2e7cb9 90%);color: #000000;}.stb-border.stb-grey-container {border: 1px none #BBBBBB;}.stb-side.stb-grey-container {background: #BBBBBB;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#BBBBBB', endColorstr='#6e6e6e',GradientType=0 );background: -moz-linear-gradient(top,  #BBBBBB 30%, #6e6e6e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#BBBBBB), color-stop(90%,#6e6e6e));background: -webkit-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -o-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -ms-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: linear-gradient(#BBBBBB 30%, #6e6e6e 90%);}.stb-side-none.stb-grey-container {background: #EEEEEE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EEEEEE', endColorstr='#ababab',GradientType=0 );background: -moz-linear-gradient(top,  #EEEEEE 30%, #ababab 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#EEEEEE), color-stop(90%,#ababab));background: -webkit-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -o-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -ms-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: linear-gradient(#EEEEEE 30%, #ababab 90%);}.stb-grey_box {background: #EEEEEE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EEEEEE', endColorstr='#ababab',GradientType=0 );background: -moz-linear-gradient(top,  #EEEEEE 30%, #ababab 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#EEEEEE), color-stop(90%,#ababab));background: -webkit-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -o-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -ms-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: linear-gradient(#EEEEEE 30%, #ababab 90%);color: #000000;}.stb-grey-caption_box {background: #BBBBBB;background: -moz-linear-gradient(top,  #BBBBBB 30%, #6e6e6e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#BBBBBB), color-stop(90%,#6e6e6e));background: -webkit-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -o-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: -ms-linear-gradient(top,  #BBBBBB 30%,#6e6e6e 90%);background: linear-gradient(#BBBBBB 30%, #6e6e6e 90%);color: #FFFFFF;}.stb-grey-body_box {background: #EEEEEE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EEEEEE', endColorstr='#ababab',GradientType=0 );background: -moz-linear-gradient(top,  #EEEEEE 30%, #ababab 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#EEEEEE), color-stop(90%,#ababab));background: -webkit-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -o-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: -ms-linear-gradient(top,  #EEEEEE 30%,#ababab 90%);background: linear-gradient(#EEEEEE 30%, #ababab 90%);color: #000000;}.stb-border.stb-info-container {border: 1px none #7AD975;}.stb-side.stb-info-container {background: #7AD975;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7AD975', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #7AD975 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#7AD975), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -o-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -ms-linear-gradient(top,  #7AD975 30%,#504848 90%);background: linear-gradient(#7AD975 30%, #504848 90%);}.stb-side-none.stb-info-container {background: #E2F8DE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E2F8DE', endColorstr='#79b06e',GradientType=0 );background: -moz-linear-gradient(top,  #E2F8DE 30%, #79b06e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E2F8DE), color-stop(90%,#79b06e));background: -webkit-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -o-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -ms-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: linear-gradient(#E2F8DE 30%, #79b06e 90%);}.stb-info_box {background: #E2F8DE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E2F8DE', endColorstr='#79b06e',GradientType=0 );background: -moz-linear-gradient(top,  #E2F8DE 30%, #79b06e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E2F8DE), color-stop(90%,#79b06e));background: -webkit-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -o-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -ms-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: linear-gradient(#E2F8DE 30%, #79b06e 90%);color: #000000;}.stb-info-caption_box {background: #7AD975;background: -moz-linear-gradient(top,  #7AD975 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#7AD975), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -o-linear-gradient(top,  #7AD975 30%,#504848 90%);background: -ms-linear-gradient(top,  #7AD975 30%,#504848 90%);background: linear-gradient(#7AD975 30%, #504848 90%);color: #FFFFFF;}.stb-info-body_box {background: #E2F8DE;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#E2F8DE', endColorstr='#79b06e',GradientType=0 );background: -moz-linear-gradient(top,  #E2F8DE 30%, #79b06e 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#E2F8DE), color-stop(90%,#79b06e));background: -webkit-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -o-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: -ms-linear-gradient(top,  #E2F8DE 30%,#79b06e 90%);background: linear-gradient(#E2F8DE 30%, #79b06e 90%);color: #000000;}.stb-border.stb-section-container {border: 1px none #2982C5;}.stb-side.stb-section-container {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#2944f2',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #2944f2 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#2944f2));background: -webkit-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -o-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: linear-gradient(#2982C5 30%, #2944f2 90%);}.stb-side-none.stb-section-container {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#294ee3',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #294ee3 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#294ee3));background: -webkit-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -o-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: linear-gradient(#2982C5 30%, #294ee3 90%);}.stb-section_box {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#294ee3',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #294ee3 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#294ee3));background: -webkit-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -o-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: linear-gradient(#2982C5 30%, #294ee3 90%);color: #000000;}.stb-section-caption_box {background: #2982C5;background: -moz-linear-gradient(top,  #2982C5 30%, #2944f2 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#2944f2));background: -webkit-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -o-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#2944f2 90%);background: linear-gradient(#2982C5 30%, #2944f2 90%);color: #FFFFFF;}.stb-section-body_box {background: #2982C5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2982C5', endColorstr='#294ee3',GradientType=0 );background: -moz-linear-gradient(top,  #2982C5 30%, #294ee3 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#2982C5), color-stop(90%,#294ee3));background: -webkit-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -o-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: -ms-linear-gradient(top,  #2982C5 30%,#294ee3 90%);background: linear-gradient(#2982C5 30%, #294ee3 90%);color: #000000;}.stb-border.stb-warning-container {border: 1px none #FE9A05;}.stb-side.stb-warning-container {background: #FE9A05;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FE9A05', endColorstr='#504848',GradientType=0 );background: -moz-linear-gradient(top,  #FE9A05 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FE9A05), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -o-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -ms-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: linear-gradient(#FE9A05 30%, #504848 90%);}.stb-side-none.stb-warning-container {background: #FEFFD5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FEFFD5', endColorstr='#f0d208',GradientType=0 );background: -moz-linear-gradient(top,  #FEFFD5 30%, #f0d208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FEFFD5), color-stop(90%,#f0d208));background: -webkit-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -o-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -ms-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: linear-gradient(#FEFFD5 30%, #f0d208 90%);}.stb-warning_box {background: #FEFFD5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FEFFD5', endColorstr='#f0d208',GradientType=0 );background: -moz-linear-gradient(top,  #FEFFD5 30%, #f0d208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FEFFD5), color-stop(90%,#f0d208));background: -webkit-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -o-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -ms-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: linear-gradient(#FEFFD5 30%, #f0d208 90%);color: #000000;}.stb-warning-caption_box {background: #FE9A05;background: -moz-linear-gradient(top,  #FE9A05 30%, #504848 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FE9A05), color-stop(90%,#504848));background: -webkit-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -o-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: -ms-linear-gradient(top,  #FE9A05 30%,#504848 90%);background: linear-gradient(#FE9A05 30%, #504848 90%);color: #FFFFFF;}.stb-warning-body_box {background: #FEFFD5;filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FEFFD5', endColorstr='#f0d208',GradientType=0 );background: -moz-linear-gradient(top,  #FEFFD5 30%, #f0d208 90%);background: -webkit-gradient(linear, left top, left bottom, color-stop(30%,#FEFFD5), color-stop(90%,#f0d208));background: -webkit-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -o-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: -ms-linear-gradient(top,  #FEFFD5 30%,#f0d208 90%);background: linear-gradient(#FEFFD5 30%, #f0d208 90%);color: #000000;}</style>
+
+<meta name="description" content="A comparison between LightGBM and XGBoost algorithms in machine learning. XGBoost works on lead based splitting of decision tree &amp; is faster, parallel" />
+<link rel="canonical" href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Which algorithm takes the crown: Light GBM vs XGBOOST?" />
+<meta property="og:description" content="A comparison between LightGBM and XGBoost algorithms in machine learning. XGBoost works on lead based splitting of decision tree &amp; is faster, parallel" />
+<meta property="og:url" content="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/" />
+<meta property="og:site_name" content="Analytics Vidhya" />
+<meta property="article:publisher" content="https://www.facebook.com/AnalyticsVidhya/" />
+<meta property="article:tag" content="AUC" />
+<meta property="article:tag" content="decision tree" />
+<meta property="article:tag" content="GBM" />
+<meta property="article:tag" content="LightGBM" />
+<meta property="article:tag" content="python" />
+<meta property="article:tag" content="XGBoost" />
+<meta property="article:section" content="Machine Learning" />
+<meta property="article:published_time" content="2017-06-12T10:37:59+05:30" />
+<meta property="article:modified_time" content="2018-06-07T17:17:45+05:30" />
+<meta property="og:updated_time" content="2018-06-07T17:17:45+05:30" />
+<meta property="og:image" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194227/depth.png" />
+<meta property="og:image:secure_url" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194227/depth.png" />
+<meta property="og:image:width" content="769" />
+<meta property="og:image:height" content="267" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="A comparison between LightGBM and XGBoost algorithms in machine learning. XGBoost works on lead based splitting of decision tree &amp; is faster, parallel" />
+<meta name="twitter:title" content="Which algorithm takes the crown: Light GBM vs XGBOOST?" />
+<meta name="twitter:site" content="@analyticsvidhya" />
+<meta name="twitter:image" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194227/depth.png" />
+<meta name="twitter:creator" content="@analyticsvidhya" />
+<script type='application/ld+json'>{"@context":"https:\/\/schema.org","@type":"Organization","url":"https:\/\/www.analyticsvidhya.com\/","sameAs":["https:\/\/www.facebook.com\/AnalyticsVidhya\/","https:\/\/www.linkedin.com\/company\/analytics-vidhya","https:\/\/twitter.com\/analyticsvidhya"],"@id":"https:\/\/www.analyticsvidhya.com\/#organization","name":"Analytics Vidhya","logo":"https:\/\/www.analyticsvidhya.com\/wp-content\/uploads\/2014\/12\/analytics-logo-300x70.jpg"}</script>
+
+<link rel='dns-prefetch' href='//www.analyticsvidhya.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Analytics Vidhya &raquo; Feed" href="https://www.analyticsvidhya.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Analytics Vidhya &raquo; Comments Feed" href="https://www.analyticsvidhya.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Analytics Vidhya &raquo; Which algorithm takes the crown: Light GBM vs XGBOOST? Comments Feed" href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/feed/" />
+<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.analyticsvidhya.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.8"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='contact-form-7-css' href='https://www.analyticsvidhya.com/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.0.4' type='text/css' media='all' />
+<link rel='stylesheet' id='dgd-scrollbox-plugin-core-css' href='https://www.analyticsvidhya.com/wp-content/plugins/dreamgrow-scroll-triggered-box/css/style.css?ver=2.3' type='text/css' media='all' />
+<link rel='stylesheet' id='inline-tweet-sharer-style-css' href='https://www.analyticsvidhya.com/wp-content/plugins/inline-tweet-sharer/inline-tweet-sharer.css?ver=2.2.1' type='text/css' media='all' />
+<link rel='stylesheet' id='dashicons-css' href='https://www.analyticsvidhya.com/wp-includes/css/dashicons.min.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='maha-bootstrap-css' href='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/css/bootstrap-responsive.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='maha-tm-icons-css' href='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/css/font-tm.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='maha-basix-css' href='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/css/basix.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='maha-basix-r-css' href='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/css/basix-responsive.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='maha-dynamic-css' href='https://www.analyticsvidhya.com/wp-content/themes/Curated/includes/functions/dynamic-style.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='stbCoreCSS-css' href='https://www.analyticsvidhya.com/wp-content/plugins/wp-special-textboxes/css/stb-core.css?ver=5.9.107' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css' href='https://www.analyticsvidhya.com/wp-content/plugins/jetpack/css/jetpack.css?ver=6.5' type='text/css' media='all' />
+<link rel='stylesheet' id='wpss-style-css' href='https://www.analyticsvidhya.com/wp-content/plugins/wordpress-simple-survey/assets/build/css/wpss-pkg.min.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='wpss-custom-db-style-css' href='https://www.analyticsvidhya.com/wp-content/plugins/wordpress-simple-survey/assets/css/custom-performance.css?ver=4.9.8' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1' defer='defer'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/jetpack/_inc/build/related-posts/related-posts.min.js?ver=20150408' defer='defer'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var $DGD = {"ajaxurl":"\/wp-admin\/admin-ajax.php","nonce":"a08296b41a","debug":"","permalink":"https:\/\/www.analyticsvidhya.com\/blog\/2017\/06\/which-algorithm-takes-the-crown-light-gbm-vs-xgboost\/","title":"Which algorithm takes the crown: Light GBM vs XGBOOST?","thumbnail":"https:\/\/s3-ap-south-1.amazonaws.com\/av-blog-media\/wp-content\/uploads\/2017\/06\/11194227\/depth.png","scripthost":"\/wp-content\/plugins\/dreamgrow-scroll-triggered-box\/","scrollboxes":[{"id":"dgd_scrollbox-38994-tab","parentid":"dgd_scrollbox-38994","trigger":{"action":"tab"},"height":"auto","width":"auto","vpos":"bottom","hpos":"center","theme":"none","jsCss":{"margin":"0","backgroundImageUrl":"","backgroundColor":"#ffffff","boxShadow":"0px","borderColor":"#000000","borderWidth":"1px","borderRadius":""},"transition":{"effect":"fade","from":"b","speed":"400"},"lightbox":0,"closeImageUrl":"","hide_mobile":"1","submit_auto_close":0,"delay_auto_close":0,"hide_submitted":0,"cookieLifetime":-1,"receiver_email":"0","thankyou":"You are subscribed. Thank You!","widget_enabled":"0"},{"trigger":{"action":"scroll","scroll":"0","delaytime":"0","element":""},"vpos":"center","hpos":"center","cookieLifetime":"0","hide_mobile":"1","receiver_email":"0","thankyou":"You are subscribed. Thank You!","submit_auto_close":"5","hide_submitted":"1","delay_auto_close":"60","lightbox":{"color":"#000000","opacity":"0.7","blur":"2"},"theme":"none","widget_enabled":"1","height":"350","width":"600","jsCss":{"padding":"10","margin":"10","backgroundColor":"#ffffff","boxShadow":"0px","borderColor":"#000000","borderWidth":"2px","borderRadius":"1px","backgroundImageUrl":""},"closeImageUrl":"","transition":{"from":"b","effect":"fade","speed":"400"},"tab":"1","social":{"facebook":"","twitter":"","google":"","pinterest":"","stumbleupon":"","linkedin":""},"id":"dgd_scrollbox-38994","mode":"stb","voff":0,"hoff":0,"tabid":"dgd_scrollbox-38994-tab"}]};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/dreamgrow-scroll-triggered-box/js/script.js?ver=2.3' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/inline-tweet-sharer/inline-tweet-sharer.js?ver=2.2.1' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/wordpress-simple-survey/assets/build/js/wpss-pkg.min.js?ver=3.0.0' defer='defer'></script>
+<link rel='https://api.w.org/' href='https://www.analyticsvidhya.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.analyticsvidhya.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.analyticsvidhya.com/wp-includes/wlwmanifest.xml" />
+<meta name="generator" content="WordPress 4.9.8" />
+<link rel='shortlink' href='https://www.analyticsvidhya.com/?p=36291' />
+<link rel="alternate" type="application/json+oembed" href="https://www.analyticsvidhya.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.analyticsvidhya.com%2Fblog%2F2017%2F06%2Fwhich-algorithm-takes-the-crown-light-gbm-vs-xgboost%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://www.analyticsvidhya.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.analyticsvidhya.com%2Fblog%2F2017%2F06%2Fwhich-algorithm-takes-the-crown-light-gbm-vs-xgboost%2F&#038;format=xml" />
+<script type="text/javascript"><!--
+function powerpress_pinw(pinw_url){window.open(pinw_url, 'PowerPressPlayer','toolbar=0,status=0,resizable=1,width=460,height=320');	return false;}
+//-->
+</script>
+<script type="text/javascript">/* <![CDATA[ */ jQuery.post("https://www.analyticsvidhya.com/wp-admin/admin-ajax.php", { action: "wmp_update", id: 36291, token: "e714326ecb" }); /* ]]> */</script> 
+<meta property="og:url" content="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/" />
+<meta property="og:title" content="Which algorithm takes the crown: Light GBM vs XGBOOST?" />
+<meta property="og:description" content="Introduction If you are an active member of the Machine Learning community, you must be aware of Boosting Machines and their capabilities. The development of Boosting Machines started from ADABOOST to today's favourite XGBOOST. XGBOOST has become a de-facto algorithm for winning competitions at Analytics Vidhya and Kaggle, simply because it is extremely powerful. But" />
+<meta property="og:image" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194227/depth-200x200.png" />
+
+<link rel='canonical' href='https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/' />
+<style type="text/css"></style><script>
+if(! /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {     
+jQuery(document).ready(function(){
+jQuery( ".col-sm-12" ).removeClass( "myrun" );    
+});
+}
+</script>
+<script>
+//subscribe android app
+jQuery(document).ready(function(){
+   jQuery('#submit-subscribe-android-app').click(function(){
+       var email = jQuery('#email-subscribe-android-app').val();
+       if(email){
+           jQuery.ajax({
+               url: "/subscriptions/early-android-access.php",
+               type: "POST",
+               data: {
+                   "email": email
+               },
+               success: function(data){
+                   if(data.success){
+                       jQuery("#bg-sbox ul").hide(1);
+                       jQuery("#bg-sbox h5").text('yay!');
+                       jQuery("#bg-sbox p.msg1").text('Your email has been added to our beta list');
+                       jQuery("#bg-sbox p.msg2").text('You will hear from us soon');
+                   } else {
+                       jQuery("#bg-sbox h5").text('Something went wrong, try again!');
+                       console.log(data.error);
+                   }
+               },
+               error: function(e){
+                   console.log(e);
+                   jQuery("#bg-sbox h5").text('Something went wrong, try again!');
+               }
+           })
+       }
+   });
+});
+</script>
+<script>
+jQuery(document).ready(function(){
+	jQuery(".filter-button").click(function(){
+		var value = jQuery(this).attr('data-filter');
+       if(value == "all"){
+           $('.filter').show('1000');
+       }else{
+			jQuery(".filter").not('.'+value).hide('3000');
+			jQuery('.filter').filter('.'+value).show('3000');
+       }
+   });
+});
+</script>
+<script>//----------footer js start------</script>
+<script type="text/javascript">
+     jQuery(document).ready(function(){
+       jQuery('.footer-links-holder .links-show').click(function () {
+       jQuery(this).parent().toggleClass('active');
+     });
+   });
+</script>
+
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '136748720225584'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=136748720225584&ev=PageView&noscript=1"
+/></noscript>
+
+<script type="text/javascript">
+     var clevertap = {event:[], profile:[], account:[], onUserLogin:[], notifications:[]};
+ // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
+ clevertap.account.push({"id": "R5K-4WR-7W5Z"});
+ (function () {
+		 var wzrk = document.createElement('script');
+		 wzrk.type = 'text/javascript';
+		 wzrk.async = true;
+		 wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/a.js';
+		 var s = document.getElementsByTagName('script')[0];
+		 s.parentNode.insertBefore(wzrk, s);
+  })();
+</script>
+
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/40884943/blog-title', [728, 90], 'div-gpt-ad-1525327567902-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-40101183-1', 'auto');
+  ga('require', 'GTM-PBZGQJ4');
+  //ga('send', 'pageview');
+  ga('send', 'pageview', {
+     'dimension1': 'Pranjal Khandelwal',
+     'dimension2': 'Machine Learning'
+     });
+</script>
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ969NR');</script>
+
+<meta property="fb:pages" content="452065408218678" />
+
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '136748720225584'); // Insert your pixel ID here.
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=136748720225584&ev=PageView&noscript=1"
+/></noscript>
+
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/40884943/AIDC2', [728, 90], 'div-gpt-ad-1536848898417-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+</head>
+<body class="post-template-default single single-post postid-36291 single-format-standard mh-body chrome">
+
+<div class="container-fluid">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://www.analyticsvidhya.com/wp-content/themes/Curated/custom/smart-app-banner.js"></script>
+<script type="text/javascript">
+    if (!navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+      new SmartBanner({
+          daysHidden: 15,   // days to hide banner after close button is clicked (defaults to 15)
+          daysReminder: 1, // days to hide banner after "VIEW" button is clicked (defaults to 90)
+          appStoreLanguage: 'us', // language code for the App Store (defaults to user's browser language)
+          title: '',
+          author: '',
+          button: '',
+          store: {
+              android: ' ',
+          },
+          price: {
+              android: '',
+          }
+          , theme: 'android' // put platform type ('ios', 'android', etc.) here to force single theme on all device
+          // , icon: '' // full path to icon image if not using website icon image
+          , force: 'android' // Uncomment for platform emulation
+      });
+    }
+    </script>
+<script>
+    $(document).ready(function(){
+        $(".smartbanner-container").click(function(){
+            ga('send', {'hitType': 'event', 'eventCategory': 'smart-banner', 'eventAction': 'clicked'});
+            window.open("https://play.google.com/store/apps/details?id=com.analyticsvidhya.android", '_blank');
+        });
+    });
+    </script>
+</div>
+
+<div id="announcements">
+<div class="container">
+<div class="row">
+<p class="text-center">
+<a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=Ds101flashstrip" target="_blank">
+<span>FLASH SALE: Course On Introduction To Data Science | Use COUPON CODE: <strong>FLASH25</strong> for 25% Discount| Work on 4 real-life projects |</span>
+<span><strong>Buy Now</strong> </span>
+</a>
+</p>
+</div>
+</div>
+</div>
+<div id="body-maha" class="body-maha" data-tmloader="https://www.analyticsvidhya.com/wp-content/themes/Curated/images/ellipsis.gif">
+<nav id="mobile-bar-sticky" role="navigation" class="mobile-bar bar-sticky">
+<div id="close-mobile-bar"><i class="tm-cancel"></i></div>
+<div id="search-mobile-bar"><form action="https://www.analyticsvidhya.com/" class="searchform" method="get">
+<button class="search-button"><i class="tm-search"></i></button>
+<input type="text" name="s" class="search-input" value="Search" onfocus="if(this.value=='Search')this.value='';" onblur="if(this.value=='')this.value='Search';" autocomplete="off" />
+</form></div>
+<ul id="menu-main-menu" class="menu"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span></span><a href="#">Learn</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/blog-archive/">Blog Archive</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent mh-navcat-2498"><span></span><a href="https://www.analyticsvidhya.com/blog/category/machine-learning/">Machine Learning</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-3761"><span></span><a href="https://www.analyticsvidhya.com/blog/category/deep-learning/">Deep Learning</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-4121"><span></span><a href="https://www.analyticsvidhya.com/blog/category/career/">Career</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-3118"><span></span><a href="https://www.analyticsvidhya.com/blog/category/stories/">Stories</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-4219"><span></span><a href="https://www.analyticsvidhya.com/blog/category/avbytes/">AVBytes</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/blog/category/podcast/">DataHack Radio</a></li>
+<li class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-2284"><span></span><a href="https://www.analyticsvidhya.com/blog/category/infographics/">Infographics</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com?utm_source=home_blog_navbar">Trainings</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/">Learning Paths</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-business-analyst-sas/">SAS Business Analyst</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-r-data-science/">LeaRn Data Science on R</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-data-science-python/">Data Science in Python</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/weka-gui-learn-machine-learning/">DATA SCIENCE IN WEKA</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/tableau-learning-path/">Data Visualization with Tableau</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/qlikview-learning-path/">Data Visualization with QlikView</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/newbie-d3-js-expert-complete-path-create-interactive-visualization-d3-js/">Interactive Data Stories with D3.js</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/glossary-of-common-statistics-and-machine-learning-terms/">Glossary</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span></span><a href="#">Engage</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://discuss.analyticsvidhya.com">Discuss</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-1915"><span></span><a href="https://www.analyticsvidhya.com/blog/category/events/">Events</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/datahack-summit-2018/">Datahack Summit 2018</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/datahacksummit/">DataHack Summit 2017</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/student-datafest-2018/?utm_source=homepage_menu">Student Datafest</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="http://www.analyticsvidhya.com/about-me/write/">Write For Us</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span></span><a href="#">Compete</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://datahack.analyticsvidhya.com/contest/all">Hackathons</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span></span><a href="#">Get Hired</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-170"><span></span><a href="https://www.analyticsvidhya.com/jobs/">Jobs</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><span></span><a href="#">Trainings</a>
+<ul class="sub-menu">
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=home_blog_navbar">INTRODUCTION TO DATA SCIENCE</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+ITE001+2018_T1/about?utm_source=home_blog_navbar">MICROSOFT EXCEL</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com/courses?utm_source=home_blog_navbar">MORE COURSES</a></li>
+</ul>
+</li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/datahack-summit-2018/?ref=blog-internal"><span style="color:#ee3d24">Datahack Summit</span></a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/contact/">Contact</a></li>
+</ul> </nav>
+
+<div id='body-background'>
+
+<div id="off-canvas-body" class="off-canvas-body animati-on">
+
+<div id="top-bar-sticky" class="bar-sticky">
+<div class="top-bar">
+
+<div class="container">
+<div class="row">
+<div class="col-sm-12">
+<div id="top-right-nav">
+<div class="social-top">
+<ul><li><a target="_blank" href="https://www.facebook.com/AnalyticsVidhya"><i class="tm-facebook"></i></a></li><li><a target="_blank" href="https://twitter.com/analyticsvidhya"><i class="tm-twitter"></i></a></li><li><a target="_blank" href="https://plus.google.com/+Analyticsvidhya/posts"><i class="tm-googleplus"></i></a></li><li><a target="_blank" href="https://www.linkedin.com/groups/Analytics-Vidhya-Learn-everything-about-5057165"><i class="tm-linkedin"></i></a></li></ul>
+</div>
+</div>
+<nav id="top-nav-wrapper" class="ul-nav">
+<ul id="menu-top" class="menu"><li id="menu-item-42575" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-42575 mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com">Home</a></li>
+<li id="menu-item-12992" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12992 mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/blog-archive/">Blog Archive</a></li>
+<li id="menu-item-41279" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-41279 mh-navcat-0"><span></span><a href="https://trainings.analyticsvidhya.com?utm_source=home_blog_navbar">Trainings</a></li>
+<li id="menu-item-12952" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-12952 mh-navcat-0"><span></span><a href="https://discuss.analyticsvidhya.com">Discuss</a></li>
+<li id="menu-item-45058" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-45058 mh-navcat-0"><span></span><a href="https://datahack.analyticsvidhya.com">Datahack</a></li>
+<li id="menu-item-12658" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12658 mh-navcat-170"><span></span><a href="https://www.analyticsvidhya.com/jobs/">Jobs</a></li>
+<li id="menu-item-39605" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-39605 mh-navcat-0"><span></span><a href="https://www.analyticsvidhya.com/corporate/">Corporate</a></li>
+</ul> </nav>
+<nav id="top-mobile-wrapper" class="ul-nav">
+<ul><li><a><i class="tm-menu"></i></a></li></ul>
+</nav>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="main-logo-ads-wrap">
+<div class="main-logo-ads">
+
+<div class="container">
+<div class="row ">
+<div class="col-sm-12">
+
+<div id="thelogo" class="logo ">
+<a href="https://www.analyticsvidhya.com/blog/">
+<img alt="Analytics Vidhya - Learn everything about Analytics" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png" data-retina="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png" data-first="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png" />
+</a>
+</div>
+<h2 class='site-outline'>Learn everything about Analytics</h2>
+
+<div id="main-ads" class="">
+<div class="vp-1170 vp-fluid"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=DS101AVBlogBanner&utm_medium=Topbanner&utm_campaign=DS101" target="_blank"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/intro-ds-1-1.gif"></a></div>
+<div class="vp-970 vp-750"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=DS101AVBlogBanner&utm_medium=Topbanner&utm_campaign=DS101" target="_blank"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/intro-ds-1-1.gif"></a></div>
+<div class="vp-320"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=DS101AVBlogBanner&utm_medium=Topbanner&utm_campaign=DS101" target="_blank"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/intro-ds-1-1.gif"></a></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div id="main-nav">
+<div id="main-nav-bar" class="main-nav-bar clearfix ">
+<div id="main-search" class=" clearfix">
+<div id="con-search">
+<div class="container">
+<div class="cols-sm12">
+<div id="main-search-form">
+<span class="close-search-form"><i class="tm-cancel"></i></span>
+<span class="loading-search-result"><img src="https://www.analyticsvidhya.com/wp-content/themes/Curated/images/ellipsis.gif" alt=""></span>
+<form action="https://www.analyticsvidhya.com/" class="searchform" method="get">
+<button class="search-button"><i class="tm-search"></i></button>
+<input type="text" name="s" class="search-input" value="Search" onfocus="if(this.value=='Search')this.value='';" onblur="if(this.value=='')this.value='Search';" autocomplete="off" />
+</form> <div class="search-result">
+<div class="container search-result-content"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class='maha-notification container'><div id="main-notif"></div></div>
+<div class="container clearfix">
+</div>
+
+<div class="container clearfix">
+<div class="row clearfix">
+<div class="col-sm-12 clearfix">
+
+
+<div id="search-nav" class="search-nav clearfix">
+<span class="open-search-form"><i class="tm-search"></i></span>
+</div>
+
+
+<nav id="main-nav-wrapper" class="main-ul-nav clearfix">
+<div id="thelogosmall" class="logo">
+<a href="https://www.analyticsvidhya.com/blog/">
+<img alt="Analytics Vidhya - Learn everything about Analytics" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18121731/av44.png" data-retina="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18121731/av44.png" data-first="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18121731/av44.png" />
+</a>
+</div>
+<ul id="menu-main-menu-1" class="menu"><li id="menu-item-37781" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><a href="#">Learn</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-12993" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0"><a href="https://www.analyticsvidhya.com/blog-archive/">Blog Archive</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-47251" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent mh-navcat-2498"><a href="https://www.analyticsvidhya.com/blog/category/machine-learning/">Machine Learning</a></li>
+<li id="menu-item-47265" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-3761"><a href="https://www.analyticsvidhya.com/blog/category/deep-learning/">Deep Learning</a></li>
+<li id="menu-item-47191" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-4121"><a href="https://www.analyticsvidhya.com/blog/category/career/">Career</a></li>
+<li id="menu-item-27174" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-3118"><a href="https://www.analyticsvidhya.com/blog/category/stories/">Stories</a></li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-45052" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-4219"><a href="https://www.analyticsvidhya.com/blog/category/avbytes/">AVBytes</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-45209" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-0"><a href="https://www.analyticsvidhya.com/blog/category/podcast/">DataHack Radio</a></li>
+<li id="menu-item-18233" class="menu-item menu-item-type-taxonomy menu-item-object-category mh-navcat-2284"><a href="https://www.analyticsvidhya.com/blog/category/infographics/">Infographics</a></li>
+<li id="menu-item-41036" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com?utm_source=home_blog_navbar">Trainings</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-12170" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/">Learning Paths</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-12503" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-business-analyst-sas/">SAS Business Analyst</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-14416" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-r-data-science/">LeaRn Data Science on R</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-12171" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/learning-path-data-science-python/">Data Science in Python</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-13207" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/weka-gui-learn-machine-learning/">DATA SCIENCE IN WEKA</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-23077" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/tableau-learning-path/">Data Visualization with Tableau</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-12320" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/qlikview-learning-path/">Data Visualization with QlikView</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-23078" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/learning-paths-data-science-business-analytics-business-intelligence-big-data/newbie-d3-js-expert-complete-path-create-interactive-visualization-d3-js/">Interactive Data Stories with D3.js</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-31580" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/glossary-of-common-statistics-and-machine-learning-terms/">Glossary</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-37782" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><a href="#">Engage</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-11881" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://discuss.analyticsvidhya.com">Discuss</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-24639" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-1915"><a href="https://www.analyticsvidhya.com/blog/category/events/">Events</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-45075" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/datahack-summit-2018/">Datahack Summit 2018</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-39652" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/datahacksummit/">DataHack Summit 2017</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-43948" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/student-datafest-2018/?utm_source=homepage_menu">Student Datafest</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-22625" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="http://www.analyticsvidhya.com/about-me/write/">Write For Us</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-37783" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><a href="#">Compete</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-24638" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://datahack.analyticsvidhya.com/contest/all">Hackathons</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-37784" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><a href="#">Get Hired</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-31593" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-170"><a href="https://www.analyticsvidhya.com/jobs/">Jobs</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-44643" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children mh-navcat-0"><a href="#">Trainings</a><div class="nav-sub-wrap container"><div class="nsw clearfix row">
+<div class="nav-sub-menus"><ul>
+<li id="menu-item-44644" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=home_blog_navbar">INTRODUCTION TO DATA SCIENCE</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-44645" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+ITE001+2018_T1/about?utm_source=home_blog_navbar">MICROSOFT EXCEL</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-44646" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://trainings.analyticsvidhya.com/courses?utm_source=home_blog_navbar">MORE COURSES</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul></div>
+</div></div>
+</li>
+<li id="menu-item-45049" class="menu-item menu-item-type-custom menu-item-object-custom mh-navcat-0"><a href="https://www.analyticsvidhya.com/datahack-summit-2018/?ref=blog-internal"><span style="color:#ee3d24">Datahack Summit</span></a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+<li id="menu-item-24641" class="menu-item menu-item-type-post_type menu-item-object-page mh-navcat-0"><a href="https://www.analyticsvidhya.com/contact/">Contact</a><div class="nav-sub-wrap container"><div class="nsw clearfix row"></div></div>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="page-wrapper">
+
+<div class="mh-el page-sidebar single-regular" itemscope itemtype="https://schema.org/Article">
+
+<div class="container">
+<div class="row">
+
+<div class="col-sm-8">
+<div class="main-content">
+
+<div class="maha-crumbs" itemscope itemtype="https://schema.org/BreadcrumbList"><span><a href="https://www.analyticsvidhya.com/">Home</a></span> <i class="tm-crumb-right"></i> <span itemscope itemprop="itemListElement" itemtype="https://schema.org/ListItem"><a itemscope itemprop="item" itemtype="https://schema.org/Thing" href="https://www.analyticsvidhya.com/blog/category/machine-learning/"><span itemprop="name">Machine Learning</span></a><meta itemprop="position" content="1"></span> <i class="tm-crumb-right"></i> <span><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/">Which algorithm takes the crown: Light GBM vs XGBOOST?</a></span></div>
+<article id="post-36291" class="main-content single-post-box">
+<header>
+<meta itemprop="headline" content="Which algorithm takes the crown: Light GBM vs XGBOOST?">
+<meta itemprop="datecreated" content="2017-06-12T10:37:59+00:00">
+<meta itemprop="datePublished" content="2017-06-12T10:37:59+00:00">
+<meta itemprop="dateModified" content="2018-06-07T17:17:45+00:00">
+<meta itemscope itemprop="mainEntityOfPage" itemType="https://schema.org/WebPage" itemid="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/" />
+<span class="hidden" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+<meta itemprop="url" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194227/depth.png">
+<meta itemprop="width" content="267">
+<meta itemprop="height" content="267">
+</span>
+<span class="hidden" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+<span class="hidden" itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+<meta itemprop="url" content="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/18122331/av100.png">
+</span>
+<meta itemprop="name" content="Analytics Vidhya">
+</span>
+<div class="meta-count">
+<span class="i-category"><span class="mh-cat-item"><a class="mh-elcat-2498" href="https://www.analyticsvidhya.com/blog/category/machine-learning/" title="Machine Learning" rel="category">Machine Learning</a></span><span class="mh-cat-item"><a class="mh-elcat-396" href="https://www.analyticsvidhya.com/blog/category/python-2/" title="Python" rel="category">Python</a></span></span>
+</div>
+<h1 itemprop="name" class="entry-title">Which algorithm takes the crown: Light GBM vs XGBOOST?</h1>
+<div class="meta-info">
+<span class="entry-author">
+<a href="https://www.analyticsvidhya.com/blog/author/pranjalk7/"><span>Pranjal Khandelwal</span></a>,
+</span>
+<time class="entry-date" content="2017-06-12" datetime="2017-06-12T10:37:59+00:00">
+June 12, 2017 </time>
+<div class="count-data right">
+</div>
+</div>
+</header>
+<div class="text-content">
+<div id="ban3_av"></div><h2>Introduction</h2>
+<p>If you are an active member of the Machine Learning community, you must be aware of Boosting Machines and their capabilities. The development of Boosting Machines started from ADABOOST to today&#8217;s favourite XGBOOST. XGBOOST has become a de-facto algorithm for winning competitions at <a href="https://datahack.analyticsvidhya.com" target="_blank" rel="noopener noreferrer">Analytics Vidhya</a> and Kaggle, simply because it is extremely powerful. But given lots and lots of data, even XGBOOST takes a long time to train.</p>
+<p>Enter…. Light GBM.</p>
+<p>Many of you might not be familiar with the Light Gradient Boosting, but you will be after reading this article. The most natural question that will come to your mind is – Why another boosting machine algorithm? Is it superior to XGBOOST?</p>
+<p>Well, you very well must have guessed the answer otherwise why would a topic deserve its own article :p</p>
+<p>&nbsp;</p>
+<p>P.S. <em>This article assumes knowledge about <a href="https://www.analyticsvidhya.com/blog/2016/02/complete-guide-parameter-tuning-gradient-boosting-gbm-python/" target="_blank" rel="noopener noreferrer">GBMs</a> and <a href="https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/" target="_blank" rel="noopener noreferrer">XGBoost</a>. If you don&#8217;t know them, you should first look at these articles.</em></p>
+<p>&nbsp;</p>
+<h2>Table of Contents</h2>
+<ol>
+<li>What is Light GBM?</li>
+<li>Advantages of Light GBM</li>
+<li>Installing Light GBM</li>
+<li>Important parameters of Light GBM</li>
+<li>Light GBM vs XGBOOST</li>
+<li>Tuning parameters of Light GBM</li>
+<li>End Notes</li>
+</ol>
+<p>&nbsp;</p>
+<h2>1. What is Light GBM?</h2>
+<p>Light GBM is a fast, distributed, high-performance gradient boosting framework based on decision tree algorithm, used for ranking, classification and many other machine learning tasks.</p>
+<p>Since it is based on decision tree algorithms, it splits the tree leaf wise with the best fit whereas other boosting algorithms split the tree depth wise or level wise rather than leaf-wise. So when growing on the same leaf in Light GBM, the leaf-wise algorithm can reduce more loss than the level-wise algorithm and hence results in much better accuracy which can rarely be achieved by any of the existing boosting algorithms. Also, it is surprisingly very fast, hence the word ‘Light’.</p>
+<p>Before is a diagrammatic representation by the makers of the Light GBM to explain the difference clearly.</p>
+<p><img class="aligncenter wp-image-36295 size-full" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194110/leaf.png" alt="" width="596" height="236" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194110/leaf.png 596w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194110/leaf-300x119.png 300w" sizes="(max-width: 596px) 100vw, 596px" /></p>
+<p>Level-wise tree growth in XGBOOST.</p>
+<p><img class="aligncenter wp-image-36297 size-full" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194227/depth.png" alt="" width="769" height="267" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194227/depth.png 769w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194227/depth-300x104.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11194227/depth-768x267.png 768w" sizes="(max-width: 769px) 100vw, 769px" /></p>
+<p>Leaf wise tree growth in Light GBM.</p>
+<p>&nbsp;</p>
+<p>Leaf wise splits lead to increase in complexity and may lead to overfitting and it can be overcome by specifying another parameter max-depth which specifies the depth to which splitting will occur.</p>
+<p>Below, we will see the steps to install Light GBM and run a model using it. We will be comparing the results with XGBOOST results to prove that you should take Light GBM in a ‘LIGHT MANNER’.</p>
+<p>Let us look at some of the advantages of Light GBM.</p>
+<p>&nbsp;</p>
+<h2>2. Advantages of Light GBM</h2>
+<ol>
+<li><strong>Faster training speed and higher efficiency</strong>: Light GBM use histogram based algorithm i.e it buckets continuous feature values into discrete bins which fasten the training procedure.</li>
+<li><strong>Lower memory usage:</strong> Replaces continuous values to discrete bins which result in lower memory usage.</li>
+<li><strong>Better accuracy than any other boosting algorithm:</strong> It produces much more complex trees by following leaf wise split approach rather than a level-wise approach which is the main factor in achieving higher accuracy. However, it can sometimes lead to overfitting which can be avoided by setting the max_depth parameter.</li>
+<li><strong>Compatibility with Large Datasets:</strong> It is capable of performing equally good with large datasets with a significant reduction in training time as compared to XGBOOST.</li>
+<li><strong>Parallel learning supported.</strong></li>
+</ol>
+<p>I guess you must have got excited about the advantages of Light GBM. Let us now proceed to install the library into our system.</p>
+<p>&nbsp;</p>
+<h2>3. Installing Light GBM</h2>
+<ol>
+<li>
+<h3>For Windows</h3>
+<p><strong>Using Visual Studio (Or MSBuild)</strong><strong><br />
+</strong>-Install <a href="https://git-scm.com/download/win" target="_blank" rel="nofollow noopener noreferrer">git for windows</a>, <a href="https://cmake.org/" target="_blank" rel="nofollow noopener noreferrer">cmake</a> and <a href="https://www.visualstudio.com/downloads/#build-tools-for-visual-studio-2017" target="_blank" rel="nofollow noopener noreferrer">MS Build</a> (Not need the MSbuild if you already install <em>Visual Studio</em>).<br />
+-Run following command:</p>
+<pre>git clone --recursive https://github.com/Microsoft/LightGBM
+cd LightGBM
+mkdir build
+cd build
+cmake -DCMAKE_GENERATOR_PLATFORM=x64 ..
+cmake --build . --target ALL_BUILD --config Release</pre>
+<p>The exe and dll will be in LightGBM/Release folder.</p>
+<p>&nbsp;</p>
+<p><strong>Using MinGW64</strong><strong><br />
+</strong>-Install <a href="https://git-scm.com/download/win" target="_blank" rel="nofollow noopener noreferrer">git for windows</a>, <a href="https://cmake.org/" target="_blank" rel="nofollow noopener noreferrer">cmake</a> and MinGW64.<br />
+-Run following command:</p>
+<pre>git clone --recursive https://github.com/Microsoft/LightGBM
+cd LightGBM
+mkdir build
+cd build
+cmake -G "MinGW Makefiles" ..
+mingw32-make.exe -j4</pre>
+<p>The exe and dll will be in LightGBM/ folder.</li>
+<li>
+<h3>For Linux<strong><br />
+</strong></h3>
+<p>Light GBM uses <strong><em>cmake</em></strong> to build. Run following:</p>
+<pre>git clone --recursive https://github.com/Microsoft/LightGBM
+cd LightGBM
+mkdir build
+cd build
+cmake ..
+make -j4</pre>
+<p>&nbsp;</li>
+<li>
+<h3>For OSX</h3>
+</li>
+</ol>
+<p style="padding-left: 30px;">LightGBM depends on OpenMP for compiling, which isn&#8217;t supported by Apple Clang.Please use gcc/g++ instead.<br />
+-Run following:</p>
+<pre style="padding-left: 30px;">brew install cmake
+brew install gcc --without-multilib
+git clone --recursive https://github.com/Microsoft/LightGBM
+cd LightGBM
+mkdir build 
+cd build
+cmake ..
+make -j4</pre>
+<p>Now before we dive head first into building our first Light GBM model, let us look into some of the parameters of Light GBM to have an understanding of its underlying procedures.</p>
+<p>&nbsp;</p>
+<h2>4. Important Parameters of light GBM</h2>
+<ul>
+<li><strong>task</strong> : default value = train ; options = train , prediction ; Specifies the task we wish to perform which is either train or prediction.</li>
+</ul>
+<ul>
+<li><strong>application</strong>: default=regression, type=enum, options= options :
+<ul>
+<li>regression : perform regression task</li>
+<li>binary : Binary classification</li>
+<li>multiclass: Multiclass Classification</li>
+<li>lambdarank : lambdarank application</li>
+</ul>
+</li>
+<li><strong>data</strong>: type=string; training data , LightGBM will train from this data</li>
+<li><strong>num_iterations</strong>: number of boosting iterations to be performed ; default=100; type=int</li>
+<li><strong>num</strong>_<strong>leaves</strong> : number of leaves in one tree ; default = 31 ; type =int</li>
+<li><strong>device</strong> : default= cpu ; options = gpu,cpu. Device on which we want to train our model. Choose GPU for faster training.</li>
+</ul>
+<ul>
+<li><strong>max_depth</strong>: Specify the max depth to which tree will grow. This parameter is used to deal with overfitting.</li>
+<li><strong>min_data_in_leaf</strong>: Min number of data in one leaf.</li>
+<li><strong>feature_fraction</strong>: default=1 ; specifies the fraction of features to be taken for each iteration</li>
+<li><strong>bagging_fraction</strong>: default=1 ; specifies the fraction of data to be used for each iteration and is generally used to speed up the training and avoid overfitting.</li>
+<li><strong>min_gain_to_split</strong>: default=.1 ; min gain to perform splitting</li>
+<li><strong>max_bin</strong> : max number of bins to bucket the feature values.</li>
+<li><strong>min_data_in_bin</strong> : min number of data in one bin</li>
+<li><strong>num_threads</strong>: default=OpenMP_default, type=int ;Number of threads for Light GBM.</li>
+</ul>
+<ul>
+<li><strong>label</strong> : type=string ; specify the label column</li>
+<li><strong>categorical_feature</strong> : type=string ; specify the categorical features we want to use for training our model</li>
+<li><strong>num_class</strong>: default=1 ; type=int ; used only for multi-class classification</li>
+</ul>
+<p>&nbsp;</p>
+<p>Also, go through <a href="https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/" target="_blank" rel="noopener noreferrer">this</a> article explaining parameter tuning in XGBOOST in detail.</p>
+<p><strong> </strong></p>
+<h2>5. LightGBM vs XGBoost</h2>
+<p>So now let’s compare LightGBM with XGBoost by applying both the algorithms to a dataset and then comparing the performance.</p>
+<p>Here we are using dataset that contains the information about individuals from various countries. Our target is to predict whether a person makes &lt;=50k or &gt;50k annually on basis of the other information available. Dataset consists of 32561 observations and 14 features describing individuals.</p>
+<p>Here is the link to the dataset: <a href="http://archive.ics.uci.edu/ml/datasets/Adult" target="_blank" rel="nofollow noopener noreferrer">http://archive.ics.uci.edu/ml/datasets/Adult</a>.</p>
+<p>Go through the dataset to have a proper intuition about predictor variables and so that you could understand the code below properly.</p>
+<p>&nbsp;</p>
+<pre><em>#importing standard libraries</em> 
+import numpy as np 
+import pandas as pd 
+from pandas import Series, DataFrame 
+
+<em>#import lightgbm and xgboost</em> 
+import lightgbm as lgb 
+import xgboost as xgb 
+
+<em>#loading our training dataset 'adult.csv' with name 'data' using pandas</em> 
+data=pd.read_csv('adult.csv',header=None) 
+
+<em>#Assigning names to the columns</em> 
+data.columns=['age','workclass','fnlwgt','education','education-num','marital_Status','occupation','relationship','race','sex','capital_gain','capital_loss','hours_per_week','native_country','Income'] 
+
+<em>#glimpse of the dataset</em> 
+data.head() 
+
+<em># Label Encoding our target variable</em> 
+from sklearn.preprocessing import LabelEncoder,OneHotEncoder
+l=LabelEncoder() 
+l.fit(data.Income) 
+
+l.classes_ 
+data.Income=Series(l.transform(data.Income))  #label encoding our target variable 
+data.Income.value_counts() 
+
+ 
+
+<em>#One Hot Encoding of the Categorical features</em> 
+one_hot_workclass=pd.get_dummies(data.workclass) 
+one_hot_education=pd.get_dummies(data.education) 
+one_hot_marital_Status=pd.get_dummies(data.marital_Status) 
+one_hot_occupation=pd.get_dummies(data.occupation)
+one_hot_relationship=pd.get_dummies(data.relationship) 
+one_hot_race=pd.get_dummies(data.race) 
+one_hot_sex=pd.get_dummies(data.sex) 
+one_hot_native_country=pd.get_dummies(data.native_country) 
+
+<em>#removing categorical features</em> 
+data.drop(['workclass','education','marital_Status','occupation','relationship','race','sex','native_country'],axis=1,inplace=True) 
+
+ 
+
+<em>#Merging one hot encoded features with our dataset 'data'</em> 
+data=pd.concat([data,one_hot_workclass,one_hot_education,one_hot_marital_Status,one_hot_occupation,one_hot_relationship,one_hot_race,one_hot_sex,one_hot_native_country],axis=1) 
+
+<em>#removing dulpicate columns</em> 
+ _, i = np.unique(data.columns, return_index=True) 
+data=data.iloc[:, i] 
+
+<em>#Here our target variable is 'Income' with values as 1 or 0. </em> 
+#Separating our data into features dataset x and our target dataset y 
+x=data.drop('Income',axis=1) 
+y=data.Income 
+
+ 
+
+<em>#Imputing missing values in our target variable</em> 
+y.fillna(y.mode()[0],inplace=True) 
+
+<em>#Now splitting our dataset into test and train</em> 
+from sklearn.model_selection import train_test_split 
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=.3)</pre>
+<h3><em>#Applying xgboost</em></h3>
+<p>&nbsp;</p>
+<pre><em>#The data is stored in a DMatrix object</em> 
+#label is used to define our outcome variable
+dtrain=xgb.DMatrix(x_train,label=y_train)
+dtest=xgb.DMatrix(x_test)</pre>
+<pre><em>#setting parameters for xgboost
+</em>parameters={'max_depth':7, 'eta':1, 'silent':1,'objective':'binary:logistic','eval_metric':'auc','learning_rate':.05}</pre>
+<pre><em>#training our model</em> 
+num_round=50
+from datetime import datetime 
+start = datetime.now() 
+xg=xgb.train(parameters,dtrain,num_round) 
+stop = datetime.now()</pre>
+<pre><em>#Execution time of the model</em> 
+execution_time_xgb = stop-start 
+execution_time_xgb</pre>
+<pre><em>#datetime.timedelta( , , ) representation =&gt; (days , seconds , microseconds)</em> 
+<em>#now predicting our model on test set</em> 
+ypred=xg.predict(dtest) 
+ypred</pre>
+<pre><em>#Converting probabilities into 1 or 0 </em> 
+for i in range(0,9769): 
+    if ypred[i]&gt;=.5:       # setting threshold to .5 
+       ypred[i]=1 
+    else: 
+       ypred[i]=0 <em> </em></pre>
+<pre><em>#calculating accuracy of our model</em> 
+from sklearn.metrics import accuracy_score 
+accuracy_xgb = accuracy_score(y_test,ypred) 
+accuracy_xgb
+
+</pre>
+<h3><em># Light GBM</em></h3>
+<pre>train_data=lgb.Dataset(x_train,label=y_train)</pre>
+<pre><em>#setting parameters for lightgbm
+</em>param = {'num_leaves':150, 'objective':'binary','max_depth':7,'learning_rate':.05,'max_bin':200}
+param['metric'] = ['auc', 'binary_logloss']</pre>
+<pre><em>#Here we have set max_depth in xgb and LightGBM to 7 to have a fair comparison between the two.</em></pre>
+<pre><em>#training our model using light gbm
+</em>num_round=50
+start=datetime.now()
+lgbm=lgb.train(param,train_data,num_round)
+stop=datetime.now()</pre>
+<pre><em>#Execution time of the model
+</em>execution_time_lgbm = stop-start
+execution_time_lgbm</pre>
+<pre><em>#predicting on test set
+</em>ypred2=lgbm.predict(x_test)
+ypred2[0:5]  # showing first 5 predictions</pre>
+<pre><em>#converting probabilities into 0 or 1
+</em>for i in range(0,9769):
+    if ypred2[i]&gt;=.5:       # setting threshold to .5
+       ypred2[i]=1
+    else:  
+       ypred2[i]=0</pre>
+<pre><em>#calculating accuracy
+</em>accuracy_lgbm = accuracy_score(ypred2,y_test)
+accuracy_lgbm
+y_test.value_counts()</pre>
+<pre>from sklearn.metrics import roc_auc_score</pre>
+<pre>#calculating roc_auc_score for xgboost
+auc_xgb =  roc_auc_score(y_test,ypred)
+auc_xgb</pre>
+<pre><em>#calculating roc_auc_score for light gbm.</em> 
+auc_lgbm = roc_auc_score(y_test,ypred2)
+auc_lgbm comparison_dict = {'accuracy score':(accuracy_lgbm,accuracy_xgb),'auc score':(auc_lgbm,auc_xgb),'execution time':(execution_time_lgbm,execution_time_xgb)}</pre>
+<pre><em>#Creating a dataframe ‘comparison_df’ for comparing the performance of Lightgbm and xgb.</em> 
+comparison_df = DataFrame(comparison_dict) 
+comparison_df.index= ['LightGBM','xgboost'] 
+comparison_df</pre>
+<p>Performance comparison</p>
+<p><img class="aligncenter wp-image-36299 size-full" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11200955/result.png" alt="" width="362" height="104" srcset="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11200955/result.png 362w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11200955/result-300x86.png 300w, https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/06/11200955/result-360x104.png 360w" sizes="(max-width: 362px) 100vw, 362px" /></p>
+<p>&nbsp;</p>
+<p>There has been only a slight increase in accuracy and auc score by applying Light GBM over XGBOOST but there is a significant difference in the execution time for the training procedure. Light GBM is almost 7 times faster than XGBOOST and is a much better approach when dealing with large datasets.</p>
+<p>This turns out to be a huge advantage when you are working on large datasets in limited time competitions.</p>
+<p>&nbsp;</p>
+<h2>6. Tuning Parameters of Light GBM</h2>
+<p>Light GBM uses leaf wise splitting over depth wise splitting which enables it to converge much faster but also leads to overfitting. So here is a quick guide to tune the parameters in Light GBM.</p>
+<h3>For best fit</h3>
+<ul>
+<li><strong>num_leaves</strong> : This parameter is used to set the number of leaves to be formed in a tree. Theoretically relation between num_leaves and max_depth is num_leaves= 2^(max_depth). However, this is not a good estimate in case of Light GBM since splitting takes place leaf wise rather than depth wise. Hence num_leaves set must be smaller than 2^(max_depth) otherwise it may lead to overfitting. Light GBM does not have a direct relation between num_leaves and max_depth and hence the two must not be linked with each other.</li>
+<li><strong>min_data_in_leaf</strong> : It is also one of the important parameters in dealing with overfitting. Setting its value smaller may cause overfitting and hence must be set accordingly. Its value should be hundreds to thousands of large datasets.</li>
+<li><strong>max_depth</strong>: It specifies the maximum depth or level up to which tree can grow.</li>
+</ul>
+<p>&nbsp;</p>
+<h3>For faster speed</h3>
+<ul>
+<li><strong>bagging_fraction</strong> : Is used to perform bagging for faster results</li>
+<li><strong>feature_fraction</strong> : Set fraction of the features to be used at each iteration</li>
+<li><strong>max_bin</strong> : Smaller value of max_bin can save much time as it buckets the feature values in discrete bins which is computationally inexpensive.</li>
+</ul>
+<p>&nbsp;</p>
+<h3>For better accuracy</h3>
+<ul>
+<li>Use bigger training data</li>
+<li><strong>num_leaves</strong> : Setting it to high value produces deeper trees with increased accuracy but lead to overfitting. Hence its higher value is not preferred.</li>
+<li><strong>max_bin</strong> : Setting it to high values has similar effect as caused by increasing value of num_leaves and also slower our training procedure.</li>
+</ul>
+<p>&nbsp;</p>
+<h2>7. End Notes</h2>
+<p>In this blog, I’ve tried to give an intuitive idea of Light GBM. One of the disadvantages of using this algorithm currently is its narrow user base &#8211; but that is changing fast. This algorithm apart from being more accurate and time-saving than XGBOOST has been limited in usage due to less documentation available.</p>
+<p>However, this algorithm has shown far better results and has outperformed existing boosting algorithms. I’ll strongly recommend you to implement Light GBM over the other boosting algorithms and see the difference yourself.</p>
+<p>It might be still early days to crown LightGBM &#8211; but it has clearly challenged XGBoost. A word of caution &#8211; like all other ML algorithms,  make sure you properly tune the parameters before training the model!</p>
+<p>Do let us know your thoughts and opinions in the comment section below.</p>
+You can also read this article on Analytics Vidhya's Android APP <a href='//play.google.com/store/apps/details?id=com.analyticsvidhya.android&utm_source=blog_article&utm_campaign=blog&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1' onclick="ga('send', {'hitType': 'event', 'eventCategory': 'app-blog', 'eventAction': 'clicked'});"><img alt='Get it on Google Play' src='//play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' style='height:65px'></a><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5229672700622157" data-ad-slot="7938033629"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<footer class="clearfix both">
+<div class="meta-tags clearfix">
+Tags : <a href="https://www.analyticsvidhya.com/blog/tag/auc/" rel="tag">AUC</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/decision-tree/" rel="tag">decision tree</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/gbm/" rel="tag">GBM</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/lightgbm/" rel="tag">LightGBM</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/python/" rel="tag">python</a><span>,</span> <a href="https://www.analyticsvidhya.com/blog/tag/xgboost/" rel="tag">XGBoost</a> </div>
+<div class="next-prev clearfix">
+<a class="next" href="https://www.analyticsvidhya.com/blog/2017/06/assistant-manager-data-analytics-kolkata-3-7-years-of-experience/" rel="next"><i class="tm-chevron-right"></i><div class="np-caption">Next Article</div><h3 class="np-title">Assistant Manager (Data Analytics) &#8211; Kolkata (3-7 Years Of Experience)</h3></a> <i class="tm-3dots"></i>
+<a class="prev" href="https://www.analyticsvidhya.com/blog/2017/06/data-scientist-python-expert-hyderabad-2-4-years-of-experience/" rel="prev"><i class="tm-chevron-left"></i><div class="np-caption">Previous Article</div><h3 class="np-title">Data Scientist (Python Expert ) -Hyderabad- (2-4 Years Of Experience)</h3></a> </div>
+<div class="meta-author" itemprop="author" itemscope itemtype="https://schema.org/Person">
+<div class="author-thumb">
+<a href="https://www.analyticsvidhya.com/blog/author/pranjalk7/">
+<img alt='' src='https://secure.gravatar.com/avatar/faecec339af49ccfaf4db0cb30d7d0b5?s=200&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/faecec339af49ccfaf4db0cb30d7d0b5?s=400&#038;d=mm&#038;r=g 2x' class='avatar avatar-200 photo' height='200' width='200' /> </a>
+</div>
+<div class="author-info">
+<h3 class="author-name">
+<a itemprop="name" content="Pranjal Khandelwal" href="https://www.analyticsvidhya.com/blog/author/pranjalk7/">Pranjal Khandelwal</a>
+</h3>
+<div class="author-desc">
+<span class="fn">Pranjal is currently studying at IIT Roorkee and is interning with Analytics Vidhya. Pranjal is passionate about applications of machine learning in real life and is excited about impact of artificial intelligence.</span>
+</div>
+<ul class="author-links">
+</ul>
+</div>
+</div>
+<div class="related-article">
+
+<div class="row">
+<div class="col-sm-12">
+<div class="block-cap">
+<h3>Related Articles</h3>
+</div>
+</div>
+</div>
+
+<div class="row block-streams el-block-5">
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/tavish1/">Tavish Srivastava</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2015-01-27T21:00:19+00:00">
+January 27, 2015 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2015/01/introduction-online-machine-learning-simplified-2/" rel="bookmark" title="Introduction to Online Machine Learning: Simplified">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://www.analyticsvidhya.com/wp-content/uploads/2015/01/28-262x141.jpg" alt="Introduction to Online Machine Learning: Simplified" title="Introduction to Online Machine Learning: Simplified" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2015/01/introduction-online-machine-learning-simplified-2/" rel="bookmark" title="Introduction to Online Machine Learning: Simplified">
+Introduction to Online Machine Learning: Simplified </a>
+</h3>
+<meta content="Introduction to Online Machine Learning: Simplified" />
+</article> </div>
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/jalfaizy/">Faizan Shaikh</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2018-02-22T10:46:03+00:00">
+February 22, 2018 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2018/02/pytorch-tutorial/" rel="bookmark" title="An Introduction to PyTorch &#8211; A Simple yet Powerful Deep Learning Library">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/02/pytorch-logo-flat-262x141.png" alt="An Introduction to PyTorch &#8211; A Simple yet Powerful Deep Learning Library" title="An Introduction to PyTorch &#8211; A Simple yet Powerful Deep Learning Library" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2018/02/pytorch-tutorial/" rel="bookmark" title="An Introduction to PyTorch &#8211; A Simple yet Powerful Deep Learning Library">
+An Introduction to PyTorch &#8211; A Simple yet Powerful Deep Learning Library </a>
+</h3>
+<meta content="An Introduction to PyTorch &#8211; A Simple yet Powerful Deep Learning Library" />
+</article> </div>
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/nss/">NSS</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2017-05-04T03:01:35+00:00">
+May 4, 2017 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2017/05/40-questions-r-for-data-science/" rel="bookmark" title="40 questions to test your skill on R for Data Science">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/05/R_logo.svg_-262x141.png" alt="40 questions to test your skill on R for Data Science" title="40 questions to test your skill on R for Data Science" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2017/05/40-questions-r-for-data-science/" rel="bookmark" title="40 questions to test your skill on R for Data Science">
+40 questions to test your skill on R for Data Science </a>
+</h3>
+<meta content="40 questions to test your skill on R for Data Science" /> 
+</article> </div>
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/guest-blog/">Guest Blog</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2016-10-29T04:21:41+00:00">
+October 29, 2016 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2016/10/complete-study-of-factors-contributing-to-air-pollution/" rel="bookmark" title="Complete Study of Factors Contributing to Air Pollution">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://www.analyticsvidhya.com/wp-content/uploads/2016/10/delhi-262x141.jpg" alt="Complete Study of Factors Contributing to Air Pollution" title="Complete Study of Factors Contributing to Air Pollution" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2016/10/complete-study-of-factors-contributing-to-air-pollution/" rel="bookmark" title="Complete Study of Factors Contributing to Air Pollution">
+Complete Study of Factors Contributing to Air Pollution </a>
+</h3>
+<meta content="Complete Study of Factors Contributing to Air Pollution" />
+</article> </div>
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/kunalj/">Kunal Jain</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2014-07-15T21:46:35+00:00">
+July 15, 2014 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2014/07/baby-steps-libraries-data-structure/" rel="bookmark" title="Baby steps in Python &#8211; Libraries and data structures">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://www.analyticsvidhya.com/wp-content/uploads/2014/07/baby-python-262x141.jpg" alt="Baby steps in Python &#8211; Libraries and data structures" title="Baby steps in Python &#8211; Libraries and data structures" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2014/07/baby-steps-libraries-data-structure/" rel="bookmark" title="Baby steps in Python &#8211; Libraries and data structures">
+Baby steps in Python &#8211; Libraries and data structures </a>
+</h3>
+<meta content="Baby steps in Python &#8211; Libraries and data structures" />
+</article> </div>
+
+<div class="col-sm-4">
+<article class="item-medium-simple post-box-normal">
+<div class="meta-info no-bottom">
+<span class="entry-author"><a href="https://www.analyticsvidhya.com/blog/author/avcontentteam/">Analytics Vidhya Content Team</a></span><span class="coma">,</span>
+<time class="entry-date" datetime="2016-09-16T05:46:20+00:00">
+September 16, 2016 </time>
+</div>
+<div class="thumb-wrap zoom-zoom">
+<a href="https://www.analyticsvidhya.com/blog/2016/09/40-interview-questions-asked-at-startups-in-machine-learning-data-science/" rel="bookmark" title="40 Interview Questions asked at Startups in Machine Learning / Data Science">
+<img width="262" height="141" class="entry-thumb zoom-it three" src="https://www.analyticsvidhya.com/wp-content/uploads/2016/09/interview-questions-262x141.png" alt="40 Interview Questions asked at Startups in Machine Learning / Data Science" title="40 Interview Questions asked at Startups in Machine Learning / Data Science" />
+</a>
+</div>
+<h3 class="entry-title">
+<a href="https://www.analyticsvidhya.com/blog/2016/09/40-interview-questions-asked-at-startups-in-machine-learning-data-science/" rel="bookmark" title="40 Interview Questions asked at Startups in Machine Learning / Data Science">
+40 Interview Questions asked at Startups in Machine Learning / Data Science </a>
+</h3>
+<meta content="40 Interview Questions asked at Startups in Machine Learning / Data Science" />
+</article> </div>
+</div>
+</div>
+</footer>
+</article> 
+
+
+<div class="row">
+<div class="col-sm-12">
+<div class="message-article">This article is quite old and you might not get a prompt response from the author. We request you to post this comment on Analytics Vidhya's <a href="https://discuss.analyticsvidhya.com/"><b>Discussion portal</b></a> to get your queries resolved</div> </div>
+</div>
+<div class="comment-wrap">
+
+<div class="row">
+<div class="col-sm-12">
+<div class="block-cap" id="comments">
+<h3 id="comment">18 Comments</h3>
+</div>
+</div>
+</div>
+<div class="navigation">
+<div class="alignleft"></div>
+<div class="alignright"></div>
+</div>
+<ul class="comment-list" id="show-comments">
+<li class="comment even thread-even depth-1 parent" id="comment-130344">
+<div id="div-comment-130344" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/d63ae323431f47f1777b54e610c2b7ae?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/d63ae323431f47f1777b54e610c2b7ae?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Vaibhav_Dahiya</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130344">
+June 12, 2017 at 12:19 pm</a> </div>
+<p>Hey Pranjal</p>
+<p>Great article !<br />
+But i would like to add this : &#8220;Decision tree models can handle categorical variables WITHOUT one-hot encoding them&#8221;<br />
+I would request you to re-run it without one-hot encoding and see whether it improves the accuracy or not. </p>
+<p>Also, please come-up with more of LightGBM vs XGBoost examples (with a focus on tuning parameters). It would make an outstanding article. </p>
+<p>Thanks 🙂</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130344' onclick='return addComment.moveForm( "div-comment-130344", "130344", "respond", "36291" )' aria-label='Reply to Vaibhav_Dahiya'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment odd alt depth-2" id="comment-130799">
+<div id="div-comment-130799" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/faecec339af49ccfaf4db0cb30d7d0b5?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/faecec339af49ccfaf4db0cb30d7d0b5?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Pranjal Khandelwal</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130799">
+June 20, 2017 at 11:29 am</a> </div>
+<p>Thanks for your suggestion.<br />
+Surely I&#8217;ll be coming up with article on parameter tuning shortly.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130799' onclick='return addComment.moveForm( "div-comment-130799", "130799", "respond", "36291" )' aria-label='Reply to Pranjal Khandelwal'>Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-odd thread-alt depth-1 parent" id="comment-130346">
+<div id="div-comment-130346" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/49002dc85e428e69d9d9307abb9f5bf8?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/49002dc85e428e69d9d9307abb9f5bf8?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Saurabh</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130346">
+June 12, 2017 at 12:32 pm</a> </div>
+<p>Thanks for the article 🙂</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130346' onclick='return addComment.moveForm( "div-comment-130346", "130346", "respond", "36291" )' aria-label='Reply to Saurabh'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment odd alt depth-2" id="comment-130801">
+<div id="div-comment-130801" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/faecec339af49ccfaf4db0cb30d7d0b5?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/faecec339af49ccfaf4db0cb30d7d0b5?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Pranjal Khandelwal</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130801">
+June 20, 2017 at 11:30 am</a> </div>
+<p>Thanks saurabh!</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130801' onclick='return addComment.moveForm( "div-comment-130801", "130801", "respond", "36291" )' aria-label='Reply to Pranjal Khandelwal'>Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-even depth-1" id="comment-130351">
+<div id="div-comment-130351" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/c7d66055036d22b7a9b87416e0460e45?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c7d66055036d22b7a9b87416e0460e45?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">JF Puget</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130351">
+June 12, 2017 at 3:32 pm</a> </div>
+<p>XGBoost also has a leave wise algorithm: use &#8216;hist&#8217; as the value for &#8216;tree_method&#8217; parameter. Execution speed is then comparable to that of lightgbm. My personal experience is that xgboost accuracy is slightly better than lightgbm in general.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130351' onclick='return addComment.moveForm( "div-comment-130351", "130351", "respond", "36291" )' aria-label='Reply to JF Puget'>Reply</a></div>
+</div>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1 parent" id="comment-130378">
+<div id="div-comment-130378" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/1bb9d681c73d4e543ce7dbee55241665?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/1bb9d681c73d4e543ce7dbee55241665?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Brian</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130378">
+June 12, 2017 at 10:48 pm</a> </div>
+<p>On linux, I cant get the code to work with python. The import fails. Any experience with this?</p>
+<p>OSError: /home/anaconda3/lib/python3.6/site-packages/lightgbm-0.2-py3.6.egg/lightgbm/lib_lightgbm.so: symbol clCreateCommandQueueWithProperties, version OPENCL_2.0 not defined in file libOpenCL.so.1 with link time reference</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130378' onclick='return addComment.moveForm( "div-comment-130378", "130378", "respond", "36291" )' aria-label='Reply to Brian'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment even depth-2" id="comment-130766">
+<div id="div-comment-130766" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/8b85318eda81039f74142595a60886fd?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8b85318eda81039f74142595a60886fd?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Deepak</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130766">
+June 20, 2017 at 12:09 am</a> </div>
+<p>Looks like you have enabled GPU as one of the devices &amp; your machine you have AMD (OpenCL) instead of Nvidia (CUDA), which is probably the reason for the error. Can you remove GPU from your code and see if that works fine?</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130766' onclick='return addComment.moveForm( "div-comment-130766", "130766", "respond", "36291" )' aria-label='Reply to Deepak'>Reply</a></div>
+</div>
+</li>
+<li class="comment byuser comment-author-pranjalk7 bypostauthor odd alt depth-2" id="comment-130805">
+<div id="div-comment-130805" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/faecec339af49ccfaf4db0cb30d7d0b5?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/faecec339af49ccfaf4db0cb30d7d0b5?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Pranjal Khandelwal</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130805">
+June 20, 2017 at 11:47 am</a> </div>
+<p>Try using the following commands after you have successfully cloned the lightgbm package:</p>
+<p>cd LightGBM/python-package<br />
+python setup.py install</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130805' onclick='return addComment.moveForm( "div-comment-130805", "130805", "respond", "36291" )' aria-label='Reply to Pranjal Khandelwal'>Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-even depth-1" id="comment-130422">
+<div id="div-comment-130422" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/89e2ff6b4231da5726cb2f2aafcbb194?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/89e2ff6b4231da5726cb2f2aafcbb194?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Dheeraj Kura</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130422">
+June 13, 2017 at 3:49 pm</a> </div>
+<p>Thanks for the Article</p>
+<p>Why Visual studio is needed to run the Light GBM . Dont we have package / Git source to install in R studio ..?</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130422' onclick='return addComment.moveForm( "div-comment-130422", "130422", "respond", "36291" )' aria-label='Reply to Dheeraj Kura'>Reply</a></div>
+</div>
+</li>
+<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-130423">
+<div id="div-comment-130423" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/89e2ff6b4231da5726cb2f2aafcbb194?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/89e2ff6b4231da5726cb2f2aafcbb194?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Dheeraj Kura</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130423">
+June 13, 2017 at 3:49 pm</a> </div>
+<p>Thanks for the Article</p>
+<p>Why Visual studio is needed to run the Light GBM for windows . Dont we have package / Git source to install in R studio ..?</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130423' onclick='return addComment.moveForm( "div-comment-130423", "130423", "respond", "36291" )' aria-label='Reply to Dheeraj Kura'>Reply</a></div>
+</div>
+</li>
+<li class="comment even thread-even depth-1 parent" id="comment-130440">
+<div id="div-comment-130440" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/f3c1eee394b75c7d8cc4aac78e8bdfad?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/f3c1eee394b75c7d8cc4aac78e8bdfad?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Trupti</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130440">
+June 13, 2017 at 10:51 pm</a> </div>
+<p>after following path Installing Light GBM For Windows how to proceed to import the lightGBM in anaconda</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130440' onclick='return addComment.moveForm( "div-comment-130440", "130440", "respond", "36291" )' aria-label='Reply to Trupti'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment odd alt depth-2" id="comment-130767">
+<div id="div-comment-130767" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/8b85318eda81039f74142595a60886fd?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/8b85318eda81039f74142595a60886fd?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Deepak</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130767">
+June 20, 2017 at 12:11 am</a> </div>
+<p>Try &#8220;import lightgbm as lgbm&#8221;</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130767' onclick='return addComment.moveForm( "div-comment-130767", "130767", "respond", "36291" )' aria-label='Reply to Deepak'>Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="comment-130463">
+<div id="div-comment-130463" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/1d331ac8e8d17415e33998c07de4435c?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/1d331ac8e8d17415e33998c07de4435c?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Subhransu Sekhar Sahoo</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130463">
+June 14, 2017 at 11:26 am</a> </div>
+<p>Tremendous explanation. Very informative.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130463' onclick='return addComment.moveForm( "div-comment-130463", "130463", "respond", "36291" )' aria-label='Reply to Subhransu Sekhar Sahoo'>Reply</a></div>
+</div>
+</li>
+<li class="comment odd alt thread-even depth-1" id="comment-130580">
+<div id="div-comment-130580" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/40af88eeb036aa03ddddb18d34b65833?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/40af88eeb036aa03ddddb18d34b65833?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">PMitra</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130580">
+June 16, 2017 at 12:32 pm</a> </div>
+<p>Hi,</p>
+<p>I tried installing LightGBM on my Windows 64 bit. The steps were fine till Cmake but after that when I execued the last command :<br />
+mingw32-make.exe -j<br />
+the machine hang and I had to reboot my machine. It happened twice. </p>
+<p>I have 4 GB RAM. Please can anyone help me understand the issue.</p>
+<p>Regards,<br />
+PMitra</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130580' onclick='return addComment.moveForm( "div-comment-130580", "130580", "respond", "36291" )' aria-label='Reply to PMitra'>Reply</a></div>
+</div>
+</li>
+<li class="comment even thread-odd thread-alt depth-1" id="comment-130584">
+<div id="div-comment-130584" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/98404c0d9b38927facb580a9600c0beb?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/98404c0d9b38927facb580a9600c0beb?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">nick</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-130584">
+June 16, 2017 at 1:00 pm</a> </div>
+<p>Excellent article, got me excited about LightGBM! 🙂</p>
+<p>Does anyone have a compiled lgbm binary ? I was having issues trying to make the .exe file. If yes could you please host it on git and share the link?</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-130584' onclick='return addComment.moveForm( "div-comment-130584", "130584", "respond", "36291" )' aria-label='Reply to nick'>Reply</a></div>
+</div>
+</li>
+<li class="comment odd alt thread-even depth-1" id="comment-148790">
+<div id="div-comment-148790" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/3151a20aa20987dff4138d652bfef420?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/3151a20aa20987dff4138d652bfef420?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Arunsankar</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-148790">
+December 20, 2017 at 12:09 pm</a> </div>
+<p>Informative article. Thanks Pranjal.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-148790' onclick='return addComment.moveForm( "div-comment-148790", "148790", "respond", "36291" )' aria-label='Reply to Arunsankar'>Reply</a></div>
+</div>
+</li>
+<li class="comment even thread-odd thread-alt depth-1 parent" id="comment-152378">
+<div id="div-comment-152378" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/a7997f93dbd6a2981be22998cbbd33f9?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/a7997f93dbd6a2981be22998cbbd33f9?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Akshit Arora</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-152378">
+April 5, 2018 at 9:31 am</a> </div>
+<p>Hi, you gotta update your MacOS instructions for light gbm installation. I encountered this issue (<a href="https://github.com/Microsoft/LightGBM/issues/118" rel="nofollow">https://github.com/Microsoft/LightGBM/issues/118</a>), I have commented a solution in the end of this thread. I think the readers of your blog should know about this little tweak.</p>
+<p>Happy to help! And really appreciate your content.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-152378' onclick='return addComment.moveForm( "div-comment-152378", "152378", "respond", "36291" )' aria-label='Reply to Akshit Arora'>Reply</a></div>
+</div>
+<ul class="children">
+<li class="comment byuser comment-author-aishwaryasingh odd alt depth-2" id="comment-152385">
+<div id="div-comment-152385" class="comment-body">
+<div class="comment-author vcard">
+<img alt='' src='https://secure.gravatar.com/avatar/9674ea7760b6955e65709184e41f12c2?s=100&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/9674ea7760b6955e65709184e41f12c2?s=200&#038;d=mm&#038;r=g 2x' class='avatar avatar-100 photo' height='100' width='100' /> <cite class="fn">Aishwarya Singh</cite> <span class="says">says:</span> </div>
+<div class="comment-meta commentmetadata"><a href="https://www.analyticsvidhya.com/blog/2017/06/which-algorithm-takes-the-crown-light-gbm-vs-xgboost/#comment-152385">
+April 5, 2018 at 2:28 pm</a> </div>
+<p>Hi Akshit, </p>
+<p>Thank you for your feedback. We will look into it.</p>
+<div class="reply"><a rel='nofollow' class='comment-reply-link' href='#comment-152385' onclick='return addComment.moveForm( "div-comment-152385", "152385", "respond", "36291" )' aria-label='Reply to Aishwarya Singh'>Reply</a></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="write-comment"></div>
+<script>
+var hash = window.location.hash;
+if(hash!=""){
+jQuery.ajax ({
+	type: 'GET',
+    url: 'https://www.analyticsvidhya.com/comments-form/show-comments.php?rand='+Math.random()+'&id=36291',
+    success: function (data)
+	{
+		jQuery('#show-comments').html(data);
+	},
+	error: function (e) {
+		console.log(e);
+	}
+});
+}
+</script>
+</div>
+</div>
+<div class="col-sm-4 "><div class="sidebar"><div id="text-46" class="widget clearfix widget_text"> <div class="textwidget"><p><a href="https://www.analyticsvidhya.com/datahack-summit-2018/?utm_source=AVbannerdhslong" target="_blank"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/09/dhs.gif" /></a></p>
+</div>
+</div><div id="wmp_widget-2" class="widget clearfix widget_wmp_widget"><div class="widget-title"><div class="block-cap"><h3>Popular posts</h3></div></div><ul class="wp-most-popular">
+<li class="post-28549posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-python-2category-rtag-analytics-projectstag-boston-housing-datatag-classification-datatag-data-explorationtag-data-mining-projectstag-data-science-projecttag-feature-engineeringtag-image-recognitiontag-machine-learningtag-machine-learning-projectstag-mnist-datatag-multi-classificationtag-object-recognitiontag-regression-datatag-text-mining-datatag-titanic-datatag-yelp-data">
+<a href="https://www.analyticsvidhya.com/blog/2018/05/24-ultimate-data-science-projects-to-boost-your-knowledge-and-skills/" title="24 Ultimate Data Science Projects To Boost Your Knowledge and Skills (&#038; can be accessed freely)">
+24 Ultimate Data Science Projects To Boost Your Knowledge and Skills (&#038; can be accessed freely)
+</a>
+</li>
+<li class="post-22387posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-pandascategory-python-2tag-applytag-box-plotstag-categorical-variabletag-data-cleaningtag-data-explorationtag-data-framestag-data-miningtag-data-mungingtag-data-structuretag-data-wranglingtag-dictionarytag-distribution-analysistag-installing-pythontag-ipythontag-liststag-logistic-regressiontag-matplotlibtag-meantag-mergetag-numpytag-pandastag-pythontag-python-tutorialtag-scikit-learntag-scipytag-setstag-splittag-stacked-charttag-starting-pythontag-statisticstag-stringstag-tupletag-tuplestag-tutorial">
+<a href="https://www.analyticsvidhya.com/blog/2016/01/complete-tutorial-learn-data-science-python-scratch-2/" title="A Complete Tutorial to Learn Data Science with Python from Scratch">
+A Complete Tutorial to Learn Data Science with Python from Scratch
+</a>
+</li>
+<li class="post-18770posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticscategory-python-2category-rtag-c4-5tag-carttag-decision-treetag-gbmtag-k-meanstag-knntag-linear-regressiontag-logistic-regressiontag-machine-learningtag-naive-bayestag-neural-networktag-random-foresttag-reinforcementtag-supervised-learningtag-unsupervised">
+<a href="https://www.analyticsvidhya.com/blog/2017/09/common-machine-learning-algorithms/" title="Essentials of Machine Learning Algorithms (with Python and R Codes)">
+Essentials of Machine Learning Algorithms (with Python and R Codes)
+</a>
+</li>
+<li class="post-18835posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticstag-elasticnet-regressiontag-lasso-regressiontag-linear-regressiontag-logistic-regressiontag-multinomial-logistic-rgressiontag-multiple-regressiontag-ordinal-logistic-regressiontag-polynomial-regressiontag-regressiontag-regularizationtag-ridge-regressiontag-stepwise-regression">
+<a href="https://www.analyticsvidhya.com/blog/2015/08/comprehensive-guide-regression/" title="7 Types of Regression Techniques you should know!">
+7 Types of Regression Techniques you should know!
+</a>
+</li>
+<li class="post-20569posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-python-2category-rtag-e1071tag-kerneltag-machine-learningtag-scikit-learntag-svm">
+<a href="https://www.analyticsvidhya.com/blog/2017/09/understaing-support-vector-machine-example-code/" title="Understanding Support Vector Machine algorithm from examples (along with code)">
+Understanding Support Vector Machine algorithm from examples (along with code)
+</a>
+</li>
+<li class="post-19875posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-machine-learningcategory-python-2category-rtag-machine-learningtag-naive-bayestag-naive-bayes-in-rtag-probabilitytag-python">
+<a href="https://www.analyticsvidhya.com/blog/2017/09/naive-bayes-explained/" title="6 Easy Steps to Learn Naive Bayes Algorithm (with codes in Python and R)">
+6 Easy Steps to Learn Naive Bayes Algorithm (with codes in Python and R)
+</a>
+</li>
+<li class="post-26363posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticstag-analytical-thinkingtag-analytics-interviewtag-analytics-interview-questiontag-data-science-interview-questionstag-job-in-analyticstag-job-interviewstag-logical-thinkingtag-numerical-ability">
+<a href="https://www.analyticsvidhya.com/blog/2016/07/20-challenging-job-interview-puzzles-which-every-analyst-solve-atleast/" title="20 Challenging Job Interview Puzzles which every analyst should solve atleast once">
+20 Challenging Job Interview Puzzles which every analyst should solve atleast once
+</a>
+</li>
+<li class="post-23168posttype-poststatus-publishformat-standardhas-post-thumbnailcategory-business-analyticscategory-machine-learningcategory-python-2category-time-seriestag-arimatag-forecasting-analyticstag-pandastag-time-seriestag-time-series-analysistag-time-series-forecasting">
+<a href="https://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/" title="A comprehensive beginner&#8217;s guide to create a Time Series Forecast (with Codes in Python)">
+A comprehensive beginner&#8217;s guide to create a Time Series Forecast (with Codes in Python)
+</a>
+</li>
+</ul></div><div id="text-23" class="widget clearfix widget_text"> <div class="textwidget"><script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-5229672700622157" data-ad-slot="1620249624"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></div>
+</div><div id="maha_recent_posts-3" class="widget clearfix widget_recents"><div class="widget-title"><div class="block-cap"><h3>Recent Posts</h3></div></div>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/a-step-by-step-introduction-to-the-basic-object-detection-algorithms-part-1/" rel="bookmark" title="A Step-by-Step Introduction to the Basic Object Detection Algorithms (Part 1)">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/Deep-Learning--83x63.jpg" alt="A Step-by-Step Introduction to the Basic Object Detection Algorithms (Part 1)" title="A Step-by-Step Introduction to the Basic Object Detection Algorithms (Part 1)" />
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/a-step-by-step-introduction-to-the-basic-object-detection-algorithms-part-1/" rel="bookmark" title="A Step-by-Step Introduction to the Basic Object Detection Algorithms (Part 1)">
+A Step-by-Step Introduction to the Basic Object Detection Algorithms (Part 1) </a>
+</h3>
+<meta content="A Step-by-Step Introduction to the Basic Object Detection Algorithms (Part 1)" />
+<div class="meta-info">
+<time class="entry-date" datetime="2018-10-11T09:14:10+00:00">
+October 11, 2018 </time>
+</div>
+</div>
+</article>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/comprehensive-overview-machine-learning-part-1/" rel="bookmark" title="An Introduction to Random Forest using the fastai Library (Machine Learning for Programmers &#8211; Part 1)">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/machine-learning-using-fast-83x63.jpg" alt="An Introduction to Random Forest using the fastai Library (Machine Learning for Programmers &#8211; Part 1)" title="An Introduction to Random Forest using the fastai Library (Machine Learning for Programmers &#8211; Part 1)" />
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/comprehensive-overview-machine-learning-part-1/" rel="bookmark" title="An Introduction to Random Forest using the fastai Library (Machine Learning for Programmers &#8211; Part 1)">
+An Introduction to Random Forest using the fastai Library (Machine Learning for Programmers &#8211; Part 1) </a>
+</h3>
+<meta content="An Introduction to Random Forest using the fastai Library (Machine Learning for Programmers &#8211; Part 1)" />
+<div class="meta-info">
+<time class="entry-date" datetime="2018-10-08T09:11:22+00:00">
+October 8, 2018 </time>
+</div>
+</div>
+</article>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/rapidminer-data-preparation-machine-learning/" rel="bookmark" title="Simplifying Data Preparation and Machine Learning Tasks using RapidMiner">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/Blog-Flight-Image-dark-83x63.jpg" alt="Simplifying Data Preparation and Machine Learning Tasks using RapidMiner" title="Simplifying Data Preparation and Machine Learning Tasks using RapidMiner" />
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/rapidminer-data-preparation-machine-learning/" rel="bookmark" title="Simplifying Data Preparation and Machine Learning Tasks using RapidMiner">
+Simplifying Data Preparation and Machine Learning Tasks using RapidMiner </a>
+</h3>
+<meta content="Simplifying Data Preparation and Machine Learning Tasks using RapidMiner" />
+<div class="meta-info">
+<time class="entry-date" datetime="2018-10-08T08:53:41+00:00">
+October 8, 2018 </time>
+</div>
+</div>
+</article>
+<article class="post-box-small recent-item clearfix">
+<div class="thumb-wrap zoom-zoom three">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/best-machine-learning-github-repositories-reddit-threads-september-2018/" rel="bookmark" title="5 Amazing Machine Learning GitHub Repositories &#038; Reddit Threads from September 2018">
+<img width="83" height="63" class="entry-thumb zoom-it three" src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/best-github-83x63.jpg" alt="5 Amazing Machine Learning GitHub Repositories &#038; Reddit Threads from September 2018" title="5 Amazing Machine Learning GitHub Repositories &#038; Reddit Threads from September 2018" />
+</a>
+</div>
+<div class="box-small-wrap">
+<h3 class="entry-title short-bottom">
+<a href="https://www.analyticsvidhya.com/blog/2018/10/best-machine-learning-github-repositories-reddit-threads-september-2018/" rel="bookmark" title="5 Amazing Machine Learning GitHub Repositories &#038; Reddit Threads from September 2018">
+5 Amazing Machine Learning GitHub Repositories &#038; Reddit Threads from September 2018 </a>
+</h3>
+<meta content="5 Amazing Machine Learning GitHub Repositories &#038; Reddit Threads from September 2018" />
+<div class="meta-info">
+<time class="entry-date" datetime="2018-10-04T10:43:30+00:00">
+October 4, 2018 </time>
+</div>
+</div>
+</article>
+</div><div id="text-19" class="widget clearfix widget_text"> <div class="textwidget"><a href="http://www.edvancer.in/certified-data-scientist-with-python-course?utm_source=AV&utm_medium=AVads&utm_campaign=AVadsnonfc&utm_content=pythonavad" rel="nofollow" target="_blank"><img src="https://www.analyticsvidhya.com/wp-content/uploads/2016/10/edvancer-oct-2016.gif" alt=""></a></div>
+</div><div id="text-37" class="widget clearfix widget_text"> <div class="textwidget"><p><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+DS101+2018T2/about?utm_source=AVStickybanner1" target="_blank" rel="noopener"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/intro-ds-42.gif" /></a></p>
+</div>
+</div><div id="text-42" class="widget clearfix widget_text"> <div class="textwidget"><p><a href="https://trainings.analyticsvidhya.com/courses/course-v1:AnalyticsVidhya+CVDL101+CVDL101_T1/about?utm_source=CV101AVBlogBanner&amp;utm_medium=Stickybanner2utm_campaign=CV101banner" target="_blank" rel="noopener"><img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2018/10/com-vision-4.gif" /></a></p>
+</div>
+</div></div></div> </div>
+</div>
+</div>
+</div>
+
+</div>
+
+<footer>
+<div id="footer">
+<div class="footer-container">
+<div class="upper-footer">
+<div class="logo">
+<img src="https://s3-ap-south-1.amazonaws.com/av-blog-media/2017/05/29093240/AV-white.d14465ee4af2.png" class="footer-logo">
+</div>
+<div class="navigation-content">
+<div class="footer-links-holder">
+<h5 class="links-hide">ANALYTICS VIDHYA</h5>
+<ul class="footer-links av-links">
+<li><a target="_blank" href="http://www.analyticsvidhya.com/about-me/">About Us</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">Our Team</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/career-analytics-vidhya/">Career</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/contact/">Contact Us</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/about-me/write/">Write for us</a></li>
+</ul>
+</div>
+<div class="mobile-links-holder">
+<div class="links">
+<a target="_blank" href="http://www.analyticsvidhya.com/about-me/">About Us</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">•</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">Our Team</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">•</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/career-analytics-vidhya/">Careers</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/about-me/team/">•</a>
+</div>
+<div class="links">
+<a target="_blank" href="https://www.analyticsvidhya.com/contact/">Contact Us</a>
+</div>
+</div>
+<div class="footer-links-holder">
+<h5 class="links-show">DATA SCIENTISTS</h5>
+<ul class="footer-links">
+<li><a target="_blank" href="https://www.analyticsvidhya.com/blog">Blog</a></li>
+<li><a target="_blank" href="https://datahack.analyticsvidhya.com/">Hackathon</a></li>
+<li><a target="_blank" href="https://discuss.analyticsvidhya.com/">Discussions</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/jobs/">Apply Jobs</a></li>
+<li><a target="_blank" href="https://datahack.analyticsvidhya.com/users/">Leaderboard</a></li>
+</ul>
+</div>
+<div class="footer-links-holder">
+<h5 class="links-show">COMPANIES</h5>
+<ul class="footer-links">
+<li><a target="_blank" href="https://www.analyticsvidhya.com/corporate/">Post Jobs</a></li>
+<li><a target="_blank" href="https://trainings.analyticsvidhya.com">Trainings</a></li>
+<li><a target="_blank" href="https://datahack.analyticsvidhya.com/">Hiring Hackathons</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/contact/">Advertising</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/contact/">Reach Us</a></li>
+</ul>
+</div>
+</div>
+<div class="mobile-signup">
+<p>Don't have an account? <a target="_blank" href="https://datahack.analyticsvidhya.com/signup/" class="signup-link">Sign up</a> here.</p>
+</div>
+<div class="footer-social">
+<div class="join">
+<h5> JOIN OUR COMMUNITY :</h5>
+</div>
+<div class="social-stats">
+<div class="social" id="wrapper">
+<a href="https://www.facebook.com/AnalyticsVidhya/" target="_blank" class="item facebook"><i class="fa fa-facebook social-img"></i></a>
+<a href="https://www.facebook.com/AnalyticsVidhya/" target="_blank" class="item facebook"><span class="count_followers" id="followers-count">46336</span></a>
+<a href="https://www.facebook.com/AnalyticsVidhya/" target="_blank" class="item facebook"><span id="followers">Followers</span></a>
+</div>
+<div class="social" id="wrapper">
+<a href="https://twitter.com/analyticsvidhya" target="_blank" class="item twitter"><i class="fa fa-twitter social-img"></i></a>
+<a href="https://twitter.com/analyticsvidhya" target="_blank" class="item twitter"><span class="count_followers" id="followers-count">18286</span></a>
+<a href="https://twitter.com/analyticsvidhya" target="_blank" class="item twitter"><span id="followers">Followers</span></a>
+</div>
+<div class="social" id="wrapper">
+<a href="https://plus.google.com/+Analyticsvidhya" target="_blank" class="item google"><i class="fa fa-google-plus social-img"></i></a>
+<a href="https://plus.google.com/+Analyticsvidhya" target="_blank" class="item google"><span class="count_followers" id="followers-count">3006</span></a>
+<a href="https://plus.google.com/+Analyticsvidhya" target="_blank" class="item google"><span id="followers">Followers</span></a>
+</div>
+<div class="social" id="wrapper">
+<a href="https://www.linkedin.com/m/login/" target="_blank" class="item linkedin"><i class="fa fa-linkedin social-img"></i></a>
+<a href="https://www.linkedin.com/m/login/" target="_blank" class="item linkedin"><span class="count_followers" id="followers-count">7513</span></a>
+<a href="https://www.linkedin.com/m/login/" target="_blank" class="item linkedin"><span id="followers">Followers</span></a>
+</div>
+</div>
+<div class="subscribe">
+<form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="_blank">
+<input name="uri" value="analyticsvidhya" type="hidden">
+<input name="loc" value="en_US" type="hidden">
+<input class="subscriber" placeholder="&nbsp; Subscribe to emailer" name="email" type="email" id="footer-email">
+<input class="subscriber-button" value=">" type="submit">
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="lower">
+<div class="container2">
+<div class="lower-footer">
+<p>© Copyright 2013-2018 Analytics Vidhya.</p>
+<ul class="lower-footer-links">
+<li><a target="_blank" href="https://www.analyticsvidhya.com/privacy-policy/">Privacy Policy</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/terms/">Terms of Use</a></li>
+<li><a target="_blank" href="https://www.analyticsvidhya.com/refund-policy/">Refund Policy</a></li>
+</ul>
+</div>
+<div class="sign-up">
+<p>Don't have an account? <a target="_blank" href="https://id.analyticsvidhya.com/accounts/signup/" class="signup-link">Sign up</a> here</p>
+</div>
+</div>
+</div>
+</footer>
+</div>
+
+</div>
+
+<div id="scrolltop">
+<a><i class="tm-go-top"></i></a>
+</div>
+</div>
+<script>
+ $(document).ready(function(){
+	     $.ajax({
+        url: "https://www.analyticsvidhya.com/back-channel/display-image.php",
+        data: {
+            image: '3'
+        },
+        type: "GET",
+				cache: false,
+        dataType: "html",
+        success: function (data) {
+            $('#ban3_av').html(data);
+        },
+        error: function (xhr, status) {
+					console.log("Image Failed!");
+        },
+    });
+});
+</script>
+
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wpcf7 = {"apiSettings":{"root":"https:\/\/www.analyticsvidhya.com\/wp-json\/contact-form-7\/v1","namespace":"contact-form-7\/v1"},"recaptcha":{"messages":{"empty":"Please verify that you are not a robot."}},"cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=5.0.4' defer='defer'></script>
+<script type='text/javascript' src='https://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201841' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/js/main.js?ver=1.0.0'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var MahaAjax = {"ajaxurl":"https:\/\/www.analyticsvidhya.com\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/js/basix.js?ver=1.0.0' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/themes/Curated/static/js/add_to_cart.js?ver=1.0.0' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/comment-reply.min.js?ver=4.9.8' defer='defer'></script>
+<!--[if IE 9]>
+<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js?ver=1' defer='defer'></script>
+<![endif]-->
+<!--[if IE 9]>
+<script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/respond.js/1.3.0/respond.min.js?ver=1' defer='defer'></script>
+<![endif]-->
+<script type='text/javascript'>
+/* <![CDATA[ */
+var q2w3_sidebar_options = [{"sidebar":"blog-sidebar","margin_top":100,"margin_bottom":800,"stop_id":"","screen_max_width":0,"screen_max_height":0,"width_inherit":false,"refresh_interval":1500,"window_load_hook":false,"disable_mo_api":false,"widgets":["text-37","text-42"]}];
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/q2w3-fixed-widget/js/q2w3-fixed-widget.min.js?ver=5.1.4' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/jquery/ui/effect.min.js?ver=1.11.4' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/jquery/ui/effect-blind.min.js?ver=1.11.4' defer='defer'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var stbUserOptions = {"mode":"css","cssOptions":{"roundedCorners":true,"mbottom":10,"imgHide":"https:\/\/www.analyticsvidhya.com\/blog\/wp-content\/plugins\/wp-special-textboxes\/images\/minus.png","imgShow":"https:\/\/www.analyticsvidhya.com\/blog\/wp-content\/plugins\/wp-special-textboxes\/images\/plus.png","strHide":"Hide","strShow":"Show"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-content/plugins/wp-special-textboxes/js/wstb.min.js?ver=5.9.107' defer='defer'></script>
+<script type='text/javascript' src='https://www.analyticsvidhya.com/wp-includes/js/wp-embed.min.js?ver=4.9.8' defer='defer'></script>
+
+<div class="dgd_overlay"></div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994"><a class="dgd_stb_box_close dgd_stb_box_x" href="javascript:void(0);"> </a><div class="popup-bg-1"></div>
+<h5 class="h5-popup" style="text-align: center;">Join 150000+ Data Scientists in our Community</h5>
+<p class="h6-popup">Receive awesome tips, guides, infographics and become expert at:</p>
+<ul class="popup-ul">
+<li>R / Python / SAS</li>
+<li>Machine Learning / Deep Learning</li>
+<li>Data Visualization</li>
+</ul>
+<p class="p-popup">Interact with thousands of data science professionals across the globe!</p>
+<form class="stbContactForm" style="margin-top: -35px;" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"><input name="uri" type="hidden" value="analyticsvidhya" /><br />
+<input name="loc" type="hidden" value="en_US" /><br />
+<input id="email" class="popup-email" name="email" required="required" type="email" value="" placeholder="Enter Your Email..." /><br />
+<input class="popup-subscribe" type="submit" value="Subscribe" /></p>
+<p style="font-size: 12px;"> P.S. We only publish awesome content. We will never share your information with anyone.</p>
+</form>
+</div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994-tab">Subscribe!</div>
+
+<script type='text/javascript' src='https://stats.wp.com/e-201841.js' async='async' defer='defer'></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:6.5',blog:'58948004',post:'36291',tz:'5.5',srv:'www.analyticsvidhya.com'} ]);
+	_stq.push([ 'clickTrackerInit', '58948004', '36291' ]);
+</script>
+</body>
+</html>
+
+<div class="dgd_overlay"></div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994"><a class="dgd_stb_box_close dgd_stb_box_x" href="javascript:void(0);"> </a><div class="popup-bg-1"></div>
+<h5 class="h5-popup" style="text-align: center;">Join 150000+ Data Scientists in our Community</h5>
+<p class="h6-popup">Receive awesome tips, guides, infographics and become expert at:</p>
+<ul class="popup-ul">
+<li>R / Python / SAS</li>
+<li>Machine Learning / Deep Learning</li>
+<li>Data Visualization</li>
+</ul>
+<p class="p-popup">Interact with thousands of data science professionals across the globe!</p>
+<form class="stbContactForm" style="margin-top: -35px;" action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"><input name="uri" type="hidden" value="analyticsvidhya" /><br />
+<input name="loc" type="hidden" value="en_US" /><br />
+<input id="email" class="popup-email" name="email" required="required" type="email" value="" placeholder="Enter Your Email..." /><br />
+<input class="popup-subscribe" type="submit" value="Subscribe" /></p>
+<p style="font-size: 12px;"> P.S. We only publish awesome content. We will never share your information with anyone.</p>
+</form>
+</div>
+<div class="dgd_stb_box none" id="dgd_scrollbox-38994-tab">Subscribe!</div>
+
+</body>
+</html>

@@ -1,0 +1,1940 @@
+
+
+
+
+
+<!DOCTYPE html>
+<!--[if IE 9]><html class="no-js ie9" lang="en-US"><![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en-US"><!--<![endif]-->
+
+<head>
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Kaggle Master Explains Gradient Boosting | No Free Hunch</title>
+<link rel="pingback" href="http://blog.kaggle.com/xmlrpc.php"><link rel="shortcut icon" href="//www.kaggle.com/favicon.ico"><link rel='dns-prefetch' href='//blog.kaggle.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//cdn.jsdelivr.net' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="No Free Hunch &raquo; Feed" href="http://blog.kaggle.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="No Free Hunch &raquo; Comments Feed" href="http://blog.kaggle.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="No Free Hunch &raquo; A Kaggle Master Explains Gradient Boosting Comments Feed" href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.4\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.4\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/s5047.pcdn.co\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.7"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55357,56692,8205,9792,65039],[55357,56692,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='flick-css'  href='http://s5047.pcdn.co/wp-content/plugins/mailchimp//css/flick/flick.css?ver=4.9.7' type='text/css' media='all' />
+<link rel='stylesheet' id='mailchimpSF_main_css-css'  href='http://blog.kaggle.com/?mcsf_action=main_css&#038;ver=4.9.7' type='text/css' media='all' />
+<!--[if IE]>
+<link rel='stylesheet' id='mailchimpSF_ie_css-css'  href='http://s5047.pcdn.co/wp-content/plugins/mailchimp/css/ie.css?ver=4.9.7' type='text/css' media='all' />
+<![endif]-->
+<link rel='stylesheet' id='style_main-css'  href='http://s5047.pcdn.co/wp-content/plugins/wp-gif-player/style.css?ver=1481361617' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-quicklatex-format-css'  href='http://s5047.pcdn.co/wp-content/plugins/wp-quicklatex/css/quicklatex-format.css?ver=4.9.7' type='text/css' media='all' />
+<link rel='stylesheet' id='responsiveslides-css'  href='http://s5047.pcdn.co/wp-content/plugins/simple-responsive-slider/assets/css/responsiveslides.css?ver=4.9.7' type='text/css' media='all' />
+<link rel='stylesheet' id='x-stack-css'  href='http://s5047.pcdn.co/wp-content/themes/x/framework/css/site/stacks/icon.css?ver=4.3.1' type='text/css' media='all' />
+<link rel='stylesheet' id='x-child-css'  href='http://s5047.pcdn.co/wp-content/themes/x-child/style.css?ver=4.3.1' type='text/css' media='all' />
+<link rel='stylesheet' id='x-google-fonts-css'  href='//fonts.googleapis.com/css?family=Open+Sans%3A400%2C400italic%2C700%2C700italic%7CLato%3A700&#038;subset=latin%2Clatin-ext&#038;ver=4.3.1' type='text/css' media='all' />
+<link rel='stylesheet' id='bfa-font-awesome-css'  href='//cdn.jsdelivr.net/fontawesome/4.7.0/css/font-awesome.min.css?ver=4.7.0' type='text/css' media='all' />
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/mailchimp//js/scrollTo.js?ver=1.5.7'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-includes/js/jquery/jquery.form.min.js?ver=4.2.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var mailchimpSF = {"ajax_url":"http:\/\/blog.kaggle.com\/"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/mailchimp//js/mailchimp.js?ver=1.5.7'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-includes/js/jquery/ui/core.min.js?ver=1.11.4'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/mailchimp//js/datepicker.js?ver=4.9.7'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/simple-responsive-slider/assets/js/responsiveslides.min.js?ver=4.9.7'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/themes/x/framework/js/dist/site/x-head.min.js?ver=4.3.1'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/cornerstone/assets/js/dist/site/cs-head.min.js?ver=1.1.3'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/wp-quicklatex/js/wp-quicklatex-frontend.js?ver=1.0'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/google-analyticator/external-tracking.min.js?ver=6.5.4'></script>
+<link rel='https://api.w.org/' href='http://blog.kaggle.com/wp-json/' />
+<link rel="canonical" href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/" />
+<link rel='shortlink' href='http://blog.kaggle.com/?p=6439' />
+<link rel="alternate" type="application/json+oembed" href="http://blog.kaggle.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fblog.kaggle.com%2F2017%2F01%2F23%2Fa-kaggle-master-explains-gradient-boosting%2F" />
+<link rel="alternate" type="text/xml+oembed" href="http://blog.kaggle.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fblog.kaggle.com%2F2017%2F01%2F23%2Fa-kaggle-master-explains-gradient-boosting%2F&#038;format=xml" />
+          <style>
+          .has-post-thumbnail img.wp-post-image, 
+          .attachment-twentyseventeen-featured-image.wp-post-image { display: none !important; }          
+          </style><script type="text/javascript">
+        jQuery(function($) {
+            $('.date-pick').each(function() {
+                var format = $(this).data('format') || 'mm/dd/yyyy';
+                format = format.replace(/yyyy/i, 'yy');
+                $(this).datepicker({
+                    autoFocusNextInput: true,
+                    constrainInput: false,
+                    changeMonth: true,
+                    changeYear: true,
+                    beforeShow: function(input, inst) { $('#ui-datepicker-div').addClass('show'); },
+                    dateFormat: format.toLowerCase(),
+                });
+            });
+            d = new Date();
+            $('.birthdate-pick').each(function() {
+                var format = $(this).data('format') || 'mm/dd';
+                format = format.replace(/yyyy/i, 'yy');
+                $(this).datepicker({
+                    autoFocusNextInput: true,
+                    constrainInput: false,
+                    changeMonth: true,
+                    changeYear: false,
+                    minDate: new Date(d.getFullYear(), 1-1, 1),
+                    maxDate: new Date(d.getFullYear(), 12-1, 31),
+                    beforeShow: function(input, inst) { $('#ui-datepicker-div').removeClass('show'); },
+                    dateFormat: format.toLowerCase(),
+                });
+
+            });
+
+        });
+    </script>
+	<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(function() {
+			$(".rslides").responsiveSlides({
+			  auto: false,             // Boolean: Animate automatically, true or false
+			  speed: 500,            // Integer: Speed of the transition, in milliseconds
+			  timeout: 4000,          // Integer: Time between slide transitions, in milliseconds
+			  pager: true,           // Boolean: Show pager, true or false
+			  nav: true,             // Boolean: Show navigation, true or false
+			  random: false,          // Boolean: Randomize the order of the slides, true or false
+			  pause: false,           // Boolean: Pause on hover, true or false
+			  pauseControls: false,    // Boolean: Pause when hovering controls, true or false
+			  prevText: "Back",   // String: Text for the "previous" button
+			  nextText: "Next",       // String: Text for the "next" button
+			  maxwidth: "700",           // Integer: Max-width of the slideshow, in pixels
+			  navContainer: "",       // Selector: Where controls should be appended to, default is after the 'ul'
+			  manualControls: "",     // Selector: Declare custom pager navigation
+			  namespace: "rslides",   // String: Change the default namespace used
+			  before: function(){},   // Function: Before callback
+			  after: function(){}     // Function: After callback
+			});
+		});
+	 });
+	</script>
+	
+<!-- Twitter Cards Meta - V 2.5.4 -->
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@kaggle" />
+<meta name="twitter:creator" content="@kaggle" />
+<meta name="twitter:url" content="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/" />
+<meta name="twitter:title" content="A Kaggle Master Explains Gradient Boosting" />
+<meta name="twitter:description" content="If linear regression was a Toyota Camry, then gradient boosting would be a UH-60 Blackhawk Helicopter. A particular implementation of gradient boosting, [...]" />
+<meta name="twitter:image" content="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_a_kaggle_master_explains_xgboost.png" />
+<!-- Twitter Cards Meta By WPDeveloper.net -->
+
+<!-- All in one Favicon 4.7 --><link rel="shortcut icon" href="http://s5047.pcdn.co/wp-content/uploads/2017/09/favicon.ico" />
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="A Kaggle Master Explains Gradient Boosting" />
+<meta property="og:url" content="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/" />
+<meta property="og:description" content="If linear regression was a Toyota Camry, then gradient boosting would be a UH-60 Blackhawk Helicopter. A particular implementation of gradient boosting, XGBoost, is consistently used to win machine…" />
+<meta property="article:published_time" content="2017-01-23T18:10:02+00:00" />
+<meta property="article:modified_time" content="2017-01-24T16:39:51+00:00" />
+<meta property="og:site_name" content="No Free Hunch" />
+<meta property="og:image" content="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_a_kaggle_master_explains_xgboost.png" />
+<meta property="og:image:width" content="1000" />
+<meta property="og:image:height" content="280" />
+<meta property="og:locale" content="en_US" />
+
+<!-- End Jetpack Open Graph Tags -->
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+<!-- Google Analytics Tracking by Google Analyticator 6.5.4: http://www.videousermanuals.com/google-analyticator/ -->
+<script type="text/javascript">
+    var analyticsFileTypes = [''];
+    var analyticsSnippet = 'enabled';
+    var analyticsEventTracking = 'enabled';
+</script>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+  
+	_gaq.push(['_setAccount', 'UA-12629138-3']);
+    _gaq.push(['_addDevId', 'i9k95']); // Google Analyticator App ID with Google
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+<style id="x-generated-css" type="text/css">a,h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover,#respond .required,.x-pagination a:hover,.x-pagination span.current,.widget_tag_cloud .tagcloud a:hover,.widget_product_tag_cloud .tagcloud a:hover,.x-scroll-top:hover,.x-comment-author a:hover,.mejs-button button:hover{color:hsl(204,62%,57%);}a:hover{color:#00abd6;}a.x-img-thumbnail:hover,textarea:focus,input[type="text"]:focus,input[type="password"]:focus,input[type="datetime"]:focus,input[type="datetime-local"]:focus,input[type="date"]:focus,input[type="month"]:focus,input[type="time"]:focus,input[type="week"]:focus,input[type="number"]:focus,input[type="email"]:focus,input[type="url"]:focus,input[type="search"]:focus,input[type="tel"]:focus,input[type="color"]:focus,.uneditable-input:focus,.x-pagination a:hover,.x-pagination span.current,.widget_tag_cloud .tagcloud a:hover,.widget_product_tag_cloud .tagcloud a:hover,.x-scroll-top:hover{border-color:hsl(204,62%,57%);}.flex-direction-nav a,.flex-control-nav a:hover,.flex-control-nav a.flex-active,.x-dropcap,.x-skill-bar .bar,.x-pricing-column.featured h2,.x-portfolio-filters,.x-entry-share .x-share:hover,.widget_price_filter .ui-slider .ui-slider-range,.mejs-time-current{background-color:hsl(204,62%,57%);}.x-portfolio-filters:hover{background-color:#00abd6;}.entry-title:before{display:none;}.x-navbar .desktop .x-nav > li > a,.x-navbar .desktop .sub-menu a,.x-navbar .mobile .x-nav li a{color:#999999;}.x-navbar .desktop .x-nav > li > a:hover,.x-navbar .desktop .x-nav > .x-active > a,.x-navbar .desktop .x-nav > .current-menu-item > a,.x-navbar .desktop .sub-menu a:hover,.x-navbar .desktop .sub-menu .x-active > a,.x-navbar .desktop .sub-menu .current-menu-item > a,.x-navbar .desktop .x-nav .x-megamenu > .sub-menu > li > a,.x-navbar .mobile .x-nav li > a:hover,.x-navbar .mobile .x-nav .x-active > a,.x-navbar .mobile .x-nav .current-menu-item > a{color:#272727;}.x-navbar .desktop .x-nav > li > a{height:90px;padding-top:37px;}.x-navbar .desktop .x-nav > li ul{top:90px;}.x-comment-author,.x-comment-time,.comment-form-author label,.comment-form-email label,.comment-form-url label,.comment-form-rating label,.comment-form-comment label{font-family:"Lato","Helvetica Neue",Helvetica,sans-serif;;}.x-comment-time,.entry-thumb:before,.p-meta{color:#5e5e5e;}.entry-title a:hover,.x-comment-author,.x-comment-author a,.comment-form-author label,.comment-form-email label,.comment-form-url label,.comment-form-rating label,.comment-form-comment label,.x-accordion-heading .x-accordion-toggle,.x-nav-tabs > li > a:hover,.x-nav-tabs > .active > a,.x-nav-tabs > .active > a:hover,.mejs-button button{color:#272727;}.h-comments-title small,.h-feature-headline span i,.x-portfolio-filters-menu,.mejs-time-loaded{background-color:#272727 !important;}@media (min-width:1200px){.x-sidebar{width:295px;}body.x-sidebar-content-active,body[class*="page-template-template-blank"].x-sidebar-content-active.x-blank-template-sidebar-active{padding-left:295px;}body.x-content-sidebar-active,body[class*="page-template-template-blank"].x-content-sidebar-active.x-blank-template-sidebar-active{padding-right:295px;}body.x-sidebar-content-active .x-widgetbar,body.x-sidebar-content-active .x-navbar-fixed-top,body[class*="page-template-template-blank"].x-sidebar-content-active.x-blank-template-sidebar-active .x-widgetbar,body[class*="page-template-template-blank"].x-sidebar-content-active.x-blank-template-sidebar-active .x-navbar-fixed-top{left:295px;}body.x-content-sidebar-active .x-widgetbar,body.x-content-sidebar-active .x-navbar-fixed-top,body[class*="page-template-template-blank"].x-content-sidebar-active.x-blank-template-sidebar-active .x-widgetbar,body[class*="page-template-template-blank"].x-content-sidebar-active.x-blank-template-sidebar-active .x-navbar-fixed-top{right:295px;}}@media (max-width:979px){}body{font-size:14px;font-style:normal;font-weight:400;color:#5e5e5e;background-color:#ededed;}a:focus,select:focus,input[type="file"]:focus,input[type="radio"]:focus,input[type="submit"]:focus,input[type="checkbox"]:focus{outline:thin dotted #333;outline:5px auto hsl(204,62%,57%);outline-offset:-1px;}h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{font-family:"Lato",sans-serif;font-style:normal;font-weight:700;}h1,.h1{letter-spacing:-0.035em;}h2,.h2{letter-spacing:-0.035em;}h3,.h3{letter-spacing:-0.035em;}h4,.h4{letter-spacing:-0.035em;}h5,.h5{letter-spacing:-0.035em;}h6,.h6{letter-spacing:-0.035em;}.w-h{font-weight:700 !important;}.x-container.width{width:87%;}.x-container.max{max-width:1200px;}.x-main.full{float:none;display:block;width:auto;}@media (max-width:979px){.x-main.full,.x-main.left,.x-main.right,.x-sidebar.left,.x-sidebar.right{float:none;display:block;width:auto !important;}}.entry-header,.entry-content{font-size:14px;}body,input,button,select,textarea{font-family:"Open Sans",sans-serif;}h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6,h1 a,h2 a,h3 a,h4 a,h5 a,h6 a,.h1 a,.h2 a,.h3 a,.h4 a,.h5 a,.h6 a,blockquote{color:#272727;}.cfc-h-tx{color:#272727 !important;}.cfc-h-bd{border-color:#272727 !important;}.cfc-h-bg{background-color:#272727 !important;}.cfc-b-tx{color:#5e5e5e !important;}.cfc-b-bd{border-color:#5e5e5e !important;}.cfc-b-bg{background-color:#5e5e5e !important;}.x-btn-widgetbar{border-top-color:#000000;border-right-color:#000000;}.x-btn-widgetbar:hover{border-top-color:#444444;border-right-color:#444444;}.x-navbar-inner{min-height:90px;}.x-brand{margin-top:22px;font-family:"Lato",sans-serif;font-size:42px;font-style:normal;font-weight:700;letter-spacing:-0.035em;color:#466c86;}.x-brand:hover,.x-brand:focus{color:#466c86;}.x-navbar .x-nav-wrap .x-nav > li > a{font-family:"Lato",sans-serif;font-style:normal;font-weight:700;letter-spacing:0.085em;text-transform:uppercase;}.x-navbar .desktop .x-nav > li > a{font-size:13px;}.x-navbar .desktop .x-nav > li > a:not(.x-btn-navbar-woocommerce){padding-left:20px;padding-right:20px;}.x-navbar .desktop .x-nav > li > a > span{padding-right:calc(1.25em - 0.085em);}.x-btn-navbar{margin-top:20px;}.x-btn-navbar,.x-btn-navbar.collapsed{font-size:24px;}@media (max-width:979px){.x-widgetbar{left:0;right:0;}}.x-btn,.button,[type="submit"]{color:#ffffff;border-color:rgb(0,138,188);background-color:rgb(32,190,255);text-shadow:0 0.075em 0.075em rgba(0,0,0,0.5);border-radius:0.25em;}.x-btn:hover,.button:hover,[type="submit"]:hover{color:#ffffff;border-color:rgb(0,138,188);background-color:rgb(32,190,255);text-shadow:0 0.075em 0.075em rgba(0,0,0,0.5);}.x-btn.x-btn-real,.x-btn.x-btn-real:hover{margin-bottom:0.25em;text-shadow:0 0.075em 0.075em rgba(0,0,0,0.65);}.x-btn.x-btn-real{box-shadow:0 0.25em 0 0 #a71000,0 4px 9px rgba(0,0,0,0.75);}.x-btn.x-btn-real:hover{box-shadow:0 0.25em 0 0 #a71000,0 4px 9px rgba(0,0,0,0.75);}.x-btn.x-btn-flat,.x-btn.x-btn-flat:hover{margin-bottom:0;text-shadow:0 0.075em 0.075em rgba(0,0,0,0.65);box-shadow:none;}.x-btn.x-btn-transparent,.x-btn.x-btn-transparent:hover{margin-bottom:0;border-width:3px;text-shadow:none;text-transform:uppercase;background-color:transparent;box-shadow:none;}.h-widget:before,.x-flickr-widget .h-widget:before,.x-dribbble-widget .h-widget:before{position:relative;font-weight:normal;font-style:normal;line-height:1;text-decoration:inherit;-webkit-font-smoothing:antialiased;speak:none;}.h-widget:before{padding-right:0.4em;font-family:"fontawesome";}.x-flickr-widget .h-widget:before,.x-dribbble-widget .h-widget:before{top:0.025em;padding-right:0.35em;font-family:"foundationsocial";font-size:0.785em;}.widget_archive .h-widget:before{content:"\f040";top:-0.045em;font-size:0.925em;}.widget_calendar .h-widget:before{content:"\f073";top:-0.0825em;font-size:0.85em;}.widget_categories .h-widget:before,.widget_product_categories .h-widget:before{content:"\f02e";font-size:0.95em;}.widget_nav_menu .h-widget:before,.widget_layered_nav .h-widget:before{content:"\f0c9";}.widget_meta .h-widget:before{content:"\f0fe";top:-0.065em;font-size:0.895em;}.widget_pages .h-widget:before{content:"\f0f6";top:-0.065em;font-size:0.85em;}.widget_recent_reviews .h-widget:before,.widget_recent_comments .h-widget:before{content:"\f086";top:-0.065em;font-size:0.895em;}.widget_recent_entries .h-widget:before{content:"\f02d";top:-0.045em;font-size:0.875em;}.widget_rss .h-widget:before{content:"\f09e";padding-right:0.2em;}.widget_search .h-widget:before,.widget_product_search .h-widget:before{content:"\f0a4";top:-0.075em;font-size:0.85em;}.widget_tag_cloud .h-widget:before,.widget_product_tag_cloud .h-widget:before{content:"\f02c";font-size:0.925em;}.widget_text .h-widget:before{content:"\f054";padding-right:0.4em;font-size:0.925em;}.x-dribbble-widget .h-widget:before{content:"\f009";}.x-flickr-widget .h-widget:before{content:"\f010";padding-right:0.35em;}.widget_best_sellers .h-widget:before{content:"\f091";top:-0.0975em;font-size:0.815em;}.widget_shopping_cart .h-widget:before{content:"\f07a";top:-0.05em;font-size:0.945em;}.widget_products .h-widget:before{content:"\f0f2";top:-0.05em;font-size:0.945em;}.widget_featured_products .h-widget:before{content:"\f0a3";}.widget_layered_nav_filters .h-widget:before{content:"\f046";top:1px;}.widget_onsale .h-widget:before{content:"\f02b";font-size:0.925em;}.widget_price_filter .h-widget:before{content:"\f0d6";font-size:1.025em;}.widget_random_products .h-widget:before{content:"\f074";font-size:0.925em;}.widget_recently_viewed_products .h-widget:before{content:"\f06e";}.widget_recent_products .h-widget:before{content:"\f08d";top:-0.035em;font-size:0.9em;}.widget_top_rated_products .h-widget:before{content:"\f075";top:-0.145em;font-size:0.885em;}h1 { font-size: 35px; }
+h2 { font-size: 30px; }
+h3 { font-size: 20px; }
+
+.entry-footer {
+    margin: auto;
+    width: 60%;
+    padding: 5px;
+}
+
+.entry-featured {
+	border:0;
+}</style></head>
+
+<body class="post-template-default single single-post postid-6439 single-format-standard x-icon x-navbar-static-active x-full-width-layout-active x-sidebar-content-active x-v4_3_1 x-child-theme-active cornerstone-v1_1_3">
+
+  
+  <div id="top" class="site">
+
+  
+  
+  <header class="masthead masthead-inline" role="banner">
+    
+    
+
+  <div class="x-navbar-wrap">
+    <div class="x-navbar">
+      <div class="x-navbar-inner">
+        <div class="x-container max width">
+          
+
+<a href="http://blog.kaggle.com/" class="x-brand text" title="The Official Blog of Kaggle.com">
+  No Free Hunch</a>          
+<a href="#" class="x-btn-navbar collapsed" data-toggle="collapse" data-target=".x-nav-wrap.mobile">
+  <i class="x-icon-bars" data-x-icon="&#xf0c9;"></i>
+  <span class="visually-hidden">Navigation</span>
+</a>
+
+<nav class="x-nav-wrap desktop" role="navigation">
+  <ul id="menu-header-menu" class="x-nav"><li id="menu-item-5387" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5387"><a target="_blank" href="http://www.kaggle.com"><span>kaggle.com</span></a></li>
+</ul></nav>
+
+<div class="x-nav-wrap mobile collapse">
+  <ul id="menu-header-menu-1" class="x-nav"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5387"><a target="_blank" href="http://www.kaggle.com"><span>kaggle.com</span></a></li>
+</ul></div>        </div>
+      </div>
+    </div>
+  </div>
+
+    
+  
+    <div class="x-breadcrumb-wrap">
+      <div class="x-container max width">
+
+        <div class="x-breadcrumbs"><a href="http://blog.kaggle.com"><span class="home"><i class="x-icon-home" data-x-icon="&#xf015;"></i></span></a> <span class="delimiter"><i class="x-icon-angle-right" data-x-icon="&#xf105;"></i></span> <span class="current">A Kaggle Master Explains Gradient Boosting</span></div>
+                  
+  <div class="x-nav-articles">
+
+          <a href="http://blog.kaggle.com/2017/01/26/open-data-spotlight-the-global-terrorism-database/" title="" class="prev">
+        <i class="x-icon-arrow-left" data-x-icon="&#xf060;"></i>      </a>
+    
+          <a href="http://blog.kaggle.com/2017/01/12/santander-product-recommendation-competition-2nd-place-winners-solution-write-up-tom-van-de-wiele/" title="" class="next">
+        <i class="x-icon-arrow-right" data-x-icon="&#xf061;"></i>      </a>
+    
+  </div>
+
+          
+      </div>
+    </div>
+
+    </header>
+
+    
+  <div class="x-main full" role="main">
+
+          
+<article id="post-6439" class="post-6439 post type-post status-publish format-standard has-post-thumbnail hentry category-tutorials tag-tutorial tag-xgboost">
+  <div class="entry-wrap">
+    <a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comments" title="Leave a comment on: &ldquo;A Kaggle Master Explains Gradient Boosting&rdquo;" class="meta-comments">55</a>    <div class="x-container max width">
+      
+<header class="entry-header">
+      <h1 class="entry-title">A Kaggle Master Explains Gradient Boosting</h1>
+    <p class="p-meta"><span><a href="http://blog.kaggle.com/author/bengorman/">Ben Gorman</a></span>|<span><time class="entry-date" datetime="2017-01-23T10:10:02+00:00">01.23.2017</time></span></p>  </header>            <div class="entry-featured">
+        <div class="entry-thumb"><img width="1000" height="280" src="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_a_kaggle_master_explains_xgboost.png" class="attachment-entry size-entry wp-post-image" alt="A Kaggle Master Explains XGBoost" srcset="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_a_kaggle_master_explains_xgboost.png 1000w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_a_kaggle_master_explains_xgboost-300x84.png 300w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_a_kaggle_master_explains_xgboost-768x215.png 768w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_a_kaggle_master_explains_xgboost-100x28.png 100w" sizes="(max-width: 1000px) 100vw, 1000px" /></div>      </div>
+            
+
+
+<div class="entry-content content">
+
+
+  <p align="center"><em>This tutorial was originally posted <a href="https://gormanalysis.com/gradient-boosting-explained/" target="_blank">here</a> on Ben's blog, <a href="https://gormanalysis.com/" target="_blank">GormAnalysis</a>.</em></p>
+<p>If linear regression was a Toyota Camry, then gradient boosting would be a UH-60 Blackhawk Helicopter.  A particular implementation of gradient boosting, <a href="https://github.com/dmlc/xgboost">XGBoost</a>, is consistently used to win machine learning competitions on <a href="https://www.kaggle.com/">Kaggle</a>. Unfortunately many practitioners (including my former self) use it as a black box.  It’s also been butchered to death by a host of drive-by data scientists’ blogs.  As such, the purpose of this article is to lay the groundwork for classical gradient boosting, intuitively <em>and</em> comprehensively.</p>
+<p><img src="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_Gradient-Boosting-Image.png" alt="" width="1024" height="512" class="aligncenter size-full wp-image-6446" srcset="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_Gradient-Boosting-Image.png 1024w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_Gradient-Boosting-Image-300x150.png 300w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_Gradient-Boosting-Image-768x384.png 768w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_Gradient-Boosting-Image-100x50.png 100w" sizes="(max-width: 1024px) 100vw, 1024px" /></p>
+<hr />
+<h2>Motivation</h2>
+<p>We’ll start with a simple example.  We want to predict a person’s age based on whether they play video games, enjoy gardening, and their preference on wearing hats.  Our objective is to minimize squared error.  We have these nine training samples to build our model.</p>
+<table>
+<thead>
+<tr>
+<th align="center">PersonID</th>
+<th align="center">Age</th>
+<th align="center">LikesGardening</th>
+<th align="center">PlaysVideoGames</th>
+<th align="center">LikesHats</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">13</td>
+<td align="center">FALSE</td>
+<td align="center">TRUE</td>
+<td align="center">TRUE</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">14</td>
+<td align="center">FALSE</td>
+<td align="center">TRUE</td>
+<td align="center">FALSE</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">15</td>
+<td align="center">FALSE</td>
+<td align="center">TRUE</td>
+<td align="center">FALSE</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">25</td>
+<td align="center">TRUE</td>
+<td align="center">TRUE</td>
+<td align="center">TRUE</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">35</td>
+<td align="center">FALSE</td>
+<td align="center">TRUE</td>
+<td align="center">TRUE</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">49</td>
+<td align="center">TRUE</td>
+<td align="center">FALSE</td>
+<td align="center">FALSE</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">68</td>
+<td align="center">TRUE</td>
+<td align="center">TRUE</td>
+<td align="center">TRUE</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">71</td>
+<td align="center">TRUE</td>
+<td align="center">FALSE</td>
+<td align="center">FALSE</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">73</td>
+<td align="center">TRUE</td>
+<td align="center">FALSE</td>
+<td align="center">TRUE</td>
+</tr>
+</tbody>
+</table>
+<p>Intuitively, we might expect<br />
+&#8211; The people who like gardening are probably older<br />
+&#8211; The people who like video games are probably younger<br />
+&#8211; <em>LikesHats</em> is probably just random noise</p>
+<p>We can do a quick and dirty inspection of the data to check these assumptions:</p>
+<table>
+<thead>
+<tr>
+<th align="center">Feature</th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">LikesGardening</td>
+<td align="center">{13, 14, 15, 35}</td>
+<td align="center">{25, 49, 68, 71, 73}</td>
+</tr>
+<tr>
+<td align="center">PlaysVideoGames</td>
+<td align="center">{49, 71, 73}</td>
+<td align="center">{13, 14, 15, 25, 35, 68}</td>
+</tr>
+<tr>
+<td align="center">LikesHats</td>
+<td align="center">{14, 15, 49, 71}</td>
+<td align="center">{13, 25, 35, 68, 73}</td>
+</tr>
+</tbody>
+</table>
+<p>Now let’s model the data with a regression tree.  To start, we’ll require that terminal nodes have at least three samples. With this in mind, the regression tree will make its first and last split on LikesGardening.</p>
+<p><img src="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_tree1_3.png" alt="" width="512" height="512" class="aligncenter size-full wp-image-6442" srcset="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_tree1_3.png 512w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_tree1_3-150x150.png 150w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_tree1_3-300x300.png 300w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_tree1_3-100x100.png 100w" sizes="(max-width: 512px) 100vw, 512px" /></p>
+<p>This is nice, but it’s missing valuable information from the feature LikesVideoGames. Let’s try letting terminal nodes have 2 samples.</p>
+<p><img src="http://s5047.pcdn.co/wp-content/uploads/2017/01/gb_tree1B_4.png" alt="" width="1024" height="512" class="aligncenter size-full wp-image-6450" srcset="http://s5047.pcdn.co/wp-content/uploads/2017/01/gb_tree1B_4.png 1024w, http://s5047.pcdn.co/wp-content/uploads/2017/01/gb_tree1B_4-300x150.png 300w, http://s5047.pcdn.co/wp-content/uploads/2017/01/gb_tree1B_4-768x384.png 768w, http://s5047.pcdn.co/wp-content/uploads/2017/01/gb_tree1B_4-100x50.png 100w" sizes="(max-width: 1024px) 100vw, 1024px" /></p>
+<p>Here we pick up some information from <em>PlaysVideoGames</em> but we also pick up information from <em>LikesHats</em> &#8211; a good indication that we’re overfitting and our tree is splitting random noise.</p>
+<p>Here in lies the drawback to using a single decision/regression tree &#8211; <strong>it fails to include predictive power from multiple, overlapping regions of the feature space</strong>. Suppose we measure the training errors from our first tree.</p>
+<table>
+<thead>
+<tr>
+<th align="center">PersonID</th>
+<th align="center">Age</th>
+<th align="center">Tree1 Prediction</th>
+<th align="center">Tree1 Residual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">13</td>
+<td align="center">19.25</td>
+<td align="center">-6.25</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">14</td>
+<td align="center">19.25</td>
+<td align="center">-5.25</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">15</td>
+<td align="center">19.25</td>
+<td align="center">-4.25</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">25</td>
+<td align="center">57.2</td>
+<td align="center">-32.2</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">35</td>
+<td align="center">19.25</td>
+<td align="center">15.75</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">49</td>
+<td align="center">57.2</td>
+<td align="center">-8.2</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">68</td>
+<td align="center">57.2</td>
+<td align="center">10.8</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">71</td>
+<td align="center">57.2</td>
+<td align="center">13.8</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">73</td>
+<td align="center">57.2</td>
+<td align="center">15.8</td>
+</tr>
+</tbody>
+</table>
+<p>Now we can fit a second regression tree to the residuals of the first tree.</p>
+<p><img src="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_tree2_3.png" alt="" width="512" height="512" class="aligncenter size-full wp-image-6444" srcset="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_tree2_3.png 512w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_tree2_3-150x150.png 150w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_tree2_3-300x300.png 300w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_tree2_3-100x100.png 100w" sizes="(max-width: 512px) 100vw, 512px" /></p>
+<p>Notice that this tree does <strong>not</strong> include <em>LikesHats</em> even though <strong>our overfitted regression tree above did</strong>.  The reason is because this regression tree is able to consider LikesHats and PlaysVideoGames with respect to all the training samples, contrary to our overfit regression tree which only considered each feature inside a small region of the input space, thus allowing random noise to select <em>LikesHats</em> as a splitting feature.</p>
+<p>Now we can improve the predictions from our first tree by adding the &#8220;error-correcting&#8221; predictions from this tree.</p>
+<table>
+<thead>
+<tr>
+<th align="center">PersonID</th>
+<th align="center">Age</th>
+<th align="center">Tree1 Prediction</th>
+<th align="center">Tree1 Residual</th>
+<th align="center">Tree2 Prediction</th>
+<th align="center">Combined Prediction</th>
+<th align="center">Final Residual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">13</td>
+<td align="center">19.25</td>
+<td align="center">-6.25</td>
+<td align="center">-3.567</td>
+<td align="center">15.68</td>
+<td align="center">2.683</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">14</td>
+<td align="center">19.25</td>
+<td align="center">-5.25</td>
+<td align="center">-3.567</td>
+<td align="center">15.68</td>
+<td align="center">1.683</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">15</td>
+<td align="center">19.25</td>
+<td align="center">-4.25</td>
+<td align="center">-3.567</td>
+<td align="center">15.68</td>
+<td align="center">0.6833</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">25</td>
+<td align="center">57.2</td>
+<td align="center">-32.2</td>
+<td align="center">-3.567</td>
+<td align="center">53.63</td>
+<td align="center">28.63</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">35</td>
+<td align="center">19.25</td>
+<td align="center">15.75</td>
+<td align="center">-3.567</td>
+<td align="center">15.68</td>
+<td align="center">-19.32</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">49</td>
+<td align="center">57.2</td>
+<td align="center">-8.2</td>
+<td align="center">7.133</td>
+<td align="center">64.33</td>
+<td align="center">15.33</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">68</td>
+<td align="center">57.2</td>
+<td align="center">10.8</td>
+<td align="center">-3.567</td>
+<td align="center">53.63</td>
+<td align="center">-14.37</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">71</td>
+<td align="center">57.2</td>
+<td align="center">13.8</td>
+<td align="center">7.133</td>
+<td align="center">64.33</td>
+<td align="center">-6.667</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">73</td>
+<td align="center">57.2</td>
+<td align="center">15.8</td>
+<td align="center">7.133</td>
+<td align="center">64.33</td>
+<td align="center">-8.667</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th align="center">Tree1 SSE</th>
+<th align="center">Combined SSE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1994</td>
+<td align="center">1765</td>
+</tr>
+</tbody>
+</table>
+<h2>Gradient Boosting &#8211; Draft 1</h2>
+<p>Inspired by the idea above, we create our first (naive) formalization of gradient boosting.  In pseudocode</p>
+<ol>
+<li>Fit a model to the data, <img src="//s0.wp.com/latex.php?latex=F_1%28x%29+%3D+y&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_1(x) = y" title="F_1(x) = y" class="latex" /></li>
+<li>Fit a model to the residuals, <img src="//s0.wp.com/latex.php?latex=h_1%28x%29+%3D+y+-+F_1%28x%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_1(x) = y - F_1(x)" title="h_1(x) = y - F_1(x)" class="latex" /></li>
+<li>Create a new model, <img src="http://s5047.pcdn.co/wp-content/uploads/2017/01/latex_1.png" alt="" width="156" height="18" class="size-full wp-image-6451" srcset="http://s5047.pcdn.co/wp-content/uploads/2017/01/latex_1.png 156w, http://s5047.pcdn.co/wp-content/uploads/2017/01/latex_1-150x18.png 150w, http://s5047.pcdn.co/wp-content/uploads/2017/01/latex_1-100x12.png 100w" sizes="(max-width: 156px) 100vw, 156px" /></li>
+</ol>
+<p>It’s not hard to see how we can generalize this idea by inserting more models that correct the errors of the previous model. Specifically,</p>
+<p><img src="//s0.wp.com/latex.php?latex=F%28x%29+%3D+F_1%28x%29+%5Cmapsto+F_2%28x%29+%3D+F_1%28x%29+%2B+h_1%28x%29+%5Cdots+%5Cmapsto+F_M%28x%29+%3D+F_%7BM-1%7D%28x%29+%2B+h_%7BM-1%7D%28x%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F(x) = F_1(x) &#92;mapsto F_2(x) = F_1(x) + h_1(x) &#92;dots &#92;mapsto F_M(x) = F_{M-1}(x) + h_{M-1}(x)" title="F(x) = F_1(x) &#92;mapsto F_2(x) = F_1(x) + h_1(x) &#92;dots &#92;mapsto F_M(x) = F_{M-1}(x) + h_{M-1}(x)" class="latex" /><br />
+where <img src="//s0.wp.com/latex.php?latex=F_1%28x%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_1(x)" title="F_1(x)" class="latex" /> is an initial model fit to <img src="//s0.wp.com/latex.php?latex=y&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="y" title="y" class="latex" /></p>
+<p>Since we initialize the procedure by fitting <img src="//s0.wp.com/latex.php?latex=F_1%28x%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_1(x)" title="F_1(x)" class="latex" />, our task at each step is to find <img src="//s0.wp.com/latex.php?latex=h_m%28x%29+%3D+y+-+F_m%28x%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_m(x) = y - F_m(x)" title="h_m(x) = y - F_m(x)" class="latex" />.</p>
+<p>Stop.  Notice something. <img src="//s0.wp.com/latex.php?latex=h_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_m" title="h_m" class="latex" /> is just a “model”. Nothing in our definition requires it to be a tree-based model.  This is one of the broader concepts and advantages to gradient boosting.  It’s really just a framework for iteratively improving any weak learner.  So in theory, a well coded gradient boosting module would allow you to “plug in” various classes of weak learners at your disposal.  In practice however, <img src="//s0.wp.com/latex.php?latex=h_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_m" title="h_m" class="latex" /> is almost always a tree based learner, so for now it’s fine to interpret <img src="//s0.wp.com/latex.php?latex=h_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_m" title="h_m" class="latex" /> as a regression tree like the one in our example.</p>
+<h2>Gradient Boosting &#8211; Draft 2</h2>
+<p>Now we&#8217;ll tweak our model to conform to most gradient boosting implementations &#8211; we&#8217;ll initialize the model with a single prediction value. Since our task (for now) is to minimize squared error, we&#8217;ll initialize <img src="//s0.wp.com/latex.php?latex=F&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F" title="F" class="latex" /> with the mean of the training target values.</p>
+<p><img src="//s0.wp.com/latex.php?latex=F_0%28x%29+%3D+%5Cunderset%7B%5Cgamma%7D%7B%5Carg%5Cmin%7D+%5Csum_%7Bi%3D1%7D%5En+L%28y_i%2C+%5Cgamma%29+%3D+%5Cunderset%7B%5Cgamma%7D%7B%5Carg%5Cmin%7D+%5Csum_%7Bi%3D1%7D%5En+%28%5Cgamma+-+y_i%29%5E2+%3D+%7B%5Cdisplaystyle+%7B%5Cfrac+%7B1%7D%7Bn%7D%7D%5Csum+_%7Bi%3D1%7D%5E%7Bn%7Dy_%7Bi%7D.%7D&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_0(x) = &#92;underset{&#92;gamma}{&#92;arg&#92;min} &#92;sum_{i=1}^n L(y_i, &#92;gamma) = &#92;underset{&#92;gamma}{&#92;arg&#92;min} &#92;sum_{i=1}^n (&#92;gamma - y_i)^2 = {&#92;displaystyle {&#92;frac {1}{n}}&#92;sum _{i=1}^{n}y_{i}.}" title="F_0(x) = &#92;underset{&#92;gamma}{&#92;arg&#92;min} &#92;sum_{i=1}^n L(y_i, &#92;gamma) = &#92;underset{&#92;gamma}{&#92;arg&#92;min} &#92;sum_{i=1}^n (&#92;gamma - y_i)^2 = {&#92;displaystyle {&#92;frac {1}{n}}&#92;sum _{i=1}^{n}y_{i}.}" class="latex" /></p>
+<p>Then we can define each subsequent <img src="//s0.wp.com/latex.php?latex=F_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_m" title="F_m" class="latex" /> recursively, just like before</p>
+<p><img src="//s0.wp.com/latex.php?latex=F_%7Bm%2B1%7D%28x%29+%3D+F_m%28x%29+%2B+h_m%28x%29+%3D+y&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_{m+1}(x) = F_m(x) + h_m(x) = y" title="F_{m+1}(x) = F_m(x) + h_m(x) = y" class="latex" />, for <img src="//s0.wp.com/latex.php?latex=m+%5Cgeq+0&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="m &#92;geq 0" title="m &#92;geq 0" class="latex" /></p>
+<p>where <img src="//s0.wp.com/latex.php?latex=h_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_m" title="h_m" class="latex" /> comes from a class of base learners <img src="//s0.wp.com/latex.php?latex=%5Cmathcal%7BH%7D&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;mathcal{H}" title="&#92;mathcal{H}" class="latex" /> (e.g. regression trees).</p>
+<p>At this point you might be wondering how to select the best value for the model&#8217;s hyper-parameter <img src="//s0.wp.com/latex.php?latex=m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="m" title="m" class="latex" />. In other words, how many times should we iterate the residual-correction procedure until we decide upon a final model, <img src="//s0.wp.com/latex.php?latex=F&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F" title="F" class="latex" />?  This is best answered by testing different values of <img src="//s0.wp.com/latex.php?latex=m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="m" title="m" class="latex" /> via <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)">cross-validation</a>.</p>
+<h2>Gradient Boosting &#8211; Draft 3</h2>
+<p>Up until now we’ve been building a model that minimizes squared error, but what if we wanted to minimize absolute error? We <em>could</em> alter our base model (regression tree) to minimize absolute error, but this has a couple drawbacks..</p>
+<ol>
+<li>Depending on the size of the data this could be very computationally expensive. (Each considered split would need to search for a median.)</li>
+<li>It ruins our “plug-in” system. We&#8217;d only be able to plug in weak learns that support the objective function(s) we want to use.</li>
+</ol>
+<p>Instead we’re going to do something much niftier. Recall our example problem. To determine <img src="//s0.wp.com/latex.php?latex=F_0&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_0" title="F_0" class="latex" />, we start by choosing a minimizer for absolute error.  This’ll be <img src="//s0.wp.com/latex.php?latex=median%28y%29+%3D+35&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="median(y) = 35" title="median(y) = 35" class="latex" />.  Now we can measure the residuals, <img src="//s0.wp.com/latex.php?latex=y+-+F_0&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="y - F_0" title="y - F_0" class="latex" />.</p>
+<table>
+<thead>
+<tr>
+<th align="center">PersonID</th>
+<th align="center">Age</th>
+<th align="center">F0</th>
+<th align="center">Residual0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">13</td>
+<td align="center">35</td>
+<td align="center">-22</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">14</td>
+<td align="center">35</td>
+<td align="center">-21</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">15</td>
+<td align="center">35</td>
+<td align="center">-20</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">25</td>
+<td align="center">35</td>
+<td align="center">-10</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">35</td>
+<td align="center">35</td>
+<td align="center">0</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">49</td>
+<td align="center">35</td>
+<td align="center">14</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">68</td>
+<td align="center">35</td>
+<td align="center">33</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">71</td>
+<td align="center">35</td>
+<td align="center">36</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">73</td>
+<td align="center">35</td>
+<td align="center">38</td>
+</tr>
+</tbody>
+</table>
+<p>Consider the first and fourth training samples.  They have <img src="//s0.wp.com/latex.php?latex=F_0&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_0" title="F_0" class="latex" /> residuals of -22 and -10 respectively.  Now suppose we’re able to make each prediction 1 unit closer to its target.  Respective squared error reductions would be 43 and 19, while respective absolute error reductions would be 1 and 1.  So a regression tree, which by default minimizes squared error, will focus heavily on reducing the residual of the first training sample.  But if we want to minimize absolute error, moving each prediction one unit closer to the target produces an equal reduction in the cost function.  With this in mind, suppose that instead of training <img src="//s0.wp.com/latex.php?latex=h_0&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_0" title="h_0" class="latex" /> on the residuals of <img src="//s0.wp.com/latex.php?latex=F_0&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_0" title="F_0" class="latex" />, we instead train <img src="//s0.wp.com/latex.php?latex=h_0&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_0" title="h_0" class="latex" /> on the gradient of the loss function, <img src="//s0.wp.com/latex.php?latex=L%28y%2C+F_0%28x%29%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="L(y, F_0(x))" title="L(y, F_0(x))" class="latex" /> with respect to the prediction values produced by <img src="//s0.wp.com/latex.php?latex=F_0%28x%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_0(x)" title="F_0(x)" class="latex" />. Essentially, we&#8217;ll train <img src="//s0.wp.com/latex.php?latex=h_0&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_0" title="h_0" class="latex" /> on the cost reduction for each sample if the predicted value were to become one unit closer to the observed value.  In the case of absolute error, <img src="//s0.wp.com/latex.php?latex=h_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_m" title="h_m" class="latex" /> will simply consider the sign of every <img src="//s0.wp.com/latex.php?latex=F_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_m" title="F_m" class="latex" /> residual (as apposed to squared error which would consider the magnitude of every residual).  After samples in <img src="//s0.wp.com/latex.php?latex=h_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_m" title="h_m" class="latex" /> are grouped into leaves, an average gradient can be calculated and then scaled by some factor, <img src="//s0.wp.com/latex.php?latex=%5Cgamma&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;gamma" title="&#92;gamma" class="latex" />, so that <img src="//s0.wp.com/latex.php?latex=F_m+%2B+%5Cgamma+h_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_m + &#92;gamma h_m" title="F_m + &#92;gamma h_m" class="latex" /> minimizes the loss function for the samples in each leaf.  (Note that in practice, a different factor is chosen for each leaf.)</p>
+<h4>Gradient Descent</h4>
+<p>Let&#8217;s formalize this idea using the concept of <a href="https://en.wikipedia.org/wiki/Gradient_descent">gradient descent</a>. Consider a differentiable function we want to minimize. For example,</p>
+<p><img src="//s0.wp.com/latex.php?latex=L%28x_1%2C+x_2%29+%3D+%5Cfrac%7B1%7D%7B2%7D%28x_1+-+15%29%5E2+%2B+%5Cfrac%7B1%7D%7B2%7D%28x_2+-+25%29%5E2&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="L(x_1, x_2) = &#92;frac{1}{2}(x_1 - 15)^2 + &#92;frac{1}{2}(x_2 - 25)^2" title="L(x_1, x_2) = &#92;frac{1}{2}(x_1 - 15)^2 + &#92;frac{1}{2}(x_2 - 25)^2" class="latex" /></p>
+<p>The goal here is to find the pair <img src="//s0.wp.com/latex.php?latex=%28x_1%2C+x_2%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="(x_1, x_2)" title="(x_1, x_2)" class="latex" /> that minimizes <img src="//s0.wp.com/latex.php?latex=L&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="L" title="L" class="latex" />.  Notice, you can interpret this function as calculating the squared error for two data points, 15 and 25 given two prediction values, <img src="//s0.wp.com/latex.php?latex=x_1&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="x_1" title="x_1" class="latex" /> and <img src="//s0.wp.com/latex.php?latex=x_2&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="x_2" title="x_2" class="latex" /> (but with a <img src="//s0.wp.com/latex.php?latex=%5Cfrac%7B1%7D%7B2%7D&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;frac{1}{2}" title="&#92;frac{1}{2}" class="latex" /> multiplier to make the math work out nicely).  Although we can minimize this function directly, <strong>gradient descent will let us minimize more complicated loss functions</strong> that we <em>can&#8217;t</em> minimize directly.</p>
+<p><strong>Initialization Steps:</strong><br />
+Number of iteration steps <img src="//s0.wp.com/latex.php?latex=M+%3D+100&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="M = 100" title="M = 100" class="latex" /><br />
+Starting point <img src="//s0.wp.com/latex.php?latex=s%5Ctextsuperscript%7B0%7D+%3D+%280%2C+0%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="s&#92;textsuperscript{0} = (0, 0)" title="s&#92;textsuperscript{0} = (0, 0)" class="latex" /><br />
+Step size <img src="//s0.wp.com/latex.php?latex=%5Cgamma+%3D+0.1&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;gamma = 0.1" title="&#92;gamma = 0.1" class="latex" /></p>
+<p><strong>For iteration <img src="//s0.wp.com/latex.php?latex=m%3D1&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="m=1" title="m=1" class="latex" /> to <img src="//s0.wp.com/latex.php?latex=M&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="M" title="M" class="latex" />:</strong><br />
+1. Calculate the gradient of <img src="//s0.wp.com/latex.php?latex=L&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="L" title="L" class="latex" /> at the point <img src="//s0.wp.com/latex.php?latex=s%5Ctextsuperscript%7B%28m-1%29%7D&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="s&#92;textsuperscript{(m-1)}" title="s&#92;textsuperscript{(m-1)}" class="latex" /><br />
+2. &#8220;Step&#8221; in the direction of greatest descent (the negative gradient) with step size <img src="//s0.wp.com/latex.php?latex=%5Cgamma&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;gamma" title="&#92;gamma" class="latex" />. That is, <img src="//s0.wp.com/latex.php?latex=s%5Ctextsuperscript%7Bm%7D+%3D+s%5Ctextsuperscript%7B%28m-1%29%7D+-+%5Cgamma+%5Cnabla+L%28s%5Ctextsuperscript%7B%28m-1%29%7D%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="s&#92;textsuperscript{m} = s&#92;textsuperscript{(m-1)} - &#92;gamma &#92;nabla L(s&#92;textsuperscript{(m-1)})" title="s&#92;textsuperscript{m} = s&#92;textsuperscript{(m-1)} - &#92;gamma &#92;nabla L(s&#92;textsuperscript{(m-1)})" class="latex" /></p>
+<p>If <img src="//s0.wp.com/latex.php?latex=%5Cgamma&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;gamma" title="&#92;gamma" class="latex" /> is small and <img src="//s0.wp.com/latex.php?latex=M&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="M" title="M" class="latex" /> is sufficiently large, <img src="//s0.wp.com/latex.php?latex=s%5Ctextsuperscript%7BM%7D&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="s&#92;textsuperscript{M}" title="s&#92;textsuperscript{M}" class="latex" /> will be the location of <img src="//s0.wp.com/latex.php?latex=L&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="L" title="L" class="latex" />&#8216;s minimum value.</p>
+<p><strong>A few ways we can improve this framework:</strong><br />
+ &#8211; Instead of iterating a fixed number of times, we can iterate until the next iteration produces sufficiently small improvement.<br />
+ &#8211; Instead of stepping a fixed magnitude for each step, we can use something like <a href="https://en.wikipedia.org/wiki/Line_search">line search</a> smartly choose step sizes.</p>
+<p><em>If you&#8217;re struggling with this part, just <a href="https://www.google.com/webhp?sourceid=chrome-instant&#038;ion=1&#038;espv=2&#038;ie=UTF-8#q=gradient%20descent">google gradient descent</a>.  It&#8217;s been explained many times in many ways.</em></p>
+<h4>Leveraging Gradient Descent</h4>
+<p>Now we can use gradient descent for our gradient boosting model.  The objective function we want to minimize is <img src="//s0.wp.com/latex.php?latex=L&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="L" title="L" class="latex" />.  Our starting point is <img src="//s0.wp.com/latex.php?latex=F_0%28x%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_0(x)" title="F_0(x)" class="latex" />.  For iteration <img src="//s0.wp.com/latex.php?latex=m+%3D+1&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="m = 1" title="m = 1" class="latex" />, we compute the gradient of <img src="//s0.wp.com/latex.php?latex=L&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="L" title="L" class="latex" /> with respect to <img src="//s0.wp.com/latex.php?latex=F_0%28x%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_0(x)" title="F_0(x)" class="latex" />.  Then we fit a weak learner to the gradient components.  In the case of a regression tree, leaf nodes produce an <strong>average gradient</strong> among samples with similar features.  For each leaf, we step in the direction of the average gradient (using line search to determine the step magnitude). The result is <img src="//s0.wp.com/latex.php?latex=F_1&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_1" title="F_1" class="latex" />. Then we can repeat the process until we have <img src="//s0.wp.com/latex.php?latex=F_M&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_M" title="F_M" class="latex" />.</p>
+<p>Take a second to stand in awe of what we just did. We modified our gradient boosting algorithm so that it works with any differentiable loss function.  (This is the part that gets butchered by a lot of gradient boosting explanations.) Let’s clean up the ideas above and reformulate our gradient boosting model once again.</p>
+<p><strong>Initialize the model with a constant value:</strong><br />
+<img src="//s0.wp.com/latex.php?latex=F_0%28x%29+%3D+%5Cunderset%7B%5Cgamma%7D%7B%5Carg%5Cmin%7D+%5Csum_%7Bi%3D1%7D%5En+L%28y_i%2C+%5Cgamma%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_0(x) = &#92;underset{&#92;gamma}{&#92;arg&#92;min} &#92;sum_{i=1}^n L(y_i, &#92;gamma)" title="F_0(x) = &#92;underset{&#92;gamma}{&#92;arg&#92;min} &#92;sum_{i=1}^n L(y_i, &#92;gamma)" class="latex" /></p>
+<p><strong>For m = 1 to M:</strong><br />
+Compute <em>pseudo</em> residuals,  <img src="//s0.wp.com/latex.php?latex=r_%7Bim%7D+%3D+-%5Cleft%5B%5Cfrac%7B%5Cpartial+L%28y_i%2C+F%28x_i%29%29%7D%7B%5Cpartial+F%28x_i%29%7D%5Cright%5D_%7BF%28x%29%3DF_%7Bm-1%7D%28x%29%7D+%5Cquad+%5Cmbox%7Bfor+%7D+i%3D1%2C%5Cldots%2Cn.&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="r_{im} = -&#92;left[&#92;frac{&#92;partial L(y_i, F(x_i))}{&#92;partial F(x_i)}&#92;right]_{F(x)=F_{m-1}(x)} &#92;quad &#92;mbox{for } i=1,&#92;ldots,n." title="r_{im} = -&#92;left[&#92;frac{&#92;partial L(y_i, F(x_i))}{&#92;partial F(x_i)}&#92;right]_{F(x)=F_{m-1}(x)} &#92;quad &#92;mbox{for } i=1,&#92;ldots,n." class="latex" /><br />
+Fit base learner, <img src="//s0.wp.com/latex.php?latex=h_%7Bm%7D%28x%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="h_{m}(x)" title="h_{m}(x)" class="latex" /> to pseudo residuals<br />
+Compute step magnitude multiplier <img src="//s0.wp.com/latex.php?latex=%5Cgamma_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;gamma_m" title="&#92;gamma_m" class="latex" />. (In the case of tree models, compute a different <img src="//s0.wp.com/latex.php?latex=%5Cgamma_m&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;gamma_m" title="&#92;gamma_m" class="latex" /> for every leaf.)<br />
+Update <img src="//s0.wp.com/latex.php?latex=F_m%28x%29+%3D+F_%7Bm-1%7D%28x%29+%2B+%5Cgamma_m+h_m%28x%29&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="F_m(x) = F_{m-1}(x) + &#92;gamma_m h_m(x)" title="F_m(x) = F_{m-1}(x) + &#92;gamma_m h_m(x)" class="latex" /></p>
+<p>In case you want to check your understanding so far, our current gradient boosting applied to our sample problem for both squared error and absolute error objectives yields the following results.</p>
+<h4>Squared Error</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Age</th>
+<th align="center">F0</th>
+<th align="center">PseudoResidual0</th>
+<th align="center">h0</th>
+<th align="center">gamma0</th>
+<th align="center">F1</th>
+<th align="center">PseudoResidual1</th>
+<th align="center">h1</th>
+<th align="center">gamma1</th>
+<th align="center">F2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">13</td>
+<td align="center">40.33</td>
+<td align="center">-27.33</td>
+<td align="center">-21.08</td>
+<td align="center">1</td>
+<td align="center">19.25</td>
+<td align="center">-6.25</td>
+<td align="center">-3.567</td>
+<td align="center">1</td>
+<td align="center">15.68</td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="center">40.33</td>
+<td align="center">-26.33</td>
+<td align="center">-21.08</td>
+<td align="center">1</td>
+<td align="center">19.25</td>
+<td align="center">-5.25</td>
+<td align="center">-3.567</td>
+<td align="center">1</td>
+<td align="center">15.68</td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="center">40.33</td>
+<td align="center">-25.33</td>
+<td align="center">-21.08</td>
+<td align="center">1</td>
+<td align="center">19.25</td>
+<td align="center">-4.25</td>
+<td align="center">-3.567</td>
+<td align="center">1</td>
+<td align="center">15.68</td>
+</tr>
+<tr>
+<td align="center">25</td>
+<td align="center">40.33</td>
+<td align="center">-15.33</td>
+<td align="center">16.87</td>
+<td align="center">1</td>
+<td align="center">57.2</td>
+<td align="center">-32.2</td>
+<td align="center">-3.567</td>
+<td align="center">1</td>
+<td align="center">53.63</td>
+</tr>
+<tr>
+<td align="center">35</td>
+<td align="center">40.33</td>
+<td align="center">-5.333</td>
+<td align="center">-21.08</td>
+<td align="center">1</td>
+<td align="center">19.25</td>
+<td align="center">15.75</td>
+<td align="center">-3.567</td>
+<td align="center">1</td>
+<td align="center">15.68</td>
+</tr>
+<tr>
+<td align="center">49</td>
+<td align="center">40.33</td>
+<td align="center">8.667</td>
+<td align="center">16.87</td>
+<td align="center">1</td>
+<td align="center">57.2</td>
+<td align="center">-8.2</td>
+<td align="center">7.133</td>
+<td align="center">1</td>
+<td align="center">64.33</td>
+</tr>
+<tr>
+<td align="center">68</td>
+<td align="center">40.33</td>
+<td align="center">27.67</td>
+<td align="center">16.87</td>
+<td align="center">1</td>
+<td align="center">57.2</td>
+<td align="center">10.8</td>
+<td align="center">-3.567</td>
+<td align="center">1</td>
+<td align="center">53.63</td>
+</tr>
+<tr>
+<td align="center">71</td>
+<td align="center">40.33</td>
+<td align="center">30.67</td>
+<td align="center">16.87</td>
+<td align="center">1</td>
+<td align="center">57.2</td>
+<td align="center">13.8</td>
+<td align="center">7.133</td>
+<td align="center">1</td>
+<td align="center">64.33</td>
+</tr>
+<tr>
+<td align="center">73</td>
+<td align="center">40.33</td>
+<td align="center">32.67</td>
+<td align="center">16.87</td>
+<td align="center">1</td>
+<td align="center">57.2</td>
+<td align="center">15.8</td>
+<td align="center">7.133</td>
+<td align="center">1</td>
+<td align="center">64.33</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_mseTrees_1.png" alt="" width="1024" height="512" class="aligncenter size-full wp-image-6441" srcset="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_mseTrees_1.png 1024w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_mseTrees_1-300x150.png 300w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_mseTrees_1-768x384.png 768w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_mseTrees_1-100x50.png 100w" sizes="(max-width: 1024px) 100vw, 1024px" /></p>
+<h4>Absolute Error</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Age</th>
+<th align="center">F0</th>
+<th align="center">PseudoResidual0</th>
+<th align="center">h0</th>
+<th align="center">gamma0</th>
+<th align="center">F1</th>
+<th align="center">PseudoResidual1</th>
+<th align="center">h1</th>
+<th align="center">gamma1</th>
+<th align="center">F2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">13</td>
+<td align="center">35</td>
+<td align="center">-1</td>
+<td align="center">-1</td>
+<td align="center">20.5</td>
+<td align="center">14.5</td>
+<td align="center">-1</td>
+<td align="center">-0.3333</td>
+<td align="center">0.75</td>
+<td align="center">14.25</td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="center">35</td>
+<td align="center">-1</td>
+<td align="center">-1</td>
+<td align="center">20.5</td>
+<td align="center">14.5</td>
+<td align="center">-1</td>
+<td align="center">-0.3333</td>
+<td align="center">0.75</td>
+<td align="center">14.25</td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="center">35</td>
+<td align="center">-1</td>
+<td align="center">-1</td>
+<td align="center">20.5</td>
+<td align="center">14.5</td>
+<td align="center">1</td>
+<td align="center">-0.3333</td>
+<td align="center">0.75</td>
+<td align="center">14.25</td>
+</tr>
+<tr>
+<td align="center">25</td>
+<td align="center">35</td>
+<td align="center">-1</td>
+<td align="center">0.6</td>
+<td align="center">55</td>
+<td align="center">68</td>
+<td align="center">-1</td>
+<td align="center">-0.3333</td>
+<td align="center">0.75</td>
+<td align="center">67.75</td>
+</tr>
+<tr>
+<td align="center">35</td>
+<td align="center">35</td>
+<td align="center">-1</td>
+<td align="center">-1</td>
+<td align="center">20.5</td>
+<td align="center">14.5</td>
+<td align="center">1</td>
+<td align="center">-0.3333</td>
+<td align="center">0.75</td>
+<td align="center">14.25</td>
+</tr>
+<tr>
+<td align="center">49</td>
+<td align="center">35</td>
+<td align="center">1</td>
+<td align="center">0.6</td>
+<td align="center">55</td>
+<td align="center">68</td>
+<td align="center">-1</td>
+<td align="center">0.3333</td>
+<td align="center">9</td>
+<td align="center">71</td>
+</tr>
+<tr>
+<td align="center">68</td>
+<td align="center">35</td>
+<td align="center">1</td>
+<td align="center">0.6</td>
+<td align="center">55</td>
+<td align="center">68</td>
+<td align="center">-1</td>
+<td align="center">-0.3333</td>
+<td align="center">0.75</td>
+<td align="center">67.75</td>
+</tr>
+<tr>
+<td align="center">71</td>
+<td align="center">35</td>
+<td align="center">1</td>
+<td align="center">0.6</td>
+<td align="center">55</td>
+<td align="center">68</td>
+<td align="center">1</td>
+<td align="center">0.3333</td>
+<td align="center">9</td>
+<td align="center">71</td>
+</tr>
+<tr>
+<td align="center">73</td>
+<td align="center">35</td>
+<td align="center">1</td>
+<td align="center">0.6</td>
+<td align="center">55</td>
+<td align="center">68</td>
+<td align="center">1</td>
+<td align="center">0.3333</td>
+<td align="center">9</td>
+<td align="center">71</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_maeTrees_1.png" alt="" width="1024" height="512" class="aligncenter size-full wp-image-6440" srcset="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_maeTrees_1.png 1024w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_maeTrees_1-300x150.png 300w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_maeTrees_1-768x384.png 768w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_gb_maeTrees_1-100x50.png 100w" sizes="(max-width: 1024px) 100vw, 1024px" /></p>
+<h2>Gradient Boosting &#8211; Draft 4</h2>
+<p>Here we introduce something called <a href="https://en.wikipedia.org/wiki/Gradient_boosting#Shrinkage">shrinkage</a>. <a href="https://en.wikipedia.org/wiki/The_Hamptons_(Seinfeld)"><img src="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_George-costanza-300x300-150x150.jpg" alt="" width="150" height="150" class="alignright size-thumbnail wp-image-6445" srcset="http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_George-costanza-300x300-150x150.jpg 150w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_George-costanza-300x300-100x100.jpg 100w, http://s5047.pcdn.co/wp-content/uploads/2017/01/blog_George-costanza-300x300.jpg 300w" sizes="(max-width: 150px) 100vw, 150px" /></a> The concept is fairly simple.  For each gradient step, the step magnitude is multiplied by a factor between 0 and 1 called a learning rate.  In other words, each gradient step is <em>shrunken</em> by some factor.  The current Wikipedia excerpt on shrinkage doesn’t mention why shrinkage is effective &#8211; it just says that shrinkage appears to be empirically effective.  My personal take is that it causes sample-predictions to <em>slowly</em> converge toward observed values.  As this slow convergence occurs, samples that get closer to their target end up being grouped together into larger and larger leaves (due to fixed tree size parameters), resulting in a natural regularization effect.</p>
+<h2>Gradient Boosting &#8211; Draft 5</h2>
+<p>Last up &#8211; row sampling and column sampling. Most gradient boosting algorithms provide the ability to sample the data rows and columns before each boosting iteration. This technique is usually effective because it results in more <em>different</em> tree splits, which means more overall information for the model.  To get a better intuition for why this is true, check out my post on <a href="https://gormanalysis.com/random-forest-from-top-to-bottom/">Random Forest</a>, which employs the same random sampling technique. Alas we have our final gradient boosting framework.</p>
+<hr />
+<h2>Gradient Boosting in Practice</h2>
+<p>Gradient boosting in incredibly effective in practice.  Perhaps the most popular implementation, <a href="https://github.com/dmlc/xgboost">XGBoost</a>, is used in a number of winning Kaggle solutions.  XGBoost employs a number of tricks that make it faster and more accurate than traditional gradient boosting (particularly 2nd-order gradient descent) so I’ll encourage you to try it out and read Tianqi Chen’s <a href="http://www.kdd.org/kdd2016/papers/files/rfp0697-chenAemb.pdf">paper about the algorithm</a>.  With that said, a new competitor, <a href="https://github.com/Microsoft/LightGBM">LightGBM</a> from Microsoft, is gaining significant traction.</p>
+<p>What else can it do? Although I presented gradient boosting as a regression model, it’s also very effective as a classification and ranking model.  As long as you have a differentiable loss function for the algorithm to minimize, you’re good to go.  The <a href="https://en.wikipedia.org/wiki/Logistic_function">logistic function</a> is typically used for binary classification and the <a href="https://en.wikipedia.org/wiki/Softmax_function">softmax function</a> is often used for multi-class classification.</p>
+<p>I leave you with a quote from my fellow Kaggler <a href="https://www.kaggle.com/mikeskim">Mike Kim</a>.</p>
+<div align="center">
+<blockquote>
+<p>My only goal is to gradient boost over myself of yesterday. And to repeat this everyday with an unconquerable spirit.</p>
+</blockquote>
+</div>
+<h2>Bio</h2>
+<p><a href="https://www.kaggle.com/ben519"><img src="http://s5047.pcdn.co/wp-content/uploads/2016/12/blog_Headshot-Circle-150x150.png" alt="_blog_headshot-circle" width="120" height="120" class="alignright size-thumbnail wp-image-6371" srcset="http://s5047.pcdn.co/wp-content/uploads/2016/12/blog_Headshot-Circle-150x150.png 150w, http://s5047.pcdn.co/wp-content/uploads/2016/12/blog_Headshot-Circle-100x100.png 100w, http://s5047.pcdn.co/wp-content/uploads/2016/12/blog_Headshot-Circle.png 298w" sizes="(max-width: 120px) 100vw, 120px" /></a>I’m <a href="https://www.kaggle.com/ben519" target="_blank">Ben Gorman</a> – math nerd and data science enthusiast based in the New Orleans area. I spent roughly five years as the Senior Data Analyst for <a href="http://www.greatamericaninsurancegroup.com/Insurance/Strategic-Comp/Pages/default.aspx" target="_blank">Strategic Comp</a> before starting <a href="https://gormanalysis.com/" target="_blank">GormAnalysis</a>. I love talking about data science, so never hesitate to shoot me an email if you have questions: <a href="mailto:bgorman@gormanalysis.com" target="_blank">bgorman@gormanalysis.com</a>. As of September 2016, I’m a Kaggle Master ranked in the top 1% of competitors world-wide.</p>
+  
+
+</div>
+
+    </div>
+  </div>
+      <footer class="entry-footer cf">
+    <a href="http://blog.kaggle.com/tag/tutorial/" rel="tag">Tutorial</a><a href="http://blog.kaggle.com/tag/xgboost/" rel="tag">XGBoost</a>    </footer>
+  </article>      
+  <div class="x-container max width">    
+
+
+<div id="comments" class="x-comments-area">
+
+  
+    <h2 class="h-comments-title"><span>Comments <small>55</small></span></h2>
+    <ol class="x-comments-list">
+          <li id="li-comment-13536" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/bf993dcf4ae027577fa9d0612021d84a?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/bf993dcf4ae027577fa9d0612021d84a?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13536#respond' onclick='return addComment.moveForm( "comment-13536", "13536", "respond", "6439" )' aria-label='Reply to Vladislavs Dovgalecs'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13536" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Vladislavs Dovgalecs</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13536" class="x-comment-time"><time datetime="2017-01-23T13:53:00+00:00">January 23, 2017 at 1:53 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Yes, UH-60 Blackhawk Helicopter is *way* much faster than Toyota Camry but it is also super expensive and very costly in maintenance 🙂</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-13862" class="comment odd alt depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/6661f7aa9c441cce21b9395d11472240?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/6661f7aa9c441cce21b9395d11472240?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13862#respond' onclick='return addComment.moveForm( "comment-13862", "13862", "respond", "6439" )' aria-label='Reply to Carlos Aguayo'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13862" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Carlos Aguayo</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13862" class="x-comment-time"><time datetime="2017-05-20T07:13:00+00:00">May 20, 2017 at 7:13 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>"Don't miss the forest for the trees" 😉</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+    <li id="li-comment-13537" class="comment even thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/4f5320e5adbefd6da627bddbc4dba6e2?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/4f5320e5adbefd6da627bddbc4dba6e2?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13537#respond' onclick='return addComment.moveForm( "comment-13537", "13537", "respond", "6439" )' aria-label='Reply to Agzamov Rustam'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13537" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Agzamov Rustam</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13537" class="x-comment-time"><time datetime="2017-01-23T23:24:00+00:00">January 23, 2017 at 11:24 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Is it correct that F_2(x) = F_1(x) + F_2(x) (step 3 in draft 1)? May be it should be F_2(x) = F_1(x) + h_1(x)?</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-13542" class="comment odd alt depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/ed1d51599c3f1588691036c1064b359b?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/ed1d51599c3f1588691036c1064b359b?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13542#respond' onclick='return addComment.moveForm( "comment-13542", "13542", "respond", "6439" )' aria-label='Reply to Ben Gorman'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13542" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Ben Gorman</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13542" class="x-comment-time"><time datetime="2017-01-24T07:34:00+00:00">January 24, 2017 at 7:34 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Whoops, that's a mistake.  Thanks for catching. Will try to get it fixed ASAP.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+    <li id="li-comment-13540" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/5c14dbd19b7093f6876b779948f4a2cf?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/5c14dbd19b7093f6876b779948f4a2cf?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13540#respond' onclick='return addComment.moveForm( "comment-13540", "13540", "respond", "6439" )' aria-label='Reply to Sijo Vm'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13540" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Sijo Vm</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13540" class="x-comment-time"><time datetime="2017-01-24T01:01:00+00:00">January 24, 2017 at 1:01 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>For personid 9 and age = 73, playing video games was false. However, in your overfit tree diagram, it falls in true. Please correct it and edit the document since it is very confusing. Thank you .</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-13543" class="comment odd alt depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/ed1d51599c3f1588691036c1064b359b?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/ed1d51599c3f1588691036c1064b359b?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13543#respond' onclick='return addComment.moveForm( "comment-13543", "13543", "respond", "6439" )' aria-label='Reply to Ben Gorman'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13543" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Ben Gorman</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13543" class="x-comment-time"><time datetime="2017-01-24T07:35:00+00:00">January 24, 2017 at 7:35 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Good catch.  Fixing this now!</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+    <li id="li-comment-13579" class="comment even thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/24b5c6608ceb2f7aa290b023376246a1?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/24b5c6608ceb2f7aa290b023376246a1?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13579#respond' onclick='return addComment.moveForm( "comment-13579", "13579", "respond", "6439" )' aria-label='Reply to ldmtwo'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13579" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">ldmtwo</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13579" class="x-comment-time"><time datetime="2017-02-08T16:09:00+00:00">February 8, 2017 at 4:09 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Looking at the table below tree 2, how are the two trees combined? Take row 1 for instance. We have regression tree2 that produces 19.25 and -3.567? Is tree 2 trying to predict the error or what? I'm lost. Thanks.<br />
+PersonID	Age	Tree1 Prediction	Tree1 Residual	Tree2 Prediction	Combined Prediction	Final Residual<br />
+1	13	19.25	-6.25	-3.567	15.68	2.683</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-14060" class="comment odd alt depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/24b5c6608ceb2f7aa290b023376246a1?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/24b5c6608ceb2f7aa290b023376246a1?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14060#respond' onclick='return addComment.moveForm( "comment-14060", "14060", "respond", "6439" )' aria-label='Reply to ldmtwo'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14060" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">ldmtwo</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14060" class="x-comment-time"><time datetime="2017-09-21T07:18:00+00:00">September 21, 2017 at 7:18 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>IDK It wasn't clear before, but to answer my question: each residual R in the earlier steps is made by 1) get the prediction for a base model, 2) with a 2nd model, predict the individual errors (residuals) that the 1st model will have, and 3) adjust base predictions with the residual. The first model would be fit with inputs X and labels Y. The 2nd model would be fit with inputs X and labels R.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+    <li id="li-comment-13581" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/0958b1216bf1a3634452cb8de0a57ed5?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/0958b1216bf1a3634452cb8de0a57ed5?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13581#respond' onclick='return addComment.moveForm( "comment-13581", "13581", "respond", "6439" )' aria-label='Reply to huts'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13581" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">huts</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13581" class="x-comment-time"><time datetime="2017-02-10T05:23:00+00:00">February 10, 2017 at 5:23 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Thanks for the awesome article Ben! I only had a general view of how boosting worked, but this makes it very clear for gradient boosting, though I did struggle to understand the paragraph "Gradient Boosting - draft 3". I think the fact that the gradient descent is only used to get residuals and NOT to optimize parameters could be stressed even more (I was misleaded by searching for those parameters being optimized with gradient descent, but I was being confused by the "classic" use of gradient descent in other models, such as in neural nets).</p>
+<p>There is, however, one point that I did not get when you are giving the estimating process for the squared error and the absolute error loss functions. For the squared error, h0 and h1 forecasts are given by the mean of the samples contained in each leaf node. However, I did not get how you got the h0 and h1 forecasts for the absolute error function. Besides, the way gamma0 and gamma1 are estimated for the absolute error loss function is still obscure (though I understand from the line search article from wikipedia that we are looking for the step that minimizes the loss function given the gradient in one point).</p>
+<p>That would be great if you could explicit those last details so we could understand the whole picture of your article 😉</p>
+<p>Thanks again, and continue the great work!</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-13920" class="comment odd alt depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/028d9e5f94d5ff8770f4f9906bbaf20d?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/028d9e5f94d5ff8770f4f9906bbaf20d?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13920#respond' onclick='return addComment.moveForm( "comment-13920", "13920", "respond", "6439" )' aria-label='Reply to Walter'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13920" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Walter</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13920" class="x-comment-time"><time datetime="2017-06-15T08:20:00+00:00">June 15, 2017 at 8:20 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Huts,</p>
+<p>The way that h0 and h1 are computed in the absolute error loss function example is again by the mean of the samples contained in each leaf node. The problem is that the first decision tree has a drawing mistake. The left leaf (LikesGardening==F) should contain the values {-1,-1,-1,-1} corresponding to PersonID {1,2,3,5}. The second leaf  (LikesGardening==T) should contain the values {-1,1,1,1,1} corresponding to PersonID {4,6,7,8,9}. Now, buy computing the mean in leaf1: (-1-1-1-1)/4 = -1, and for leaf2: (-1+1+1+1+1)/5=0.6. This values coincide with the values provided in the table.</p>
+<p>In regards of gamma0 and gamma1, remember that the median is the statistic that minimizes the absolute error loss function. Therefore, gamma0 is obtained by getting the median over all values of (Age-F0)/h0, while gamma1 is obtained as median{(Age-F1)/h1}.</p>
+<p>Please let me know if this answer your questions</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-14147" class="comment even depth-3">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/bcfc31c7b74b4deda159a2a85c0b88aa?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/bcfc31c7b74b4deda159a2a85c0b88aa?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14147#respond' onclick='return addComment.moveForm( "comment-14147", "14147", "respond", "6439" )' aria-label='Reply to rn27in .'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14147" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">rn27in .</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14147" class="x-comment-time"><time datetime="2017-11-11T10:06:00+00:00">November 11, 2017 at 10:06 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Thanks Walter, this really explains the last crucial part.</p>
+<p>Thanks for your help again</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-14171" class="comment odd alt depth-3">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/1e456f6d79d92a0035fd174c6d9ac735?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/1e456f6d79d92a0035fd174c6d9ac735?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14171#respond' onclick='return addComment.moveForm( "comment-14171", "14171", "respond", "6439" )' aria-label='Reply to Hung Nguyen'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14171" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Hung Nguyen</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14171" class="x-comment-time"><time datetime="2017-11-27T04:30:00+00:00">November 27, 2017 at 4:30 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>I think we have to find the median{(Age-F0)}, and divide that result by the corresponding h0.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-16796" class="comment even depth-3">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/ac02c81518352cf3ba95a6839d283500?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/ac02c81518352cf3ba95a6839d283500?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=16796#respond' onclick='return addComment.moveForm( "comment-16796", "16796", "respond", "6439" )' aria-label='Reply to Shijie'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-16796" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Shijie</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-16796" class="x-comment-time"><time datetime="2018-04-10T14:21:08+00:00">April 10, 2018 at 2:21 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>This is some really useful clarification! Regarding the reason why we are using pseudo residual instead of real residual, can I understand it as it's more flexible for different loss functions?</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+    <li id="li-comment-13621" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/388a49032dfc641452b332c6fb458126?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/388a49032dfc641452b332c6fb458126?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13621#respond' onclick='return addComment.moveForm( "comment-13621", "13621", "respond", "6439" )' aria-label='Reply to Bo Yang'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13621" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Bo Yang</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13621" class="x-comment-time"><time datetime="2017-03-03T09:19:00+00:00">March 3, 2017 at 9:19 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Excellent article, light on jargon and great explanations. I wish I came upon articles like this one when I was learning about gradient boosting, I would have learned it 10x faster.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-13624" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/64fb12f730542ff43433576ca1ea7c88?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/64fb12f730542ff43433576ca1ea7c88?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13624#respond' onclick='return addComment.moveForm( "comment-13624", "13624", "respond", "6439" )' aria-label='Reply to António Góis'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13624" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">António Góis</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13624" class="x-comment-time"><time datetime="2017-03-04T05:05:00+00:00">March 4, 2017 at 5:05 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>First of all, thanks for this awesome explanation. I found it very easy to read, and I think I finally grasped the concept of gradient boosting. All the other explanations I've seen just hit you with the formulas without giving an intuition.<br />
+I just didn't get your comparison with random forest in "Draft 5". The point in using only some samples per tree and only some features per node, in random forests, is that you'll have a lot of trees voting for the final decision and you want diversity among those trees (correct me if I'm wrong here).<br />
+From what I understood of gradient boosting, you have a tree with only one node/feature voting for the direction of the gradient in each step, and you don't reuse the same feature in a future step. If you don't have several trees voting in parallel to decide one gradient direction, whats the point of limiting the features+samples that a tree has access to?</p>
+<p>Probably I got something wrong here, but I don't know what...<br />
+Thanks a lot for the article and for your attention,<br />
+António</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-13631" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/1bb9d681c73d4e543ce7dbee55241665?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/1bb9d681c73d4e543ce7dbee55241665?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13631#respond' onclick='return addComment.moveForm( "comment-13631", "13631", "respond", "6439" )' aria-label='Reply to Brian'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13631" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Brian</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13631" class="x-comment-time"><time datetime="2017-03-06T13:16:00+00:00">March 6, 2017 at 1:16 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Any idea where the terminal node estimates come from, for the classic algorithm?</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-13700" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/ba4c2195a4eec1ac15b81c64473597f1?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/ba4c2195a4eec1ac15b81c64473597f1?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=13700#respond' onclick='return addComment.moveForm( "comment-13700", "13700", "respond", "6439" )' aria-label='Reply to Yohan Obd'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-13700" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Yohan Obd</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-13700" class="x-comment-time"><time datetime="2017-03-19T11:48:00+00:00">March 19, 2017 at 11:48 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Thank you very much for this article !<br />
+I have one question however. If after the first model, the next ones are trained on the error of the one before, that means that to "feed" those models you need to have the true value in order to compute the error to use for the model. However once you start working on data outside of your train set, you don't have the true value anymore, it is then impossible to compute the error. Should the model 2 to m be rather fed with the prediction of the previous one instead of its error ?</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-14034" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/a00a9e7730741cfd4e6e2b78ba0b0fd2?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/a00a9e7730741cfd4e6e2b78ba0b0fd2?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14034#respond' onclick='return addComment.moveForm( "comment-14034", "14034", "respond", "6439" )' aria-label='Reply to b k'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14034" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">b k</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14034" class="x-comment-time"><time datetime="2017-08-26T00:18:00+00:00">August 26, 2017 at 12:18 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>In Draft '3', I question in following sentence "They have F_0 residuals of -22 and -10 respectively. Now suppose we’re able to make each prediction 1 unit closer to its target. Respective squared error reductions would be 43 and 19, while respective absolute error reductions would be 1 and 1". Can anyone help me in understanding on values 43,19 are arrived?</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-14161" class="comment even depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/015c78ace54deca955323a61ffa0613c?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/015c78ace54deca955323a61ffa0613c?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14161#respond' onclick='return addComment.moveForm( "comment-14161", "14161", "respond", "6439" )' aria-label='Reply to Lee XA'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14161" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Lee XA</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14161" class="x-comment-time"><time datetime="2017-11-21T08:00:00+00:00">November 21, 2017 at 8:00 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>make each prediction closer to target , F_0 residuals will be -22 -&gt; -21, -10 -&gt; -9 . MSE will be 22**2 - 21**2  = 43 and 10**2 - 9**2 = 81</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-26303" class="comment odd alt depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/fcb3637a4e6f350bf3577f4dfbea40da?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/fcb3637a4e6f350bf3577f4dfbea40da?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=26303#respond' onclick='return addComment.moveForm( "comment-26303", "26303", "respond", "6439" )' aria-label='Reply to Sam Chen'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-26303" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Sam Chen</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-26303" class="x-comment-time"><time datetime="2018-07-04T00:22:21+00:00">July 4, 2018 at 12:22 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Making each prediction 1 unit closer to the target. Concretely, next time we make prediction for first and forth samples both 34( 1 unit closer ), then the squared error reduction for first sample is (35-13)^2 - (34-13)^2 = 43, while the absolute error reduction is |35-13| - |34-13| = 1. Hope you find it helpful.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+    <li id="li-comment-14061" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/24b5c6608ceb2f7aa290b023376246a1?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/24b5c6608ceb2f7aa290b023376246a1?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14061#respond' onclick='return addComment.moveForm( "comment-14061", "14061", "respond", "6439" )' aria-label='Reply to ldmtwo'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14061" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">ldmtwo</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14061" class="x-comment-time"><time datetime="2017-09-21T07:29:00+00:00">September 21, 2017 at 7:29 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>When updating predictions using a learning rate, would that be done as<br />
+1) p(i+1) = p(i) + r(i)*lr, which is a simple reduction,<br />
+or 2) p(i+1) = p(i) * (1-lr) + (p(i)+r(i))*lr, which is exponential moving average?</p>
+<p>lr=learning rate, r=residual, p=predictions</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-14076" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/406dd0010be7df0ad27fd4a322472cc5?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/406dd0010be7df0ad27fd4a322472cc5?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14076#respond' onclick='return addComment.moveForm( "comment-14076", "14076", "respond", "6439" )' aria-label='Reply to Kumar Rajendran'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14076" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Kumar Rajendran</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14076" class="x-comment-time"><time datetime="2017-09-27T21:48:00+00:00">September 27, 2017 at 9:48 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>&gt;What else can it do? Although I presented gradient boosting as a regression model, it’s also very effective as a classification and ranking model. As long as you have a differentiable loss function for the algorithm to minimize, you’re good to go. The logistic function is typically used for binary classification</p>
+<p>It will be cool if we you can say what the logistic function is used for. Is it to convert the prediction to a probability?</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-14117" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/e1f901cc26b10253f7bb0a7ad3d9ebee?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/e1f901cc26b10253f7bb0a7ad3d9ebee?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14117#respond' onclick='return addComment.moveForm( "comment-14117", "14117", "respond", "6439" )' aria-label='Reply to Shantanu Gangal'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14117" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Shantanu Gangal</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14117" class="x-comment-time"><time datetime="2017-10-21T16:25:00+00:00">October 21, 2017 at 4:25 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>@disqus_r9FLPaMgKX:disqus  Thanks for writing this fantastic article.<br />
+I don't follow how the absolute error loss function is differentiable though.  Maybe I am missing a simple thing -- but isn't the function non-differentiable at 0?</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-14135" class="comment odd alt depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/ed1d51599c3f1588691036c1064b359b?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/ed1d51599c3f1588691036c1064b359b?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14135#respond' onclick='return addComment.moveForm( "comment-14135", "14135", "respond", "6439" )' aria-label='Reply to Ben Gorman'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14135" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Ben Gorman</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14135" class="x-comment-time"><time datetime="2017-11-02T21:35:00+00:00">November 2, 2017 at 9:35 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Thanks Shantanu.  We could define the derivative = 0 at x = 0 to get around this scenario (which is unlikely).</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+    <li id="li-comment-14125" class="comment even thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/da1a4d084f71bd6e660098358ef8e05b?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/da1a4d084f71bd6e660098358ef8e05b?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14125#respond' onclick='return addComment.moveForm( "comment-14125", "14125", "respond", "6439" )' aria-label='Reply to Chetan Bhat'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14125" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Chetan Bhat</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14125" class="x-comment-time"><time datetime="2017-10-26T15:01:00+00:00">October 26, 2017 at 3:01 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Hey Ben, great article! I've used this write-up, along with other reference material in tandem to "boost" my own understanding of Gradient Boosting.</p>
+<p>In the section "leveraging gradient descent" where you present a summary table to check understanding (for squared error), shouldn't the "PseudoResidual0" column contain gradients of residuals rather than the residuals themselves? Right now this column contains residuals only i.e. difference between age and F0. Or am I missing something?</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-14136" class="comment odd alt depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/ed1d51599c3f1588691036c1064b359b?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/ed1d51599c3f1588691036c1064b359b?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14136#respond' onclick='return addComment.moveForm( "comment-14136", "14136", "respond", "6439" )' aria-label='Reply to Ben Gorman'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14136" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Ben Gorman</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14136" class="x-comment-time"><time datetime="2017-11-02T21:42:00+00:00">November 2, 2017 at 9:42 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Thanks! In the case of squared error, the gradients of residuals = residuals.  (derivative of 0.5(yhat - y)^2 w.r.t. yhat is yhat - y)</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-14138" class="comment even depth-3">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/da1a4d084f71bd6e660098358ef8e05b?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/da1a4d084f71bd6e660098358ef8e05b?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14138#respond' onclick='return addComment.moveForm( "comment-14138", "14138", "respond", "6439" )' aria-label='Reply to Chetan Bhat'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14138" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Chetan Bhat</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14138" class="x-comment-time"><time datetime="2017-11-03T06:39:00+00:00">November 3, 2017 at 6:39 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Ah! of course. Thank you 🙂</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-27599" class="comment odd alt depth-3">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/6ea928a28a75ed342ff2d92827136798?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/6ea928a28a75ed342ff2d92827136798?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=27599#respond' onclick='return addComment.moveForm( "comment-27599", "27599", "respond", "6439" )' aria-label='Reply to Ali'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-27599" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Ali</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-27599" class="x-comment-time"><time datetime="2018-07-12T06:21:00+00:00">July 12, 2018 at 6:21 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>I understand the explanation but i think there is an error i would say it's 2  yhat - y.<br />
+From where comes the 0.5 ? </p>
+<p>Thanks Ben</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+    <li id="li-comment-14167" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/c637f2fde73c6b4835d088c5522b813a?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/c637f2fde73c6b4835d088c5522b813a?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14167#respond' onclick='return addComment.moveForm( "comment-14167", "14167", "respond", "6439" )' aria-label='Reply to ben'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14167" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">ben</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14167" class="x-comment-time"><time datetime="2017-11-24T17:31:00+00:00">November 24, 2017 at 5:31 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Thank you for the great article! I am hung up on the "Final Residual," however. Why did you subtract the combined prediction from the actual age, when you subtracted actual age from Tree1 prediction and Tree2 prediction? I don't understand why you are reversing the order of the arithmetic here.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-14175" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/8c1c79a716e165d67fd642a18f1e8c8f?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/8c1c79a716e165d67fd642a18f1e8c8f?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14175#respond' onclick='return addComment.moveForm( "comment-14175", "14175", "respond", "6439" )' aria-label='Reply to Sean'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14175" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Sean</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14175" class="x-comment-time"><time datetime="2017-11-28T15:48:00+00:00">November 28, 2017 at 3:48 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Excellent article, </p>
+<p>Any chance you could (here or in another article) give us a sense of what the prediction step for new examples looks like?  Is it an average or weighted average of the stump models? Or would we only use model 2?  Something entirely different?     thanks --Sean</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-14213" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/204eb88e8661f083898ffedccc6592f6?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/204eb88e8661f083898ffedccc6592f6?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14213#respond' onclick='return addComment.moveForm( "comment-14213", "14213", "respond", "6439" )' aria-label='Reply to Octavian Tuchila'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14213" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Octavian Tuchila</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14213" class="x-comment-time"><time datetime="2017-12-17T04:55:00+00:00">December 17, 2017 at 4:55 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Great article!</p>
+<p>I just don't understand one thing:<br />
+How do you get numerical predictions from Tree 1, like `19.25` or `57.2`?</p>
+<p>Tree1, because it's a decision tree, should be a binary classifier, right?<br />
+So it should return make predictions such as `True` or `False`, correct?</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-14266" class="comment odd alt depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/3bcaba3f459f22be3baf71e07d810dab?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/3bcaba3f459f22be3baf71e07d810dab?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14266#respond' onclick='return addComment.moveForm( "comment-14266", "14266", "respond", "6439" )' aria-label='Reply to zekeriya'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14266" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">zekeriya</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14266" class="x-comment-time"><time datetime="2018-01-25T21:51:00+00:00">January 25, 2018 at 9:51 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>İt is decision tree for regression problem. And you should calculate average age for each terminal node.<br />
+mean(13,14,15,35) = 19.25<br />
+mean(25,49,68,71,73) = 57.2</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-18094" class="comment even depth-3">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/c0adf144e4f7307f35e9b81a40c23cc1?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/c0adf144e4f7307f35e9b81a40c23cc1?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=18094#respond' onclick='return addComment.moveForm( "comment-18094", "18094", "respond", "6439" )' aria-label='Reply to Igor'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-18094" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Igor</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-18094" class="x-comment-time"><time datetime="2018-04-28T14:20:59+00:00">April 28, 2018 at 2:20 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Maybe it's a stupid question, but what I don't really understand is how to make this algorithm use all predictors (LikesGardening, PlaysVideoGames, LikesHats) in a systematic and robust way. </p>
+<p>Ben, you showed clearly how one can improve the predictions from using only LikesGardening in Tree 1 to incorparate  PlaysVideoGames and build better tree Tree 2. So, it's more or less clear how one can proceed with</p>
+<p>Gradient Boosting – Draft 1</p>
+<p>Inspired by the idea above, we create our first (naive) formalization of gradient boosting. In pseudocode</p>
+<p>1.  Fit a model to the data, F_1(x) = y<br />
+2.  Fit a model to the residuals, h_1(x) = y - F_1(x)<br />
+3.  Create a new model</p>
+<p>in case of just one predictor. But what about the LikesHats variable? And are we done with LikesGardening? In other words, how can you proceed to have all predictors (what if there are dozens of them?) used systematically and efficiently and make sure the algorithm converges nicely?</p>
+<p>Thanks in advance for your help</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+    <li id="li-comment-14232" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/a0c5958cc09aa056d616eaf886df836d?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/a0c5958cc09aa056d616eaf886df836d?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14232#respond' onclick='return addComment.moveForm( "comment-14232", "14232", "respond", "6439" )' aria-label='Reply to ST22 Bangalore'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14232" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">ST22 Bangalore</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14232" class="x-comment-time"><time datetime="2017-12-31T02:47:00+00:00">December 31, 2017 at 2:47 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Thank you Ben! This is awesome.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-14251" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/868a7edbe7e7a205312a7070f9e75c0b?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/868a7edbe7e7a205312a7070f9e75c0b?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14251#respond' onclick='return addComment.moveForm( "comment-14251", "14251", "respond", "6439" )' aria-label='Reply to ananiask8'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14251" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">ananiask8</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14251" class="x-comment-time"><time datetime="2018-01-13T11:15:00+00:00">January 13, 2018 at 11:15 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Can you elaborate on this one:</p>
+<p>"My personal take is that it causes sample-predictions to slowly converge toward observed values. As this slow convergence occurs, samples that get closer to their target end up being grouped together into larger and larger leaves (due to fixed tree size parameters), resulting in a natural regularization effect."</p>
+<p>I'm not following unto which values exactly they converge... what are the observed values? Why does this grouping effect help regularization? Is it that samples that are intrinsically better explained via some sort of feature, eventually end up in a leaf described by it? Or something different?</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-14521" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/27694826ae50b7416225ca1d350828ba?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/27694826ae50b7416225ca1d350828ba?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14521#respond' onclick='return addComment.moveForm( "comment-14521", "14521", "respond", "6439" )' aria-label='Reply to Rajalakshmi'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14521" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Rajalakshmi</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14521" class="x-comment-time"><time datetime="2018-03-10T19:23:04+00:00">March 10, 2018 at 7:23 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Hi, I m new to this topic. Can you please tell how you are computing tree 1 prediction and tree 2 prediction and its residue</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-14768" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/c92726ba66de4067dc45cbed20a5d868?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/c92726ba66de4067dc45cbed20a5d868?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=14768#respond' onclick='return addComment.moveForm( "comment-14768", "14768", "respond", "6439" )' aria-label='Reply to Gorfball'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-14768" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Gorfball</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-14768" class="x-comment-time"><time datetime="2018-03-13T16:31:56+00:00">March 13, 2018 at 4:31 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Hey, Ben. Thanks for the article. Admittedly an amateur, I'm leaving a bit confused. I found this brief thread to be reasonably helpful, but the information in your article feels dissonant: <a href="https://stats.stackexchange.com/questions/186966/gradient-boosting-for-linear-regression-why-does-it-not-work" rel="nofollow">https://stats.stackexchange.com/questions/186966/gradient-boosting-for-linear-regression-why-does-it-not-work</a></p>
+<p>In particular, this quote: Boosting shines when there is no terse functional form around. Boosting decision trees lets the functional form of the regressor/classifier evolve slowly to fit the data, often resulting in complex shapes one could not have dreamed up by hand and eye. When a simple functional form is desired, boosting is not going to help you find it (or at least is probably a rather inefficient way to find it).</p>
+<p>In the example given, I don't see why using GB is anything but an inefficient routine for mimicking the process of a standard least-squares regression. In the link provided, it alludes to the innate tendency to motivate regularization you mentioned, but also describes that other, better methods are available (e.g., ridge regression) for doing so. </p>
+<p>Is representing this problem with a simple decision tree really a good example of how GB is more powerful than a least-squares regression? Am I missing something in this Example?</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-15478" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/74b9389658f685f4f676efa91a74bef3?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/74b9389658f685f4f676efa91a74bef3?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=15478#respond' onclick='return addComment.moveForm( "comment-15478", "15478", "respond", "6439" )' aria-label='Reply to Diogo Pinto'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-15478" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Diogo Pinto</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-15478" class="x-comment-time"><time datetime="2018-03-23T05:30:58+00:00">March 23, 2018 at 5:30 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Hi,</p>
+<p>Thank you for the awesome article!</p>
+<p>I just want to point out that, from my understanding, the pictures for the Gradient Boosting using Absolute Error example do not match the information from the table, so it might be useful to recheck that.</p>
+<p>Thank you again 🙂<br />
+Diogo Pinto</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-15586" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/949145a34210b7002b49b2957b4f892b?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/949145a34210b7002b49b2957b4f892b?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=15586#respond' onclick='return addComment.moveForm( "comment-15586", "15586", "respond", "6439" )' aria-label='Reply to Nick'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-15586" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Nick</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-15586" class="x-comment-time"><time datetime="2018-03-24T13:14:57+00:00">March 24, 2018 at 1:14 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Good article, but there is a confusing error in e.g. "Gradient Boosting – Draft 1". In the first bullet point, you define y to be the predicted value. If you calculate the residuals in the 2nd bullet point, you want to calculate the original value - the predicted value. We have h(x) = y-F_1(x), where F_1(x) was defined to be y, thus always zero per the stated equations. It should be a ŷ or something similar.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-16289" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/dcb31806cab55171a072f1cf1c116f53?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/dcb31806cab55171a072f1cf1c116f53?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=16289#respond' onclick='return addComment.moveForm( "comment-16289", "16289", "respond", "6439" )' aria-label='Reply to Pulkit Bansal'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-16289" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Pulkit Bansal</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-16289" class="x-comment-time"><time datetime="2018-04-01T23:15:18+00:00">April 1, 2018 at 11:15 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Hi Ben,</p>
+<p>Great article. This gave me more clarity about gradient boosting.</p>
+<p>I have one question though. Could you please explain how are pseudo-residuals computed? I mean how are we computing derivative of the loss function w.r.t. a F_0(x) which is a tree. I can understand computing gradient w.r.t a real number x1, x2 etc. , but partial derivative w.r.t. a regression tree and what that means is not clear to me.</p>
+<p>Thanks,<br />
+Pulkit</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-16408" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/a4591783eae3e622218d54f063315877?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/a4591783eae3e622218d54f063315877?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=16408#respond' onclick='return addComment.moveForm( "comment-16408", "16408", "respond", "6439" )' aria-label='Reply to Renato Ciani'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-16408" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Renato Ciani</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-16408" class="x-comment-time"><time datetime="2018-04-03T19:10:47+00:00">April 3, 2018 at 7:10 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Thanks! Thanks! You're great! Great article! Sometimes it's hard to dive into a raw paper like the original Friedman's. This kick off makes the understanding smooth.</p>
+<p>I would suggest check the example of Absolute Error (maybe need a correction) , the h0 tree doesn't seems to show the right sets for LikesGardening pseudoResiduals0, ie. LikesGardening == F -&gt;  {-1,-1,-1,-1}  and  LikesGardening == T -&gt; {-1,1,1,1,1}. So we can have the right avg({-1,-1,-1,-1}) = -1 and avg({-1,1,1,1,1}) =0.6 to match the h0 column.</p>
+<p>Best Regards,</p>
+<p>Renato</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-16475" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/3c8dcaa0328c8cdb855e955ffff4268a?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/3c8dcaa0328c8cdb855e955ffff4268a?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=16475#respond' onclick='return addComment.moveForm( "comment-16475", "16475", "respond", "6439" )' aria-label='Reply to Michael Zeng'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-16475" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Michael Zeng</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-16475" class="x-comment-time"><time datetime="2018-04-04T16:38:13+00:00">April 4, 2018 at 4:38 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Thanks for the excellent explanation. How would you explain the superiorty of XGBoost when dealing with imbalanced sample?</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-18095" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/c0adf144e4f7307f35e9b81a40c23cc1?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/c0adf144e4f7307f35e9b81a40c23cc1?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=18095#respond' onclick='return addComment.moveForm( "comment-18095", "18095", "respond", "6439" )' aria-label='Reply to Igor'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-18095" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Igor</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-18095" class="x-comment-time"><time datetime="2018-04-28T14:24:16+00:00">April 28, 2018 at 2:24 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Just to use chronological order to make my question visible today (I apologize if duplication was not needed).</p>
+<p>Maybe it's a stupid question, but what I don't really understand is how to make this algorithm use all predictors (LikesGardening, PlaysVideoGames, LikesHats) in a systematic and robust way. </p>
+<p>Ben, you showed clearly how one can improve the predictions from using only LikesGardening in Tree 1 to incorparate  PlaysVideoGames and build better tree Tree 2. So, it's more or less clear how one can proceed with</p>
+<p>Gradient Boosting – Draft 1</p>
+<p>Inspired by the idea above, we create our first (naive) formalization of gradient boosting. In pseudocode</p>
+<p>1.  Fit a model to the data, F_1(x) = y<br />
+2.  Fit a model to the residuals, h_1(x) = y - F_1(x)<br />
+3.  Create a new model</p>
+<p>in case of just one predictor. But what about the LikesHats variable? And are we done with LikesGardening? In other words, how can you proceed to have all predictors (what if there are dozens of them?) used systematically and efficiently and make sure the algorithm converges nicely?</p>
+<p>Thanks</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-18097" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/c0adf144e4f7307f35e9b81a40c23cc1?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/c0adf144e4f7307f35e9b81a40c23cc1?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=18097#respond' onclick='return addComment.moveForm( "comment-18097", "18097", "respond", "6439" )' aria-label='Reply to Igor'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-18097" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Igor</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-18097" class="x-comment-time"><time datetime="2018-04-28T14:27:59+00:00">April 28, 2018 at 2:27 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Another more general question for the community.</p>
+<p>Does anyone know of a source to look up some GB algorithm examples coded in SAS (I mean Base/Stat, not Enterprise Miner)?</p>
+<p>Thank you in advance</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-22546" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/7db822800b5d07538bc089e65022ac5c?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/7db822800b5d07538bc089e65022ac5c?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=22546#respond' onclick='return addComment.moveForm( "comment-22546", "22546", "respond", "6439" )' aria-label='Reply to Dylan'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-22546" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Dylan</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-22546" class="x-comment-time"><time datetime="2018-06-04T08:38:07+00:00">June 4, 2018 at 8:38 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>I'd like to elaborate on the idea of gradient descent. You mentioned in part 4 that the wikipedia on stepping doesn't really explain in pragmatic terms what the benefit is and if I understand the context correctly, this is what I've understood:</p>
+<p>As you take smaller steps toward a local minima, iteratively smaller steps guarantees accuracy by not overshooting your local minima into the other side of the concave (picture a valley in a graphed function). Smaller steps guarantee that you do not head toward the ramp back up with your stepping's "velocity". </p>
+<p>I might be thinking of the wrong thing or conflating stochastic gradient descent without appreciating the differences here but this is how I've understood it.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-25027" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/208a868128e5a3ba3280f510266d5bbb?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/208a868128e5a3ba3280f510266d5bbb?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=25027#respond' onclick='return addComment.moveForm( "comment-25027", "25027", "respond", "6439" )' aria-label='Reply to Hande'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-25027" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Hande</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-25027" class="x-comment-time"><time datetime="2018-06-25T07:50:23+00:00">June 25, 2018 at 7:50 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Very nice and clear explanation. Thank you!</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-25223" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/5fecd110e95c18055a8363c013f18a7f?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/5fecd110e95c18055a8363c013f18a7f?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=25223#respond' onclick='return addComment.moveForm( "comment-25223", "25223", "respond", "6439" )' aria-label='Reply to smriti'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-25223" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">smriti</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-25223" class="x-comment-time"><time datetime="2018-06-27T03:06:57+00:00">June 27, 2018 at 3:06 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Hi Ben,thanks for this illustration. Would you have similar illustration available for binary dependent variable. In this case how do you compute the residuals.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-27287" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/62acfd2cc097b858df3588c181cd5d86?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/62acfd2cc097b858df3588c181cd5d86?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=27287#respond' onclick='return addComment.moveForm( "comment-27287", "27287", "respond", "6439" )' aria-label='Reply to Utkarsh Mishra'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-27287" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Utkarsh Mishra</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-27287" class="x-comment-time"><time datetime="2018-07-10T05:40:16+00:00">July 10, 2018 at 5:40 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>"Notice that this tree does not include LikesHats even though our overfitted regression tree above did. The reason is because this regression tree is able to consider LikesHats and PlaysVideoGames with respect to all the training samples, contrary to our overfit regression tree which only considered each feature inside a small region of the input space, thus allowing random noise to select LikesHats as a splitting feature."</p>
+<p>Can someone elaborate these line for me.<br />
+What does it mean ?</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-30173" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/985fc79862a294e395d6020176af4bbc?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/985fc79862a294e395d6020176af4bbc?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=30173#respond' onclick='return addComment.moveForm( "comment-30173", "30173", "respond", "6439" )' aria-label='Reply to Cody Bushnell'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-30173" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Cody Bushnell</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-30173" class="x-comment-time"><time datetime="2018-08-01T10:23:48+00:00">August 1, 2018 at 10:23 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Ben, thanks for writing this. Best write up I've seem on the topic, hands down!</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-31042" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://0.gravatar.com/avatar/0f8166aca8fd6ca8634804e73e181523?s=120&#038;d=identicon&#038;r=pg' srcset='http://0.gravatar.com/avatar/0f8166aca8fd6ca8634804e73e181523?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=31042#respond' onclick='return addComment.moveForm( "comment-31042", "31042", "respond", "6439" )' aria-label='Reply to ken'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-31042" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">ken</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-31042" class="x-comment-time"><time datetime="2018-08-08T13:21:59+00:00">August 8, 2018 at 1:21 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>This article is full of mistakes and wrong inference.  Please, first learn your stuff thoroughly before writing about it and creating information pollution.</p>
+        </section>
+      </article>
+    <ol class="children">
+    <li id="li-comment-31715" class="comment even depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/5f1923a192f166cd4dba85f49d136a15?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/5f1923a192f166cd4dba85f49d136a15?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=31715#respond' onclick='return addComment.moveForm( "comment-31715", "31715", "respond", "6439" )' aria-label='Reply to Chetan Bhat'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-31715" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Chetan Bhat</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-31715" class="x-comment-time"><time datetime="2018-08-14T07:17:24+00:00">August 14, 2018 at 7:17 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Could you point out which parts are problematic? Simply saying "there are mistakes" and not giving more clarity in itself is not helpful for anyone.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-36524" class="comment odd alt depth-2">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/53d6115c5ad4758b7e847130e8541bce?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/53d6115c5ad4758b7e847130e8541bce?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=36524#respond' onclick='return addComment.moveForm( "comment-36524", "36524", "respond", "6439" )' aria-label='Reply to Puzzle'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-36524" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Puzzle</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-36524" class="x-comment-time"><time datetime="2018-09-16T18:50:01+00:00">September 16, 2018 at 6:50 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>I feel the same way, using regression tree for classification problems,  squared error for classification???  etc......</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+    <li id="li-comment-31718" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/5f1923a192f166cd4dba85f49d136a15?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/5f1923a192f166cd4dba85f49d136a15?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=31718#respond' onclick='return addComment.moveForm( "comment-31718", "31718", "respond", "6439" )' aria-label='Reply to Chetan Bhat'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-31718" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Chetan Bhat</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-31718" class="x-comment-time"><time datetime="2018-08-14T07:21:59+00:00">August 14, 2018 at 7:21 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Hey Ben,</p>
+<p>Thanks again for this. I noticed you had asked on StackOverFlow long ago a question on line search - how does this really work in Gradient Boosting, what is the use of moderating the step size (even when there is a separate learning rate parameter as well) etc. </p>
+<p>Do you have any understanding on this as of now? Could you write about it a bit, or point to the right resources to get a better grasp?</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-32055" class="comment odd alt thread-odd thread-alt depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://2.gravatar.com/avatar/5826cbf9548f00fd516d997a3663fefc?s=120&#038;d=identicon&#038;r=pg' srcset='http://2.gravatar.com/avatar/5826cbf9548f00fd516d997a3663fefc?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=32055#respond' onclick='return addComment.moveForm( "comment-32055", "32055", "respond", "6439" )' aria-label='Reply to Gautam'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-32055" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author">Gautam</cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-32055" class="x-comment-time"><time datetime="2018-08-17T18:50:29+00:00">August 17, 2018 at 6:50 pm</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>I used your explanation in an interview and was told that it's the best explanation they've ever heard of Gradient boosted trees. Thanks!</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    <li id="li-comment-32380" class="comment even thread-even depth-1">
+            <div class="x-comment-img"><span class="avatar-wrap cf"><img alt='' src='http://1.gravatar.com/avatar/70f746245e2db642784d5240c4831291?s=120&#038;d=identicon&#038;r=pg' srcset='http://1.gravatar.com/avatar/70f746245e2db642784d5240c4831291?s=240&#038;d=identicon&#038;r=pg 2x' class='avatar avatar-120 photo' height='120' width='120' /></span>  <div class="x-reply"><a rel='nofollow' class='comment-reply-link' href='http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/?replytocom=32380#respond' onclick='return addComment.moveForm( "comment-32380", "32380", "respond", "6439" )' aria-label='Reply to Serge Mosin'>Reply<span class="comment-reply-link-after"><i class="x-icon-reply" data-x-icon="&#xf112;"></i></span></a></div></div>      <article id="comment-32380" class="comment">
+        <header class="x-comment-header">
+          <cite class="x-comment-author"><a href='http://www.databrawl.com' rel='external nofollow' class='url'>Serge Mosin</a></cite><div><a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/#comment-32380" class="x-comment-time"><time datetime="2018-08-20T09:48:06+00:00">August 20, 2018 at 9:48 am</time></a></div>        </header>
+                <section class="x-comment-content">
+          <p>Hi Ben. Thanks for the great hands-on tutorial on this. You've left out some important points though. Could you please clarify (and maybe update the article as well) the following:<br />
+1. What are the squared error and absolute error loss functions? I assume the squared error is smth like 1/2 (y - F(x))^2, but I have really no idea what you mean by absolute error objective, nor Google does.<br />
+2. How do you calculate gammas here? For squared errors seems that you're just taking them as 1 instead of solving minimization problem for L(y, F - gamma * h). For the absolute error, I have really no idea how you came up with the values.</p>
+        </section>
+      </article>
+    </li><!-- #comment-## -->
+    </ol>
+
+    
+    
+  
+  	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2017/01/23/a-kaggle-master-explains-gradient-boosting/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="http://blog.kaggle.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comment</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p><p class="comment-form-author"><label for="author">Name <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" required='required' /></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" maxlength="100" aria-describedby="email-notes" required='required' /></p>
+<p class="comment-form-url"><label for="url">Website</label> <input id="url" name="url" type="text" value="" size="30" maxlength="200" /></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes" /><label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="entry-comment-submit" class="submit" value="Submit" /> <input type='hidden' name='comment_post_ID' value='6439' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="ae2706217f" /></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="16"/></p>			</form>
+			</div><!-- #respond -->
+	
+</div>  </div>    
+  </div>
+
+      
+
+
+  <aside class="x-sidebar nano" role="complementary">
+    <div class="max width nano-content">
+              <div id="text-4" class="widget widget_text"><h4 class="h-widget">The Official Blog of Kaggle.com</h4>			<div class="textwidget"></div>
+		</div><div id="search-3" class="widget widget_search">
+<form method="get" id="searchform" class="form-search" action="http://blog.kaggle.com/">
+  <label for="s" class="visually-hidden">Search</label>
+  <input type="text" id="s" class="search-query" name="s" placeholder="Search" />
+</form></div><div id="categories-3" class="widget widget_categories"><h4 class="h-widget">Categories</h4>		<ul>
+	<li class="cat-item cat-item-1795"><a href="http://blog.kaggle.com/category/data-notes/" title="Want to receive curated content delivered straight to your inbox?
+
+Sign-up for Kaggle&#039;s Data Notes Newsletter to get recommendations concerning datasets, kernels, and techniques on Kaggle.
+
+https://www.kaggle.com/page/data-notes">Data Notes</a> (9)
+</li>
+	<li class="cat-item cat-item-9"><a href="http://blog.kaggle.com/category/data-science-news/" >Data Science News</a> (61)
+</li>
+	<li class="cat-item cat-item-3"><a href="http://blog.kaggle.com/category/kaggle-news/" >Kaggle News</a> (140)
+</li>
+	<li class="cat-item cat-item-1538"><a href="http://blog.kaggle.com/category/kernels/" >Kernels</a> (42)
+</li>
+	<li class="cat-item cat-item-1735"><a href="http://blog.kaggle.com/category/open-datasets/" >Open Datasets</a> (10)
+</li>
+	<li class="cat-item cat-item-1636"><a href="http://blog.kaggle.com/category/tutorials/" >Tutorials</a> (51)
+</li>
+	<li class="cat-item cat-item-1"><a href="http://blog.kaggle.com/category/uncategorized/" >Uncategorized</a> (3)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://blog.kaggle.com/category/winners-interviews/" >Winners&#039; Interviews</a> (224)
+</li>
+		</ul>
+</div><div id="mailchimpsf_widget-2" class="widget widget_mailchimpsf_widget"><h4 class="h-widget">Want to subscribe?</h4>	<style>
+		.widget_mailchimpsf_widget .widget-title {
+		line-height: 1.4em;
+		margin-bottom: 0.75em;
+	}
+	#mc_subheader {
+		line-height: 1.25em;
+		margin-bottom: 18px;
+	}
+	.mc_merge_var {
+		margin-bottom: 1.0em;
+	}
+	.mc_var_label,
+	.mc_interest_label {
+		display: block;
+		margin-bottom: 0.5em;
+	}
+	.mc_input {
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		width: 100%;
+	}
+	.mc_input.mc_phone {
+		width: auto;
+	}
+	select.mc_select {
+		margin-top: 0.5em;
+		width: 100%;
+	}
+	.mc_address_label {
+		margin-top: 1.0em;
+		margin-bottom: 0.5em;
+		display: block;
+	}
+	.mc_address_label ~ select {
+		width: 100%;		
+	}
+	.mc_list li {
+		list-style: none;
+		background: none !important;
+	}
+	.mc_interests_header {
+		margin-top: 1.0em;
+		margin-bottom: 0.5em;
+	}
+	.mc_interest label,
+	.mc_interest input {
+		margin-bottom: 0.4em;
+	}
+	#mc_signup_submit {
+		margin-top: 1.5em;
+		width: 80%;
+	}
+	#mc_unsub_link a {
+		font-size: 0.75em;
+	}
+	#mc_unsub_link {
+		margin-top: 1.0em;
+	}
+	.mc_header_address,
+	.mc_email_format {
+		display: block;
+		font-weight: bold;
+		margin-top: 1.0em;
+		margin-bottom: 0.5em;
+	}
+	.mc_email_options {
+		margin-top: 0.5em;
+	}
+	.mc_email_type {
+		padding-left: 4px;
+	}
+	</style>
+	
+<div id="mc_signup">
+	<form method="post" action="#mc_signup" id="mc_signup_form">
+		<input type="hidden" id="mc_submit_type" name="mc_submit_type" value="html" />
+		<input type="hidden" name="mcsf_action" value="mc_submit_signup_form" />
+		<input type="hidden" id="_mc_submit_signup_form_nonce" name="_mc_submit_signup_form_nonce" value="ed2be41c2e" />		
+		
+	<div class="mc_form_inside">
+		
+		<div class="updated" id="mc_message">
+					</div><!-- /mc_message -->
+
+		
+<div class="mc_merge_var">
+		<label for="mc_mv_EMAIL" class="mc_var_label mc_header mc_header_email">Email Address<span class="mc_required">*</span></label>
+	<input type="text" size="18" placeholder="" name="mc_mv_EMAIL" id="mc_mv_EMAIL" class="mc_input"/>
+</div><!-- /mc_merge_var -->
+<div class="mc_merge_var">
+		<label for="mc_mv_FNAME" class="mc_var_label mc_header mc_header_text">First Name</label>
+	<input type="text" size="18" placeholder="" name="mc_mv_FNAME" id="mc_mv_FNAME" class="mc_input"/>
+</div><!-- /mc_merge_var -->
+<div class="mc_merge_var">
+		<label for="mc_mv_LNAME" class="mc_var_label mc_header mc_header_text">Last Name</label>
+	<input type="text" size="18" placeholder="" name="mc_mv_LNAME" id="mc_mv_LNAME" class="mc_input"/>
+</div><!-- /mc_merge_var -->			<div id="mc-indicates-required">
+				* = required field			</div><!-- /mc-indicates-required -->
+			
+		<div class="mc_signup_submit">
+			<input type="submit" name="mc_signup_submit" id="mc_signup_submit" value="Sign me up!" class="button" />
+		</div><!-- /mc_signup_submit -->
+	
+	
+				
+	</div><!-- /mc_form_inside -->
+	</form><!-- /mc_signup_form -->
+</div><!-- /mc_signup_container -->
+	</div><div id="tag_cloud-3" class="widget widget_tag_cloud"><h4 class="h-widget">Popular Tags</h4><div class="tagcloud"><a href="http://blog.kaggle.com/tag/1-kaggler/" class="tag-cloud-link tag-link-1619 tag-link-position-1" style="font-size: 9.4736842105263pt;" aria-label="#1 Kaggler (5 items)">#1 Kaggler</a>
+<a href="http://blog.kaggle.com/tag/annual-santa-competition/" class="tag-cloud-link tag-link-1605 tag-link-position-2" style="font-size: 8pt;" aria-label="Annual Santa Competition (4 items)">Annual Santa Competition</a>
+<a href="http://blog.kaggle.com/tag/binary-classification/" class="tag-cloud-link tag-link-1623 tag-link-position-3" style="font-size: 14.263157894737pt;" aria-label="binary classification (10 items)">binary classification</a>
+<a href="http://blog.kaggle.com/tag/community/" class="tag-cloud-link tag-link-91 tag-link-position-4" style="font-size: 11.684210526316pt;" aria-label="community (7 items)">community</a>
+<a href="http://blog.kaggle.com/tag/computer-vision/" class="tag-cloud-link tag-link-1115 tag-link-position-5" style="font-size: 12.605263157895pt;" aria-label="computer vision (8 items)">computer vision</a>
+<a href="http://blog.kaggle.com/tag/convolutional-neural-networks/" class="tag-cloud-link tag-link-1593 tag-link-position-6" style="font-size: 10.763157894737pt;" aria-label="convolutional neural networks (6 items)">convolutional neural networks</a>
+<a href="http://blog.kaggle.com/tag/dark-matter/" class="tag-cloud-link tag-link-296 tag-link-position-7" style="font-size: 12.605263157895pt;" aria-label="Dark Matter (8 items)">Dark Matter</a>
+<a href="http://blog.kaggle.com/tag/data-notes-tag/" class="tag-cloud-link tag-link-1796 tag-link-position-8" style="font-size: 13.526315789474pt;" aria-label="Data Notes (9 items)">Data Notes</a>
+<a href="http://blog.kaggle.com/tag/data-science-careers/" class="tag-cloud-link tag-link-1670 tag-link-position-9" style="font-size: 8pt;" aria-label="data science careers (4 items)">data science careers</a>
+<a href="http://blog.kaggle.com/tag/data-visualization/" class="tag-cloud-link tag-link-1025 tag-link-position-10" style="font-size: 10.763157894737pt;" aria-label="data visualization (6 items)">data visualization</a>
+<a href="http://blog.kaggle.com/tag/deep-neural-networks/" class="tag-cloud-link tag-link-1592 tag-link-position-11" style="font-size: 8pt;" aria-label="deep neural networks (4 items)">deep neural networks</a>
+<a href="http://blog.kaggle.com/tag/deloitte/" class="tag-cloud-link tag-link-280 tag-link-position-12" style="font-size: 8pt;" aria-label="Deloitte (4 items)">Deloitte</a>
+<a href="http://blog.kaggle.com/tag/diabetes/" class="tag-cloud-link tag-link-1037 tag-link-position-13" style="font-size: 9.4736842105263pt;" aria-label="diabetes (5 items)">diabetes</a>
+<a href="http://blog.kaggle.com/tag/diabetic-retinopathy/" class="tag-cloud-link tag-link-1551 tag-link-position-14" style="font-size: 8pt;" aria-label="Diabetic Retinopathy (4 items)">Diabetic Retinopathy</a>
+<a href="http://blog.kaggle.com/tag/draper-satellite-image-chronology/" class="tag-cloud-link tag-link-1664 tag-link-position-15" style="font-size: 8pt;" aria-label="Draper Satellite Image Chronology (4 items)">Draper Satellite Image Chronology</a>
+<a href="http://blog.kaggle.com/tag/eeg-data/" class="tag-cloud-link tag-link-1565 tag-link-position-16" style="font-size: 10.763157894737pt;" aria-label="EEG data (6 items)">EEG data</a>
+<a href="http://blog.kaggle.com/tag/elo-chess-ratings-competition/" class="tag-cloud-link tag-link-1651 tag-link-position-17" style="font-size: 14.263157894737pt;" aria-label="Elo Chess Ratings Competition (10 items)">Elo Chess Ratings Competition</a>
+<a href="http://blog.kaggle.com/tag/eurovision-challenge/" class="tag-cloud-link tag-link-1655 tag-link-position-18" style="font-size: 9.4736842105263pt;" aria-label="Eurovision Challenge (5 items)">Eurovision Challenge</a>
+<a href="http://blog.kaggle.com/tag/feature-engineering/" class="tag-cloud-link tag-link-1680 tag-link-position-19" style="font-size: 8pt;" aria-label="feature engineering (4 items)">feature engineering</a>
+<a href="http://blog.kaggle.com/tag/flight-quest/" class="tag-cloud-link tag-link-1438 tag-link-position-20" style="font-size: 9.4736842105263pt;" aria-label="Flight Quest (5 items)">Flight Quest</a>
+<a href="http://blog.kaggle.com/tag/heritage-health-prize/" class="tag-cloud-link tag-link-10 tag-link-position-21" style="font-size: 13.526315789474pt;" aria-label="Heritage Health Prize (9 items)">Heritage Health Prize</a>
+<a href="http://blog.kaggle.com/tag/how-much-did-it-rain/" class="tag-cloud-link tag-link-1539 tag-link-position-22" style="font-size: 8pt;" aria-label="How Much Did It Rain? (4 items)">How Much Did It Rain?</a>
+<a href="http://blog.kaggle.com/tag/image-classification/" class="tag-cloud-link tag-link-1552 tag-link-position-23" style="font-size: 11.684210526316pt;" aria-label="image classification (7 items)">image classification</a>
+<a href="http://blog.kaggle.com/tag/kaggle-datasets/" class="tag-cloud-link tag-link-1608 tag-link-position-24" style="font-size: 12.605263157895pt;" aria-label="Kaggle Datasets (8 items)">Kaggle Datasets</a>
+<a href="http://blog.kaggle.com/tag/kaggle-inclass/" class="tag-cloud-link tag-link-1577 tag-link-position-25" style="font-size: 8pt;" aria-label="Kaggle InClass (4 items)">Kaggle InClass</a>
+<a href="http://blog.kaggle.com/tag/kernels/" class="tag-cloud-link tag-link-1667 tag-link-position-26" style="font-size: 22pt;" aria-label="Kernels (28 items)">Kernels</a>
+<a href="http://blog.kaggle.com/tag/logistic-regression/" class="tag-cloud-link tag-link-506 tag-link-position-27" style="font-size: 9.4736842105263pt;" aria-label="logistic regression (5 items)">logistic regression</a>
+<a href="http://blog.kaggle.com/tag/march-mania/" class="tag-cloud-link tag-link-1504 tag-link-position-28" style="font-size: 19.421052631579pt;" aria-label="March Mania (20 items)">March Mania</a>
+<a href="http://blog.kaggle.com/tag/multiclass-classification/" class="tag-cloud-link tag-link-1626 tag-link-position-29" style="font-size: 16.289473684211pt;" aria-label="multiclass classification (13 items)">multiclass classification</a>
+<a href="http://blog.kaggle.com/tag/natural-language-processing/" class="tag-cloud-link tag-link-357 tag-link-position-30" style="font-size: 14.263157894737pt;" aria-label="natural language processing (10 items)">natural language processing</a>
+<a href="http://blog.kaggle.com/tag/open-data/" class="tag-cloud-link tag-link-1660 tag-link-position-31" style="font-size: 16.289473684211pt;" aria-label="open data (13 items)">open data</a>
+<a href="http://blog.kaggle.com/tag/open-data-spotlight/" class="tag-cloud-link tag-link-1687 tag-link-position-32" style="font-size: 10.763157894737pt;" aria-label="open data spotlight (6 items)">open data spotlight</a>
+<a href="http://blog.kaggle.com/tag/practice-fusion/" class="tag-cloud-link tag-link-57 tag-link-position-33" style="font-size: 10.763157894737pt;" aria-label="Practice Fusion (6 items)">Practice Fusion</a>
+<a href="http://blog.kaggle.com/tag/product/" class="tag-cloud-link tag-link-148 tag-link-position-34" style="font-size: 11.684210526316pt;" aria-label="Product (7 items)">Product</a>
+<a href="http://blog.kaggle.com/tag/product-news/" class="tag-cloud-link tag-link-1609 tag-link-position-35" style="font-size: 11.684210526316pt;" aria-label="Product News (7 items)">Product News</a>
+<a href="http://blog.kaggle.com/tag/profiling-top-kagglers/" class="tag-cloud-link tag-link-1586 tag-link-position-36" style="font-size: 15.552631578947pt;" aria-label="Profiling Top Kagglers (12 items)">Profiling Top Kagglers</a>
+<a href="http://blog.kaggle.com/tag/recruiting/" class="tag-cloud-link tag-link-318 tag-link-position-37" style="font-size: 9.4736842105263pt;" aria-label="Recruiting (5 items)">Recruiting</a>
+<a href="http://blog.kaggle.com/tag/regression-problem/" class="tag-cloud-link tag-link-1625 tag-link-position-38" style="font-size: 9.4736842105263pt;" aria-label="regression problem (5 items)">regression problem</a>
+<a href="http://blog.kaggle.com/tag/scikit-learn/" class="tag-cloud-link tag-link-1493 tag-link-position-39" style="font-size: 16.289473684211pt;" aria-label="scikit-learn (13 items)">scikit-learn</a>
+<a href="http://blog.kaggle.com/tag/scripts-of-the-week/" class="tag-cloud-link tag-link-1545 tag-link-position-40" style="font-size: 15.552631578947pt;" aria-label="scripts of the week (12 items)">scripts of the week</a>
+<a href="http://blog.kaggle.com/tag/tourism-forecasting/" class="tag-cloud-link tag-link-1647 tag-link-position-41" style="font-size: 8pt;" aria-label="Tourism Forecasting (4 items)">Tourism Forecasting</a>
+<a href="http://blog.kaggle.com/tag/tutorial/" class="tag-cloud-link tag-link-8 tag-link-position-42" style="font-size: 15pt;" aria-label="Tutorial (11 items)">Tutorial</a>
+<a href="http://blog.kaggle.com/tag/video-series/" class="tag-cloud-link tag-link-1534 tag-link-position-43" style="font-size: 13.526315789474pt;" aria-label="video series (9 items)">video series</a>
+<a href="http://blog.kaggle.com/tag/wikipedia-challenge/" class="tag-cloud-link tag-link-625 tag-link-position-44" style="font-size: 8pt;" aria-label="Wikipedia Challenge (4 items)">Wikipedia Challenge</a>
+<a href="http://blog.kaggle.com/tag/xgboost/" class="tag-cloud-link tag-link-1559 tag-link-position-45" style="font-size: 17.763157894737pt;" aria-label="XGBoost (16 items)">XGBoost</a></div>
+</div><div id="archives-3" class="widget widget_archive"><h4 class="h-widget">Archives</h4>		<label class="screen-reader-text" for="archives-dropdown-3">Archives</label>
+		<select id="archives-dropdown-3" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
+			
+			<option value="">Select Month</option>
+				<option value='http://blog.kaggle.com/2018/10/'> October 2018 </option>
+	<option value='http://blog.kaggle.com/2018/09/'> September 2018 </option>
+	<option value='http://blog.kaggle.com/2018/08/'> August 2018 </option>
+	<option value='http://blog.kaggle.com/2018/07/'> July 2018 </option>
+	<option value='http://blog.kaggle.com/2018/06/'> June 2018 </option>
+	<option value='http://blog.kaggle.com/2018/05/'> May 2018 </option>
+	<option value='http://blog.kaggle.com/2018/04/'> April 2018 </option>
+	<option value='http://blog.kaggle.com/2018/03/'> March 2018 </option>
+	<option value='http://blog.kaggle.com/2018/02/'> February 2018 </option>
+	<option value='http://blog.kaggle.com/2018/01/'> January 2018 </option>
+	<option value='http://blog.kaggle.com/2017/12/'> December 2017 </option>
+	<option value='http://blog.kaggle.com/2017/11/'> November 2017 </option>
+	<option value='http://blog.kaggle.com/2017/10/'> October 2017 </option>
+	<option value='http://blog.kaggle.com/2017/09/'> September 2017 </option>
+	<option value='http://blog.kaggle.com/2017/08/'> August 2017 </option>
+	<option value='http://blog.kaggle.com/2017/07/'> July 2017 </option>
+	<option value='http://blog.kaggle.com/2017/06/'> June 2017 </option>
+	<option value='http://blog.kaggle.com/2017/05/'> May 2017 </option>
+	<option value='http://blog.kaggle.com/2017/04/'> April 2017 </option>
+	<option value='http://blog.kaggle.com/2017/03/'> March 2017 </option>
+	<option value='http://blog.kaggle.com/2017/02/'> February 2017 </option>
+	<option value='http://blog.kaggle.com/2017/01/'> January 2017 </option>
+	<option value='http://blog.kaggle.com/2016/12/'> December 2016 </option>
+	<option value='http://blog.kaggle.com/2016/11/'> November 2016 </option>
+	<option value='http://blog.kaggle.com/2016/10/'> October 2016 </option>
+	<option value='http://blog.kaggle.com/2016/09/'> September 2016 </option>
+	<option value='http://blog.kaggle.com/2016/08/'> August 2016 </option>
+	<option value='http://blog.kaggle.com/2016/07/'> July 2016 </option>
+	<option value='http://blog.kaggle.com/2016/06/'> June 2016 </option>
+	<option value='http://blog.kaggle.com/2016/05/'> May 2016 </option>
+	<option value='http://blog.kaggle.com/2016/04/'> April 2016 </option>
+	<option value='http://blog.kaggle.com/2016/03/'> March 2016 </option>
+	<option value='http://blog.kaggle.com/2016/02/'> February 2016 </option>
+	<option value='http://blog.kaggle.com/2016/01/'> January 2016 </option>
+	<option value='http://blog.kaggle.com/2015/12/'> December 2015 </option>
+	<option value='http://blog.kaggle.com/2015/11/'> November 2015 </option>
+	<option value='http://blog.kaggle.com/2015/10/'> October 2015 </option>
+	<option value='http://blog.kaggle.com/2015/09/'> September 2015 </option>
+	<option value='http://blog.kaggle.com/2015/08/'> August 2015 </option>
+	<option value='http://blog.kaggle.com/2015/07/'> July 2015 </option>
+	<option value='http://blog.kaggle.com/2015/06/'> June 2015 </option>
+	<option value='http://blog.kaggle.com/2015/05/'> May 2015 </option>
+	<option value='http://blog.kaggle.com/2015/04/'> April 2015 </option>
+	<option value='http://blog.kaggle.com/2015/03/'> March 2015 </option>
+	<option value='http://blog.kaggle.com/2015/02/'> February 2015 </option>
+	<option value='http://blog.kaggle.com/2015/01/'> January 2015 </option>
+	<option value='http://blog.kaggle.com/2014/12/'> December 2014 </option>
+	<option value='http://blog.kaggle.com/2014/11/'> November 2014 </option>
+	<option value='http://blog.kaggle.com/2014/09/'> September 2014 </option>
+	<option value='http://blog.kaggle.com/2014/08/'> August 2014 </option>
+	<option value='http://blog.kaggle.com/2014/07/'> July 2014 </option>
+	<option value='http://blog.kaggle.com/2014/06/'> June 2014 </option>
+	<option value='http://blog.kaggle.com/2014/05/'> May 2014 </option>
+	<option value='http://blog.kaggle.com/2014/04/'> April 2014 </option>
+	<option value='http://blog.kaggle.com/2014/03/'> March 2014 </option>
+	<option value='http://blog.kaggle.com/2014/02/'> February 2014 </option>
+	<option value='http://blog.kaggle.com/2014/01/'> January 2014 </option>
+	<option value='http://blog.kaggle.com/2013/12/'> December 2013 </option>
+	<option value='http://blog.kaggle.com/2013/11/'> November 2013 </option>
+	<option value='http://blog.kaggle.com/2013/09/'> September 2013 </option>
+	<option value='http://blog.kaggle.com/2013/08/'> August 2013 </option>
+	<option value='http://blog.kaggle.com/2013/07/'> July 2013 </option>
+	<option value='http://blog.kaggle.com/2013/06/'> June 2013 </option>
+	<option value='http://blog.kaggle.com/2013/05/'> May 2013 </option>
+	<option value='http://blog.kaggle.com/2013/04/'> April 2013 </option>
+	<option value='http://blog.kaggle.com/2013/03/'> March 2013 </option>
+	<option value='http://blog.kaggle.com/2013/02/'> February 2013 </option>
+	<option value='http://blog.kaggle.com/2013/01/'> January 2013 </option>
+	<option value='http://blog.kaggle.com/2012/12/'> December 2012 </option>
+	<option value='http://blog.kaggle.com/2012/11/'> November 2012 </option>
+	<option value='http://blog.kaggle.com/2012/10/'> October 2012 </option>
+	<option value='http://blog.kaggle.com/2012/09/'> September 2012 </option>
+	<option value='http://blog.kaggle.com/2012/08/'> August 2012 </option>
+	<option value='http://blog.kaggle.com/2012/07/'> July 2012 </option>
+	<option value='http://blog.kaggle.com/2012/06/'> June 2012 </option>
+	<option value='http://blog.kaggle.com/2012/05/'> May 2012 </option>
+	<option value='http://blog.kaggle.com/2012/04/'> April 2012 </option>
+	<option value='http://blog.kaggle.com/2012/03/'> March 2012 </option>
+	<option value='http://blog.kaggle.com/2012/02/'> February 2012 </option>
+	<option value='http://blog.kaggle.com/2012/01/'> January 2012 </option>
+	<option value='http://blog.kaggle.com/2011/12/'> December 2011 </option>
+	<option value='http://blog.kaggle.com/2011/11/'> November 2011 </option>
+	<option value='http://blog.kaggle.com/2011/10/'> October 2011 </option>
+	<option value='http://blog.kaggle.com/2011/09/'> September 2011 </option>
+	<option value='http://blog.kaggle.com/2011/08/'> August 2011 </option>
+	<option value='http://blog.kaggle.com/2011/07/'> July 2011 </option>
+	<option value='http://blog.kaggle.com/2011/06/'> June 2011 </option>
+	<option value='http://blog.kaggle.com/2011/05/'> May 2011 </option>
+	<option value='http://blog.kaggle.com/2011/04/'> April 2011 </option>
+	<option value='http://blog.kaggle.com/2011/03/'> March 2011 </option>
+	<option value='http://blog.kaggle.com/2011/02/'> February 2011 </option>
+	<option value='http://blog.kaggle.com/2011/01/'> January 2011 </option>
+	<option value='http://blog.kaggle.com/2010/12/'> December 2010 </option>
+	<option value='http://blog.kaggle.com/2010/11/'> November 2010 </option>
+	<option value='http://blog.kaggle.com/2010/10/'> October 2010 </option>
+	<option value='http://blog.kaggle.com/2010/09/'> September 2010 </option>
+	<option value='http://blog.kaggle.com/2010/08/'> August 2010 </option>
+	<option value='http://blog.kaggle.com/2010/07/'> July 2010 </option>
+	<option value='http://blog.kaggle.com/2010/06/'> June 2010 </option>
+	<option value='http://blog.kaggle.com/2010/05/'> May 2010 </option>
+	<option value='http://blog.kaggle.com/2010/04/'> April 2010 </option>
+
+		</select>
+		</div>          </div>
+  </aside>
+
+  
+
+  
+  
+    <div class="x-widgetbar collapse">
+      <div class="x-widgetbar-inner">
+        <div class="x-container max width">
+
+          <div class="x-column x-md x-1-1 last"></div>
+        </div>
+      </div>
+    </div>
+
+    <a href="#" class="x-btn-widgetbar collapsed" data-toggle="collapse" data-target=".x-widgetbar">
+      <i class="x-icon-plus-circle" data-x-icon="&#xf055;"><span class="visually-hidden">Toggle the Widgetbar</span></i>
+    </a>
+
+    
+  
+
+  
+    <footer class="x-colophon bottom" role="contentinfo">
+      <div class="x-container max width">
+
+                  <div class="x-colophon-content">
+                      </div>
+        
+                  <div class="x-social-global"><a href="https://www.facebook.com/kaggle" class="facebook" title="Facebook" target="_blank"><i class="x-icon-facebook-square" data-x-icon="&#xf082;" aria-hidden="true"></i></a><a href="https://twitter.com/kaggle" class="twitter" title="Twitter" target="_blank"><i class="x-icon-twitter-square" data-x-icon="&#xf081;" aria-hidden="true"></i></a></div>        
+        
+      </div>
+    </footer>
+
+  
+
+  
+  </div> <!-- END #top.site -->
+
+  
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/wp-gif-player/js/play_gif.js?ver=1481361617'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/jetpack/_inc/build/spin.min.js?ver=1.3'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/wp-gif-player/inc/jquery.spin.js?ver=1.0'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/themes/x/framework/js/dist/site/x-body.min.js?ver=4.3.1'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/themes/x/framework/js/dist/site/x-icon.min.js?ver=4.3.1'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-includes/js/comment-reply.min.js?ver=4.9.7'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/cornerstone/assets/js/dist/site/cs-body.min.js?ver=1.1.3'></script>
+<script type='text/javascript' src='http://s5047.pcdn.co/wp-includes/js/wp-embed.min.js?ver=4.9.7'></script>
+<script async="async" type='text/javascript' src='http://s5047.pcdn.co/wp-content/plugins/akismet/_inc/form.js?ver=4.0.8'></script>
+
+  
+  
+</body>
+</html>
