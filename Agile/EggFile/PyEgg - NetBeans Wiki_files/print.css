@@ -1,0 +1,26 @@
+#mw_portlets,
+#p-cactions,
+#p-personal,
+#jump-to-nav,
+#footer,
+#floating-logo,
+#floating-tabs-container,
+#navig-breadcrumbs,
+#floating-col-right,
+#p-tb,
+#p-cactions,
+#floating-footer,
+#companion-projects,
+#right-navigation,
+span.editsection,
+.noprint
+{
+    display: none;
+}
+    
+body {
+    color: #333333; padding:0px; margin:0px;
+    font-size: 0.7em;
+    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
+    height: 500px;
+}
