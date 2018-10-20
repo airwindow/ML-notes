@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://statcompute.wordpress.com/xmlrpc.php">
+
+<title>Autoencoder for Dimensionality Reduction &#8211; Yet Another Blog in Statistical Computing</title>
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.pubmine.com' />
+<link rel='dns-prefetch' href='//x.bidswitch.net' />
+<link rel='dns-prefetch' href='//static.criteo.net' />
+<link rel='dns-prefetch' href='//ib.adnxs.com' />
+<link rel='dns-prefetch' href='//aax.amazon-adsystem.com' />
+<link rel='dns-prefetch' href='//bidder.criteo.com' />
+<link rel='dns-prefetch' href='//cas.criteo.com' />
+<link rel='dns-prefetch' href='//gum.criteo.com' />
+<link rel='dns-prefetch' href='//ads.pubmatic.com' />
+<link rel='dns-prefetch' href='//gads.pubmatic.com' />
+<link rel='dns-prefetch' href='//tpc.googlesyndication.com' />
+<link rel='dns-prefetch' href='//ad.doubleclick.net' />
+<link rel='dns-prefetch' href='//googleads.g.doubleclick.net' />
+<link rel='dns-prefetch' href='//www.googletagservices.com' />
+<link rel='dns-prefetch' href='//cdn.switchadhub.com' />
+<link rel='dns-prefetch' href='//delivery.g.switchadhub.com' />
+<link rel='dns-prefetch' href='//delivery.swid.switchadhub.com' />
+<link rel="alternate" type="application/rss+xml" title="Yet Another Blog in Statistical Computing &raquo; Feed" href="https://statcompute.wordpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Yet Another Blog in Statistical Computing &raquo; Comments Feed" href="https://statcompute.wordpress.com/comments/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s1.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1532082729h&ver=4.9.8"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel='stylesheet' id='all-css-0-1' href='https://s1.wp.com/_static/??-eJx9j90KwjAMRl/IGh1u4oX4LP0JW7d0DUvL8O3tFGU42E1Iwjn5CMysbBwTjglCVky59aMA+QEFekys7aDe09GKHGCFG4rtT5jj5LQTaCkaTRt2dXpC0gmd4ijpb9rTbJyw7APrtBABnddIGAq2pwVuvtbSduWd3ZiZC62M4QlFVKnB56BSV4K23mcNnA14iaRB0pNwwR7hfq6ry7W5naq6fwFqg4Us?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='isola-source-sans-pro-css'  href='https://fonts.googleapis.com/css?family=Source+Sans+Pro%3A400%2C600%2C700%2C300italic%2C400italic%2C600italic%2C700italic&#038;subset=latin%2Clatin-ext&#038;ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s1.wp.com/_static/??-eJyVj90KwjAMRl/IGubvlfgstcYaTZuyZAzf3uoQJuLQu/Px5SQE+uKCZMNskDpXuIuUFSJmbKkWX3AeVGcwcu2MCRVKdwBSYQ+UA6jdGF1fgqQPYXSsp2NEUzAprohWeoq/KNjVVq6Ejn0PhqmwN/xjgUogz274bxwGmSCLDeULprZGFMcSvJHkt+BO7KmdUls8sMSKEerUKD6kfdo168V2s1w1q83lDv8ApDs=?cssminify=yes' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-3-1' href='https://s2.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h&cssminify=yes' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-4-1' href='https://s0.wp.com/_static/??-eJx9i0EKQjEMBS9kDdVfXIlnyS+1jaRJafLx+uJCRBRXbx7MwH2ErOJFHPoWBm+VxACzk8qK8037bLaD3/pQ83BlpAnWcJLU1/6rTDMhB9aqn+cr8lZ6MWgLVNYV+Slc+jmmQzrFtMTj7QHFQEmu?cssminify=yes' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyFj90KwjAMhV/IrAw6xQvxWWoXS2r/bNoNfXo70At1KARCTr4cTsScgIJ2dUQWttW1Yr49W2d5I34B4MlkVbDzFF6wjqFgKAvr44kcQmXMyjStGZ3jCpciF4/MDVrZvkeiMBHOfzGLJSl9gYxM9y9XXyG5aiiwyOjaAyMsGT6mdnX0h17uh36Qcre1DyuucHk='></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://statcompute.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='An Example of Merge Layer in&nbsp;Keras' href='https://statcompute.wordpress.com/2017/01/08/an-example-of-merge-layer-in-keras/' />
+<link rel='next' title='Monotonic Binning with Smbinning&nbsp;Package' href='https://statcompute.wordpress.com/2017/01/22/monotonic-binning-with-smbinning-package/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/" />
+<link rel='shortlink' href='https://wp.me/p42ab-C1' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fstatcompute.wordpress.com%2F2017%2F01%2F15%2Fautoencoder-for-dimensionality-reduction%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fstatcompute.wordpress.com%2F2017%2F01%2F15%2Fautoencoder-for-dimensionality-reduction%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Autoencoder for Dimensionality Reduction" />
+<meta property="og:url" content="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/" />
+<meta property="og:description" content="We often use ICA or PCA to extract features from the high-dimensional data. The autoencoder is another interesting algorithm to achieve the same purpose in the context of Deep Learning. with the pu…" />
+<meta property="article:published_time" content="2017-01-15T23:19:14+00:00" />
+<meta property="article:modified_time" content="2017-04-03T03:59:13+00:00" />
+<meta property="og:site_name" content="Yet Another Blog in Statistical Computing" />
+<meta property="og:image" content="https://secure.gravatar.com/blavatar/85708d077608b826887ea81e9621d635?s=200&amp;ts=1539821921" />
+<meta property="og:image:width" content="200" />
+<meta property="og:image:height" content="200" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@liuwensui" />
+<meta name="twitter:site" content="@liuwensui" />
+<meta name="twitter:text:title" content="Autoencoder for Dimensionality&nbsp;Reduction" />
+<meta name="twitter:image" content="https://secure.gravatar.com/blavatar/85708d077608b826887ea81e9621d635?s=240" />
+<meta name="twitter:card" content="summary" />
+<meta property="fb:app_id" content="249643311490" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="shortcut icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/85708d077608b826887ea81e9621d635?s=32" sizes="16x16" />
+<link rel="icon" type="image/x-icon" href="https://secure.gravatar.com/blavatar/85708d077608b826887ea81e9621d635?s=32" sizes="16x16" />
+<link rel="apple-touch-icon-precomposed" href="https://secure.gravatar.com/blavatar/85708d077608b826887ea81e9621d635?s=114" />
+<link rel='openid.server' href='https://statcompute.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://statcompute.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://statcompute.wordpress.com/osd.xml" title="Yet Another Blog in Statistical Computing" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="application-name" content="Yet Another Blog in Statistical Computing" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://statcompute.wordpress.com/feed/;icon-uri=https://secure.gravatar.com/blavatar/85708d077608b826887ea81e9621d635?s=16" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico" /><meta name="description" content="We often use ICA or PCA to extract features from the high-dimensional data. The autoencoder is another interesting algorithm to achieve the same purpose in the context of Deep Learning. with the purpose of learning a function to approximate the input data itself such that F(X) = X, an autoencoder consists of two parts, namely&hellip;" />
+	<style type="text/css">
+			.site-title,
+		.site-description {
+			position: absolute;
+			clip: rect(1px, 1px, 1px, 1px);
+		}
+		</style>
+			<script type="text/javascript">
+		function __ATA_CC() {var v = document.cookie.match('(^|;) ?personalized-ads-consent=([^;]*)(;|$)');return v ? 1 : 0;}
+		var __ATA_PP = { pt: 1, ht: 0, tn: 'isola', amp: false, siteid: 8982, consent: __ATA_CC() };
+		var __ATA = __ATA || {};
+		__ATA.cmd = __ATA.cmd || [];
+		__ATA.criteo = __ATA.criteo || {};
+		__ATA.criteo.cmd = __ATA.criteo.cmd || [];
+		</script>
+		<script type="text/javascript" src="//s.pubmine.com/head.js" async></script><link rel="amphtml" href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/amp/"><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+<body class="post-template-default single single-post postid-2357 single-format-standard mp6 customizer-styles-applied widgets-hidden highlander-enabled highlander-light">
+<div id="page" class="hfeed site">
+	<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+	<header id="masthead" class="site-header" role="banner">
+		<div class="site-header-inner">
+			<div class="site-branding">
+				<button id="menu-toggle" class="toggle">
+					<svg version="1.1" class="menu-toggle-image" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+						 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+						<g id="menu">
+							<g>
+								<rect x="3" y="4" width="18" height="3"/>
+								<rect x="3" y="10" width="18" height="3"/>
+								<rect x="3" y="16" width="18" height="3"/>
+							</g>
+						</g>
+					</svg>
+					<span class="screen-reader-text">Primary Menu</span>
+				</button>
+				<h1 class="site-title"><a href="https://statcompute.wordpress.com/" rel="home">Yet Another Blog in Statistical Computing</a></h1>
+				<h2 class="site-description"></h2>
+			</div>
+
+			<div id="site-search" class="header-search">
+				<div class="header-search-form">
+					<form role="search" method="get" class="search-form" action="https://statcompute.wordpress.com/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<span class="search-icon">
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+			 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+			<g id="search">
+				<path class="icon" d="M15.846,13.846C16.573,12.742,17,11.421,17,10c0-3.866-3.134-7-7-7s-7,3.134-7,7s3.134,7,7,7
+					c1.421,0,2.742-0.427,3.846-1.154L19,21l2-2L15.846,13.846z M10,15c-2.761,0-5-2.238-5-5c0-2.761,2.239-5,5-5c2.762,0,5,2.239,5,5
+					C15,12.762,12.762,15,10,15z"/>
+			</g>
+		</svg>
+	</span>
+		<input type="search" class="search-field" placeholder="Search …" value="" name="s" title="Search for:" />
+	</label>
+	<input type="submit" class="search-submit" value="Search" />
+</form>				</div><!-- .header-search-form -->
+			</div><!-- #site-navigation -->
+		</div><!-- .site-header-inner -->
+	</header><!-- #masthead -->
+
+	<div id="toggle-sidebar">
+		<button id="menu-close">
+			<span class="screen-reader-text">Close Menu</span>
+		</button>
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<div class="menu-wrapper">
+				<div class="menu"><ul>
+<li ><a href="https://statcompute.wordpress.com/">Home</a></li><li class="page_item page-item-2"><a href="https://statcompute.wordpress.com/about/">About Me</a></li>
+</ul></div>
+			</div>
+		</nav><!-- #site-navigation -->
+						<div id="secondary" class="widget-area" role="complementary">
+		<aside id="categories-7" class="widget widget_categories"><h1 class="widget-title">Categories</h1>		<ul>
+				<li class="cat-item cat-item-3768"><a href="https://statcompute.wordpress.com/category/apache/" >Apache</a>
+</li>
+	<li class="cat-item cat-item-2075170"><a href="https://statcompute.wordpress.com/category/big-data/" >Big Data</a>
+</li>
+	<li class="cat-item cat-item-51093"><a href="https://statcompute.wordpress.com/category/blaze/" >blaze</a>
+</li>
+	<li class="cat-item cat-item-2210902"><a href="https://statcompute.wordpress.com/category/ccar/" >CCAR</a>
+</li>
+	<li class="cat-item cat-item-5738990"><a href="https://statcompute.wordpress.com/category/clojure/" >clojure</a>
+</li>
+	<li class="cat-item cat-item-202008558"><a href="https://statcompute.wordpress.com/category/convolutional-neural-networks/" >Convolutional Neural Networks</a>
+</li>
+	<li class="cat-item cat-item-65527"><a href="https://statcompute.wordpress.com/category/credit-risk/" >Credit Risk</a>
+</li>
+	<li class="cat-item cat-item-1131271"><a href="https://statcompute.wordpress.com/category/deep-learning/" >Deep Learning</a>
+</li>
+	<li class="cat-item cat-item-105438"><a href="https://statcompute.wordpress.com/category/econometrics/" >Econometrics</a>
+</li>
+	<li class="cat-item cat-item-214998"><a href="https://statcompute.wordpress.com/category/h2o/" >H2O</a>
+</li>
+	<li class="cat-item cat-item-15129357"><a href="https://statcompute.wordpress.com/category/incanter/" >incanter</a>
+</li>
+	<li class="cat-item cat-item-32011"><a href="https://statcompute.wordpress.com/category/julia/" >Julia</a>
+</li>
+	<li class="cat-item cat-item-1772715"><a href="https://statcompute.wordpress.com/category/keras/" >Keras</a>
+</li>
+	<li class="cat-item cat-item-30659216"><a href="https://statcompute.wordpress.com/category/loss-forecasting/" >Loss Forecasting</a>
+</li>
+	<li class="cat-item cat-item-21517"><a href="https://statcompute.wordpress.com/category/lua/" >Lua</a>
+</li>
+	<li class="cat-item cat-item-40978"><a href="https://statcompute.wordpress.com/category/machine-learning/" >Machine Learning</a>
+</li>
+	<li class="cat-item cat-item-241580"><a href="https://statcompute.wordpress.com/category/matlaboctave/" >Matlab/Octave</a>
+</li>
+	<li class="cat-item cat-item-279527"><a href="https://statcompute.wordpress.com/category/ccar/operational-risk/" >Operational Risk</a>
+</li>
+	<li class="cat-item cat-item-32629"><a href="https://statcompute.wordpress.com/category/pandas/" >pandas</a>
+</li>
+	<li class="cat-item cat-item-164433"><a href="https://statcompute.wordpress.com/category/parallelism/" >Parallelism</a>
+</li>
+	<li class="cat-item cat-item-633973"><a href="https://statcompute.wordpress.com/category/pig-latin/" >Pig Latin</a>
+</li>
+	<li class="cat-item cat-item-258876601"><a href="https://statcompute.wordpress.com/category/pyspark/" >Pyspark</a>
+</li>
+	<li class="cat-item cat-item-832"><a href="https://statcompute.wordpress.com/category/python/" >PYTHON</a>
+</li>
+	<li class="cat-item cat-item-59023"><a href="https://statcompute.wordpress.com/category/sr/" >S+/R</a>
+</li>
+	<li class="cat-item cat-item-22267"><a href="https://statcompute.wordpress.com/category/sas/" >SAS</a>
+</li>
+	<li class="cat-item cat-item-562795"><a href="https://statcompute.wordpress.com/category/scorecard/" >Scorecard</a>
+</li>
+	<li class="cat-item cat-item-63429"><a href="https://statcompute.wordpress.com/category/spark/" >Spark</a>
+</li>
+	<li class="cat-item cat-item-10346"><a href="https://statcompute.wordpress.com/category/sql/" >SQL</a>
+</li>
+	<li class="cat-item cat-item-142835"><a href="https://statcompute.wordpress.com/category/sqlite/" >SQLite</a>
+</li>
+	<li class="cat-item cat-item-11283368"><a href="https://statcompute.wordpress.com/category/statistical-models/" >Statistical Models</a>
+</li>
+	<li class="cat-item cat-item-5849"><a href="https://statcompute.wordpress.com/category/statistics/" >Statistics</a>
+</li>
+	<li class="cat-item cat-item-1159441"><a href="https://statcompute.wordpress.com/category/time-series/" >Time Series</a>
+</li>
+		</ul>
+			</aside><aside id="search-5" class="widget widget_search"><form role="search" method="get" class="search-form" action="https://statcompute.wordpress.com/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<span class="search-icon">
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+			 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+			<g id="search">
+				<path class="icon" d="M15.846,13.846C16.573,12.742,17,11.421,17,10c0-3.866-3.134-7-7-7s-7,3.134-7,7s3.134,7,7,7
+					c1.421,0,2.742-0.427,3.846-1.154L19,21l2-2L15.846,13.846z M10,15c-2.761,0-5-2.238-5-5c0-2.761,2.239-5,5-5c2.762,0,5,2.239,5,5
+					C15,12.762,12.762,15,10,15z"/>
+			</g>
+		</svg>
+	</span>
+		<input type="search" class="search-field" placeholder="Search …" value="" name="s" title="Search for:" />
+	</label>
+	<input type="submit" class="search-submit" value="Search" />
+</form></aside><aside id="top-posts-4" class="widget widget_top-posts"><h1 class="widget-title">Top Posts &amp; Pages</h1><ul>				<li>
+										<a href="https://statcompute.wordpress.com/2017/01/08/an-example-of-merge-layer-in-keras/" class="bump-view" data-bump-view="tp">
+						An Example of Merge Layer in Keras					</a>
+										</li>
+								<li>
+										<a href="https://statcompute.wordpress.com/2014/11/01/query-pandas-dataframe-with-sql/" class="bump-view" data-bump-view="tp">
+						Query Pandas DataFrame with SQL					</a>
+										</li>
+								<li>
+										<a href="https://statcompute.wordpress.com/2017/06/01/data-aggregation-with-pyspark/" class="bump-view" data-bump-view="tp">
+						Data Aggregation with PySpark					</a>
+										</li>
+								<li>
+										<a href="https://statcompute.wordpress.com/2012/03/06/modeling-practices-of-loss-forecasting-for-consumer-banking-portfolio/" class="bump-view" data-bump-view="tp">
+						Modeling Practices of Loss Forecasting for Consumer Banking Portfolio					</a>
+										</li>
+								<li>
+										<a href="https://statcompute.wordpress.com/2017/04/10/random-search-for-optimal-parameters/" class="bump-view" data-bump-view="tp">
+						Random Search for Optimal Parameters					</a>
+										</li>
+								<li>
+										<a href="https://statcompute.wordpress.com/2012/11/18/calculating-k-s-statistic-with-python/" class="bump-view" data-bump-view="tp">
+						Calculating K-S Statistic with Python					</a>
+										</li>
+								<li>
+										<a href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/" class="bump-view" data-bump-view="tp">
+						Autoencoder for Dimensionality Reduction					</a>
+										</li>
+								<li>
+										<a href="https://statcompute.wordpress.com/2018/10/14/monotonic-binning-with-equal-sized-bads-for-scorecard-development/" class="bump-view" data-bump-view="tp">
+						Monotonic Binning with Equal-Sized Bads for Scorecard Development					</a>
+										</li>
+								<li>
+										<a href="https://statcompute.wordpress.com/2012/12/08/monotonic-binning-with-python/" class="bump-view" data-bump-view="tp">
+						Monotonic Binning with Python					</a>
+										</li>
+								<li>
+										<a href="https://statcompute.wordpress.com/2013/08/23/multinomial-logit-with-python/" class="bump-view" data-bump-view="tp">
+						Multinomial Logit with Python					</a>
+										</li>
+				</ul></aside><aside id="linkcat-10189" class="widget widget_links"><h1 class="widget-title">R</h1>
+	<ul class='xoxo blogroll'>
+<li><a href="https://www.r-bloggers.com/">R-bloggers</a></li>
+
+	</ul>
+</aside>
+	</div><!-- #secondary -->
+			</div>
+
+	
+	<div id="content" class="site-content">
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+			
+<article id="post-2357" class="post-2357 post type-post status-publish format-standard hentry category-big-data category-deep-learning category-keras category-machine-learning category-python category-statistical-models tag-autoencoder tag-deep-learning tag-keras tag-python-2">
+	<header class="entry-header">
+		<h1 class="entry-title">Autoencoder for Dimensionality&nbsp;Reduction</h1>	</header><!-- .entry-header -->
+
+	
+	
+	<div class="entry-content">
+					<p>We often use ICA or PCA to extract features from the high-dimensional data. The autoencoder is another interesting algorithm to achieve the same purpose in the context of Deep Learning. </p>
+<p>with the purpose of learning a function to approximate the input data itself such that F(X) = X, an autoencoder consists of two parts, namely encoder and decoder. While the encoder aims to compress the original input data into a low-dimensional representation, the decoder tries to reconstruct the original input data based on the low-dimension representation generated by the encoder. As a result, the autoencoder has been widely used to remove the data noise as well to reduce the data dimension. </p>
+<p>First of all, we will show the basic structure of an autoencoder with 1-layer encoder and 1-layer decoder, as below. In the example, we will compress the input data with 10 columns into a compressed on with 3 columns. </p>
+<pre class="brush: python; title: ; wrap-lines: false; notranslate" title="">
+from pandas import read_csv, DataFrame
+from numpy.random import seed
+from sklearn.preprocessing import minmax_scale
+from sklearn.model_selection import train_test_split
+from keras.layers import Input, Dense
+from keras.models import Model
+
+df = read_csv(&quot;credit_count.txt&quot;)
+Y = df[df.CARDHLDR == 1].DEFAULTS
+X = df[df.CARDHLDR == 1].ix[:, 2:12]
+# SCALE EACH FEATURE INTO [0, 1] RANGE
+sX = minmax_scale(X, axis = 0)
+ncol = sX.shape[1]
+X_train, X_test, Y_train, Y_test = train_test_split(sX, Y, train_size = 0.5, random_state = seed(2017))
+
+### AN EXAMPLE OF SIMPLE AUTOENCODER ###
+# InputLayer (None, 10)
+#      Dense (None, 5)
+#      Dense (None, 10)
+
+input_dim = Input(shape = (ncol, ))
+# DEFINE THE DIMENSION OF ENCODER ASSUMED 3
+encoding_dim = 3
+# DEFINE THE ENCODER LAYER
+encoded = Dense(encoding_dim, activation = 'relu')(input_dim)
+# DEFINE THE DECODER LAYER
+decoded = Dense(ncol, activation = 'sigmoid')(encoded)
+# COMBINE ENCODER AND DECODER INTO AN AUTOENCODER MODEL
+autoencoder = Model(input = input_dim, output = decoded)
+# CONFIGURE AND TRAIN THE AUTOENCODER
+autoencoder.compile(optimizer = 'adadelta', loss = 'binary_crossentropy')
+autoencoder.fit(X_train, X_train, nb_epoch = 50, batch_size = 100, shuffle = True, validation_data = (X_test, X_test))
+# THE ENCODER TO EXTRACT THE REDUCED DIMENSION FROM THE ABOVE AUTOENCODER
+encoder = Model(input = input_dim, output = encoded)
+encoded_input = Input(shape = (encoding_dim, ))
+encoded_out = encoder.predict(X_test)
+encoded_out[0:2]
+#array([[ 0.        ,  1.26510417,  1.62803197],
+#       [ 2.32508397,  0.99735016,  2.06461048]], dtype=float32)
+</pre>
+<p>In the next example, we will relax the constraint of layers and employ a stack of layers to achievement the same purpose as above. </p>
+<pre class="brush: python; title: ; wrap-lines: false; notranslate" title="">
+### AN EXAMPLE OF DEEP AUTOENCODER WITH MULTIPLE LAYERS
+# InputLayer (None, 10)
+#      Dense (None, 20)
+#      Dense (None, 10)
+#      Dense (None, 5)
+#      Dense (None, 3)
+#      Dense (None, 5)
+#      Dense (None, 10)
+#      Dense (None, 20)
+#      Dense (None, 10)
+
+input_dim = Input(shape = (ncol, ))
+# DEFINE THE DIMENSION OF ENCODER ASSUMED 3
+encoding_dim = 3
+# DEFINE THE ENCODER LAYERS
+encoded1 = Dense(20, activation = 'relu')(input_dim)
+encoded2 = Dense(10, activation = 'relu')(encoded1)
+encoded3 = Dense(5, activation = 'relu')(encoded2)
+encoded4 = Dense(encoding_dim, activation = 'relu')(encoded3)
+# DEFINE THE DECODER LAYERS
+decoded1 = Dense(5, activation = 'relu')(encoded4)
+decoded2 = Dense(10, activation = 'relu')(decoded1)
+decoded3 = Dense(20, activation = 'relu')(decoded2)
+decoded4 = Dense(ncol, activation = 'sigmoid')(decoded3)
+# COMBINE ENCODER AND DECODER INTO AN AUTOENCODER MODEL
+autoencoder = Model(input = input_dim, output = decoded4)
+# CONFIGURE AND TRAIN THE AUTOENCODER
+autoencoder.compile(optimizer = 'adadelta', loss = 'binary_crossentropy')
+autoencoder.fit(X_train, X_train, nb_epoch = 100, batch_size = 100, shuffle = True, validation_data = (X_test, X_test))
+# THE ENCODER TO EXTRACT THE REDUCED DIMENSION FROM THE ABOVE AUTOENCODER
+encoder = Model(input = input_dim, output = encoded4)
+encoded_input = Input(shape = (encoding_dim, ))
+encoded_out = encoder.predict(X_test)
+encoded_out[0:2]
+#array([[ 3.74947715,  0.        ,  3.22947764],
+#       [ 3.93903661,  0.17448257,  1.86618853]], dtype=float32)
+</pre>
+<div id="atatags-370373-5bc7d161903a5">
+        <script type="text/javascript">
+            __ATA.cmd.push(function() {
+                __ATA.initVideoSlot('atatags-370373-5bc7d161903a5', {
+                    sectionId: '370373',
+                    format: 'inread'
+                });
+            });
+        </script>
+    </div>		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<span class="wpa-about">Advertisements</span>
+				<div class="u">		<div style="padding-bottom:15px;width:300px;height:250px;float:left;margin-right:5px;margin-top:0px">
+		<div id="atatags-26942-5bc7d161903dd">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-26942-5bc7d161903dd',  {
+					collapseEmpty: 'before',
+					sectionId: '26942',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div>		<div style="padding-bottom:15px;width:300px;height:250px;float:left;margin-top:0px">
+		<div id="atatags-114160-5bc7d161903df">
+			<script type="text/javascript">
+			__ATA.cmd.push(function() {
+				__ATA.initSlot('atatags-114160-5bc7d161903df',  {
+					collapseEmpty: 'before',
+					sectionId: '114160',
+					width: 300,
+					height: 250
+				});
+			});
+			</script>
+		</div></div></div>
+				
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-linkedin"><a rel="nofollow noopener noreferrer" data-shared="sharing-linkedin-2357" class="share-linkedin sd-button no-icon" href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/?share=linkedin" target="_blank" title="Click to share on LinkedIn"><span>LinkedIn</span></a></li><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-2357" class="share-twitter sd-button no-icon" href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-google-plus-1"><a rel="nofollow noopener noreferrer" data-shared="sharing-google-2357" class="share-google-plus-1 sd-button no-icon" href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/?share=google-plus-1" target="_blank" title="Click to share on Google+"><span>Google</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-2357" class="share-facebook sd-button no-icon" href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/?share=facebook" target="_blank" title="Click to share on Facebook"><span>Facebook</span></a></li><li class="share-reddit"><a rel="nofollow noopener noreferrer" data-shared="" class="share-reddit sd-button no-icon" href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/?share=reddit" target="_blank" title="Click to share on Reddit"><span>Reddit</span></a></li><li><a href="#" class="sharing-anchor sd-button share-more"><span>More</span></a></li><li class="share-end"></li></ul><div class="sharing-hidden"><div class="inner" style="display: none;"><ul><li class="share-email"><a rel="nofollow noopener noreferrer" data-shared="" class="share-email sd-button no-icon" href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/?share=email" target="_blank" title="Click to email this to a friend"><span>Email</span></a></li><li class="share-print"><a rel="nofollow noopener noreferrer" data-shared="" class="share-print sd-button no-icon" href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/#print" target="_blank" title="Click to print"><span>Print</span></a></li><li class="share-end"></li><li class="share-end"></li></ul></div></div></div></div></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	
+</div></div>					</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+		<div class="entry-meta">
+			<span class="posted-on"><a href="https://statcompute.wordpress.com/2017/01/15/autoencoder-for-dimensionality-reduction/" rel="bookmark"><time class="entry-date published" datetime="2017-01-15T18:19:14+00:00">January 15, 2017</time><time class="updated" datetime="2017-04-02T23:59:13+00:00">April 2, 2017</time></a></span><span class="byline"> <span class="author vcard"><a class="url fn n" href="https://statcompute.wordpress.com/author/statcompute/">statcompute</a></span></span>		</div><!-- .entry-meta -->
+		<span class="tags-links"><a href="https://statcompute.wordpress.com/tag/autoencoder/" rel="tag">Autoencoder</a><a href="https://statcompute.wordpress.com/tag/deep-learning/" rel="tag">Deep Learning</a><a href="https://statcompute.wordpress.com/tag/keras/" rel="tag">Keras</a><a href="https://statcompute.wordpress.com/tag/python-2/" rel="tag">Python</a></span>
+			</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+				<nav class="navigation post-navigation" role="navigation">
+		<h1 class="screen-reader-text">Post navigation</h1>
+		<div class="nav-links">
+			<div class="nav-previous"><a href="https://statcompute.wordpress.com/2017/01/08/an-example-of-merge-layer-in-keras/" rel="prev"><span class="meta-nav">&larr;</span> An Example of Merge Layer in&nbsp;Keras</a></div><div class="nav-next"><a href="https://statcompute.wordpress.com/2017/01/22/monotonic-binning-with-smbinning-package/" rel="next">Monotonic Binning with Smbinning&nbsp;Package <span class="meta-nav">&rarr;</span></a></div>		</div><!-- .nav-links -->
+	</nav><!-- .navigation -->
+	
+			
+		
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+
+	</div><!-- #content -->
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info">
+			<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+			
+					</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<!--  -->
+	<div style="display:none">
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/statcompute.wordpress.com\/2017\/01\/15\/autoencoder-for-dimensionality-reduction\/":2357};
+	</script>
+					<div id="sharing_email" style="display: none;">
+		<form action="/2017/01/15/autoencoder-for-dimensionality-reduction/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input type="email" name="target_email" id="target_email" value="" />
+
+			
+				<label for="source_name">Your Name</label>
+				<input type="text" name="source_name" id="source_name" value="" />
+
+				<label for="source_email">Your Email Address</label>
+				<input type="email" name="source_email" id="source_email" value="" />
+
+						<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off" title="This field is for validation and should not be changed" />
+			
+			<div
+				class="g-recaptcha"
+				data-sitekey="6LcmyE0UAAAAALID28yVNg7pFCodGaArJzHitez_"
+				data-theme="light"
+				data-type="image"
+				data-tabindex="0"></div>
+			<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=en" async></script>
+			
+			<img style="float: right; display: none" class="loading" src="https://s2.wp.com/wp-content/mu-plugins/post-flair/sharing/images/loading.gif" alt="loading" width="16" height="16" />
+			<input type="submit" value="Send Email" class="sharing_send" />
+			<a rel="nofollow" href="#cancel" class="sharing_cancel">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div>
+<div class="widget widget_eu_cookie_law_widget"><div
+	class="hide-on-button ads-active"
+	data-hide-timeout="30"
+	data-consent-expiration="180"
+	id="eu-cookie-law"
+>
+	<form method="post">
+		<input type="submit" value="Close and accept" class="accept" />
+
+		Privacy &amp; Cookies: This site uses cookies. By continuing to use this website, you agree to their use. <br />
+To find out more, including how to control cookies, see here:
+		<a href="https://automattic.com/cookies" >
+			Cookie Policy		</a>
+ </form>
+</div>
+</div><script type='text/javascript' src='https://s2.wp.com/_static/??-eJzTLy/QTc7PK0nNK9EvyClNz8wr1i+uzCtJrMjITM/IAeKS1CJMEWP94uSizIISoOIM5/yiVL2sYh19yo1yKiotzgioLMnIzwOaaJ9ra2hiZGRsYmRobJIFAFr0QPk='></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://s1.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "https://s2.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?m=1363304414h&amp;ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+
+// Infinite scroll support
+jQuery( function( $ ) {
+	$( document.body ).on( 'post-load', function() {
+		SyntaxHighlighter.highlight();
+	} );
+} );
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"961631","siteName":"Yet Another Blog in Statistical Computing","siteURL":"http:\/\/statcompute.wordpress.com","icon":"<img alt='' src='https:\/\/secure.gravatar.com\/blavatar\/85708d077608b826887ea81e9621d635?s=50&d=https%3A%2F%2Fs2.wp.com%2Fi%2Flogo%2Fwpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/isola","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/statcompute.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fstatcompute.wordpress.com%2F2017%2F01%2F15%2Fautoencoder-for-dimensionality-reduction%2F","themeURL":"https:\/\/wordpress.com\/theme\/isola\/","xhrURL":"https:\/\/statcompute.wordpress.com\/wp-admin\/admin-ajax.php","nonce":"c1584f4147","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"63e2d02513\" \/>","referer":"https:\/\/statcompute.wordpress.com\/2017\/01\/15\/autoencoder-for-dimensionality-reduction\/","canFollow":"1","feedID":"1693427","statusMessage":"","customizeLink":"https:\/\/statcompute.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fstatcompute.wordpress.com%2F2017%2F01%2F15%2Fautoencoder-for-dimensionality-reduction%2F","postID":"2357","shortlink":"https:\/\/wp.me\/p42ab-C1","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/statcompute.wordpress.com\/2357","statsLink":"https:\/\/wordpress.com\/stats\/post\/2357\/statcompute.wordpress.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Isola","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 221 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/statcompute.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fstatcompute.wordpress.com%2F2017%2F01%2F15%2Fautoencoder-for-dimensionality-reduction%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyVkM1qw0AMhF+oW9GEEHIofRZlV7bl/e1Ka/fxuw4klBxMetKg+WYQgrUYm5NSUpgFHC1sqfy8z/IGf6zYTAlt5CQQ2JPAd6NGEyYXqD7DOlHsSGlXYMkBt+KbeAVMuPCIyjm9QovnYgInb4Zsm5iB905f2Y2kAtS6mz2TCbiCUiwBlZ72Oz3oIidzxQoRRal2ZfJCtbLrLY/dPxu0ovWyF7LbW7bQQ+3QJYuaISBXkAkrp/E+e+grfn6cjofL+XC8nOdf2iDBQQ=='></script>
+<script type='text/javascript'>
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-google-plus-1', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+</script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="//stats.wp.com/w.js?56" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'961631','blog_tz':'-6','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'961631','v':'wpcom','tz':'-6','user_id':'0','post':'2357','subd':'statcompute'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWFnNncxc1tjZG9XVXhRREQ/V0xPZ1hKXy8uOVEzTjl3TFFHQTBuMDQucnlzdi5CeFdNVlNZQSs1OTZrLm13THFFOFQ5fG5DL3xba21EM1RxVXo0alV6WFdQdUlpVD9MPzBFRmkrRUZHZz1XcXVzR08lMHJMfk44c1taPXo1aSxMN1tvLXxuN2wsRnx3ZGNmTD9fNEpRQ0JJJVJPfmtVWjJqWiZmcmZZSnctdG1rJVNta2RJNWVtWVlIej9KSkFMa1hLd2pHUjFjQTEmQW9LK2k4UHElZGpYNi1PX0VvMkdhWHx3YTZKT3R6OD1CNH5FclMvJUtr'}]);
+_stq.push([ 'clickTrackerInit', '961631', '2357' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
