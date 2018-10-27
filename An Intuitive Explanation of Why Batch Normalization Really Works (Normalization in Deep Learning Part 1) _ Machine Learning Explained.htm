@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="profile" href="http://gmpg.org/xfn/11">
+
+<link rel="pingback" href="http://mlexplained.com/xmlrpc.php">
+
+
+<title>An Intuitive Explanation of Why Batch Normalization Really Works (Normalization in Deep Learning Part 1) | Machine Learning Explained</title>
+
+<!-- All in One SEO Pack 2.9.1 by Michael Torbert of Semper Fi Web Design[256,402] -->
+<link rel="canonical" href="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/" />
+<!-- /all in one seo pack -->
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//secure.gravatar.com' />
+<link rel='dns-prefetch' href='//maxcdn.bootstrapcdn.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Machine Learning Explained &raquo; Feed" href="http://mlexplained.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Machine Learning Explained &raquo; Comments Feed" href="http://mlexplained.com/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/mlexplained.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.8"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='dashicons-css'  href='http://mlexplained.com/wp-includes/css/dashicons.min.css?ver=4.9.8' type='text/css' media='all' />
+<link rel='stylesheet' id='obfx-module-pub-css-menu-icons-0-css'  href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css?ver=2.6.1' type='text/css' media='all' />
+<link rel='stylesheet' id='obfx-module-pub-css-menu-icons-1-css'  href='http://mlexplained.com/wp-content/plugins/themeisle-companion/obfx_modules/menu-icons/css/public.css?ver=2.6.1' type='text/css' media='all' />
+<link rel='stylesheet' id='thrive-google-font-css'  href='//fonts.googleapis.com/css?family=RobotoDraft%3A700%2C400%2C700italic%2C400italic&#038;ver=2.1.9' type='text/css' media='all' />
+<link rel='stylesheet' id='thrive-scaffolding-css'  href='http://mlexplained.com/wp-content/themes/thrive/css/bootstrap.css?ver=2.1.9' type='text/css' media='all' />
+<link rel='stylesheet' id='thrive-scaffolding-theme-css'  href='http://mlexplained.com/wp-content/themes/thrive/css/bootstrap-theme.css?ver=2.1.9' type='text/css' media='all' />
+<link rel='stylesheet' id='thrive-style-css'  href='http://mlexplained.com/wp-content/themes/thrive/style.css?ver=2.1.9' type='text/css' media='all' />
+<link rel='stylesheet' id='social-logos-css'  href='http://mlexplained.com/wp-content/plugins/jetpack/_inc/social-logos/social-logos.min.css?ver=1' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack_css-css'  href='http://mlexplained.com/wp-content/plugins/jetpack/css/jetpack.css?ver=6.6.1' type='text/css' media='all' />
+<script type='text/javascript' src='http://mlexplained.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/jetpack/_inc/build/related-posts/related-posts.min.js?ver=20150408'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var pf = {"spam":{"label":"I'm human!","value":"2eaca13fa5"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/pirate-forms/public/js/custom-spam.js?ver=4.9.8'></script>
+<link rel='https://api.w.org/' href='http://mlexplained.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://mlexplained.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://mlexplained.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='LightGBM and XGBoost Explained' href='http://mlexplained.com/2018/01/05/lightgbm-and-xgboost-explained/' />
+<link rel='next' title='Weight Normalization and Layer Normalization Explained (Normalization in Deep Learning Part 2)' href='http://mlexplained.com/2018/01/13/weight-normalization-and-layer-normalization-explained-normalization-in-deep-learning-part-2/' />
+<meta name="generator" content="WordPress 4.9.8" />
+<link rel='shortlink' href='https://wp.me/p9vlPz-21' />
+<link rel="alternate" type="application/json+oembed" href="http://mlexplained.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fmlexplained.com%2F2018%2F01%2F10%2Fan-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1%2F" />
+<link rel="alternate" type="text/xml+oembed" href="http://mlexplained.com/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fmlexplained.com%2F2018%2F01%2F10%2Fan-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1%2F&#038;format=xml" />
+<meta name="google-site-verification" content="ZDmZqcXozo8ZtobIcVgI_aRaorVl3qARS9zjKX1n0F4" />
+<link rel='dns-prefetch' href='//v0.wordpress.com'/>
+<link rel='dns-prefetch' href='//i0.wp.com'/>
+<link rel='dns-prefetch' href='//i1.wp.com'/>
+<link rel='dns-prefetch' href='//i2.wp.com'/>
+<link rel='dns-prefetch' href='//widgets.wp.com'/>
+<link rel='dns-prefetch' href='//s0.wp.com'/>
+<link rel='dns-prefetch' href='//0.gravatar.com'/>
+<link rel='dns-prefetch' href='//1.gravatar.com'/>
+<link rel='dns-prefetch' href='//2.gravatar.com'/>
+<style type='text/css'>img#wpstats{display:none}</style><style>html {font-size:14px;}</style><style></style><style>.primary, .site-content a, #page-sidenav-section a, #secondary-menu ul li a:hover, .user-notification-personal li a:hover, ul#notifications-ul li a:hover, .bp_docs #buddypress #bp-docs-all-docs li a:hover, .single-bp_doc #buddypress #bp-docs-all-docs li a:hover, .directory #buddypress #bp-docs-all-docs li a:hover, .buddypress #buddypress #bp-docs-all-docs li a:hover, .bp_docs #buddypress #bp-docs-all-docs li.current a, .single-bp_doc #buddypress #bp-docs-all-docs li.current a, .directory #buddypress #bp-docs-all-docs li.current a, .buddypress #buddypress #bp-docs-all-docs li.current a, .doc-tabs ul li:hover a, .doc-tabs ul li.current a, .tribe-events-list .type-tribe_events h2 a:hover, .bboss_search_page .search_filters ul li.current a, .bboss_search_page .search_filters ul li.active a, .bboss_search_page .search_filters ul li a:hover, #page-sidenav #page-sidebar-menu ul#secondary-menu-links .menu-item a:hover, #page-sidenav #page-sidebar-menu ul#secondary-menu-links .menu-item.current-menu-item a, .buddypress .pagination-links a.current, .buddypress .pagination-links span.current, .bp-user #item-body .profile ul.button-nav li.current a, .bp-user #item-body .profile ul.button-nav li a:hover, #item-nav ul li.current a, #item-nav ul li.current a#user-activity:before, #item-nav ul li.current a#user-xprofile:before, #item-nav ul li.current a#user-notifications:before, #item-nav ul li.current a#user-friends:before, #item-nav ul li.current a#user-groups:before, #item-nav ul li.current a#user-messages:before, #item-nav ul li.current a:before, .buddypress #subnav ul li.current a, .buddypress #subnav ul li a:hover, .buddypress .activity-type-tabs ul li.selected#activity-all a:before, .buddypress .activity-type-tabs ul li.selected#activity-groups a:before, .buddypress .activity-type-tabs ul li.selected#activity-mentions a:before, .buddypress .activity-type-tabs ul li.selected#activity-friends a:before, .buddypress .activity-type-tabs ul li.selected#activity-favorites a:before, .buddypress .activity-type-tabs ul li.selected#activity-notifications a:before, .buddypress .activity-type-tabs ul li.selected:before, .buddypress .activity-type-tabs ul li.selected a, .buddypress ul#activity-stream li .activity-meta a:hover, .buddypress ul#activity-stream li .activity-comments ul .acomment-context .acomment-options a:hover,.buddypress.directory.members .item-list-tabs ul li.selected a, .buddypress.directory.groups .item-list-tabs ul li.selected a, .group-create #group-create-tabs ul li.current a, body.thrive-layout-2_columns #sidebar-wrapper.dark #page-sidebar-menu #secondary-menu-links .menu-item.current-menu-item a, body.thrive-inline .expand_collapse a, body.thrive-inline #learndash_profile .expand_collapse a, body.thrive-inline #learndash_lessons a, body.thrive-inline .expand_collapse a, body.thrive-inline .learndash_topic_dots a, body.thrive-inline .learndash_topic_dots a > span, body.thrive-inline #learndash_lesson_topics_list span a, body.thrive-inline #learndash_profile a, body.thrive-inline #learndash_profile a span, .thrive-inline .rtmedia-container .rtm-media-options-list:hover, .thrive-inline .rtmedia-container .rtmedia-upload-media-link:hover, .thrive-inline ul.products li.product .price, .thrive-inline.woocommerce-page .products .product .price, .thrive-inline.woocommerce .products .product .price, .woocommerce div.product p.price, .woocommerce div.product span.price, .thrive-inline.woocommerce-page .star-rating, .thrive-inline.woocommerce .star-rating, .woocommerce .star-rating span, .woocommerce .star-rating:before, .thrive-inline .bbp-admin-links a:hover, .thrive-inline #bbpress-forums ul.bbp-replies .bbp-admin-links a:hover, .thrive-inline .bbp-admin-links a:hover, .thrive-login-form .thrive-login-lost-password a, .thrive-login-form .login-remember label, .widget .item-options#friends-list-options a.selected,.widget .item-options#groups-list-options a.selected, .widget .item-options#members-list-options a.selected, .single-item.groups #group-settings-form .bp-widget #members-list li .col-sm-10 .manage-members a:hover, .single-item.groups #group-settings-form .bp-widget #members-list li .col-sm-10 .admin-demote-to-member:hover, .buddypress .ac_results.ui-menu .ui-menu-item a, .bp-docs #buddypress #bp-docs-all-docs li a:hover, .bp_docs #buddypress #bp-docs-all-docs li a:hover, .single-bp_doc #buddypress #bp-docs-all-docs li a:hover, .directory #buddypress #bp-docs-all-docs li a:hover, .buddypress #buddypress #bp-docs-all-docs li a:hover, .thrive-inline .datepicker.dropdown-menu table thead tr th:hover, body.thrive-inline #tribe-events-content .tribe-events-tooltip h4.summary, body.thrive-inline .tribe-events-list .type-tribe_events h2 a, body.thrive-inline #thrive_footer_widget .footer-widget .widget_calendar .calendar_wrap table#wp-calendar a, #ui-datepicker-div a, div#thrive-user-nav-messages-footer a, .widget.widget_display_stats dt:before, .thrive-inline .bbp-forum-header a.bbp-forum-permalink, .thrive-inline .bbp-topic-header a.bbp-topic-permalink, .thrive-inline .bbp-reply-header a.bbp-reply-permalink, .subway-login-form .subway-login-lost-password a, .subway-login-form .login-remember label, #tribe-events-content #tribe-events-footer a, .woocommerce-account .woocommerce-MyAccount-navigation ul li.is-active a, .woocommerce-account .woocommerce-MyAccount-navigation ul li a:hover, .buddypress .pagination-links a:hover, .buddypress .pagination-links span:hover, body.login a, body.login #thrive-wp-login-lost-pass a:hover { color: #5b9bd5; }.bg-primary, #thrive_nav #thrive_nav_wrap #site-navigation .sub-menu li a:hover, #thrive_footer_widget, body.thrive-layout-2_columns #sidebar-wrapper #page-sidebar-toggle a#toggle-remove, .thrive-inline .mfp-wrap .rtmedia-popup #rtm-modal-container .rtm-modal-title, .buddypress #wp-link-wrap.wp-core-ui #link-modal-title, .thrive-inline .tribe-events-cost, .thrive-inline #tribe-events-content .tribe-events-event-cost span, .single-tribe_events .tribe-events-schedule .tribe-events-cost, .tribe-events-calendar td.tribe-events-present div[id*=tribe-events-daynum-], .thrive-login-form .thrive-login-form__actions, body.thrive-inline #wp-link-wrap.wp-core-ui form#wp-link #link-modal-title, body.thrive-inline .mce-panel.mce-menu .mce-menu-item-normal.mce-active, body.thrive-inline .mce-panel.mce-menu .mce-menu-item-preview.mce-active, body.thrive-inline .mce-panel.mce-menu .mce-menu-item.mce-selected, body.thrive-inline .mce-panel.mce-menu .mce-menu-item:focus, body.thrive-inline .mce-panel.mce-menu .mce-menu-item:hover, body.thrive-inline .mce-window .mce-window-head, .thrive-inline .datepicker.dropdown-menu table tbody tr td span.active:before, .thrive-inline .datepicker.dropdown-menu .datepicker-days table tbody tr td:before, #ui-datepicker-div .ui-datepicker-calendar td a.ui-state-highlight:before, body.thrive-inline .mce-toolbar .mce-btn-group .mce-btn[aria-label='Apply'], body.thrive-inline .mce-toolbar .mce-btn-group .mce-btn[aria-label='Link options'], .wp-polls .pollbar { background-color: #5b9bd5; }.secondary, .buddypress ul#activity-stream li .activity-meta a span, .buddypress ul#friends-list li .item-title span.update .activity-read-more a, .buddypress ul#members-list li .item-title span.update .activity-read-more a, .buddypress ul#friends-list li .item-title span.update .activity-read-more:after, .buddypress ul#members-list li .item-title span.update .activity-read-more:after, .buddypress ul#friends-list li .action a, .buddypress ul#members-list li .action a, .buddypress.directory.groups .item-list-tabs ul li a span, .buddypress ul#groups-list li .item-title span.update .activity-read-more a, .buddypress ul#groups-list li .item-title span.update .activity-read-more:after, .buddypress ul#groups-list li .action a, .single-item.groups .group-button.join-group, .single-item.groups .group-button.leave-group, .group-create #group-create-tabs ul li a, .group-create #group-create-tabs ul li span, .bp-user #item-header #item-buttons .generic-button a:hover, #site-user-updates #navigation ul li.menu-parent:hover > a:before, #site-user-updates #topbarmenu-navigation #top-bar-menu li.menu-item-has-children:hover > a:before, .single-item.groups .requests #request-list li .action a, .single-item.groups #item-header #item-header-avatar .group-button.request-membership:hover, #site-user-updates #topbarmenu-navigation #top-bar-menu li.menu-item-has-children:hover:before, #site-user-updates #navigation ul li.menu-parent:hover:before { color: #ff9362; }.bg-secondary, .buddypress span.thrive-member-role, #message, .register-section #pass-strength-result.strong, #site-user-updates #navigation ul li .count, .buddypress .activity-type-tabs ul li a strong span, .single-item.groups #item-header #item-header-content .highlight, .thrive-inline p.demo_store, .bp-docs #comments .comments-closed.comments-empty, .single-bp_doc #comments .comments-closed.comments-empty, #site-user-updates ul .item .thrive-user-nav-bubble, .buddypress ul#group-list li h4 span.small, .single-item.groups #item-header #item-header-content .bp-group-type-list a { background-color: #ff9362; }.buddypress #subnav ul li.selected.current a, .br-secondary, textarea:focus, input[type=text]:focus, input[type=email]:focus, input[type=number]:focus, input[type=url]:focus, input[type=password]:focus, input[type=search]:focus, input[name=s]:focus, .buddypress #subnav ul li a:hover, .buddypress.directory.members .item-list-tabs ul li.selected a, .bp-docs #buddypress #bp-docs-all-docs li a:hover, .bp_docs #buddypress #bp-docs-all-docs li a:hover, .single-bp_doc #buddypress #bp-docs-all-docs li a:hover, .directory #buddypress #bp-docs-all-docs li a:hover, .buddypress #buddypress #bp-docs-all-docs li a:hover, .bp-docs #buddypress #bp-docs-all-docs li.current a, .bp_docs #buddypress #bp-docs-all-docs li.current a, .single-bp_doc #buddypress #bp-docs-all-docs li.current a, .directory #buddypress #bp-docs-all-docs li.current a, .buddypress #buddypress #bp-docs-all-docs li.current a, .doc-tabs ul li a:hover, .doc-tabs ul li.current a, body.thrive-inline .bboss_search_page .search_filters ul li.current a, body.thrive-inline .bboss_search_page .search_filters ul li.active a, body.thrive-inline .bboss_search_page .search_filters ul li a:hover, .buddypress.directory.groups .item-list-tabs ul li.selected a, .buddypress .pagination-links a.current, .buddypress .pagination-links span.current, .buddypress .pagination-links a:hover, .buddypress .pagination-links span:hover, .bbpress.singular #bbpress-forums #bbp-single-user-details #bbp-user-navigation ul li a:hover, .bbpress.singular #bbpress-forums #bbp-single-user-details #bbp-user-navigation ul li.current a, .bbp-user-edit #bbpress-forums #bbp-user-body fieldset.bbp-form div input:focus, .bbp-user-edit #bbpress-forums #bbp-user-body fieldset.bbp-form div textarea:focus, .bp-user #item-body .profile ul.button-nav li a:hover, .bp-user #item-body .profile ul.button-nav li.current a, body.login.wp-core-ui form input[type=text]:focus, body.login.wp-core-ui form input[type=password]:focus { border-color: #ff9362; }</style><style>#thrive_nav {
+padding: 2px;
+}</style><style>#thrive_footer{color:;background:;}</style>
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="An Intuitive Explanation of Why Batch Normalization Really Works (Normalization in Deep Learning Part 1)" />
+<meta property="og:url" content="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/" />
+<meta property="og:description" content="Batch normalization is one of the reasons why deep learning has made such outstanding progress in recent years. Batch normalization enables the use of higher learning rates, greatly accelerating th…" />
+<meta property="article:published_time" content="2018-01-10T06:10:02+00:00" />
+<meta property="article:modified_time" content="2018-03-03T00:44:09+00:00" />
+<meta property="og:site_name" content="Machine Learning Explained" />
+<meta property="og:image" content="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?fit=1200%2C630" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:text:title" content="An Intuitive Explanation of Why Batch Normalization Really Works (Normalization in Deep Learning Part 1)" />
+<meta name="twitter:image" content="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?fit=1200%2C630&#038;w=640" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<!-- End Jetpack Open Graph Tags -->
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+<link rel="icon" href="https://i0.wp.com/mlexplained.com/wp-content/uploads/2017/12/cropped-artificial-intelligence-2228610_1920.jpg?fit=32%2C32" sizes="32x32" />
+<link rel="icon" href="https://i0.wp.com/mlexplained.com/wp-content/uploads/2017/12/cropped-artificial-intelligence-2228610_1920.jpg?fit=192%2C192" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://i0.wp.com/mlexplained.com/wp-content/uploads/2017/12/cropped-artificial-intelligence-2228610_1920.jpg?fit=180%2C180" />
+<meta name="msapplication-TileImage" content="https://i0.wp.com/mlexplained.com/wp-content/uploads/2017/12/cropped-artificial-intelligence-2228610_1920.jpg?fit=270%2C270" />
+
+<!-- BEGIN ExactMetrics v5.3.5 Universal Analytics - https://exactmetrics.com/ -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-117589678-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- END ExactMetrics Universal Analytics -->
+<style>#thrive_nav { background-color: #5b9bd5; }#thrive_nav #thrive_nav_wrap #site-navigation .sub-menu li.current-menu-item > a { background-color: #5b9bd5; }@media (max-width: 992px ) {}</style></head>
+
+<body class="post-template-default single single-post postid-125 single-format-standard thrive-inline logged-out thrive-layout-1_column">
+
+<div id="thrive-global-wrapper" class="active">
+
+
+
+<div id="thrive-site-container" class="hfeed site">
+
+	
+		<div class="container-fluid" id="page-container">
+
+			<div class="row" id="page-row">
+
+				<div id="page" class="col-xs-12 full-content-layout">
+
+					<a class="skip-link screen-reader-text" href="#content">
+
+						Skip to content
+					</a>
+
+					<header id="masthead" class="site-header" role="banner">
+
+						<div id="thrive_nav" style="height: 100px;">
+
+	<div id="thrive_nav_wrap">
+
+		<div class="container-fluid">
+			<div class="row limiter">
+
+				<div id="site-title-description">
+											<div class="sr-only">
+							<p>
+								<a href="http://mlexplained.com" alt="Machine Learning Explained">
+									Machine Learning Explained								</a>
+							</p>
+							<p>
+								Deep learning, python, data wrangling and other machine learning related topics explained for practitioners							</p>
+						</div>
+									</div>
+
+				<!--site-logo-->
+												
+								
+									<div class="col-md-3 col-sm-6 col-xs-12">
+						<div id="site-logo" class="">
+							<a href="http://mlexplained.com/" rel="home">
+								<img class="img-site-logo visible-sm visible-md visible-lg" src="http://mlexplained.com/wp-content/uploads/2018/03/header_logo-6.png" alt="Site Logo" />
+								<img class="img-site-logo visible-xs" src="http://mlexplained.com/wp-content/uploads/2018/03/header_logo-6.png" alt="Site Mobile Logo" />
+							</a>
+						</div>
+					</div>
+								<!--end site logo -->
+
+				<!--site navigation-->
+
+				<div id="site-navigation-container" class="col-md-5 col-sm-12">
+					<nav id="site-navigation" role="navigation">
+
+						<div id="site-navigation-menu-wrap" class="site-navigation-menu">
+
+							<div id="desktop-menu">
+
+																
+									<div class="menu-top-container"><ul id="primary-menu" class="menu"><li id="menu-item-52" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-52"><a href="http://mlexplained.com/about-this-blog/">About This Blog</a></li>
+<li id="menu-item-35" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35"><a href="https://github.com/keitakurita">Github</a></li>
+</ul></div>
+								
+							</div>
+
+							<div class="clearfix"></div>
+
+						</div>
+
+						<div class="clearfix"></div>
+
+					</nav><!-- #site-navigation -->
+				</div>
+				<!--end site navigation-->
+
+				<!--site user navigation-->
+									<nav id="site-user-updates" class="col-md-4 col-sm-6 col-xs-12">
+													</nav>
+				<!--site user navigation end-->
+			</div>
+		</div>
+	</div>
+</div>
+
+					</header><!-- #masthead -->
+
+					<div id="thrive-secondary-menu" class="hide">
+
+						<div class="container-fluid">
+
+							<div class="row">
+
+									<div id="thrive-secondary-menu-search" class="col-xs-10">
+
+										<form role="search" method="get" id="searchform" class="searchform" action="http://mlexplained.com/">
+	<div>
+		<label class="screen-reader-text" for="s">
+			Search for:		</label>
+
+		<div class="thrive-search-input">
+			<i class="material-icons search-icon">search</i>
+			<input placeholder="To search, type and hit enter" type="search" value="" name="s" id="s" />
+		</div>
+
+		<input type="submit" id="searchsubmit" value="Search" />
+	</div>
+</form>
+									</div>
+
+									<div class="mobile-secondary-menu-search col-xs-2 visible-sm visible-xs">
+
+										<div id="mobile-search-menu">
+                                            <a id="thrive-mobile-search-btn" href="#" alt="Search">
+                                                <i class="material-icons">search</i>
+                                            </a>
+                                        </div>
+
+										<div id="mobile-menu">
+											<a href="#" title="Show Menu">
+												<i id="main-menu-mobile-search" class="material-icons">menu</i>
+											</a>
+										</div>
+									</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				<div id="content" class="site-content thrive-container">
+													<div class="container-fluid">
+										<div class="row limiter">
+							
+
+<div class="content-sidebar">
+
+	<div id="content-left-col" class="col-md-8">
+
+		<div id="primary" class="content-area">
+		
+			<main id="main" class="site-main" role="main">
+
+			
+				
+<article id="post-125" class="post-125 post type-post status-publish format-standard has-post-thumbnail hentry category-deep-learning">
+	
+		
+	<header class="entry-header has-post-thumbnail mg-bottom-25">
+
+		<div class="entry-thumbnail">
+			<img width="1582" height="830" src="http://mlexplained.com/wp-content/uploads/2018/01/curvature.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" srcset="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?w=1582 1582w, https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?resize=300%2C157 300w, https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?resize=768%2C403 768w, https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?resize=1024%2C537 1024w, https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?w=1500 1500w" sizes="(max-width: 1582px) 100vw, 1582px" data-attachment-id="130" data-permalink="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/curvature/" data-orig-file="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?fit=1582%2C830" data-orig-size="1582,830" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="curvature" data-image-description="" data-medium-file="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?fit=300%2C157" data-large-file="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?fit=750%2C393" />		</div>
+
+		<div class="entry-meta hidden-xs">
+			<span class="posted-on type-strong dark_secondary_icon">Posted on <a href="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/" rel="bookmark"><time class="entry-date published" datetime="2018-01-10T06:10:02+00:00">January 10, 2018</time></a></span><span class="byline"> by <span class="author vcard"><a class="url fn n" href="http://mlexplained.com/author/admin/">keitakurita</a></span></span><span class="mg-left-5 dark_secondary_icon sr-only">Last updated<time class="type-strong updated mg-left-5" datetime="2018-03-03T00:44:09+00:00">March 3, 2018</time></span>			<div class="hidden-xs">
+				<h1 class="entry-title type-light">An Intuitive Explanation of Why Batch Normalization Really Works (Normalization in Deep Learning Part 1)</h1>			</div>
+		</div><!-- .entry-meta -->
+
+		<div class="entry-actions">
+			<a href="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/#respond" title="Comments">
+				<span class="material-icons md-24 md-light">
+					comment
+				</span>
+				<span class="entry-actions-comment-count">
+					<span class="dsq-postid" data-dsqidentifier="125 http://mlexplained.com/?p=125">Add Comment</span>				</span>
+			</a>
+		</div><!--.entry-actions-->
+
+	</header><!-- .entry-header -->
+
+	
+	<div class="entry-content">
+	
+					<div class="visible-xs">
+				<span class="posted-on type-strong dark_secondary_icon">Posted on <a href="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/" rel="bookmark"><time class="entry-date published" datetime="2018-01-10T06:10:02+00:00">January 10, 2018</time></a></span><span class="byline"> by <span class="author vcard"><a class="url fn n" href="http://mlexplained.com/author/admin/">keitakurita</a></span></span><span class="mg-left-5 dark_secondary_icon sr-only">Last updated<time class="type-strong updated mg-left-5" datetime="2018-03-03T00:44:09+00:00">March 3, 2018</time></span>				<h2 class="visible-xs h1 entry-title type-light">An Intuitive Explanation of Why Batch Normalization Really Works (Normalization in Deep Learning Part 1)</h1>			</div>
+		
+		<p>Batch normalization is one of the reasons why deep learning has made such outstanding progress in recent years. Batch normalization enables the use of higher learning rates, greatly accelerating the learning process. It also enabled the training of deep neural networks with sigmoid activations that were previously deemed too difficult to train due to the vanishing gradient problem. Based on its success, other normalization methods such as layer normalization and weight normalization have appeared and are also finding use within the field.</p>
+<p>Though batch normalization is now a standard feature of any deep learning framework and can be used off the shelf, using it naively can lead to difficulties in practice. Despite the simplicity of batch normalization, the actual reason why it is effective is more complicated than meets the eye (Hint: It&#8217;s not as simple as just saying &#8220;covariate shift&#8221;)<span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;">. </span></p>
+<p>This series of posts attempts to provide a holistic understanding of normalization methods in deep learning. This post attempts to provide a better intuition into batch normalization &#8211; the first normalization method to gain widespread usage &#8211; and why it improves performance.<span id="more-125"></span></p>
+<h2>1. Intuition 1: Covariate Shift</h2>
+<p>The first intuition concerns &#8220;covariate shift&#8221; (which is in the title of the original batch normalization paper).</p>
+<p>Covariate shift refers to the change in the distribution of the input values to a learning algorithm. This is a problem that is not unique to deep learning. For instance, if the train and test sets come from entirely different sources (e.g. training images come from the web while test images are pictures taken on the iPhone), the distributions would differ. The reason covariance shift can be a problem is that the behavior of machine learning algorithms can change when the input distribution changes.</p>
+<p><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;">In the context of deep learning, we are particularly concerned with the change in the distribution of the inputs to the inner nodes within a network. A neural network changes the weights of each layer over the course of training. This means that the activations of each layer change as well. Since the activations of a previous layer are the inputs of the next layer, each layer in the neural network is faced with a situation where </span><strong style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;">the input distribution changes with each step</strong><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;">. This is problematic because it forces each intermediate layer to continuously </span><strong style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;">adapt</strong><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;"> to its changing inputs.</span></p>
+<p>The basic idea behind batch normalization is to limit covariate shift by normalizing the activations of each layer (transforming the inputs to be mean 0 and unit variance). This, supposedly, allows each layer to learn on a more stable distribution of inputs, and would thus accelerate the training of the network.</p>
+<p>In practice, restricting the activations of each layer to be strictly 0 mean and unit variance can limit the expressive power of the network. Therefore, in practice, batch normalization allows the network to learn parameters <img src="//s0.wp.com/latex.php?latex=%5Cgamma+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;gamma " title="&#92;gamma " class="latex" /> and <img src="//s0.wp.com/latex.php?latex=%5Cbeta+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;beta " title="&#92;beta " class="latex" /> that can convert the mean and variance to any value that the network desires.</p>
+<figure id="attachment_169" style="width: 471px" class="wp-caption aligncenter"><img data-attachment-id="169" data-permalink="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/batchnorm_algorithm-2/" data-orig-file="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/batchnorm_algorithm-1.png?fit=817%2C584" data-orig-size="817,584" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="batchnorm_algorithm" data-image-description="" data-medium-file="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/batchnorm_algorithm-1.png?fit=300%2C214" data-large-file="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/batchnorm_algorithm-1.png?fit=750%2C536" class="wp-image-169" src="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/batchnorm_algorithm-1.png?resize=471%2C336" alt="" width="471" height="336" srcset="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/batchnorm_algorithm-1.png?resize=300%2C214 300w, https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/batchnorm_algorithm-1.png?resize=768%2C549 768w, https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/batchnorm_algorithm-1.png?w=817 817w" sizes="(max-width: 471px) 100vw, 471px" data-recalc-dims="1" /><figcaption class="wp-caption-text">The simple equation behind batch normalization</figcaption></figure>
+<p>&nbsp;</p>
+<p class="p1">References:</p>
+<p class="p1"><a href="https://arxiv.org/pdf/1502.03167.pdf">The original batch normalization paper</a></p>
+<p class="p1"><a href="https://www.coursera.org/learn/deep-neural-network/lecture/81oTm/why-does-batch-norm-work">deeplearning.ai lecture</a></p>
+<p>&nbsp;</p>
+<h2 class="p1">2. Intuition 2: High-Order Effects</h2>
+<p class="p1">The above explanation is the &#8220;conventional&#8221; explanation of batch normalization. While it is not mistaken<span class="s1">,</span> it still raises a couple of questions:</p>
+<p class="p1"><span class="s1">(</span>1<span class="s1">)</span> Even if the mean and variance are constant, the distribution of activations can still change. Why are the mean and variance so important<span class="s1">?</span></p>
+<p class="p1"><span class="s1">(</span>2<span class="s1">)</span> If we introduce <img src="//s0.wp.com/latex.php?latex=%5Cgamma+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;gamma " title="&#92;gamma " class="latex" /> and <img src="//s0.wp.com/latex.php?latex=%5Cbeta+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;beta " title="&#92;beta " class="latex" />, the mean and variance will deviate from 0 and 1 anyway. What then, is the point of batch normalization?</p>
+<p>The first intuition is correct in the idea that earlier layers influencing later layers in complex ways is a problem. The next intuition augments this intuition and answers the questions raised above in a way that deepens our understanding of <em>why</em> these higher order interactions between layers are problematic.</p>
+<p>The basic reason can be stated as follows: <strong>the appropriate learning rate changes wildly when there are high-order interactions between variables</strong>. We can clarify this intuition by borrowing some insights from convex optimization.</p>
+<p>Suppose that we are optimizing a loss function <img src="//s0.wp.com/latex.php?latex=f%28w%29+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="f(w) " title="f(w) " class="latex" /> using gradient descent, where <img src="//s0.wp.com/latex.php?latex=w+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="w " title="w " class="latex" /> are weights. We consider what happens when we take a step in the direction of the gradients from the current weights <img src="//s0.wp.com/latex.php?latex=w_0+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="w_0 " title="w_0 " class="latex" />. Taking a second-order Taylor expansion around the current weights,</p>
+<p><img src="//s0.wp.com/latex.php?latex=f%28w%29+%5Capprox+f%28w_0%29+%2B+%28w+-+w_0%29%5ET+g+%2B+%5Cfrac%7B1%7D%7B2%7D+%28w-w_0%29%5ETH%28w-w_0%29+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="f(w) &#92;approx f(w_0) + (w - w_0)^T g + &#92;frac{1}{2} (w-w_0)^TH(w-w_0) " title="f(w) &#92;approx f(w_0) + (w - w_0)^T g + &#92;frac{1}{2} (w-w_0)^TH(w-w_0) " class="latex" /></p>
+<p>where <img src="//s0.wp.com/latex.php?latex=g+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="g " title="g " class="latex" /> and <img src="//s0.wp.com/latex.php?latex=H+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="H " title="H " class="latex" /> are the gradient and Hessian matrix of <img src="//s0.wp.com/latex.php?latex=f%28w%29+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="f(w) " title="f(w) " class="latex" /> at <img src="//s0.wp.com/latex.php?latex=w_0+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="w_0 " title="w_0 " class="latex" />.</p>
+<p>When we take a step in the direction of the gradient with size <img src="//s0.wp.com/latex.php?latex=%5Cepsilon+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;epsilon " title="&#92;epsilon " class="latex" />, the loss function becomes</p>
+<p><img src="//s0.wp.com/latex.php?latex=f%28w+-+%5Cepsilon+g%29%C2%A0%5Capprox+f%28w_0%29%C2%A0-+%5Cepsilon+g%5ETg+%C2%A0%2B+%5Cfrac%7B1%7D%7B2%7D+%5Cepsilon+%5E2+g%5ET+Hg&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="f(w - &#92;epsilon g) &#92;approx f(w_0) - &#92;epsilon g^Tg  + &#92;frac{1}{2} &#92;epsilon ^2 g^T Hg" title="f(w - &#92;epsilon g) &#92;approx f(w_0) - &#92;epsilon g^Tg  + &#92;frac{1}{2} &#92;epsilon ^2 g^T Hg" class="latex" />.</p>
+<p>Notice the third term on the right-hand side of the equation <img src="//s0.wp.com/latex.php?latex=%5Cfrac%7B1%7D%7B2%7D+%5Cepsilon+%5E2+g%5ET+Hg&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;frac{1}{2} &#92;epsilon ^2 g^T Hg" title="&#92;frac{1}{2} &#92;epsilon ^2 g^T Hg" class="latex" />. If this term was 0, the loss function would strictly decrease. This happens when the model has no second-order terms &#8211; i.e. when it is a strictly linear model. On the other hand, if this term was sufficiently large, we might actually <em>increase</em> the loss. This happens when the second-order effects outweigh the first-order effects.</p>
+<p>We can understand this better by looking into the term <img src="//s0.wp.com/latex.php?latex=%5Cfrac%7B1%7D%7B2%7D+%5Cepsilon+%5E2+g%5ET+Hg&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;frac{1}{2} &#92;epsilon ^2 g^T Hg" title="&#92;frac{1}{2} &#92;epsilon ^2 g^T Hg" class="latex" /> in more detail. This term is composed by the Hessian and gradient and represents the effect of the curvature of the loss function. If the curvature is small, the gradient is mostly constant, meaning we can take a large step-size <img src="//s0.wp.com/latex.php?latex=%5Cepsilon+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;epsilon " title="&#92;epsilon " class="latex" /> and decrease the loss. On the other hand, when the curvature is large, the gradient changes quickly, meaning a large step-size poses a risk of increasing the loss. In the worst case, the gradient is the eigenvector of <img src="//s0.wp.com/latex.php?latex=H+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="H " title="H " class="latex" /> with the largest eigenvalue. This problem is known as &#8220;ill-conditioning&#8221; of the Hessian matrix.</p>
+<p>This is well illustrated in the following figure that demonstrates the change in update according to the curvature:</p>
+<figure id="attachment_130" style="width: 491px" class="wp-caption aligncenter"><img data-attachment-id="130" data-permalink="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/curvature/" data-orig-file="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?fit=1582%2C830" data-orig-size="1582,830" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="curvature" data-image-description="" data-medium-file="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?fit=300%2C157" data-large-file="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?fit=750%2C393" class="wp-image-130" src="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?resize=491%2C257" alt="" width="491" height="257" srcset="https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?resize=300%2C157 300w, https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?resize=768%2C403 768w, https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?resize=1024%2C537 1024w, https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?w=1582 1582w, https://i0.wp.com/mlexplained.com/wp-content/uploads/2018/01/curvature.png?w=1500 1500w" sizes="(max-width: 491px) 100vw, 491px" data-recalc-dims="1" /><figcaption class="wp-caption-text">An example of how the same gradient update can actually cause the loss to increase depending on the curvature</figcaption></figure>
+<p>The only way to ensure that the curvature does not cause the loss to increase is by decreasing the step-size <img src="//s0.wp.com/latex.php?latex=%5Cepsilon+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;epsilon " title="&#92;epsilon " class="latex" />.</p>
+<p>Though this toy problem only looked at second-order effects, it can give us insight into the behavior of deep neural networks without batch normalization. In deep neural networks, the output is determined by a complicated interaction between many layers, so there are third, fourth, and even higher-degree effects between the weights. This means that gradient updates can be even more unpredictable. This is why complex interactions between multiple layers are problematic: the <strong>higher order interactions complicate the gradient update</strong>, and the only way to ensure that these effects do not adversely affect the loss is to make the step-size extremely small.</p>
+<p><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;">With the above understanding, batch normalization becomes easier to comprehend. Batch normalization makes the mean and variance of the activations of each layer independent from the values themselves. This means that the magnitude of the higher order interactions are going to be suppressed, allowing larger learning rates to be used.</span></p>
+<p>Update: I received a comment asking for a bit more elaboration on this point. One of the key questions that might come up is why suppressing interactions with regards to only the mean and variance is enough to ensure large learning rates can be used (since higher order interactions still exist). Intuitively, this is probably related to the nature of the activation functions used in deep learning and the role that the magnitude of the activations has when computing the gradient. As long as the range of the magnitudes of the activations (which is decided by the mean and variance) are controlled, the effects of the gradient updates are more well behaved. To be honest though, this is one of the points that still confuses me (and probably still remains a mystery).</p>
+<p>This also explains why introducing <img src="//s0.wp.com/latex.php?latex=%5Cgamma+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;gamma " title="&#92;gamma " class="latex" /> and <img src="//s0.wp.com/latex.php?latex=%5Cbeta+&#038;bg=ffffff&#038;fg=000&#038;s=0" alt="&#92;beta " title="&#92;beta " class="latex" /> does not counteract the beneficial effect of normalization. The important property of batch normalization is that the mean and variance are <strong>not decided by complex interactions between multiple layers</strong>, but rather by two simple parameters. This <strong>simplification of the learning dynamic</strong> is the key property of batch normalization and why it improves performance.</p>
+<p class="p1"><span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;">References:</span></p>
+<p class="p1"><a href="http://www.deeplearningbook.org/">The Deep Learning Book</a></p>
+<p class="p3"><a href="https://www.youtube.com/watch?v=Xogn6veSyxA&amp;feature=youtu.be&amp;t=325"><span class="s2">A talk by Ian Goodfellow</span></a></p>
+<h2></h2>
+<h2>3. Conclusion</h2>
+<p>Hopefully, this post provided a deeper understanding of batch normalization that goes beyond just the words &#8220;covariate shift&#8221;.</p>
+<p>In the next post, I will discuss the limitations of batch normalization and how other, newer methods have attempted to address those problems.</p>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-125" class="share-twitter sd-button share-icon no-text" href="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/?share=twitter" target="_blank" title="Click to share on Twitter"><span></span><span class="sharing-screen-reader-text">Click to share on Twitter (Opens in new window)</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-125" class="share-facebook sd-button share-icon no-text" href="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/?share=facebook" target="_blank" title="Click to share on Facebook"><span></span><span class="sharing-screen-reader-text">Click to share on Facebook (Opens in new window)</span></a></li><li class="share-google-plus-1"><a rel="nofollow noopener noreferrer" data-shared="sharing-google-125" class="share-google-plus-1 sd-button share-icon no-text" href="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/?share=google-plus-1" target="_blank" title="Click to share on Google+"><span></span><span class="sharing-screen-reader-text">Click to share on Google+ (Opens in new window)</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-140459113-125-5bd32c9a57f3f' data-src='https://widgets.wp.com/likes/#blog_id=140459113&amp;post_id=125&amp;origin=mlexplained.com&amp;obj_id=140459113-125-5bd32c9a57f3f' data-name='like-post-frame-140459113-125-5bd32c9a57f3f'><h3 class="sd-title">Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div>
+			</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+			<div class="thrive_entry_footer">
+		<div class="row">
+			<div class="col-sm-9">
+				<span class="cat-links block">Posted in <a href="http://mlexplained.com/category/machine-learning/deep-learning/" rel="category tag">Deep Learning</a></span>			</div>
+			<div class="col-sm-3">
+							</div>
+		</div>
+	</div><!--.thrive_entry_footer-->
+		</footer><!-- .entry-footer -->
+</article><!-- #post-## -->
+
+
+				
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="http://mlexplained.com/2018/01/05/lightgbm-and-xgboost-explained/" rel="prev">LightGBM and XGBoost Explained</a></div><div class="nav-next"><a href="http://mlexplained.com/2018/01/13/weight-normalization-and-layer-normalization-explained-normalization-in-deep-learning-part-2/" rel="next">Weight Normalization and Layer Normalization Explained (Normalization in Deep Learning Part 2)</a></div></div>
+	</nav>
+				
+			
+			</main><!-- #main -->
+		</div><!-- #primary -->
+	</div><!--col-md-8-->
+	<div id="content-right-col" class="col-md-4">	
+		
+<div id="secondary" class="widget-area" role="complementary">
+
+	
+		<aside id="top-posts-4" class="sidebar-widgets widget widget_top-posts"><h3 class="widget-title h6">Top Posts &amp; Pages</h3><ul>				<li>
+										<a href="http://mlexplained.com/2017/12/29/attention-is-all-you-need-explained/" class="bump-view" data-bump-view="tp">
+						Paper Dissected: &quot;Attention is All You Need&quot; Explained					</a>
+										</li>
+								<li>
+										<a href="http://mlexplained.com/2018/01/05/lightgbm-and-xgboost-explained/" class="bump-view" data-bump-view="tp">
+						LightGBM and XGBoost Explained					</a>
+										</li>
+								<li>
+										<a href="http://mlexplained.com/2018/01/13/weight-normalization-and-layer-normalization-explained-normalization-in-deep-learning-part-2/" class="bump-view" data-bump-view="tp">
+						Weight Normalization and Layer Normalization Explained (Normalization in Deep Learning Part 2)					</a>
+										</li>
+								<li>
+										<a href="http://mlexplained.com/2018/02/08/a-comprehensive-tutorial-to-torchtext/" class="bump-view" data-bump-view="tp">
+						A Comprehensive Introduction to Torchtext (Practical Torchtext part 1)					</a>
+										</li>
+								<li>
+										<a href="http://mlexplained.com/2018/06/15/paper-dissected-deep-contextualized-word-representations-explained/" class="bump-view" data-bump-view="tp">
+						Paper Dissected: &quot;Deep Contextualized Word Representations&quot; Explained					</a>
+										</li>
+				</ul></aside><aside id="blog_subscription-4" class="sidebar-widgets widget jetpack_subscription_widget"><h3 class="widget-title h6">Subscribe to Blog via Email</h3>
+			<form action="#" method="post" accept-charset="utf-8" id="subscribe-blog-blog_subscription-4">
+				<div id="subscribe-text"><p>Find anything useful? ;)<br />
+Enter your email address to subscribe to this blog and receive notifications of new posts by email.</p>
+</div>					<p id="subscribe-email">
+						<label id="jetpack-subscribe-label" for="subscribe-field-blog_subscription-4">
+							Email Address						</label>
+						<input type="email" name="email" required="required" class="required" value="" id="subscribe-field-blog_subscription-4" placeholder="Email Address" />
+					</p>
+
+					<p id="subscribe-submit">
+						<input type="hidden" name="action" value="subscribe" />
+						<input type="hidden" name="source" value="http://mlexplained.com/2018/01/10/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1/" />
+						<input type="hidden" name="sub-type" value="widget" />
+						<input type="hidden" name="redirect_fragment" value="blog_subscription-4" />
+												<input type="submit" value="Subscribe" name="jetpack_subscriptions_widget" />
+					</p>
+							</form>
+
+			<script>
+			/*
+			Custom functionality for safari and IE
+			 */
+			(function( d ) {
+				// In case the placeholder functionality is available we remove labels
+				if ( ( 'placeholder' in d.createElement( 'input' ) ) ) {
+					var label = d.querySelector( 'label[for=subscribe-field-blog_subscription-4]' );
+						label.style.clip 	 = 'rect(1px, 1px, 1px, 1px)';
+						label.style.position = 'absolute';
+						label.style.height   = '1px';
+						label.style.width    = '1px';
+						label.style.overflow = 'hidden';
+				}
+
+				// Make sure the email value is filled in before allowing submit
+				var form = d.getElementById('subscribe-blog-blog_subscription-4'),
+					input = d.getElementById('subscribe-field-blog_subscription-4'),
+					handler = function( event ) {
+						if ( '' === input.value ) {
+							input.focus();
+
+							if ( event.preventDefault ){
+								event.preventDefault();
+							}
+
+							return false;
+						}
+					};
+
+				if ( window.addEventListener ) {
+					form.addEventListener( 'submit', handler, false );
+				} else {
+					form.attachEvent( 'onsubmit', handler );
+				}
+			})( document );
+			</script>
+				
+</aside><aside id="categories-4" class="sidebar-widgets widget widget_categories"><h3 class="widget-title h6">Categories</h3>		<ul>
+	<li class="cat-item cat-item-11"><a href="http://mlexplained.com/category/computer-vision/" >Computer Vision</a> (2)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://mlexplained.com/category/machine-learning/deep-learning/" >Deep Learning</a> (18)
+</li>
+	<li class="cat-item cat-item-2"><a href="http://mlexplained.com/category/jupyter/" >Jupyter</a> (2)
+</li>
+	<li class="cat-item cat-item-5"><a href="http://mlexplained.com/category/machine-learning/" >Machine Learning</a> (12)
+</li>
+	<li class="cat-item cat-item-6"><a href="http://mlexplained.com/category/nlp/" >NLP</a> (9)
+</li>
+	<li class="cat-item cat-item-10"><a href="http://mlexplained.com/category/paper/" >Paper</a> (9)
+</li>
+	<li class="cat-item cat-item-4"><a href="http://mlexplained.com/category/python/" >Python</a> (1)
+</li>
+	<li class="cat-item cat-item-3"><a href="http://mlexplained.com/category/software-engineering/" >Software Engineering</a> (2)
+</li>
+	<li class="cat-item cat-item-1"><a href="http://mlexplained.com/category/uncategorized/" >Uncategorized</a> (3)
+</li>
+		</ul>
+</aside><aside id="archives-4" class="sidebar-widgets widget widget_archive"><h3 class="widget-title h6">Archives</h3>		<ul>
+			<li><a href='http://mlexplained.com/2018/09/'>September 2018</a></li>
+	<li><a href='http://mlexplained.com/2018/08/'>August 2018</a></li>
+	<li><a href='http://mlexplained.com/2018/06/'>June 2018</a></li>
+	<li><a href='http://mlexplained.com/2018/05/'>May 2018</a></li>
+	<li><a href='http://mlexplained.com/2018/04/'>April 2018</a></li>
+	<li><a href='http://mlexplained.com/2018/03/'>March 2018</a></li>
+	<li><a href='http://mlexplained.com/2018/02/'>February 2018</a></li>
+	<li><a href='http://mlexplained.com/2018/01/'>January 2018</a></li>
+	<li><a href='http://mlexplained.com/2017/12/'>December 2017</a></li>
+		</ul>
+		</aside>
+	
+</div><!-- #secondary -->
+	</div>
+</div>
+</div><!--.row-->
+</div><!-- #content -->
+ 
+</div><!--.row-->
+</div><!--#page-container">-->
+</div><!--#page-row-->
+
+<div class="row">
+
+	
+	<footer id="thrive_footer" class="site-footer" role="contentinfo">
+		
+		<div class="site-info">
+			
+			<div class="container-fluid">
+				<div class="row">
+					<div id="thrive_footer_copytext" class="col-xs-12">
+
+						
+						
+						
+						
+							&copy; [Your Website Name Here] 2015. All Rights Reserved.
+						
+					</div> <!--.col-xs-12-->
+				</div> <!--.row-->
+			</div><!--.container-fluid-->
+
+		</div><!-- .site-info -->
+	
+	</footer><!-- #thrive_footer-->
+
+</div><!--.row-->
+
+</div><!--.site-content -(header.php)-->
+</div><!-- #page-container-->
+</div><!-- #page -->
+</div><!--#thrive-global-wrapper-->
+	<div style="display:none">
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"http:\/\/mlexplained.com\/2018\/01\/10\/an-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1\/":125};
+	</script>
+				<!--[if lte IE 8]>
+<link rel='stylesheet' id='jetpack-carousel-ie8fix-css'  href='http://mlexplained.com/wp-content/plugins/jetpack/modules/carousel/jetpack-carousel-ie8fix.css?ver=20121024' type='text/css' media='all' />
+<![endif]-->
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/jetpack/_inc/build/photon/photon.min.js?ver=20130122'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var countVars = {"disqusShortname":"mlexplained"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/disqus-comment-system/public/js/comment_count.js?ver=3.0.16'></script>
+<script type='text/javascript' src='https://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201843'></script>
+<script type='text/javascript' src='https://secure.gravatar.com/js/gprofiles.js?ver=2018Octaa'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/jetpack/modules/wpgroho.js?ver=4.9.8'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/themes/thrive/js/navigation.js?ver=2.1.9'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/themes/thrive/js/jquery-plugins.js?ver=2.1.9'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/themes/thrive/js/thrive.js?ver=2.1.9'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/themes/thrive/js/skip-link-focus-fix.js?ver=2.1.9'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/jetpack/_inc/build/spin.min.js?ver=1.3'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/jetpack/_inc/build/jquery.spin.min.js?ver=1.3'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"http:\/\/mlexplained.com\/wp-admin\/admin-ajax.php","nonce":"b2789ced08","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"http:\/\/mlexplained.com\/wp-login.php?redirect_to=http%3A%2F%2Fmlexplained.com%2F2018%2F01%2F10%2Fan-intuitive-explanation-of-why-batch-normalization-really-works-normalization-in-deep-learning-part-1%2F","blog_id":"1","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/jetpack/_inc/build/carousel/jetpack-carousel.min.js?ver=20170209'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/jetpack/_inc/build/postmessage.min.js?ver=6.6.1'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/jetpack/_inc/build/jquery.jetpack-resize.min.js?ver=6.6.1'></script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/jetpack/_inc/build/likes/queuehandler.min.js?ver=6.6.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1","is_stats_active":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://mlexplained.com/wp-content/plugins/jetpack/_inc/build/sharedaddy/sharing.min.js?ver=6.6.1'></script>
+<script type='text/javascript'>
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-google-plus-1', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+</script>
+	<iframe src='https://widgets.wp.com/likes/master.html?ver=201843#ver=201843' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+	<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+	<script type='text/javascript' src='https://stats.wp.com/e-201843.js' async='async' defer='defer'></script>
+<script type='text/javascript'>
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:6.6.1',blog:'140459113',post:'125',tz:'0',srv:'mlexplained.com'} ]);
+	_stq.push([ 'clickTrackerInit', '140459113', '125' ]);
+</script>
+</body>
+</html>
