@@ -1,0 +1,2258 @@
+<!DOCTYPE html>
+
+
+    <html itemscope itemtype="http://schema.org/QAPage" class="">
+
+    <head>
+
+        <title>cross validation - On the importance of the i.i.d. assumption in statistical learning - Cross Validated</title>
+        <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stats/img/favicon.ico?v=573163e34adf">
+        <link rel="apple-touch-icon image_src" href="https://cdn.sstatic.net/Sites/stats/img/apple-touch-icon.png?v=8698dcfb5c72">
+        <link rel="search" type="application/opensearchdescription+xml" title="Cross Validated" href="/opensearch.xml">
+
+
+        <meta property="og:type" content= "website" />
+        <meta property="og:url" content="https://stats.stackexchange.com/questions/213464/on-the-importance-of-the-i-i-d-assumption-in-statistical-learning"/>
+        <meta property="og:site_name" content="Cross Validated" />
+        <meta property="og:image" itemprop="image primaryImageOfPage" content="https://cdn.sstatic.net/Sites/stats/img/apple-touch-icon@2.png?v=344f57aa10cc" />
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:domain" content="stats.stackexchange.com"/>
+        <meta name="twitter:site" content="@StackStats" />
+        <meta name="twitter:creator" content="@StackStats" />
+        <meta name="twitter:title" property="og:title" itemprop="title name" content="On the importance of the i.i.d. assumption in statistical learning" />
+        <meta name="twitter:description" property="og:description" itemprop="description" content="In statistical learning, implicitly or explicitly, one always assumes that the training set $\mathcal{D} = \{ \bf {X}, \bf{y} \}$ is composed of $N$ input/response tuples $({\bf{X}}_i,y_i)$ that are " />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://cdn.sstatic.net/Js/stub.en.js?v=2770ccc5028c"></script>
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Shared/stacks.css?v=89b4ac8b4f10">
+    <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Sites/stats/primary.css?v=8c2bd5663e36">
+
+    
+            <link rel="alternate" type="application/atom+xml" title="Feed for question &#39;On the importance of the i.i.d. assumption in statistical learning&#39;" href="/feeds/question/213464">
+<script src="https://cdn.sstatic.net/Js/citation.en.js?v=a62527238100"></script>            <meta name="twitter:app:country" content="US" />
+            <meta name="twitter:app:name:iphone" content="Stack Exchange iOS" />
+            <meta name="twitter:app:id:iphone" content="871299723" />
+            <meta name="twitter:app:url:iphone" content="se-zaphod://stats.stackexchange.com/questions/213464/on-the-importance-of-the-i-i-d-assumption-in-statistical-learning" />
+            <meta name="twitter:app:name:ipad" content="Stack Exchange iOS" />
+            <meta name="twitter:app:id:ipad" content="871299723" />
+            <meta name="twitter:app:url:ipad" content="se-zaphod://stats.stackexchange.com/questions/213464/on-the-importance-of-the-i-i-d-assumption-in-statistical-learning" />
+            <meta name="twitter:app:name:googleplay" content="Stack Exchange Android">
+            <meta name="twitter:app:url:googleplay" content="http://stats.stackexchange.com/questions/213464/on-the-importance-of-the-i-i-d-assumption-in-statistical-learning">
+            <meta name="twitter:app:id:googleplay" content="com.stackexchange.marvin">
+        <script>
+
+            StackExchange.ready(function () {
+                
+                StackExchange.using("postValidation", function () {
+                    StackExchange.postValidation.initOnBlurAndSubmit($('#post-form'), 2, 'answer');
+                });
+
+                
+                StackExchange.question.init({votesCast:[],autoShowCommentHelp:true,showCitation:true,showAnswerHelp:true,totalCommentCount:22,shownCommentCount:5,highlightColor:'#F4A83D',backgroundColor:'#FFF',questionId:213464});
+
+                styleCode();
+
+                    StackExchange.realtime.subscribeToQuestion('65', '213464');
+                                                    StackExchange.using("gps", function () { StackExchange.gps.trackOutboundClicks('#content', '.post-text'); });
+
+            });
+        </script>
+
+        
+        
+        
+        
+        
+        
+                    <script type="text/x-mathjax-config">
+                MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+                    tex2jax: { inlineMath: [ ["$", "$"], ["\\\\(","\\\\)"] ], displayMath: [ ["$$","$$"], ["\\[", "\\]"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno" },
+                    TeX: { 
+                        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+                    messageStyle: "none",
+                    
+                    styles: { ".MathJax_Display, .MathJax_Preview, .MathJax_Preview > *": { "background": "inherit" } }
+            });
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML-full"></script>
+        <script>
+        StackExchange.ready(function () {
+            StackExchange.realtime.init('wss://qa.sockets.stackexchange.com');
+            StackExchange.realtime.subscribeToReputationNotifications('65');
+                StackExchange.realtime.subscribeToTopBarNotifications('65');
+        });
+    </script>
+    <script>
+        StackExchange.init({"locale":"en","serverTime":1541109653,"routeName":"Questions/Show","stackAuthUrl":"https://stackauth.com","networkMetaHostname":"meta.stackexchange.com","site":{"name":"Cross Validated","description":"Q&A for people interested in statistics, machine learning, data analysis, data mining, and data visualization","isNoticesTabEnabled":true,"enableNewTagCreationWarning":false,"insertSpaceAfterNameTabCompletion":false,"id":65,"childUrl":"https://stats.meta.stackexchange.com","enableSocialMediaInSharePopup":true,"protocol":"https"},"user":{"fkey":"dc7346a2fd1f75e6a6951880592a1799cf0e982bac8aff26d58442da8b73f834","tid":"46a67e33-a8c4-d873-ed85-be8dddee5ed0","rep":1,"isRegistered":true,"userType":3,"userId":189221,"accountId":9999838,"gravatar":"<div class=\"gravatar-wrapper-32\"><img src=\"https://lh6.googleusercontent.com/-PebIYCuIe0A/AAAAAAAAAAI/AAAAAAAAAAA/oPrKp8z_vkk/photo.jpg?sz=32\" alt=\"\" width=\"32\" height=\"32\"></div>","profileUrl":"https://stats.stackexchange.com/users/189221/airwindow","canSeeDeletedPosts":false},"realtime":{"newest":true,"active":true,"tagged":true,"staleDisconnectIntervalInHours":0,"workerIframeDomain":"https://cdn.sstatic.net"},"events":{"postType":{"question":1},"postEditionSection":{"title":1,"body":2,"tags":3}},"story":{"minCompleteBodyLength":75,"likedTagsMaxLength":300,"dislikedTagsMaxLength":300},"jobPreferences":{"maxNumDeveloperRoles":2,"maxNumIndustries":4},"svgIconPath":"https://cdn.sstatic.net/Img/svg-icons","svgIconHash":"0f0fc5e90a6d"}, {"site":{"allowImageUploads":true,"enableUserHovercards":true,"styleCode":true,"enableImgurHttps":true,"forceHttpsImages":true,"stacksValidation":true},"userMessaging":{},"comments":{},"userProfile":{},"tags":{},"accounts":{"currentPasswordRequiredForChangingStackIdPassword":true},"flags":{"allowRetractingFlags":true},"snippets":{"renderDomain":"stacksnippets.net"},"paths":{},"markdown":{"asteriskIntraWordEmphasis":true},"monitoring":{"clientTimingsAbsoluteTimeout":30000,"clientTimingsDebounceTimeout":1000},"mentions":{"maxNumUsersInDropdown":50},"slack":{"sidebarAdDismissCookie":"slack-sidebar-ad"}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.en.js":"d1d30e4b81b8","js/moderator.en.js":"c48addfbc3c8","js/full-anon.en.js":"ba6f3f2b65c3","js/full.en.js":"f93e6f4715c9","js/wmd.en.js":"793381cf2137","js/mobile.en.js":"b2ba616274c8","js/help.en.js":"41e2b9d43396","js/tageditor.en.js":"8fc88803d94e","js/tageditornew.en.js":"1b813209ced0","js/inline-tag-editing.en.js":"8e73ea969326","js/revisions.en.js":"8f22ba768cac","js/review.en.js":"8a6520712917","js/tagsuggestions.en.js":"78eee7c19ab2","js/post-validation.en.js":"e749feed17d7","js/explore-qlist.en.js":"726bf7958c2a","js/events.en.js":"9d359b23b2cc","js/keyboard-shortcuts.en.js":"7b4a9290be69","js/external-editor.en.js":"e68df0a42ae8","js/adops.en.js":"22a9bd59b1e9","js/begin-edit-event.en.js":"7415f5dee62d","js/mathjax-editing.en.js":"87126a3bf382"});
+        StackExchange.using("gps", function() {
+             StackExchange.gps.init(true);
+        });
+    </script>
+    <noscript id="noscript-css"><style>body,.top-bar{margin-top:1.9em}</style></noscript>
+    </head>
+        <body class="question-page new-topbar">
+    <div id="notify-container"></div>
+    <div id="custom-header"></div>
+
+
+
+
+<header class="top-bar js-top-bar _fixed">
+    <div class="-container">
+        <div class="-main">
+                            <a href="#" class="-logo js-gps-track js-network-logo network-logo"
+                   data-gps-track="stack_exchange_popup.show">
+                    <svg aria-hidden="true" class="svg-icon native iconLogoSEAlternativeSm" width="110" height="15" viewBox="0 0 110 15"><g><path d="M50.4 11.92l-1.98-3.23-1.05 1.17v2.06h-1.42V2.08h1.42v6.07l2.76-3.24h1.73L49.4 7.66l2.77 4.26h-1.76zm-7.86.08c-1.6 0-3.16-.97-3.16-3.6 0-2.62 1.56-3.57 3.16-3.57.97 0 1.66.28 2.33.98l-.98.94c-.45-.48-.8-.66-1.35-.66s-1.01.22-1.32.62c-.3.39-.42.88-.42 1.7 0 .81.11 1.32.42 1.71.3.4.77.62 1.32.62s.9-.18 1.35-.66l.98.93c-.67.7-1.36.99-2.33.99zm-5.7-3.18h-1.67c-.84 0-1.27.38-1.27 1.01 0 .64.4 1 1.3 1 .54 0 .95-.05 1.33-.4.2-.21.3-.54.3-1.04v-.57zm.02 3.1v-.64c-.51.51-1 .72-1.88.72-.89 0-1.47-.2-1.9-.64a2.13 2.13 0 0 1-.57-1.5c0-1.17.83-2.02 2.45-2.02h1.87v-.5c0-.88-.44-1.3-1.55-1.3-.78 0-1.16.17-1.55.67l-.94-.87c.67-.77 1.37-1 2.55-1 1.94 0 2.92.8 2.92 2.4v4.68h-1.4zm-6.44 0c-1.33 0-1.95-.94-1.95-1.95V6.12h-.8V5.04h.8V2.9h1.43v2.13h1.37v1.08H29.9V9.9c0 .51.25.82.78.82h.59v1.2h-.85zm-6.9.08c-1.5 0-2.57-.35-3.52-1.3l1-.98a3.3 3.3 0 0 0 2.55.94c1.3 0 2.06-.55 2.06-1.5 0-.43-.13-.8-.4-1.03-.25-.23-.5-.33-1.09-.41l-1.17-.17a3.43 3.43 0 0 1-1.89-.79 2.43 2.43 0 0 1-.72-1.87c0-1.72 1.25-2.89 3.32-2.89 1.32 0 2.24.33 3.1 1.12l-.97.94a2.94 2.94 0 0 0-2.17-.76c-1.17 0-1.82.66-1.82 1.53 0 .36.12.68.38.91.25.22.66.39 1.12.46l1.13.16c.93.14 1.44.36 1.86.74.55.47.81 1.17.81 2.01 0 1.81-1.5 2.89-3.58 2.89z" fill="#FFF"/><path d="M107.4 6.88c-.2-.44-.61-.76-1.23-.76-.63 0-1.04.32-1.23.76-.12.27-.16.46-.17.79h2.8a2 2 0 0 0-.17-.8zm-2.63 2.04c0 .94.58 1.63 1.6 1.63.81 0 1.21-.23 1.68-.69l1.11 1.08a3.52 3.52 0 0 1-2.8 1.16c-1.74 0-3.4-.8-3.4-3.76 0-2.39 1.3-3.74 3.2-3.74 2.06 0 3.22 1.5 3.22 3.5v.82h-4.61zm-5.68-2.67c-1.1 0-1.2.92-1.2 1.9 0 .96.1 1.9 1.2 1.9 1.08 0 1.21-.94 1.21-1.9 0-.98-.13-1.9-1.21-1.9zm-.19 8.53c-1.13 0-1.9-.22-2.67-.96l1.14-1.15c.41.4.83.56 1.45.56 1.1 0 1.48-.77 1.48-1.51v-.75c-.48.53-1.03.73-1.75.73s-1.34-.24-1.76-.65c-.69-.68-.74-1.63-.74-2.9 0-1.29.05-2.21.74-2.9a2.5 2.5 0 0 1 1.77-.65c.78 0 1.29.21 1.8.77V4.7h1.78v7.05c0 1.76-1.26 3.04-3.24 3.04zm-5.58-2.77V7.58c0-1-.63-1.33-1.21-1.33s-1.23.33-1.23 1.33v4.43h-1.84V4.7h1.8v.67c.47-.5 1.15-.76 1.83-.76.74 0 1.33.24 1.74.65.6.59.75 1.28.75 2.08V12h-1.84zm-7.14-3.1h-1.46c-.66 0-1.03.32-1.03.84 0 .5.34.84 1.06.84.51 0 .84-.04 1.16-.35.2-.18.27-.48.27-.93v-.4zm.04 3.1v-.63c-.5.49-.96.7-1.8.7-.84 0-1.45-.21-1.89-.65-.4-.4-.6-1-.6-1.64 0-1.17.8-2.12 2.51-2.12h1.74V7.3c0-.8-.4-1.15-1.37-1.15-.7 0-1.03.17-1.42.6l-1.17-1.14c.72-.78 1.43-1 2.66-1 2.06 0 3.14.86 3.14 2.58V12h-1.8zm-7 0V7.54c0-.97-.62-1.3-1.2-1.3-.57 0-1.18.34-1.18 1.3v4.47H75V2h1.84v3.36c.5-.5 1.11-.76 1.76-.76 1.62 0 2.47 1.13 2.47 2.67v4.74h-1.84zm-7.7.09c-1.48 0-3.3-.8-3.3-3.76 0-2.97 1.82-3.74 3.3-3.74 1 0 1.77.31 2.42.99L72.7 6.82c-.38-.4-.7-.57-1.19-.57-.44 0-.78.15-1.05.47-.28.36-.4.85-.4 1.62 0 .77.12 1.28.4 1.63.27.33.61.48 1.05.48.48 0 .8-.17 1.19-.58l1.24 1.23c-.65.67-1.41 1-2.43 1zm-6.07-.1l-1.36-2.2-1.34 2.2h-2.2l2.54-3.74-2.45-3.58h2.2l1.25 2.1 1.26-2.1h2.2l-2.44 3.58L67.65 12h-2.2zm-12.46 0V2h6.63v1.74h-4.66V6.1h3.97v1.75h-3.97v2.43h4.66V12H53z" fill="#2F96E8"/><path d="M2 1h8a2 2 0 0 1 2 2H0c0-1.1.9-2 2-2z" fill="#8FD8F7"/><path d="M0 10h12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm7 2v3l3-3z" fill="#155397"/><path fill="#46A2D9" d="M0 4h12v2H0z"/><path fill="#2D6DB5" d="M0 7h12v2H0z"/></g></svg>
+                </a>
+                <div class="topbar-dialog network-logo-dialog js-network-logo-dialog dno">
+                    <div class="dialog-content">
+                        <h4 class="bold">Stack Exchange Network</h4>
+                        <p>
+                            Stack Exchange network consists of 174 Q&amp;A communities including <a href="https://stackoverflow.com">Stack Overflow</a>, the largest, most trusted online community for developers to learn, share their knowledge, and build their careers.
+                        </p>
+                        <a class="btn-secondary" href="https://stackexchange.com"
+                        data-gps-track="stack_exchange_popup.click">Visit Stack Exchange</a>
+                        <a class="icon-close js-close-button"><svg aria-hidden="true" class="svg-icon iconClear" width="18" height="18" viewBox="0 0 18 18"><path d="M15 4.41L13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9z"/></svg></a>
+                    </div>
+                </div>
+
+
+                <nav class="navigation" role="navigation" aria-label="site navigation">
+                    <ol class="-list">
+                    </ol>
+                </nav>
+
+        </div>
+
+            <form id="search" action=/search method="get" class="searchbar js-searchbar " autocomplete="off" role="search">
+                    <div class="ps-relative">
+                        <input name="q" type="text" placeholder="Search on Cross Validated…" value="" autocomplete="off" maxlength="240" class="f-input js-search-field " />
+                        <button type="submit" aria-label="Search..." class="s-btn s-btn__primary btn-topbar-primary js-search-submit"><svg aria-hidden="true" class="svg-icon mx0 iconSearch" width="18" height="18" viewBox="0 0 18 18"><path d="M12.86 11.32L18 16.5 16.5 18l-5.18-5.14v-.35a7 7 0 1 1 1.19-1.19h.35zM7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10z"/></svg></button>
+                    </div>
+            </form>
+
+        
+
+
+
+
+
+<ol class="-secondary js-secondary-topbar-links">
+        <li class="-item searchbar-trigger js-searchbar-trigger"><a href="#" class="-link"><svg aria-hidden="true" class="svg-icon iconSearch" width="18" height="18" viewBox="0 0 18 18"><path d="M12.86 11.32L18 16.5 16.5 18l-5.18-5.14v-.35a7 7 0 1 1 1.19-1.19h.35zM7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10z"/></svg></a></li>
+                <li class="-item">
+                <a href="/users/189221/airwindow" class="my-profile js-gps-track" data-gps-track="profile_summary.click()">
+                <div class="gravatar-wrapper-24" title="airwindow"><img src="https://lh6.googleusercontent.com/-PebIYCuIe0A/AAAAAAAAAAI/AAAAAAAAAAA/oPrKp8z_vkk/photo.jpg?sz=48" alt="" width="24" height="24" class="-avatar js-avatar-me"></div>
+                    <div class="-rep js-header-rep" title="your reputation: 1">1</div>
+                        <div class="-badges">
+                        </div>
+                </a>
+            </li>
+        <li class="-item">
+        <a href="https://stackexchange.com/users/9999838?tab=inbox" class="-link js-inbox-button" title="Recent inbox messages">
+            <svg aria-hidden="true" class="svg-icon iconInbox" width="20" height="18" viewBox="0 0 20 18"><path d="M15.19 1H4.63c-.85 0-1.6.54-1.85 1.35L0 10.79V15c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-4.21l-2.87-8.44A2 2 0 0 0 15.19 1zm-.28 10l-2 2h-6l-2-2H1.96L4.4 3.68A1 1 0 0 1 5.35 3h9.12a1 1 0 0 1 .95.68L17.86 11h-2.95z"/></svg>
+            <span class="indicator-badge js-unread-count _important" style="display: none;"></span>
+        </a>
+    </li>
+    <li class="-item">
+        <a href="https://stackexchange.com/users/9999838?tab=reputation" class="-link js-achievements-button" title="Recent achievements: reputation, badges, and privileges earned" data-unread-class="_highlighted-positive">
+            <svg aria-hidden="true" class="svg-icon iconAchievements" width="18" height="18" viewBox="0 0 18 18"><path d="M15 2V1H3v1H0v4c0 1.6 1.4 3 3 3v1c.4 1.5 3 2.6 5 3v2H5s-1 1.5-1 2h10c0-.4-1-2-1-2h-3v-2c2-.4 4.6-1.5 5-3V9c1.6-.2 3-1.4 3-3V2h-3zM3 7c-.5 0-1-.5-1-1V4h1v3zm8.4 2.5L9 8 6.6 9.4l1-2.7L5 5h3l1-2.7L10 5h2.8l-2.3 1.8 1 2.7h-.1zM16 6c0 .5-.5 1-1 1V4h1v2z"/></svg>
+            <span class="indicator-badge js-unread-count _positive" style="display: none;"></span>
+        </a>
+    </li>
+
+    <li class="-item help-button-item" data-remove-order="1"><a href="#" class="-link js-help-button" title="Help Center and other resources">
+        <svg aria-hidden="true" class="svg-icon iconHelp" width="18" height="18" viewBox="0 0 18 18"><path d="M9 1a8 8 0 1 0 0 16A8 8 0 0 0 9 1zm.81 12.13c-.02.71-.55 1.15-1.24 1.13-.66-.02-1.17-.49-1.15-1.2.02-.72.56-1.18 1.22-1.16.7.03 1.2.51 1.17 1.23zM11.77 8a5.8 5.8 0 0 1-1.02.91l-.53.37c-.26.2-.42.43-.5.69a4 4 0 0 0-.09.75c0 .05-.03.16-.18.16H7.88c-.16 0-.18-.1-.18-.15.03-.66.12-1.21.4-1.66a5.29 5.29 0 0 1 1.43-1.22c.16-.12.28-.25.38-.39a1.34 1.34 0 0 0 .02-1.71c-.24-.31-.51-.46-1.03-.46-.51 0-.8.26-1.02.6-.21.33-.18.73-.18 1.1H5.75c0-1.38.35-2.25 1.1-2.76.52-.35 1.17-.5 1.93-.5 1 0 1.79.18 2.49.71.64.5.98 1.18.98 2.12 0 .57-.2 1.05-.48 1.44z"/></svg>
+    </a></li>
+
+    <li class="-item">
+        <a href="https://stackexchange.com" class="-link js-site-switcher-button js-gps-track" data-gps-track="site_switcher.show" title="A list of all 174 Stack Exchange sites">
+            <svg aria-hidden="true" class="svg-icon iconStackExchange" width="18" height="18" viewBox="0 0 18 18"><path d="M1 13c0 1.1.9 2 2 2h8v3l3-3h1a2 2 0 0 0 2-2v-2H1v2zM15 1H3a2 2 0 0 0-2 2v2h16V3a2 2 0 0 0-2-2zM1 6h16v4H1V6z"/></svg>
+        </a>
+    </li>
+
+
+    <li class="-dialog-container js-topbar-dialog-corral">
+
+
+    <div class="topbar-dialog siteSwitcher-dialog dno">
+        <div class="header">
+            <h3><a href="https://stats.stackexchange.com">current community</a>
+            </h3>
+        </div>
+        <div class="modal-content current-site-container">
+            <ul class="current-site">
+                    <li class="grid">
+                            <div class="fl1">
+            <a href="https://stats.stackexchange.com"
+       class="current-site-link site-link js-gps-track grid gs8 gsx"
+       data-id="65"
+       data-gps-track="site_switcher.click({ item_type:3 })">
+        <div class="favicon favicon-stats site-icon grid--cell" title="Cross Validated"></div>
+        <span class="grid--cell fl1">
+            Cross Validated
+        </span>
+    </a>
+
+    </div>
+    <div class="related-links">
+            <a href="https://stats.stackexchange.com/help" class="js-gps-track"     data-gps-track="site_switcher.click({ item_type:14 })"
+>help</a>
+                    <a href="https://chat.stackexchange.com?tab=site&amp;host=stats.stackexchange.com" class="js-gps-track"     data-gps-track="site_switcher.click({ item_type:6 })"
+>chat</a>
+                    <a href="https://stats.stackexchange.com/users/logout" class="js-gps-track"     data-gps-track="site_switcher.click({ item_type:8 })"
+>log out</a>
+    </div>
+
+                    </li>
+                    <li class="related-site grid">
+                            <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                            <a href="https://stats.meta.stackexchange.com"
+       class="site-link js-gps-track grid gs8 gsx"
+       data-id="66"
+       data-gps-track="site.switch({ target_site:66, item_type:3 }),site_switcher.click({ item_type:4 })">
+        <div class="favicon favicon-statsmeta site-icon grid--cell" title="Cross Validated Meta"></div>
+        <span class="grid--cell fl1">
+            Cross Validated Meta
+        </span>
+    </a>
+
+                    </li>
+            </ul>
+        </div>
+
+        <div class="header" id="your-communities-header">
+            <h3>
+                    <a href="https://stackexchange.com/users/9999838/?tab=accounts">your communities</a>
+            </h3>
+
+                <a href="#" id="edit-pinned-sites">edit</a>
+                <a href="#" id="cancel-pinned-sites" style="display: none;">cancel</a>
+        </div>
+        <div class="modal-content" id="your-communities-section">
+
+                <ul class="my-sites">
+                        <li>
+                                <a href="https://stackoverflow.com"
+       class="site-link js-gps-track grid gs8 gsx"
+       data-id="1"
+       data-gps-track="site.switch({ target_site:1, item_type:3 }),site_switcher.click({ item_type:1 })">
+        <div class="favicon favicon-stackoverflow site-icon grid--cell" title="Stack Overflow"></div>
+        <span class="grid--cell fl1">
+            Stack Overflow
+        </span>
+            <span class="rep-score grid--cell">28</span>
+    </a>
+
+                        </li>
+                        <li>
+                                <a href="https://stats.stackexchange.com"
+       class="site-link js-gps-track grid gs8 gsx"
+       data-id="65"
+       data-gps-track="site.switch({ target_site:65, item_type:3 }),site_switcher.click({ item_type:1 })">
+        <div class="favicon favicon-stats site-icon grid--cell" title="Cross Validated"></div>
+        <span class="grid--cell fl1">
+            Cross Validated
+        </span>
+            <span class="rep-score grid--cell">1</span>
+    </a>
+
+                        </li>
+                        <li>
+                                <a href="https://datascience.stackexchange.com"
+       class="site-link js-gps-track grid gs8 gsx"
+       data-id="557"
+       data-gps-track="site.switch({ target_site:557, item_type:3 }),site_switcher.click({ item_type:1 })">
+        <div class="favicon favicon-datascience site-icon grid--cell" title="Data Science"></div>
+        <span class="grid--cell fl1">
+            Data Science
+        </span>
+            <span class="rep-score grid--cell">1</span>
+    </a>
+
+                        </li>
+                        <li>
+                                <a href="https://superuser.com"
+       class="site-link js-gps-track grid gs8 gsx"
+       data-id="3"
+       data-gps-track="site.switch({ target_site:3, item_type:3 }),site_switcher.click({ item_type:1 })">
+        <div class="favicon favicon-superuser site-icon grid--cell" title="Super User"></div>
+        <span class="grid--cell fl1">
+            Super User
+        </span>
+            <span class="rep-score grid--cell">1</span>
+    </a>
+
+                        </li>
+                </ul>
+                    <div class="pinned-site-editor-container" style="display: none;">
+                        <input type="hidden" name="fkey" value="dc7346a2fd1f75e6a6951880592a1799cf0e982bac8aff26d58442da8b73f834">
+                        <input id="js-site-search-txt"
+                                type="text"
+                                class="site-filter-input"
+                                value=""
+                                placeholder="Add a Stack Exchange community"/>
+                        <input type="submit" id="pin-site-btn" value="Add" disabled="disabled"/>
+                        <ul class="js-found-sites found-sites"></ul>
+                        <ul class="pinned-site-list sortable" data-custom-list="False">
+                        </ul>
+                        <input type="submit" value="Save" id="save-pinned-sites-btn" disabled="disabled"/>
+                        <a href="#" id="reset-pinned-sites">reset to default list</a>
+                    </div>
+        </div>
+
+        <div class="header">
+            <h3><a href="https://stackexchange.com/sites">more stack exchange communities</a>
+            </h3>
+            <a href="https://stackoverflow.blog" class="fr">company blog</a>
+        </div>
+        <div class="modal-content">
+                <div class="child-content"></div>
+        </div>        
+    </div>
+            <div class="topbar-dialog help-dialog js-help-dialog dno">
+        <div class="modal-content">
+            <ul>
+                                    <li>
+                        <a href="/tour" class="js-gps-track" data-gps-track="help_popup.click({ item_type:1 })">
+                            Tour
+                            <span class="item-summary">
+                                Start here for a quick overview of the site
+                            </span>
+                        </a>
+                    </li>
+                <li>
+                    <a href="/help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:4 })">
+                        Help Center
+                        <span class="item-summary">
+                            Detailed answers to any questions you might have
+                        </span>
+                    </a>
+                </li>
+                        <li>
+                            <a href="https://stats.meta.stackexchange.com" class="js-gps-track" data-gps-track="help_popup.click({ item_type:2 })">
+                                Meta
+                                <span class="item-summary">
+                                    Discuss the workings and policies of this site
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://stackoverflow.com/company/about" class="js-gps-track" data-gps-track="help_popup.click({ item_type:6 })">
+                                About Us
+                                <span class="item-summary">
+                                    Learn more about Stack Overflow the company
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.stackoverflowbusiness.com/?ref=topbar_help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:7 })">
+                                Business
+                                <span class="item-summary">
+                                    Learn more about hiring developers or posting ads with us
+                                </span>
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+            </li>
+</ol>
+
+    </div>
+</header>
+
+    <script>
+        StackExchange.ready(function () { StackExchange.topbar.init({ observeSize: false }); });
+        StackExchange.scrollPadding.setPaddingTop(50, 10);     </script>
+
+
+    
+
+
+    <div class="container  ">
+            <div id="header">
+                <br class="cbt">
+                <div id="hlogo">
+                    <a href="https://stats.stackexchange.com"
+                        class="js-gps-track"
+                        data-gps-track="top_nav.click({is_current:false, location:2, destination:8})">
+                        Cross Validated
+                    </a>
+                </div>
+                <div id="hmenus">
+                    <div class="nav mainnavs" role="navigation" aria-label="site navigation">
+                        <ul>
+                                <li class="youarehere">
+        <a id="nav-questions"
+           href="/questions"
+           class="js-gps-track"
+           data-gps-track="top_nav.click({is_current:true, location:2, destination:1})">
+        Questions
+        </a>
+    </li>
+
+                                <li>
+        <a id="nav-tags"
+           href="/tags"
+           class="js-gps-track"
+           data-gps-track="top_nav.click({is_current:false, location:2, destination:2})">
+        Tags
+        </a>
+    </li>
+
+                                <li>
+        <a id="nav-users"
+           href="/users"
+           class="js-gps-track"
+           data-gps-track="top_nav.click({is_current:false, location:2, destination:3})">
+        Users
+        </a>
+    </li>
+
+                                <li>
+        <a id="nav-badges"
+           href="/help/badges"
+           class="js-gps-track"
+           data-gps-track="top_nav.click({is_current:false, location:2, destination:4})">
+        Badges
+        </a>
+    </li>
+
+    <li>
+        <a id="nav-unanswered"
+           href="/unanswered"
+           class="js-gps-track"
+           data-gps-track="top_nav.click({is_current:false, location:2, destination:5})">
+        Unanswered
+        </a>
+    </li>
+                        </ul>
+                    </div>
+                    <div class="nav askquestion" role="navigation" aria-label="ask new question">
+                        <ul>
+                            <li>
+                                <a id="nav-askquestion"   href="/questions/ask"  >Ask Question</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                
+        <div id="content">
+
+
+            
+
+
+<div itemscope itemtype="http://schema.org/Question">
+    <link itemprop="image" href="https://cdn.sstatic.net/Sites/stats/img/apple-touch-icon.png?v=8698dcfb5c72">
+
+    <div class="inner-content clearfix">
+    
+    
+
+            <div id="question-header">
+                    <h1 itemprop="name"><a href="/questions/213464/on-the-importance-of-the-i-i-d-assumption-in-statistical-learning" class="question-hyperlink">On the importance of the i.i.d. assumption in statistical learning</a></h1>
+
+            
+
+
+
+        </div>
+            <div id="mainbar" role="main" aria-label="question and answers">
+
+            
+
+<div class="question" data-questionid="213464"  id="question">
+
+    <style>.everyoneloves__top-leaderboard:empty,.everyoneloves__mid-leaderboard:empty{                margin-bottom:0;
+}</style>
+        <div id="dfp-tlb" class="everyonelovesstackoverflow everyoneloves__top-leaderboard"></div>
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="213464">
+        <a class="vote-up-off" title="This question shows research effort; it is useful and clear (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">40</span>
+        <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful (click again to undo)">down vote</a>
+
+        <a class="star-off" href="#">favorite</a>
+        <div class="favoritecount"><b>33</b></div>
+
+
+
+</div>
+
+            </div>
+
+            
+<div class="postcell post-layout--right">
+    <div class="post-text" itemprop="text">
+
+<p>In statistical learning, implicitly or explicitly, one <em>always</em> assumes that the training set $\mathcal{D} = \{ \bf {X}, \bf{y} \}$ is composed of $N$ input/response tuples $({\bf{X}}_i,y_i)$ that are <em>independently drawn from the same joint distribution</em> $\mathbb{P}({\bf{X}},y)$ with</p>
+
+<p>$$ p({\bf{X}},y) = p( y \vert {\bf{X}}) p({\bf{X}}) $$</p>
+
+<p>and $p( y \vert {\bf{X}})$ the relationship we are trying to capture through a particular learning algorithm. Mathematically, this i.i.d. assumption writes:</p>
+
+<p>\begin{gather}
+({\bf{X}}_i,y_i) \sim \mathbb{P}({\bf{X}},y), \forall i=1,...,N \\
+({\bf{X}}_i,y_i) \text{ independent of } ({\bf{X}}_j,y_j), \forall i \ne j \in \{1,...,N\}
+\end{gather}</p>
+
+<p>I think we can all agree that this assumption is <em>rarely satisfied</em> in practice, see this related <a href="https://stats.stackexchange.com/q/82096/109618">SE question</a> and the wise comments of @Glen_b and @Luca.</p>
+
+<p>My question is therefore: </p>
+
+<blockquote>
+  <p>Where exactly does the i.i.d. assumption becomes critical in practice? </p>
+</blockquote>
+
+<p><strong>[Context]</strong> </p>
+
+<p>I'm asking this because I can think of many situations where such a stringent assumption is not needed to train a certain model (e.g. linear regression methods), or at least one can work around the i.i.d. assumption and obtain robust results. Actually the <em>results</em> will usually stay the same, it is rather the <em>inferences</em> that one can draw that will change (e.g. heteroskedasticity and autocorrelation consistent HAC estimators in linear regression: the idea is to re-use the good old OLS regression weights but to adapt the finite-sample behaviour of the OLS estimator to account for the violation of the Gauss-Markov assumptions). </p>
+
+<p>My guess is therefore that <em>the i.i.d. assumption is required not to be able to train a particular learning algorithm, but rather to guarantee that techniques such as cross-validation can indeed be used to infer a reliable measure of the model's capability of generalising well</em>, which is the only thing we are interested in at the end of the day in statistical learning because it shows that we can indeed learn from the data. Intuitively, I can indeed understand that using cross-validation on dependent data could be optimistically biased (as illustrated/explained in <a href="https://github.com/ogrisel/notebooks/blob/master/Non%20IID%20cross-validation.ipynb" rel="noreferrer">this interesting example</a>). </p>
+
+<p>For me i.i.d. has thus nothing to do with <em>training</em> a particular model but everything to do with that model's <em>generalisability</em>. This seems to agree with a paper I found by Huan Xu et al, see "Robustness and Generalizability for Markovian Samples" <a href="https://www.google.be/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=2&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwiThZWy8e_MAhXoFJoKHZXECsIQFggnMAE&amp;url=http%3A%2F%2Fwww.ecmlpkdd2009.net%2Fwp-content%2Fuploads%2F2008%2F09%2Flearning-from-non-iid-data-theory-algorithms-and-practice.pdf&amp;usg=AFQjCNF5eOVWeNsP5OADpQ0oNJRwzWI8uQ&amp;sig2=bVae1fdm8HwKIFu9nOlLVg" rel="noreferrer">here</a>. </p>
+
+<p>Would you agree with that?</p>
+
+<p><strong>[Example]</strong> </p>
+
+<p>If this can help the discussion, consider the problem of using the LASSO algorithm to perform a smart selection amongst $P$ features given $N$ training samples $({\bf{X}}_i,y_i)$ with $\forall i=1,...,N$
+$$ {\bf{X}}_i=[X_{i1},...,X_{iP}] $$
+We can further assume that:</p>
+
+<ul>
+<li>The inputs ${\bf{X}}_i$ are dependent hence leading to a violation of the i.i.d. assumption (e.g. for each feature $j=1,..,P$ we observe a $N$ point time series, hence introducing temporal auto-correlation)</li>
+<li>The conditional responses $y_i \vert {\bf{X}}_i$ are independent.</li>
+<li>We have $P \gg N$. </li>
+</ul>
+
+<p>In what way(s) does the violation of the i.i.d. assumption can pose problem in that case assuming we plan to determine the LASSO penalisation coefficient $\lambda$ using a cross-validation approach (on the full data set) + use a nested cross-validation to get a feel for the generalisation error of this learning strategy (we can leave the discussion concerning the inherent pros/cons of the LASSO aside, except if it is useful).</p>
+    </div>
+
+        <div class="post-taglist grid gs4 gsy fd-column">
+            <div class="grid ps-relative d-block">
+                <a href="/questions/tagged/machine-learning" class="post-tag" title="show questions tagged &#39;machine-learning&#39;" rel="tag">machine-learning</a> <a href="/questions/tagged/cross-validation" class="post-tag" title="show questions tagged &#39;cross-validation&#39;" rel="tag">cross-validation</a> <a href="/questions/tagged/non-independent" class="post-tag" title="show questions tagged &#39;non-independent&#39;" rel="tag">non-independent</a> <a href="/questions/tagged/iid" class="post-tag" title="show questions tagged &#39;iid&#39;" rel="tag">iid</a> 
+            </div>
+        </div>
+
+    <div class="mb0 ">
+        <div class="mt16 pt4 grid gs8 gsy fw-wrap jc-end ai-start">
+            <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/q/213464/189221" title="short permalink to this question" class="short-link" id="link-post-213464">share</a><span class="lsep">|</span><a id="cite-link-213464" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/213464/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>
+            </div>
+
+                <div class="post-signature grid--cell">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="/posts/213464/revisions" title="show all edits to this post">edited <span title="2017-04-13 12:44:56Z" class="relativetime">Apr 13 '17 at 12:44</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/-1/community"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/a007be5a61f6aa8f3e85ae2fc18dd66e?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/-1/community">Community</a><span class="mod-flair" title="moderator">&#9830;</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">1</span>
+        </div>
+    </div>
+</div>                </div>
+            <div class="post-signature owner grid--cell">
+<div class="user-info ">
+    <div class="user-action-time">
+        asked <span title="2016-05-19 13:28:36Z" class="relativetime">May 19 '16 at 13:28</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/109618/quantuple"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/956b2b09051a26d47e5415d28ff67c09?s=32&amp;d=identicon&amp;r=PG&amp;f=1" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/109618/quantuple">Quantuple</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">426</span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="15 bronze badges"><span class="badge3"></span><span class="badgecount">15</span></span>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+                
+    <div class="post-layout--right">
+	    <div id="comments-213464" class="comments js-comments-container ">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="17"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+
+    <li id="comment-405157" class="comment js-comment " data-comment-id="405157">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">1</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">Can you give a reference framework that is of interest to you, so the discussion is not too broad over all method. Are we talking about linear regression here? Or are we talking about point estimation for parameters by using, say MLE? Or are we talking about the CLT framework?</span>
+                    &ndash;&nbsp;<a href="/users/31978/greenparker"
+                       title="11,039 reputation"
+                       class="comment-user">Greenparker</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-19 13:30:51Z" class="relativetime-clean">May 19 '16 at 13:30</span></span>
+                        <span title="this comment was edited 2 times">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="15" viewBox="0 0 14 15"><path d="M8.37 4.7L2 11.11V13h1.88l6.37-6.43zM12.23 3.83L11.1 2.71a.5.5 0 0 0-.7 0L9.2 3.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"/></svg>
+                        </span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-405170" class="comment js-comment " data-comment-id="405170">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">1</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">If you are also assuming $y_i$ dependent, then in penalized logistic regression, one penalizes the log-likelihood. If the data is not independent, then you cannot write down the joint log-likelihood and hence cannot complete the optimization problem associated.</span>
+                    &ndash;&nbsp;<a href="/users/31978/greenparker"
+                       title="11,039 reputation"
+                       class="comment-user">Greenparker</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-19 13:54:18Z" class="relativetime-clean">May 19 '16 at 13:54</span></span>
+                        <span title="this comment was edited 1 time">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="15" viewBox="0 0 14 15"><path d="M8.37 4.7L2 11.11V13h1.88l6.37-6.43zM12.23 3.83L11.1 2.71a.5.5 0 0 0-.7 0L9.2 3.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"/></svg>
+                        </span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-405186" class="comment js-comment " data-comment-id="405186">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">1</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">No, I&#39;m thinking the other way round - if you quickly jump to an iid assumption, you may fail to include lags of $y$, falsely (for purposes like unbiasedness, but also harming predictive power) believing they are not needed.</span>
+                    &ndash;&nbsp;<a href="/users/67799/christoph-hanck"
+                       title="16,280 reputation"
+                       class="comment-user">Christoph Hanck</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-19 14:25:33Z" class="relativetime-clean">May 19 '16 at 14:25</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-405845" class="comment js-comment " data-comment-id="405845">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">2</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">I do not agree that independence assumption is &quot;commonly violated&quot;. Time-series is a very special case -- rather exception than typical example. I.i.d. assumption enables you to simplify your model and build a more parsimonious one and it can be often made (e.g. your cases are <i>randomly</i> drawn, so they can be assumed independent).</span>
+                    &ndash;&nbsp;<a href="/users/35989/tim"
+                       title="53,830 reputation"
+                       class="comment-user">Tim<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-21 20:26:24Z" class="relativetime-clean">May 21 '16 at 20:26</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406372" class="comment js-comment " data-comment-id="406372">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">2</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">In the example, second bullet, the $y_i$&#39;s should not be assumed  conditionally i.i.d. They may be assumed conditionally independent, but the conditional distribution is thought to depend upon $\mathbf{X}_i$, and hence change with $i$.</span>
+                    &ndash;&nbsp;<a href="/users/4376/nrh"
+                       title="13,862 reputation"
+                       class="comment-user">NRH</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-23 18:41:08Z" class="relativetime-clean">May 23 '16 at 18:41</span></span>
+                                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-213464" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link  dno"
+                   title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments."
+                   ></a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link " title="expand to show all comments on this post" href=# onclick="">show <b>17</b> more comments</a>
+        </div>         
+    </div>        </div>
+</div>
+
+
+
+        <div id="answers">
+
+                <a name="tab-top"></a>
+                <div id="answers-header">
+                    <div class="subheader answers-subheader">
+                        <h2 data-answercount="5">
+                                5 Answers
+                                <span style="display:none;" itemprop="answerCount">5</span>
+                        </h2>
+                        <div>
+                            
+<div id="tabs">
+        <a href="/questions/213464/on-the-importance-of-the-i-i-d-assumption-in-statistical-learning?answertab=active#tab-top" data-nav-xhref="" title="Answers with the latest activity first" data-value="active" data-shortcut="A">
+            active</a>
+        <a href="/questions/213464/on-the-importance-of-the-i-i-d-assumption-in-statistical-learning?answertab=oldest#tab-top" data-nav-xhref="" title="Answers in the order they were provided" data-value="oldest" data-shortcut="O">
+            oldest</a>
+        <a class="youarehere is-selected " href="/questions/213464/on-the-importance-of-the-i-i-d-assumption-in-statistical-learning?answertab=votes#tab-top" data-nav-xhref="" title="Answers with the highest score first" data-value="votes" data-shortcut="V">
+            votes</a>
+    </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+  
+<a name="214315"></a>
+<div id="answer-214315" class="answer accepted-answer" data-answerid="214315"   itemprop="acceptedAnswer" itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="214315">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">24</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+        <span class="vote-accepted-on load-accepted-answer-date" title="loading when this answer was accepted...">accepted</span>
+<div class="bounty-award-container"><span class="bounty-award" title="This answer has been awarded bounties worth 100 reputation by Quantuple">+100</span></div>
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>The i.i.d. assumption about the pairs $(\mathbf{X}_i, y_i)$, $i = 1, \ldots, N$, is often made in statistics and in machine learning. Sometimes for a good reason, sometimes out of convenience and sometimes just because we usually make this assumption. To satisfactorily answer if the assumption is really necessary, and what the consequences are of not making this assumption, I would easily end up writing a book (if you ever easily end up doing something like that). Here I will try to give a brief overview of what I find to be the most important aspects.</p>
+
+<h2>A fundamental assumption</h2>
+
+<p>Let's assume that we want to learn a probability model of $y$ given $\mathbf{X}$, which we call $p(y \mid \mathbf{X})$. We do not make any assumptions about this model a priory, but we will make the minimal assumption that such a model exists such that </p>
+
+<ul>
+<li>the conditional distribution of $y_i$ given $X_i$ is $p(y_i \mid X_i)$. </li>
+</ul>
+
+<p>What is worth noting about this assumption is that the conditional distribution of $y_i$ depends on $i$ only through $X_i$. This is what makes the model useful, e.g. for prediction. The assumption holds as a consequence of the <em>identically distributed</em> part under the i.i.d. assumption, but it is weaker because we don't make any assumptions about the $\mathbf{X}_i$'s. </p>
+
+<p>In the following the focus will mostly be on the role of independence.</p>
+
+<h2>Modelling</h2>
+
+<p>There are two major approaches to learning a model of $y$ given $\mathbf{X}$. One approach is known as <em>discriminative</em> modelling and the other as <em>generative</em> modelling. </p>
+
+<ul>
+<li><strong>Discriminative modelling</strong>: We model $p(y \mid \mathbf{X})$ directly, e.g. a logistic regression model, a neural network, a tree or a random forest. The <em>working modelling assumption</em> will typically be that the $y_i$'s are conditionally independent given the $\mathbf{X}_i$'s, though estimation techniques relying on subsampling or bootstrapping make most sense under the i.i.d. or the weaker exchangeability assumption (see below). But generally, for discriminative modelling we don't need to make distributional assumptions about the $\mathbf{X}_i$'s.   </li>
+<li><strong>Generative modelling</strong>: We model the joint distribution, $p(\mathbf{X}, y)$, of $(\mathbf{X}, y)$ typically by modelling the conditional distribution $p(\mathbf{X} \mid y)$ and the marginal distribution $p(y)$. Then we use Bayes's formula for computing $p(y \mid \mathbf{X})$. Linear discriminant analysis and naive Bayes methods are examples. The <em>working modelling assumption</em> will typically be the i.i.d. assumption. </li>
+</ul>
+
+<p>For both modelling approaches the working modelling assumption is used to derive or propose learning methods (or estimators). That could be by maximising the (penalised) log-likelihood, minimising the empirical risk or by using Bayesian methods. Even if the working modelling assumption is wrong, the resulting method can still provide a sensible fit of $p(y \mid \mathbf{X})$.  </p>
+
+<p>Some techniques used together with discriminative modelling, such as bagging (bootstrap aggregation), work by fitting many models to data sampled randomly from the dataset. Without the i.i.d. assumption (or exchangeability) the resampled datasets will not have a joint distribution similar to that of the original dataset. Any dependence structure has become "messed up" by the resampling. I have not thought deeply about this, but I don't see why that should necessarily break the method as a method for learning $p(y \mid \mathbf{X})$. At least not for methods based on the working independence assumptions. I am happy to be proved wrong here.</p>
+
+<h2>Consistency and error bounds</h2>
+
+<p>A central question for all learning methods is whether they result in models close to $p(y \mid \mathbf{X})$. There is a vast theoretical literature in statistics and machine learning dealing with consistency and error bounds. A main goal of this literature is to prove that the learned model is close to $p(y \mid \mathbf{X})$ when $N$ is large. Consistency is a qualitative assurance, while error bounds provide (semi-) explicit quantitative control of the closeness and give rates of convergence. </p>
+
+<p>The theoretical results all rely on assumptions about the joint distribution of the observations in the dataset. Often the working modelling assumptions mentioned above are made (that is, conditional independence for discriminative modelling and i.i.d. for generative modelling). For discriminative modelling, consistency and error bounds will require that the $\mathbf{X}_i$'s fulfil certain conditions. In classical regression one such condition is that $\frac{1}{N} \mathbb{X}^T \mathbb{X} \to \Sigma$ for $N \to \infty$, where $\mathbb{X}$ denotes the design matrix with rows $\mathbf{X}_i^T$. Weaker conditions may be enough for consistency. In sparse learning another such condition is the restricted eigenvalue condition, see e.g. <a href="https://projecteuclid.org/euclid.ejs/1260801227" rel="noreferrer">On the conditions used to prove oracle results for the Lasso</a>. The i.i.d. assumption together with some technical distributional assumptions imply that some such sufficient conditions are fulfilled with large probability, and thus the i.i.d. assumption may prove to be a sufficient but not a necessary assumption to get consistency and error bounds for discriminative modelling.</p>
+
+<p>The working modelling assumption of independence may be wrong for either of the modelling approaches. As a rough rule-of-thumb one can still expect consistency if the data comes from an <em>ergodic process</em>, and one can still expect some error bounds if the process is <em>sufficiently fast mixing</em>. A precise mathematical definition of these concepts would take us too far away from the main question. It is enough to note that there exist dependence structures besides the i.i.d. assumption for which the learning methods can be proved to work as $N$ tends to infinity. </p>
+
+<p>If we have more detailed knowledge about the dependence structure, we may choose to replace the working independence assumption used for modelling with a model that captures the dependence structure as well. This is often done for time series. A better working model may result in a more efficient method.</p>
+
+<h2>Model assessment</h2>
+
+<p>Rather than proving that the learning method gives a model close to $p(y \mid \mathbf{X})$ it is of great practical value to obtain a (relative) assessment of "how good a learned model is". Such assessment scores are comparable for two or more learned models, but they will not provide an absolute assessment of how close a learned model is to $p(y \mid \mathbf{X})$. Estimates of assessment scores are typically computed empirically based on splitting the dataset into a training and a test dataset or by using cross-validation. </p>
+
+<p>As with bagging, a random splitting of the dataset will "mess up" any dependence structure. However, for methods based on the working independence assumptions, ergodicity assumptions weaker than i.i.d. should be sufficient for the assessment estimates to be reasonable, though standard errors on these estimates will be very difficult to come up with. </p>
+
+<p>[<strong>Edit:</strong> Dependence among the variables will result in a distribution of the learned model that differs from the distribution under the i.i.d. assumption. The estimate produced by cross-validation is not obviously related to the generalization error. If the dependence is strong, it will most likely be a poor estimate.] </p>
+
+<h2>Summary (tl;dr)</h2>
+
+<p>All the above is under the assumption that there is a fixed conditional probability model, $p(y \mid \mathbf{X})$. Thus there cannot be trends or sudden changes in the conditional distribution not captured by $\mathbf{X}$. </p>
+
+<p>When learning a model of $y$ given $\mathbf{X}$, independence plays a role as </p>
+
+<ul>
+<li>a useful working modelling assumption that allows us to derive learning methods</li>
+<li>a sufficient but not necessary assumption for proving consistency and providing error bounds</li>
+<li>a sufficient but not necessary assumption for using random data splitting techniques such as bagging for learning and cross-validation for assessment. </li>
+</ul>
+
+<p>To understand precisely what alternatives to i.i.d. that are also sufficient is non-trivial and to some extent a research subject. </p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/214315/189221" title="short permalink to this answer" class="short-link" id="link-post-214315">share</a><span class="lsep">|</span><a id="cite-link-214315" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/214315/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="/posts/214315/revisions" title="show all edits to this post">edited <span title="2016-06-03 15:30:38Z" class="relativetime">Jun 3 '16 at 15:30</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        
+        <div class="-flair">
+            
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2016-05-24 11:10:39Z" class="relativetime">May 24 '16 at 11:10</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/4376/nrh"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/cf5659ca0eed094d9c2d50be9e8a0266?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/4376/nrh">NRH</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 13,862" dir="ltr">13.9k</span><span title="44 silver badges"><span class="badge2"></span><span class="badgecount">44</span></span><span title="61 bronze badges"><span class="badge3"></span><span class="badgecount">61</span></span>
+        </div>
+    </div>
+</div>
+
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-214315" class="comments js-comments-container ">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="0"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+
+    <li id="comment-406612" class="comment js-comment " data-comment-id="406612">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">1</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">This is an extremely well-polished answer. It is spot on and gives me enough reference for self-study, thank you very much for that @NRH I am thrilled. I&#39;ll just leave the bounty to encourage other takes on the question but I already marked this as the accepted answer since it beautifully addresses all my original concerns.</span>
+                    &ndash;&nbsp;<a href="/users/109618/quantuple"
+                       title="426 reputation"
+                       class="comment-user owner">Quantuple</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 12:06:47Z" class="relativetime-clean">May 24 '16 at 12:06</span></span>
+                        <span title="this comment was edited 3 times">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="15" viewBox="0 0 14 15"><path d="M8.37 4.7L2 11.11V13h1.88l6.37-6.43zM12.23 3.83L11.1 2.71a.5.5 0 0 0-.7 0L9.2 3.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"/></svg>
+                        </span>
+                                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-214315" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+<div id="dfp-mlb" class="everyonelovesstackoverflow everyoneloves__mid-leaderboard"></div>
+  
+<a name="214220"></a>
+<div id="answer-214220" class="answer" data-answerid="214220"   itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="214220">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">7</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>What <a href="https://stats.stackexchange.com/questions/82096/is-independent-and-identically-distributed-an-assumption-or-a-fact"><em>i.i.d.</em> assumption</a> states is that random variables are <strong><a href="https://en.wikipedia.org/wiki/Independence_%28probability_theory%29" rel="nofollow noreferrer">independent</a></strong> and <strong><a href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables#cite_note-1" rel="nofollow noreferrer">identically distributed</a></strong>. You can formally define what does it mean, but informally it says that all the variables provide the <em>same kind of information</em> independently of each other (you can read also about related <a href="https://en.wikipedia.org/wiki/Exchangeable_random_variables" rel="nofollow noreferrer">exchangeability</a>).</p>
+
+<p>From the abstract ideas let's jump for a moment to concrete example: in most cases your data can be stored in a matrix, with observations row-wise and variables column-wise. If you assume your data to be <em>i.i.d.</em>, then it means for you that you need to bother only about relations between columns and do not have to bother about relations between rows. If you bothered about both then you would model dependence of columns on columns and rows on rows, i.e. everything on everything. It is very hard to make simplifications and build a statistical <a href="https://stats.stackexchange.com/questions/210403/in-laymans-terms-what-is-the-difference-between-a-model-and-a-distribution/210419#210419">model</a> of everything depending on everything.</p>
+
+<p>You correctly noticed that exchengeability makes it possible for us to use methods such as cross-validation, or bootstrap, but it also makes it possible to use <a href="https://en.wikipedia.org/wiki/Central_limit_theorem" rel="nofollow noreferrer">central limit theorem</a> and it enables us to make simplifications helpful for modeling (thinking in column-wise terms).</p>
+
+<p>As you noticed in the LASSO example, independence assumption is often softened to <a href="https://en.wikipedia.org/wiki/Conditional_independence#Uses_in_Bayesian_inference" rel="nofollow noreferrer">conditional independence</a>. Even in such case we need independent and identically distributed "parts". Similar, softer assumption is often made for time-series models, that you mentioned, that assume <a href="https://en.wikipedia.org/wiki/Stationary_process" rel="nofollow noreferrer">stationarity</a> (so there is dependence but there is also a common distribution and series stabilizes over time -- again "i.i.d." parts). It is a matter of observing a number of similar things that carry the same idea about some general phenomenon. If we have a number of distinct and dependent things we cannot make any generalizations.</p>
+
+<p>What you have to remember is that this is <em>only</em> an assumption, we are not strict about it. It is about having enough things that all, independently, convey similar information about some common phenomenon. If the things influenced each other they would obviously convey similar information so they wouldn't be that useful.</p>
+
+<p>Imagine that you wanted to learn about abilities of children in a classroom, so you give them some tests. You could use the test results as an indicator of the abilities of kids only if they did them by themselves, independently of each other. If they interacted then you'd probably measure abilities of the most clever kid, or the most influential one. It does not mean that you need to assume that there was no interaction, or dependence, between kids whatsoever, but simply that they did the tests by themselves. The kids also need to be "identically distributed", so they cannot come from different countries, speak different languages, be in different ages since it will make it hard to interpret the results (maybe they did not understand the questions and answered randomly). If you can assume that your data is <em>i.i.d.</em> then you can focus on building a general model. You can deal with non-<em>i.i.d.</em> data but then you have to worry about "noise" in your data much more.</p>
+
+<hr>
+
+<p>Besides your main question you are also asking about cross-validation with non-<em>i.i.d.</em> data. While you seem to understate the importance of <em>i.i.d.</em> assumption, at the same time you overstate the problems of not meeting this assumption poses for cross-validation. There are multiple ways how we can deal with such data when using resampling methods like bootstrap, or cross-validation. If you are dealing with time-series you cannot assume that the values are independent, so taking the random fraction of values would be a bad idea because it would ignore the autocorrelated structure of the data. Because of that, with time-series we commonly use <a href="https://www.otexts.org/fpp/2/5" rel="nofollow noreferrer">one step ahead cross-validation</a>, i.e. you take part of the series to predict next value (not used for modeling). Similarly, if your data has <a href="https://stats.stackexchange.com/questions/125614/how-to-bootstrap-panel-data/125623#125623">clustered structure</a>, you <a href="https://stats.stackexchange.com/questions/134324/bootstrapping-at-group-level-time-series-data/134328#134328">sample whole clusters</a> to preserve the nature of the data. So as with modeling, we can deal with non-<em>i.i.d.</em>-sness also when doing cross-validation, but we need to adapt our methods to the nature of the data since methods designed for <em>i.i.d.</em> data do not apply in such cases.</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/214220/189221" title="short permalink to this answer" class="short-link" id="link-post-214220">share</a><span class="lsep">|</span><a id="cite-link-214220" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/214220/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="/posts/214220/revisions" title="show all edits to this post">edited <span title="2017-04-13 12:44:23Z" class="relativetime">Apr 13 '17 at 12:44</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/-1/community"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/a007be5a61f6aa8f3e85ae2fc18dd66e?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/-1/community">Community</a><span class="mod-flair" title="moderator">&#9830;</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">1</span>
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2016-05-23 20:58:10Z" class="relativetime">May 23 '16 at 20:58</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/35989/tim"><div class="gravatar-wrapper-32"><img src="https://i.stack.imgur.com/1wbCe.jpg?s=32&amp;g=1" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/35989/tim">Tim</a><span class="mod-flair" title="moderator">&#9830;</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 53,830" dir="ltr">53.8k</span><span title="9 gold badges"><span class="badge1"></span><span class="badgecount">9</span></span><span title="122 silver badges"><span class="badge2"></span><span class="badgecount">122</span></span><span title="206 bronze badges"><span class="badge3"></span><span class="badgecount">206</span></span>
+        </div>
+    </div>
+</div>
+
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-214220" class="comments js-comments-container ">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="1"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+
+    <li id="comment-406539" class="comment js-comment " data-comment-id="406539">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">I appreciate that you took some time to answer my concerns. While you provided a really nice explanation of what the iid assumption conveys... it leaves me frustrated. (1) For <i>training</i> the LASSO $y_i \vert {\bf{X}}_i$ is enough (since it allows one to write the penalised log-likelihood estimation), but what is the impact of $\bf{X}_i$ not being an iid sample (which is the case if predictors come from a time-series and are hence autocorrelated). (2) Also what is the result of not having exchangeability on the use of cross-validation for instance? (ctd) ...</span>
+                    &ndash;&nbsp;<a href="/users/109618/quantuple"
+                       title="426 reputation"
+                       class="comment-user owner">Quantuple</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 08:22:03Z" class="relativetime-clean">May 24 '16 at 8:22</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406540" class="comment js-comment " data-comment-id="406540">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">(ctd) ... In other words, although your answer definitely sheds some light on the iid concept, I would like to know more on a technical basis: when this is violated, what are the effects?</span>
+                    &ndash;&nbsp;<a href="/users/109618/quantuple"
+                       title="426 reputation"
+                       class="comment-user owner">Quantuple</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 08:22:53Z" class="relativetime-clean">May 24 '16 at 8:22</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406560" class="comment js-comment " data-comment-id="406560">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">@Quantuple then you use methods for non i.i.d. data, e.g. in time-series sample whole blocks of data in bootstrap etc</span>
+                    &ndash;&nbsp;<a href="/users/35989/tim"
+                       title="53,830 reputation"
+                       class="comment-user">Tim<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 09:26:36Z" class="relativetime-clean">May 24 '16 at 9:26</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406567" class="comment js-comment " data-comment-id="406567">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">Thanks again. I indeed remember having read somewhere about such techniques. Is there a source which discusses all potential candidate methods? I&#39;ve just stumbled upon the paper by C. Bergmeir, R. Hyndman, B. Koo &quot;A note on the Validity of Cross-Validation for Evaluating Time Series Prediction&quot; which I will try to read asap.</span>
+                    &ndash;&nbsp;<a href="/users/109618/quantuple"
+                       title="426 reputation"
+                       class="comment-user owner">Quantuple</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 09:41:08Z" class="relativetime-clean">May 24 '16 at 9:41</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406796" class="comment js-comment " data-comment-id="406796">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">1</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">@Quantuple check classic &quot;An Introduction to the Bootstrap&quot; by Efron and Tibshirani and &quot;Bootstrap Methods and Their Application&quot; by Davison and Hinkley to read about bootstrap (same ideas apply to cross-validation); time-series handbooks describe how to use cross-validation and bootstrap for such data (i.e. one step ahead cross-validation). Check also my edit.</span>
+                    &ndash;&nbsp;<a href="/users/35989/tim"
+                       title="53,830 reputation"
+                       class="comment-user">Tim<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 18:50:29Z" class="relativetime-clean">May 24 '16 at 18:50</span></span>
+                                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-214220" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link  dno"
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   ></a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link " title="expand to show all comments on this post" href=# onclick="">show <b>1</b> more comment</a>
+        </div>         
+    </div>    </div>
+</div>
+
+  
+<a name="214290"></a>
+<div id="answer-214290" class="answer" data-answerid="214290"   itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="214290">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">3</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>The only place where one can safely ignored iid is in undergraduate statistics and machine learning courses. You have written that:</p>
+
+<blockquote>
+  <p>one can work around the i.i.d. assumption and obtain robust results. Actually the results will usually stay the same, it is rather the inferences that one can draw that will change...</p>
+</blockquote>
+
+<p>This is only true if the functional form of the models is assumed to be basically correct. But, such an assumption is even less plausible than iid.</p>
+
+<p>There are at least two ways in which iid is critically important in terms of applied modeling:</p>
+
+<ol>
+<li><p>It is an explicit assumption in most statistical inference, as you note in your question. In most real-world modeling, at some stage we need to use inference to test the specification, such as during variable selection and model comparison. So, while each particular model fit may be OK despite iid violations, you can end up choosing the wrong model anyway.</p></li>
+<li><p>I find that thinking through violations of iid is a useful way to think about the data generating mechanism, which in turn helps me think about the appropriate specification of a model a priori. Two examples:</p>
+
+<ul>
+<li>If the data is clustered, this is a violation of iid. A remedy to this may be a mixture model. The inference I will draw from a mixture models is generally completely different to that which I draw from OLS.</li>
+<li>Non-linear relationships between the dependent and independent variables often show up when inspecting residuals as a part of investigating iid.</li>
+</ul></li>
+</ol>
+
+<p>Of course, in pretty much ever model that I have ever built, I have failed in my quest to reduce the distribution of the residuals to anything close to a truly normal distribution. But, nevertheless, I always gain a lot by trying really, really, hard to do it.</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/214290/189221" title="short permalink to this answer" class="short-link" id="link-post-214290">share</a><span class="lsep">|</span><a id="cite-link-214290" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/214290/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2016-05-24 08:19:25Z" class="relativetime">May 24 '16 at 8:19</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/12833/tim"><div class="gravatar-wrapper-32"><img src="https://i.stack.imgur.com/YEwZ1.jpg?s=32&amp;g=1" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/12833/tim">Tim</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">2,574</span><span title="8 silver badges"><span class="badge2"></span><span class="badgecount">8</span></span><span title="23 bronze badges"><span class="badge3"></span><span class="badgecount">23</span></span>
+        </div>
+    </div>
+</div>
+
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-214290" class="comments js-comments-container ">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="0"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+
+    <li id="comment-406557" class="comment js-comment " data-comment-id="406557">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">Thanks for your answer which is very insightful. By the last sentence of (1) do you mean that you can have several models with a decent fit to the observed data, but when you&#39;ll use standard model selection techniques (eg cross-validation) you will not pick the best one (in terms of generalisability) because the inference you draw will be biased due to the IID violation? (2) Seems to me like your talking about IID residuals as part of  a functional specification (eg regression residuals) which does not invalidate what you write (ctd) ...</span>
+                    &ndash;&nbsp;<a href="/users/109618/quantuple"
+                       title="426 reputation"
+                       class="comment-user owner">Quantuple</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 09:15:07Z" class="relativetime-clean">May 24 '16 at 9:15</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406558" class="comment js-comment " data-comment-id="406558">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">(ctd) ... but the original question was related to non iid training examples (x,y) not non iid residuals after estimating a model. I guess my question could be, when you have non iid training examples (eg time series), do you have to add a pre-processing step to make them iid ? If you don&#39;t, and apply the standard procedure to estimate / cross-validate your model, where is the caveat?</span>
+                    &ndash;&nbsp;<a href="/users/109618/quantuple"
+                       title="426 reputation"
+                       class="comment-user owner">Quantuple</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 09:17:22Z" class="relativetime-clean">May 24 '16 at 9:17</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406577" class="comment js-comment " data-comment-id="406577">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">1</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">When you have non iid training examples, the idea is to find a model that takes the non-iid nature into account and produces residuals that are iid. While there are some problems where it makes sense to pre-process the data (e.g., transformations of variables in linear regression), many iid problems are better addressed by finding a model that explicitly addresses the iid problem. E.g., transfer functions in time series, or hierarchical models in cross-sectional data.</span>
+                    &ndash;&nbsp;<a href="/users/12833/tim"
+                       title="2,574 reputation"
+                       class="comment-user">Tim</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 10:19:34Z" class="relativetime-clean">May 24 '16 at 10:19</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406581" class="comment js-comment " data-comment-id="406581">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">I agree with the fact that, because time series data usually exhibit some form of dependency, it is natural to aim at capturing this via statistical models tailored to do so e.g. transfer functions. This is as far as training is concerned. Now, as far as cross-validation (CV) is concerned, I guess that I also need special methods to account for non iid-ness? I mean using transfer functions did not change the fact that my data is not iid in the first place. Is there a list of such special methods somewhere? How big is the optimistic bias when using standard CV method with non iid data?</span>
+                    &ndash;&nbsp;<a href="/users/109618/quantuple"
+                       title="426 reputation"
+                       class="comment-user owner">Quantuple</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 10:34:36Z" class="relativetime-clean">May 24 '16 at 10:34</span></span>
+                        <span title="this comment was edited 1 time">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="15" viewBox="0 0 14 15"><path d="M8.37 4.7L2 11.11V13h1.88l6.37-6.43zM12.23 3.83L11.1 2.71a.5.5 0 0 0-.7 0L9.2 3.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"/></svg>
+                        </span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406924" class="comment js-comment " data-comment-id="406924">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">1</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">It would depend on the nature of the cross-validation method and the problem. I think the trick is to use cross-validation methods that are not implicitly structured around iid. For example, a jacknife would make little sense. But, splitting the sample into estimation, test and validation samples, probably would. But, this is really a different question to your original one, and it is not my area of expertise.</span>
+                    &ndash;&nbsp;<a href="/users/12833/tim"
+                       title="2,574 reputation"
+                       class="comment-user">Tim</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-25 00:50:29Z" class="relativetime-clean">May 25 '16 at 0:50</span></span>
+                                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-214290" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+
+  
+<a name="214321"></a>
+<div id="answer-214321" class="answer" data-answerid="214321"   itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="214321">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">1</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>I would like to stress that in some circumstances, the data are <strong>not</strong> i.i.d. and statistical learning is still possible. It is crucial to have an identifiable model for the joint distribution of all observations; if the observations are i.i.d. then this joint distribution is easily obtained from the marginal distribution of single observations. But in some cases, the joint distribution is given directly, without resorting to a marginal distribution.</p>
+
+<p>A widely used model in which the observations are not i.i.d. is the linear mixed model:
+$$\let\epsilon\varepsilon Y = X \alpha + Z u + \epsilon $$
+with $\def\R{\mathbb{R}}Y \in \R^n$, $X \in \R^{n\times p}$, $\alpha \in \R^p$, $Z \in \R^{n\times q}$, $u \in \R^q$, and $\epsilon\in\R^n$. The (design) matrix $X$ and $Z$ are considered as fixed, $\alpha$ is a vector of parameters, $u$ is a random vector $\def\N{\mathcal{N}} u\sim \N(0,\tau I_q)$ and $\epsilon \sim \N(0,\sigma^2 I_n)$, $\tau$ and $\sigma^2$ being parameters of the model.</p>
+
+<p>This model is best expressed by giving the distribution of $Y$:
+$$Y \sim \N(X\alpha, \tau ZZ' + \sigma^2 I_n).$$
+The parameters to be learned are $\alpha$, $\tau$, $\sigma^2$. A single vector $Y$ of dimension $n$ is observed; its components are not i.i.d. </p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/214321/189221" title="short permalink to this answer" class="short-link" id="link-post-214321">share</a><span class="lsep">|</span><a id="cite-link-214321" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/214321/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="/posts/214321/revisions" title="show all edits to this post">edited <span title="2016-05-24 14:39:17Z" class="relativetime">May 24 '16 at 14:39</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        
+        <div class="-flair">
+            
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2016-05-24 11:40:56Z" class="relativetime">May 24 '16 at 11:40</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/8076/elvis"><div class="gravatar-wrapper-32"><img src="https://i.stack.imgur.com/FSetO.png?s=32&amp;g=1" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/8076/elvis">Elvis</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 10,246" dir="ltr">10.2k</span><span title="25 silver badges"><span class="badge2"></span><span class="badgecount">25</span></span><span title="49 bronze badges"><span class="badge3"></span><span class="badgecount">49</span></span>
+        </div>
+    </div>
+</div>
+
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-214321" class="comments js-comments-container  dno">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="0"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+            </ul>
+	    </div>
+
+        <div id="comments-link-214321" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+
+  
+<a name="214277"></a>
+<div id="answer-214277" class="answer" data-answerid="214277"   itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="214277">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">1</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>In my opinion there are two rather mundane reasons why the i.i.d. assumption is important in statistical learning (or statistics in general).</p>
+
+<ol>
+<li><p>Lots of behind the scenes mathematics depend on this assumption. If you want to prove that your learning method actually works for more than one data set, i.i.d. assumption will crop up eventually. It is possible to avoid it, but mathematics becomes several times harder. </p></li>
+<li><p>If you want to learn something from data, you need to assume that there is something to learn. Learning is impossible if every data point is generated by different mechanism. So it is essential to assume that something unifies given data set. If we assume that data is random, then this something is naturally a probability distribution, because probability distribution encompasses all information about the random variable. </p>
+
+<p>So if we have data $x_1,...,x_n$ ($x_i$ can be either a vector or scalar), we assume that it comes from distribution $F_n$: </p>
+
+<p>$$(x_1,...,x_n)\sim F_n.$$ </p>
+
+<p>Here we have a problem. We need to ensure that $F_n$ is related to $F_m$, for different $n$ and $m$, otherwise we have the initial problem, that every data point is generated differently. The second problem is that although we have $n$ data points, we basically have one data point for estimating $F_n$, because $F_n$ is $n$-variate probability distribution. The most simple solution for these two problems is an i.i.d assumption. With it $F_n=F^n,$ where $x_i\sim F$. We get very clear relationship between $F_n$ and $F_m$ and we have $n$ data points to estimate one $F$. There are other ways these two problems are solved, but it is essential to note that every statistical learning method needs to solve this problem and it so happens that i.i.d. assumption is by far the most uncomplicated way to do it.</p></li>
+</ol>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/214277/189221" title="short permalink to this answer" class="short-link" id="link-post-214277">share</a><span class="lsep">|</span><a id="cite-link-214277" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/214277/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2016-05-24 07:18:55Z" class="relativetime">May 24 '16 at 7:18</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/2116/mpiktas"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/8875e5d3d38e0a7939efcf0d676cc57e?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/2116/mpiktas">mpiktas</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 28,637" dir="ltr">28.6k</span><span title="4 gold badges"><span class="badge1"></span><span class="badgecount">4</span></span><span title="63 silver badges"><span class="badge2"></span><span class="badgecount">63</span></span><span title="124 bronze badges"><span class="badge3"></span><span class="badgecount">124</span></span>
+        </div>
+    </div>
+</div>
+
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-214277" class="comments js-comments-container ">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="0"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+
+    <li id="comment-406553" class="comment js-comment " data-comment-id="406553">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">Thanks your interesting take on the question. As far as your first point is concerned, it is indeed easy to conceive that the iid assumption will spring in somewhere in the reasoning, but would you happen to have a reference (not that I don&#39;t believe, just that I would like to know where exactly). Your second point is crystal clear and I had never thought of it that way. But for training, this distribution of &quot;input&quot; data $x$ is of no concern to the modeller in general, right? In the LASSO example, we are only concerned in the conditional independent of responses $y$ given inputs $x$ (ctd) ...</span>
+                    &ndash;&nbsp;<a href="/users/109618/quantuple"
+                       title="426 reputation"
+                       class="comment-user owner">Quantuple</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 09:02:50Z" class="relativetime-clean">May 24 '16 at 9:02</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406554" class="comment js-comment " data-comment-id="406554">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">(ctd) ... but as you&#39;ve stated it in your first bullet point, the assumption of iid training examples will come back when we&#39;ll be looking at the generalisation properties of the LASSO. What would be nice (and what I am desperately looking for I guess) is a reference/simple technical explanation which shows how the violation of the iid assumption introduces an optimistic bias in the cross-validation estimator for instance.</span>
+                    &ndash;&nbsp;<a href="/users/109618/quantuple"
+                       title="426 reputation"
+                       class="comment-user owner">Quantuple</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 09:04:45Z" class="relativetime-clean">May 24 '16 at 9:04</span></span>
+                        <span title="this comment was edited 3 times">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="15" viewBox="0 0 14 15"><path d="M8.37 4.7L2 11.11V13h1.88l6.37-6.43zM12.23 3.83L11.1 2.71a.5.5 0 0 0-.7 0L9.2 3.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"/></svg>
+                        </span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406562" class="comment js-comment " data-comment-id="406562">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">Distribution of input data is important. If we do not assume that the distribution of data is somehow fixed, then we can have no confidence that training will result in a robust model, i.e. one that perform well on test data. Suppose that iid assumption fails, or rather that independence assumption is not violated but the data need not be identicaly distributed. This means that DGP can be the following: $y_i = \alpha + \beta_1 x_{1i} + \varepsilon_i$ for $i=1,...,n/2$ and $y_i=\alpha+\beta_2x_{2i}+\varepsilon_i$, for $i=n/2+1,...,n$. Suppose $x_{1i}$ and $x_{2i}$ are independent.</span>
+                    &ndash;&nbsp;<a href="/users/2116/mpiktas"
+                       title="28,637 reputation"
+                       class="comment-user">mpiktas</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 09:34:13Z" class="relativetime-clean">May 24 '16 at 9:34</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406565" class="comment js-comment " data-comment-id="406565">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">Now pick a training set $i=1,...,n/2$ and a test set $i=n/2+1,...,n$. No matter which training method you chose, it will perform horribly on the test set, since the data is generated by two different processes, which are not identical. This is a contrived example, but nothing precludes it from happening in real statistical learning example.</span>
+                    &ndash;&nbsp;<a href="/users/2116/mpiktas"
+                       title="28,637 reputation"
+                       class="comment-user">mpiktas</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 09:37:04Z" class="relativetime-clean">May 24 '16 at 9:37</span></span>
+                        <span title="this comment was edited 1 time">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="15" viewBox="0 0 14 15"><path d="M8.37 4.7L2 11.11V13h1.88l6.37-6.43zM12.23 3.83L11.1 2.71a.5.5 0 0 0-.7 0L9.2 3.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"/></svg>
+                        </span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-406570" class="comment js-comment " data-comment-id="406570">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body" style="display: block;" >
+                <span class="comment-copy">Yes absolutely... I wrote too fast and it resulted in a very unclear comment. When I wrote &quot;distribution of input data $x$ is of no concern to the modeller&quot;, I was actually thinking about the fact that the independent part of the iid assumption is not relevant when estimating a model (since it doesn&#39;t impact the regression function $E[y \vert X]$). As far as the identical part of the iid assumption is concerned, it is indeed a necessary assumption to set the whole statistical inference wheel into motion (it avoids in your words that &quot;every data point is generated by different mechanism&quot;).</span>
+                    &ndash;&nbsp;<a href="/users/109618/quantuple"
+                       title="426 reputation"
+                       class="comment-user owner">Quantuple</a>
+                <span class="comment-date" dir="ltr"><span title="2016-05-24 09:55:15Z" class="relativetime-clean">May 24 '16 at 9:55</span></span>
+                        <span title="this comment was edited 1 time">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="15" viewBox="0 0 14 15"><path d="M8.37 4.7L2 11.11V13h1.88l6.37-6.43zM12.23 3.83L11.1 2.71a.5.5 0 0 0-.7 0L9.2 3.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"/></svg>
+                        </span>
+                                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-214277" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+                                    <a name='new-answer'></a>
+                        <form id="post-form" action="/questions/213464/answer/submit" method="post"  class="post-form">
+                            <input type="hidden" id="post-id" value="213464" />
+                            <input type="hidden" id="qualityBanWarningShown" name="qualityBanWarningShown" value="false" />
+                            <input type="hidden" name="referrer" value="https://www.google.com/"/>
+                            <h2 class="space">Your Answer</h2>
+
+
+        <script>
+            StackExchange.ifUsing("editor", function () {
+                return StackExchange.using("mathjaxEditing", function () {
+                    StackExchange.MarkdownEditor.creationCallbacks.add(function (editor, postfix) {
+                        StackExchange.mathjaxEditing.prepareWmdForMathJax(editor, postfix, [["$", "$"], ["\\\\(","\\\\)"]]);
+                    });
+                });
+            }, "mathjax-editing");
+        </script>
+
+        
+
+<script>
+    StackExchange.ready(function() {
+        var channelOptions = {
+            tags: "".split(" "),
+            id: "65"
+        };
+        initTagRenderer("".split(" "), "".split(" "), channelOptions);
+       
+        StackExchange.using("externalEditor", function() {
+                // Have to fire editor after snippets, if snippets enabled
+                if (StackExchange.settings.snippets.snippetsEnabled) {
+                    StackExchange.using("snippets", function() {
+                        createEditor();
+                    });
+                }
+                else {
+                    createEditor();
+                }
+            });
+
+            function createEditor() {
+                StackExchange.prepareEditor({
+                    heartbeatType: 'answer',
+                convertImagesToLinks: false,
+                noModals: true,
+                showLowRepImageUploadWarning: true,
+                reputationToPostImages: null,
+                bindNavPrevention: true,
+                postfix: "",
+                imageUploader: {
+                    brandingHtml: "Powered by \u003ca class=\"icon-imgur-white\" href=\"https://imgur.com/\"\u003e\u003c/a\u003e",
+                    contentPolicyHtml: "User contributions licensed under \u003ca href=\"https://creativecommons.org/licenses/by-sa/3.0/\"\u003ecc by-sa 3.0 with attribution required\u003c/a\u003e \u003ca href=\"https://stackoverflow.com/legal/content-policy\"\u003e(content policy)\u003c/a\u003e",
+                    allowUrls: true
+                },
+                    onDemand: false,
+                    discardSelector: ".discard-answer"
+                    ,immediatelyShowMarkdownHelp:true,userId:189221
+                    });
+                
+
+        }
+    });
+</script>
+
+
+<div id="post-editor" class="post-editor js-post-editor wz-element" data-wz-state="3,4,5,6,7,8">
+
+    <div style="position: relative;"> 
+        <div class="wmd-container">
+            <div id="wmd-button-bar" class="wmd-button-bar btr-sm"></div>
+                        <div class="js-stacks-validation">
+                <div class="ps-relative">
+                    <textarea id="wmd-input" class="wmd-input wz-element s-input bar0" name="post-text" cols="92" rows="15" tabindex="101" data-wz-state="8" data-min-length=""></textarea>
+                </div>
+                <div class="s-input-message mt4 d-none js-stacks-validation-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved" class="draft-saved community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
+
+    <div id="draft-discarded" class="draft-discarded community-option fl" style="margin-top: 8px; height:24px; display:none;">draft discarded</div>
+
+
+
+    <div id="wmd-preview" class="wmd-preview"></div>
+    <div></div>
+    <div class="edit-block">
+        <input id="fkey" name="fkey" type="hidden" value="dc7346a2fd1f75e6a6951880592a1799cf0e982bac8aff26d58442da8b73f834">
+        <input id="author" name="author" type="text">
+    </div>
+
+
+
+</div>
+
+                            <div style="position: relative;">
+                                
+                                
+                            </div>
+
+                                                            <div class="form-submit cbt">
+                                            <input id="submit-button" type="submit" value="Post Your Answer" tabindex="110">
+                                        <a href="#" class="btn-clear discard-answer dno">discard</a>
+                                                                    </div>
+                        </form>
+
+
+
+                        <h2 class="bottom-notice" data-loc="1">
+Not the answer you&#39;re looking for?                            Browse other questions tagged <a href="/questions/tagged/machine-learning" class="post-tag" title="show questions tagged &#39;machine-learning&#39;" rel="tag">machine-learning</a> <a href="/questions/tagged/cross-validation" class="post-tag" title="show questions tagged &#39;cross-validation&#39;" rel="tag">cross-validation</a> <a href="/questions/tagged/non-independent" class="post-tag" title="show questions tagged &#39;non-independent&#39;" rel="tag">non-independent</a> <a href="/questions/tagged/iid" class="post-tag" title="show questions tagged &#39;iid&#39;" rel="tag">iid</a>  or <a href="/questions/ask">ask your own question</a>.                        </h2>
+            </div>
+        </div>
+                <div id="sidebar" class="show-votes" role="complementary" aria-label="sidebar">
+
+<script>
+    window.showNewUser = false;
+
+</script>
+
+<div class="module newuser newuser-greeting" id="newuser-box" style="display:none;">
+    <h4>Welcome!</h4>
+    <div>
+        <p>This is a collaboratively edited question and answer site for <b>people interested in statistics, machine learning, data analysis, data mining, and data visualization</b>. It's 100% free, no registration required.</p><p>Got a question about the site itself? <a href="https://stats.meta.stackexchange.com">meta</a> is the place to talk about things like what questions are appropriate, what tags we should use, etc.</p>
+        <p class="ar">
+                <a href="/tour?mnu=1">about &raquo;</a>&nbsp;&nbsp;&nbsp;
+            <a href="/help?mnu=1">help &raquo;</a>
+                &nbsp; <a href="https://stats.meta.stackexchange.com">meta &raquo;</a>
+        </p>
+    </div>
+</div>
+    <script>
+    if (showNewUser) {
+        document.getElementById('newuser-box').style.display = '';
+    }
+    </script>                            <div class="module question-stats">
+                    <table id="qinfo">
+                        <tr>
+                            <td>
+                                <p class="label-key">asked</p>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <p class="label-key" title="2016-05-19 13:28:36Z"><b>2 years, 5 months ago</b></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="label-key">viewed</p>
+                            </td>
+
+                            <td style="padding-left: 10px">
+                                <p class="label-key">
+                                    <b>8,497 times</b>
+                                </p>
+                            </td>
+                        </tr>
+                            <tr>
+                                <td>
+                                    <p class="label-key">active</p>
+                                </td>
+                                <td style="padding-left: 10px">
+                                    <p class="label-key"><b><a href="?lastactivity" class="lastactivity-link" title="2016-06-03 15:30:38Z">2 years, 5 months ago</a></b></p>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+            <div class="module community-bulletin" data-tracker="cb=1">
+    <div class="related">
+                <div class="bulletin-title">
+                    Featured on Meta
+                </div>
+                <hr />
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <a href="https://meta.stackexchange.com/questions/317576/editor-improvements-for-images-and-links" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackexchange.com/questions/317576/editor-improvements-for-images-and-links&quot;,null,null]">
+<div class="favicon favicon-stackexchangemeta" title="Meta Stack Exchange"></div>                </a>
+        </div>
+        <div class="bulletin-item-content">
+            <a href="https://meta.stackexchange.com/questions/317576/editor-improvements-for-images-and-links" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackexchange.com/questions/317576/editor-improvements-for-images-and-links&quot;,null,null]">Editor improvements for images and links</a>
+        </div>
+        <br class="cbt" />
+    </div>
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <a href="https://meta.stackexchange.com/questions/305560/2018-monthly-product-team-updates" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackexchange.com/questions/305560/2018-monthly-product-team-updates&quot;,null,null]">
+<div class="favicon favicon-stackexchangemeta" title="Meta Stack Exchange"></div>                </a>
+        </div>
+        <div class="bulletin-item-content">
+            <a href="https://meta.stackexchange.com/questions/305560/2018-monthly-product-team-updates" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackexchange.com/questions/305560/2018-monthly-product-team-updates&quot;,null,null]">2018 monthly product team updates</a>
+        </div>
+        <br class="cbt" />
+    </div>
+    </div>
+</div>
+            
+<div id="dfp-tsb" class="everyonelovesstackoverflow everyoneloves__top-sidebar"></div>
+            <div id="hireme"></div>
+<script>;try{(function(a){function b(a){return'string'==typeof a?document.getElementById(a):a}function c(a){return a=b(a),!!a&&'none'===getComputedStyle(a).display}function d(a){return!c(a)}function e(a){return!!a}function f(a){return /^\s*$/.test(b(a).innerHTML)}function g(a){var b=a.style;b.height=b.maxHeight=b.minHeight='auto',b.display='none',[].forEach.call(a.children,g)}function h(a,b){var c;return function(){return a&&(c=a.call(b||this,arguments),a=null),c}}function i(a){var b=document.createElement('script');b.src=a,document.body.appendChild(b)}function j(a){return k([],a)}function k(a,b){return a.push=function(a){return b(),delete this.push,this.push(a)},a}function l(){try{return!new Function('return async()=>{};')}catch(a){return!0}}function m(){return'undefined'!=typeof googletag&&!!googletag.apiReady}function n(){m()||(googletag={cmd:j(A)})}function o(){var a=document.createElement('div');a.className='adsbox',a.id='clc-abd',a.style.position='absolute',a.style.pointerEvents='none',a.innerHTML='&nbsp;',document.body.appendChild(a)}function p(a){var b=a.serviceName,c=a.slot,d=a.lineItemId;try{var e=c.getSlotElementId(),f=[];e||f.push('id=0');var h=document.getElementById(e);if(!e||h?h.hasAttribute('data-clc-stalled')&&f.push('st=1'):f.push('el=0'),0!==f.length)return void B(f.join('&'));-1===x.dh.indexOf(d)?h.setAttribute('data-clc-prefilled','true'):g(h),h.setAttribute('data-clc-ready','true')}catch(a){var i=document.querySelector('#dfp-tsb, #dfp-isb, #clc-tsb');i&&i.setAttribute('data-clc-ready','true'),B('e=1')}}function q(){return Object.keys(F.ids)}function r(a){var b=F.ids[a],c=F.slots[b];'function'==typeof c&&(c=c(a));return{path:'/'+C+'/'+E+'/'+b+'/'+D,sizes:c,zone:b}}function s(a){return!(clc.collapse&&void 0!==clc.collapse[a])||!!clc.collapse[a]}function t(a,b){'dfp-isb'===a&&b.setTargeting('Sidebar',['Inline']),'dfp-tsb'===a&&b.setTargeting('Sidebar',['Right']);var c=r(a),d=c.path,e=c.sizes,f=c.zone,g=googletag.defineSlot(d,e,a);s(f)&&g.setCollapseEmptyDiv(!0,!0),g.addService(b),!1}function u(b){var c=a.dfp&&a.dfp.targeting||{};Object.keys(c).forEach(function(a){b.setTargeting(a,c[a])})}function v(a){var g=a.map(b).filter(e);return{eligible:g.filter(f).filter(d).map(function(a){return a.id}),ineligible:g.filter(c)}}function w(b){if(void 0===b&&(b=q()),!m())return n(),void googletag.cmd.push(function(){return w(b)});var c=v(b),d=c.eligible,e=c.ineligible;if(e.forEach(g),0!==d.length){o(),googletag.destroySlots();var f=googletag.pubads();f.enableSingleRequest(),a.sreEvent||(f.addEventListener('slotRenderEnded',p),a.sreEvent=!0),u(f),d.forEach(function(a){return t(a,f)}),googletag.enableServices(),d.forEach(function(a){googletag.display(a)})}}var x=function(a){for(var b=[],c=1;c<arguments.length;c++)b[c-1]=arguments[c];for(var d,e=0,f=b;e<f.length;e++)for(var g in d=f[e],d)a[g]=d[g];return a}({"lib":"https://cdn.sstatic.net/clc/clc.min.js?v=04d772c81312","style":"https://cdn.sstatic.net/clc/styles/clc.min.css?v=1db48f495ba1","u":"https://clc.stackoverflow.com/markup.js","wa":true,"kt":2000,"tto":true,"h":"clc.stackoverflow.com","allowed":"^(((talent\\.)?stackoverflow)|(blog\\.codinghorror)|(serverfault|askubuntu)|([^\\.]+\\.stackexchange))\\.com$","wv":true,"al":false,"dh":[4385506061,4386578282,4386579572]},a.options||{}),y=h(function(){var a=x.lib;l()&&(a=a.replace(/(\.min)?\.js(\?v=[0-9a-fA-F]+)?$/,'.ie$1.js$2')),i(a)}),z=a.cmd||[];Array.isArray(z)&&(0<z.length?y():k(z,y));var A=h(function(){i('https://www.googletagservices.com/tag/js/gpt.js')}),B=function(a){new Image().src='https://'+x.h+'/stalled.gif?'+a},C='248424177',D=/^\/tags\//.test(location.pathname)||/^\/questions\/tagged\//.test(location.pathname)?'tag-pages':'question-pages',E=location.hostname;var F={slots:{lb:[[728,90]],mlb:[[728,90]],sb:function(a){return'dfp-tsb'===a?[[300,250],[300,600]]:[[300,250]]},"tag-sponsorship":[[730,135]],"mobile-below-question":[[320,50],[300,250]]},ids:{"dfp-tlb":'lb',"dfp-mlb":'mlb',"dfp-tsb":'sb',"dfp-isb":'sb',"dfp-tag":'tag-sponsorship',"dfp-m-aq":'mobile-below-question',"clc-tlb":'lb',"clc-mlb":'mlb',"clc-tsb":'sb'}};(function(){var b=x.al;b&&z.push(function(){return a.load()})})(),n(),a.dfp={load:w},a.options=x,a.cmd=z})(this.clc=this.clc||{})}catch(a){window.console.error(a)}</script>            <script>
+                var clc = clc || {};
+                clc.collapse = { sb: !0,'tag-sponsorship':!0,lb:!0,mlb:!0,'mobile-below-question':!0};
+                clc.cmd = clc.cmd || [];
+                clc.cmd.push(function () { window.clc_request='AlSGh35FQNYI3pWYANhBAwAOAAAAAgAAAAM3AAAAfG1hY2hpbmUtbGVhcm5pbmd8Y3Jvc3MtdmFsaWRhdGlvbnxub24taW5kZXBlbmRlbnR8aWlkfABm4uqPVpe0qlva'; clc.load(); });
+                                clc.dfp = clc.dfp || {};
+                clc.dfp.targeting = {Registered:['true'],'ron-tag':['machine-learning','cross-validation','non-independent','iid'],Industry:['Electronics'],CompanySize:['large'],Persona:['BigData']};
+                
+                var googletag = googletag || {};
+                googletag.cmd = googletag.cmd || [];
+                googletag.cmd.push(function () { clc.dfp.load(); });
+            </script>
+            <div class="module sidebar-linked">
+	<h4 id="h-linked">Linked</h4>
+	<div class="linked" data-tracker="lq=1">
+
+<div class="spacer">
+	<a href="/q/231425" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">20</div>
+	</a>
+	<a href="/questions/231425/can-someone-help-to-explain-the-difference-between-independent-and-random?noredirect=1" class="question-hyperlink">Can someone help to explain the difference between independent and random?</a>
+</div>
+<div class="spacer">
+	<a href="/q/210403" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">26</div>
+	</a>
+	<a href="/questions/210403/in-laymans-terms-what-is-the-difference-between-a-model-and-a-distribution?noredirect=1" class="question-hyperlink">In layman&#39;s terms what is the difference between a model and a distribution?</a>
+</div>
+<div class="spacer">
+	<a href="/q/259704" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">17</div>
+	</a>
+	<a href="/questions/259704/is-there-i-i-d-assumption-on-logistic-regression?noredirect=1" class="question-hyperlink">Is there i.i.d. assumption on logistic regression?</a>
+</div>
+<div class="spacer">
+	<a href="/q/82096" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">6</div>
+	</a>
+	<a href="/questions/82096/is-independent-and-identically-distributed-an-assumption-or-a-fact?noredirect=1" class="question-hyperlink">Is &ldquo; independent and identically distributed&rdquo; an assumption or a fact ?</a>
+</div>
+<div class="spacer">
+	<a href="/q/125614" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">2</div>
+	</a>
+	<a href="/questions/125614/how-to-bootstrap-panel-data?noredirect=1" class="question-hyperlink">How to bootstrap panel data?</a>
+</div>
+<div class="spacer">
+	<a href="/q/242406" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">6</div>
+	</a>
+	<a href="/questions/242406/simulating-the-impact-of-non-iid-data-on-a-model?noredirect=1" class="question-hyperlink">Simulating the impact of non-IID data on a model</a>
+</div>
+<div class="spacer">
+	<a href="/q/339694" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">2</div>
+	</a>
+	<a href="/questions/339694/iid-in-real-life-machine-learning-when-is-data-truly-iid?noredirect=1" class="question-hyperlink">IID in real life /Machine Learning - When is data truly IID?</a>
+</div>
+<div class="spacer">
+	<a href="/q/263024" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">1</div>
+	</a>
+	<a href="/questions/263024/different-assumptions-between-independent-normal-and-multivariate-normal-distrib?noredirect=1" class="question-hyperlink">Different assumptions between independent normal and multivariate normal distributions</a>
+</div>
+<div class="spacer">
+	<a href="/q/134324" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">2</div>
+	</a>
+	<a href="/questions/134324/bootstrapping-at-group-level-time-series-data?noredirect=1" class="question-hyperlink">Bootstrapping at group level (time series data)</a>
+</div>
+<div class="spacer">
+	<a href="/q/332403" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">0</div>
+	</a>
+	<a href="/questions/332403/but-what-is-a-random-experiment?noredirect=1" class="question-hyperlink">But what is a random experiment</a>
+</div>					<div class="spacer more">
+				<a href="/questions/linked/213464">see more linked questions…</a>
+			</div>
+	</div>
+</div>
+
+                <div class="module sidebar-related">
+                    <h4 id="h-related">Related</h4>
+                    <div class="related js-gps-related-questions" data-tracker="rq=1">
+                        <div class="spacer"><a href="/q/11737" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">2</div></a><a href="/questions/11737/cross-validating-for-model-parameters-with-time-series" class="question-hyperlink">Cross-validating for model parameters with time series</a></div><div class="spacer"><a href="/q/34807" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">10</div></a><a href="/questions/34807/can-a-model-of-pyx-be-trained-via-stochastic-gradient-descent-from-non-i-i-d" class="question-hyperlink">Can a model of P(Y|X) be trained via stochastic gradient descent from non-i.i.d. samples of P(X) and i.i.d. samples of P(Y|X)?</a></div><div class="spacer"><a href="/q/38012" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">4</div></a><a href="/questions/38012/comparing-performance-after-cv-over-a-single-dataset-does-it-violate-the-indep" class="question-hyperlink">Comparing performance after CV over a single dataset : does it violate the independence assumption?</a></div><div class="spacer"><a href="/q/64991" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">31</div></a><a href="/questions/64991/model-selection-and-cross-validation-the-right-way" class="question-hyperlink">Model selection and cross-validation: The right way</a></div><div class="spacer"><a href="/q/95797" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">64</div></a><a href="/questions/95797/how-to-split-the-dataset-for-cross-validation-learning-curve-and-final-evaluat" class="question-hyperlink">How to split the dataset for cross validation, learning curve, and final evaluation?</a></div><div class="spacer"><a href="/q/126827" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">1</div></a><a href="/questions/126827/cross-validation-in-semi-supervised-learning" class="question-hyperlink">Cross validation in semi-supervised learning</a></div><div class="spacer"><a href="/q/261181" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">3</div></a><a href="/questions/261181/cross-validation-deep-learning" class="question-hyperlink">Cross validation Deep learning</a></div><div class="spacer"><a href="/q/277673" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">3</div></a><a href="/questions/277673/how-does-cross-validation-fit-in-the-training-validation-and-testing-phases" class="question-hyperlink">How does cross-validation fit in the training, validation and testing phases?</a></div><div class="spacer"><a href="/q/279000" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">2</div></a><a href="/questions/279000/after-using-cross-validation-is-a-separate-train-test-split-necessary-for-gener" class="question-hyperlink">after using cross-validation, is a separate train-test split necessary for generating a model?</a></div><div class="spacer"><a href="/q/318320" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">2</div></a><a href="/questions/318320/i-i-d-assumption-for-pairwise-data-generated-from-clusters" class="question-hyperlink">i.i.d. assumption for pairwise data generated from clusters</a></div>
+                    </div>
+                </div>
+
+<div id="hot-network-questions" class="module tex2jax_ignore">
+    <h4>
+        <a href="https://stackexchange.com/questions?tab=hot"
+           class="js-gps-track s-link s-link__inherit" 
+           data-gps-track="posts_hot_network.click({ item_type:1, location:11 })">
+            Hot Network Questions
+        </a>
+    </h4>
+    <ul>
+            <li >
+                <div class="favicon favicon-security" title="Information Security Stack Exchange"></div><a href="https://security.stackexchange.com/questions/196853/threshold-for-ddos-attack" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:162 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Threshold for DDOS Attack
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-music" title="Music: Practice &amp; Theory Stack Exchange"></div><a href="https://music.stackexchange.com/questions/76000/why-does-the-fifth-symphony-in-c-minor-begin-with-a-c-major-interval" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:240 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why does the Fifth Symphony in c minor begin with a C major interval
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-electronics" title="Electrical Engineering Stack Exchange"></div><a href="https://electronics.stackexchange.com/questions/404483/difference-between-these-rf-adapters" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:135 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Difference between these RF adapters
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-workplace" title="The Workplace Stack Exchange"></div><a href="https://workplace.stackexchange.com/questions/121712/what-other-problems-does-hot-desking-solve" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:423 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What other problems does hot desking solve?
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-cooking" title="Seasoned Advice"></div><a href="https://cooking.stackexchange.com/questions/93479/ground-coriander-vs-coriander-seeds" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:49 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Ground coriander vs coriander seeds
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-gardening" title="Gardening &amp; Landscaping Stack Exchange"></div><a href="https://gardening.stackexchange.com/questions/42478/why-do-seeds-grow-upwards" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:269 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why do seeds grow upwards?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-apple" title="Ask Different"></div><a href="https://apple.stackexchange.com/questions/341310/how-can-i-make-my-ios-app-sold-out" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:118 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How can I make my iOS app &quot;Sold Out&quot;?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-gaming" title="Arqade"></div><a href="https://gaming.stackexchange.com/questions/340413/why-do-so-many-raiders-behave-like-psychopaths" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:41 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why do so many Raiders behave like psychopaths?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-boardgames" title="Board &amp; Card Games Stack Exchange"></div><a href="https://boardgames.stackexchange.com/questions/43893/activating-an-ability-that-effects-combat-after-declare-blockers-step" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:147 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Activating an ability that effects Combat after Declare Blockers step
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-mathematica" title="Mathematica Stack Exchange"></div><a href="https://mathematica.stackexchange.com/questions/185107/how-to-add-arbitrary-node-edge-attributes-for-export-as-graphml-file" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:387 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to add arbitrary node/edge attributes for export as Graphml file?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-puzzling" title="Puzzling Stack Exchange"></div><a href="https://puzzling.stackexchange.com/questions/74611/tropical-trees-and-god-kings" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:559 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Tropical trees and god-kings
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-worldbuilding" title="Worldbuilding Stack Exchange"></div><a href="https://worldbuilding.stackexchange.com/questions/129049/elves-have-alcoholic-blood" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:579 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Elves have alcoholic blood
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-english" title="English Language &amp; Usage Stack Exchange"></div><a href="https://english.stackexchange.com/questions/471080/what-is-a-term-for-an-operator-function-in-which-the-order-of-parameters-makes-n" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:97 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is a term for an operator/function in which the order of parameters makes no difference?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-tex" title="TeX - LaTeX Stack Exchange"></div><a href="https://tex.stackexchange.com/questions/457914/how-to-represent-1-in-latex" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to represent 1) in LaTeX?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="https://rpg.stackexchange.com/questions/134693/at-third-level-are-rangers-allowed-to-select-a-drake-as-their-animal-companion" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    At third-level, are rangers allowed to select a drake as their animal companion?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="https://rpg.stackexchange.com/questions/134674/can-an-18th-level-hastened-mobile-wood-elf-monk-move-at-over-100-mph" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Can an 18th level hastened mobile wood-elf monk move at over 100 mph?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-physics" title="Physics Stack Exchange"></div><a href="https://physics.stackexchange.com/questions/437355/why-doesnt-current-pass-through-a-resistance-if-there-is-another-path-without-r" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:151 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why doesn&#39;t current pass through a resistance if there is another path without resistance?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-mathoverflow" title="MathOverflow"></div><a href="https://mathoverflow.net/questions/314342/endomorphisms-in-the-derived-category" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:504 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Endomorphisms in the derived category
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-crypto" title="Cryptography Stack Exchange"></div><a href="https://crypto.stackexchange.com/questions/63635/cipher-suites-same-name-different-ids-why" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:281 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Cipher suites: same name, different IDs, why?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-aviation" title="Aviation Stack Exchange"></div><a href="https://aviation.stackexchange.com/questions/56693/what-is-the-non-projected-cross-hair-for-on-the-f-18-hud" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:528 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is the non-projected cross-hair for on the F-18 HUD?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-skeptics" title="Skeptics Stack Exchange"></div><a href="https://skeptics.stackexchange.com/questions/42662/are-us-workers-legally-required-to-pay-income-taxes" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:212 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Are US workers legally required to pay income taxes?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-retrocomputing" title="Retrocomputing Stack Exchange"></div><a href="https://retrocomputing.stackexchange.com/questions/8105/why-are-different-emulators-needed-to-run-platforms-that-use-6502-assembly-code" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:648 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why are different emulators needed to run platforms that use 6502 assembly code?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-academia" title="Academia Stack Exchange"></div><a href="https://academia.stackexchange.com/questions/119218/what-should-i-do-when-my-students-use-their-phones-in-class" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:415 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What should I do when my students use their phones in class?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-politics" title="Politics Stack Exchange"></div><a href="https://politics.stackexchange.com/questions/35013/has-the-us-supreme-court-ever-altered-its-own-precedent-on-the-same-topic-twice" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:475 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Has the US Supreme court ever altered it&#39;s own precedent on the same topic twice?
+                </a>
+
+            </li>
+    </ul>
+
+        <a href="#" 
+           class="show-more js-show-more js-gps-track" 
+           data-gps-track="posts_hot_network.click({ item_type:3, location:11 })">
+            more hot questions
+        </a>
+</div>
+
+<div id="feed-link">
+    <a href="/feeds/question/213464" title="feed of this question and its answers">
+        <svg aria-hidden="true" class="svg-icon fc-orange-400 iconRss" width="18" height="18" viewBox="0 0 18 18"><path d="M1 3c0-1.1.9-2 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3zm14.5 12C15.5 8.1 9.9 2.5 3 2.5V5a10 10 0 0 1 10 10h2.5zm-5 0A7.5 7.5 0 0 0 3 7.5V10a5 5 0 0 1 5 5h2.5zm-5 0A2.5 2.5 0 0 0 3 12.5V15h2.5z"/></svg>
+        question feed
+    </a>
+</div>
+        </div>
+    </div>
+<script>StackExchange.ready(function(){$.get('/posts/213464/ivc/3613');});</script>
+<noscript><div><img src="/posts/213464/ivc/3613" class="dno" alt="" width="0" height="0"></div></noscript><div style="display:none" id="prettify-lang"></div></div>
+
+    <script>
+        $('#wmd-input').one("keypress", function() {
+            $.ajax({
+                url: '/accounts/email-settings-form',
+                cache: false,
+                success: function(data) {
+                    $('#submit-button').parent().prepend(data);
+                }
+            });
+        });
+
+    </script>
+
+        </div>
+    </div>
+
+    <footer id="footer" class="site-footer js-footer" role="contentinfo">
+        <div class="site-footer--container">
+            
+            <nav class="site-footer--nav">
+                    <div class="site-footer--col site-footer--col__visible js-footer-col" data-name="default">
+                        <h5 class="-title"><a href="/">Cross Validated</a></h5>
+                        <ul class="-list js-primary-footer-links">
+                                    <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 2 })" href="/tour">Tour</a></li>
+                                <li class="-item"><a href="/help" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 3 })">Help</a></li>
+                                    <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 5 })" href="https://chat.stackexchange.com?tab=site&host=stats.stackexchange.com">Chat</a></li>
+                            <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 13 })" href="/contact">Contact</a></li>
+                                <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 14 })" href="https://stats.meta.stackexchange.com">Feedback</a></li>
+                                                            <li class="-item"><a onclick='StackExchange.switchMobile("on")' class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 12 })">Mobile</a></li>
+                        </ul>
+                    </div>
+                <div class="site-footer--col site-footer--col__visible js-footer-col" data-name="default">
+                    <h5 class="-title"><a class="js-gps-track" data-gps-track="footer.click({ location: 2, link: 1 })" href="https://stackoverflow.com/company/about">Company</a></h5>
+                    <ul class="-list">
+                                                    <li class="-item"><a href="https://stackoverflow.com" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 15})">Stack Overflow</a></li>
+                            <li class="-item"><a href="https://www.stackoverflowbusiness.com" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 19 })">Stack Overflow Business</a></li>
+                            <li class="-item"><a href="https://stackoverflow.com/jobs" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 17})">Developer Jobs</a></li>
+                                <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 1 })" href="https://stackoverflow.com/company/about">About</a></li>
+                        <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 27 })" href="https://stackoverflow.com/company/press">Press</a></li>
+                        <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 7 })" href="https://stackoverflow.com/legal">Legal</a></li>
+                        <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 8 })" href="https://stackoverflow.com/legal/privacy-policy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="site-footer--col site-footer--categories-nav site-footer--col__visible">
+                    <a href="#" class="site-footer--back js-footer-back"><svg aria-hidden="true" class="svg-icon iconArrowLeftAlt" width="18" height="18" viewBox="0 0 18 18"><path d="M10.58 16L12 14.59 6.4 9 12 3.41 10.57 2l-7 7z"/></svg></a>
+                    <div>
+                        <h5 class="-title"><a href="https://stackexchange.com">Stack Exchange<br> Network</a></h5>
+                        <ul class="-list">
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Technology">Technology</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Life / Arts">Life / Arts</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Culture / Recreation">Culture / Recreation</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Science">Science</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Other">Other</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="site-footer--categories">
+                    <div class="site-footer--col site-footer--category js-footer-col" data-name="Technology">
+        <ul class="-list">
+                <li class="-item"><a href="https://stackoverflow.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professional and enthusiast programmers">Stack Overflow</a></li>
+                <li class="-item"><a href="https://serverfault.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="system and network administrators">Server Fault</a></li>
+                <li class="-item"><a href="https://superuser.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="computer enthusiasts and power users">Super User</a></li>
+                <li class="-item"><a href="https://webapps.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="power users of web applications">Web Applications</a></li>
+                <li class="-item"><a href="https://askubuntu.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Ubuntu users and developers">Ask Ubuntu</a></li>
+                <li class="-item"><a href="https://webmasters.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="pro webmasters">Webmasters</a></li>
+                <li class="-item"><a href="https://gamedev.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professional and independent game developers">Game Development</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://tex.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users of TeX, LaTeX, ConTeXt, and related typesetting systems">TeX - LaTeX</a></li>
+                <li class="-item"><a href="https://softwareengineering.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professionals, academics, and students working within the systems development life cycle">Software Engineering</a></li>
+                <li class="-item"><a href="https://unix.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users of Linux, FreeBSD and other Un*x-like operating systems">Unix &amp; Linux</a></li>
+                <li class="-item"><a href="https://apple.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="power users of Apple hardware and software">Ask Different (Apple)</a></li>
+                <li class="-item"><a href="https://wordpress.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="WordPress developers and administrators">WordPress Development</a></li>
+                <li class="-item"><a href="https://gis.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="cartographers, geographers and GIS professionals">Geographic Information Systems</a></li>
+                <li class="-item"><a href="https://electronics.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="electronics and electrical engineering professionals, students, and enthusiasts">Electrical Engineering</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://android.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="enthusiasts and power users of the Android operating system">Android Enthusiasts</a></li>
+                <li class="-item"><a href="https://security.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="information security professionals">Information Security</a></li>
+                <li class="-item"><a href="https://dba.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="database professionals who wish to improve their database skills and learn from others in the community">Database Administrators</a></li>
+                <li class="-item"><a href="https://drupal.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Drupal developers and administrators">Drupal Answers</a></li>
+                <li class="-item"><a href="https://sharepoint.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="SharePoint enthusiasts">SharePoint</a></li>
+                <li class="-item"><a href="https://ux.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="user experience researchers and experts">User Experience</a></li>
+                <li class="-item"><a href="https://mathematica.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users of Wolfram Mathematica">Mathematica</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://salesforce.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Salesforce administrators, implementation experts, developers and anybody in-between">Salesforce</a></li>
+                <li class="-item"><a href="https://expressionengine.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="administrators, end users, developers and designers for ExpressionEngine&#174; CMS">ExpressionEngine&#174; Answers</a></li>
+                <li class="-item"><a href="https://pt.stackoverflow.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="programadores profissionais e entusiastas">Stack Overflow em Portugu&#234;s</a></li>
+                <li class="-item"><a href="https://blender.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people who use Blender to create 3D graphics, animations, or games">Blender</a></li>
+                <li class="-item"><a href="https://networkengineering.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="network engineers">Network Engineering</a></li>
+                <li class="-item"><a href="https://crypto.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="software developers, mathematicians and others interested in cryptography">Cryptography</a></li>
+                <li class="-item"><a href="https://codereview.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="peer programmer code reviews">Code Review</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://magento.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users of the Magento e-Commerce platform">Magento</a></li>
+                <li class="-item"><a href="https://softwarerecs.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people seeking specific software recommendations">Software Recommendations</a></li>
+                <li class="-item"><a href="https://dsp.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="practitioners of the art and science of signal, image and video processing">Signal Processing</a></li>
+                <li class="-item"><a href="https://emacs.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="those using, extending or developing Emacs">Emacs</a></li>
+                <li class="-item"><a href="https://raspberrypi.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users and developers of hardware and software for Raspberry Pi">Raspberry Pi</a></li>
+                <li class="-item"><a href="https://ru.stackoverflow.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="программистов">Stack Overflow на русском</a></li>
+                <li class="-item"><a href="https://codegolf.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="programming puzzle enthusiasts and code golfers">Programming Puzzles &amp; Code Golf</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://es.stackoverflow.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="programadores y profesionales de la inform&#225;tica">Stack Overflow en espa&#241;ol</a></li>
+                <li class="-item"><a href="https://ethereum.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users of Ethereum, the decentralized application platform and smart contract enabled blockchain">Ethereum</a></li>
+                <li class="-item"><a href="https://datascience.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Data science professionals, Machine Learning specialists, and those interested in learning more about the field">Data Science</a></li>
+                <li class="-item"><a href="https://arduino.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="developers of open-source hardware and software that is compatible with Arduino">Arduino</a></li>
+                <li class="-item"><a href="https://bitcoin.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Bitcoin crypto-currency enthusiasts">Bitcoin</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#technology" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                        <strong>
+                            more (30)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Life / Arts">
+        <ul class="-list">
+                <li class="-item"><a href="https://photo.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professional, enthusiast and amateur photographers">Photography</a></li>
+                <li class="-item"><a href="https://scifi.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="science fiction and fantasy enthusiasts">Science Fiction &amp; Fantasy</a></li>
+                <li class="-item"><a href="https://graphicdesign.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Graphic Design professionals, students, and enthusiasts">Graphic Design</a></li>
+                <li class="-item"><a href="https://movies.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="movie and tv enthusiasts">Movies &amp; TV</a></li>
+                <li class="-item"><a href="https://music.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="musicians, students, and enthusiasts">Music: Practice &amp; Theory</a></li>
+                <li class="-item"><a href="https://worldbuilding.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="writers/artists using science, geography and culture to construct imaginary worlds and settings">Worldbuilding</a></li>
+                <li class="-item"><a href="https://cooking.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professional and amateur chefs">Seasoned Advice (cooking)</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Life / Arts"><ul class="-list">
+                <li class="-item"><a href="https://diy.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="contractors and serious DIYers">Home Improvement</a></li>
+                <li class="-item"><a href="https://money.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people who want to be financially literate">Personal Finance &amp; Money</a></li>
+                <li class="-item"><a href="https://academia.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="academics and those enrolled in higher education">Academia</a></li>
+                <li class="-item"><a href="https://law.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="legal professionals, students, and others with experience or interest in law">Law</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#lifearts" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                        <strong>
+                            more (15)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Culture / Recreation">
+        <ul class="-list">
+                <li class="-item"><a href="https://english.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="linguists, etymologists, and serious English language enthusiasts">English Language &amp; Usage</a></li>
+                <li class="-item"><a href="https://skeptics.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="scientific skepticism">Skeptics</a></li>
+                <li class="-item"><a href="https://judaism.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="those who base their lives on Jewish law and tradition and anyone interested in learning more">Mi Yodeya (Judaism)</a></li>
+                <li class="-item"><a href="https://travel.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="road warriors and seasoned travelers">Travel</a></li>
+                <li class="-item"><a href="https://christianity.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="committed Christians, experts in Christianity and those interested in learning more">Christianity</a></li>
+                <li class="-item"><a href="https://ell.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="speakers of other languages learning English">English Language Learners</a></li>
+                <li class="-item"><a href="https://japanese.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="students, teachers, and linguists wanting to discuss the finer points of the Japanese language">Japanese Language</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Culture / Recreation"><ul class="-list">
+                <li class="-item"><a href="https://gaming.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="passionate videogamers on all platforms">Arqade (gaming)</a></li>
+                <li class="-item"><a href="https://bicycles.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people who build and repair bicycles, people who train cycling, or commute on bicycles">Bicycles</a></li>
+                <li class="-item"><a href="https://rpg.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="gamemasters and players of tabletop, paper-and-pencil role-playing games">Role-playing Games</a></li>
+                <li class="-item"><a href="https://anime.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="anime and manga fans">Anime &amp; Manga</a></li>
+                <li class="-item"><a href="https://puzzling.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="those who create, solve, and study puzzles">Puzzling</a></li>
+                <li class="-item"><a href="https://mechanics.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="mechanics and DIY enthusiast owners of cars, trucks, and motorcycles">Motor Vehicle Maintenance &amp; Repair</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#culturerecreation" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                        <strong>
+                            more (33)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Science">
+        <ul class="-list">
+                <li class="-item"><a href="https://mathoverflow.net" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professional mathematicians">MathOverflow</a></li>
+                <li class="-item"><a href="https://math.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people studying math at any level and professionals in related fields">Mathematics</a></li>
+                <li class="-item"><a href="https://stats.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people interested in statistics, machine learning, data analysis, data mining, and data visualization">Cross Validated (stats)</a></li>
+                <li class="-item"><a href="https://cstheory.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="theoretical computer scientists and researchers in related fields">Theoretical Computer Science</a></li>
+                <li class="-item"><a href="https://physics.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="active researchers, academics and students of physics">Physics</a></li>
+                <li class="-item"><a href="https://chemistry.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="scientists, academics, teachers, and students in the field of chemistry">Chemistry</a></li>
+                <li class="-item"><a href="https://biology.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="biology researchers, academics, and students">Biology</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Science"><ul class="-list">
+                <li class="-item"><a href="https://cs.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="students, researchers and practitioners of computer science">Computer Science</a></li>
+                <li class="-item"><a href="https://philosophy.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="those interested in the study of the fundamental nature of knowledge, reality, and existence">Philosophy</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#science" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                        <strong>
+                            more (10)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Other">
+        <ul class="-list">
+                <li class="-item"><a href="https://meta.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="meta-discussion of the Stack Exchange family of Q&amp;A websites">Meta Stack Exchange</a></li>
+                <li class="-item"><a href="https://stackapps.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="apps, scripts, and development with the Stack Exchange API">Stack Apps</a></li>
+                <li class="-item"><a href="https://api.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="programmatic interaction with Stack Exchange sites">API</a></li>
+                <li class="-item"><a href="https://data.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="querying Stack Exchange data using SQL">Data</a></li>
+                <li class="-item"><a href="https://area51.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="proposing new sites in the Stack Exchange network">Area 51</a></li>
+                    </ul>
+    </div>
+                </div>
+            </nav>
+            <div class="site-footer--copyright fs-fine">
+                <ul class="-list">
+                    <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link:4 })" href="https://stackoverflow.blog?blb=1">Blog</a></li>
+                    <li class="-item"><a href="https://www.facebook.com/officialstackoverflow/" class="-link">Facebook</a></li>
+                    <li class="-item"><a href="https://twitter.com/stackoverflow" class="-link">Twitter</a></li>
+                    <li class="-item"><a href="https://linkedin.com/company/stack-overflow" class="-link">LinkedIn</a></li>
+                </ul>
+
+                <p class="mt-auto mb24">
+site design / logo &#169; 2018 Stack Exchange Inc; user contributions licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc by-sa 3.0</a>
+                            with <a href="https://stackoverflow.blog/2009/06/25/attribution-required/" rel="license">attribution required</a>.
+                    <span id="svnrev">rev&nbsp;2018.11.1.32041</span>
+                </p>
+            </div>
+        </div>
+
+            </footer>
+    <noscript>
+        <div id="noscript-warning">Cross Validated works best with JavaScript enabled
+            <img src="https://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno">
+        </div>
+    </noscript>
+
+<script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function() { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            StackExchange.ready(function () {
+
+                StackExchange.ga.init({
+                    sendTitles: true,
+                    tracker: window.ga,
+                    trackingCodes: [
+                        'UA-108242619-5'
+                    ]
+                });
+
+                    StackExchange.ga.setDimension('dimension1', '9999838');
+
+
+                    StackExchange.ga.setDimension('dimension2', '|machine-learning|cross-validation|non-independent|iid|');
+
+                    StackExchange.ga.setDimension('dimension3', 'Questions/Show');
+
+
+                StackExchange.ga.trackPageView();
+            });
+            
+/**/
+            
+            var _qevents = _qevents || [],
+            _comscore = _comscore || [];
+            (function() {
+                var ssl = 'https:' == document.location.protocol,
+                    s = document.getElementsByTagName('script')[0],
+                    qc = document.createElement('script');
+                 qc.async = true;
+                    qc.src = (ssl ? 'https://secure' : 'http://edge') + '.quantserve.com/quant.js';
+                    s.parentNode.insertBefore(qc, s);
+                    _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+/**/
+                 var sc = document.createElement('script');
+                    sc.async = true;
+                    sc.src = (ssl ? 'https://sb' : 'http://b') + '.scorecardresearch.com/beacon.js';
+                    s.parentNode.insertBefore(sc, s);
+                    _comscore.push({ c1: "2", c2: "17440561" });
+            })();
+            
+
+</script>
+            
+    </body>
+    </html>
