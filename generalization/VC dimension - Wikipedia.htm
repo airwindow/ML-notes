@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<html class="client-nojs" lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<title>VC dimension - Wikipedia</title>
+<script>document.documentElement.className = document.documentElement.className.replace( /(^|\s)client-nojs(\s|$)/, "$1client-js$2" );</script>
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"VC_dimension","wgTitle":"VC dimension","wgCurRevisionId":846805558,"wgRevisionId":846805558,"wgArticleId":305846,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["CS1 errors: chapter ignored","Pages with DOIs inactive since 2017","Dimension","Statistical classification","Computational learning theory","Measures of complexity"],"wgBreakFrames":false,"wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgMonthNamesShort":["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"wgRelevantPageName":"VC_dimension","wgRelevantArticleId":305846,"wgRequestId":"WzuFhgpAAD0AAIfdKWsAAABV","wgIsProbablyEditable":true,"wgRelevantPageIsProbablyEditable":true,"wgRestrictionEdit":[],"wgRestrictionMove":[],"wgFlaggedRevsParams":{"tags":{}},"wgStableRevisionId":null,"wgCategoryTreePageCategoryOptions":"{\"mode\":0,\"hideprefix\":20,\"showcount\":true,\"namespaces\":false}","wgWikiEditorEnabledModules":[],"wgBetaFeaturesFeatures":[],"wgMediaViewerOnClick":true,"wgMediaViewerEnabledByDefault":true,"wgPopupsShouldSendModuleToUser":true,"wgPopupsConflictsWithNavPopupGadget":false,"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","pageVariantFallbacks":"en","usePageImages":true,"usePageDescriptions":true},"wgPreferredVariant":"en","wgMFExpandAllSectionsUserOption":true,"wgMFEnableFontChanger":true,"wgMFDisplayWikibaseDescriptions":{"search":true,"nearby":true,"watchlist":true,"tagline":false},"wgRelatedArticles":null,"wgRelatedArticlesUseCirrusSearch":true,"wgRelatedArticlesOnlyUseCirrusSearch":false,"wgULSCurrentAutonym":"English","wgNoticeProject":"wikipedia","wgCentralNoticeCookiesToDelete":[],"wgCentralNoticeCategoriesUsingLegacy":["Fundraising","fundraising"],"wgWikibaseItemId":"Q2662236","wgScoreNoteLanguages":{"arabic":"العربية","catalan":"català","deutsch":"Deutsch","english":"English","espanol":"español","italiano":"italiano","nederlands":"Nederlands","norsk":"norsk","portugues":"português","suomi":"suomi","svenska":"svenska","vlaams":"West-Vlams"},"wgScoreDefaultNoteLanguage":"nederlands","wgCentralAuthMobileDomain":false,"wgCodeMirrorEnabled":true,"wgVisualEditorToolbarScrollOffset":0,"wgVisualEditorUnsupportedEditParams":["undo","undoafter","veswitched"],"wgEditSubmitButtonLabelPublish":true});mw.loader.state({"ext.gadget.charinsert-styles":"ready","ext.globalCssJs.user.styles":"ready","ext.globalCssJs.site.styles":"ready","site.styles":"ready","noscript":"ready","user.styles":"ready","ext.globalCssJs.user":"ready","ext.globalCssJs.site":"ready","user":"ready","user.options":"ready","user.tokens":"loading","ext.cite.styles":"ready","ext.math.styles":"ready","mediawiki.legacy.shared":"ready","mediawiki.legacy.commonPrint":"ready","wikibase.client.init":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready","ext.uls.interlanguage":"ready","ext.wikimediaBadges":"ready","mediawiki.skinning.interface":"ready","skins.vector.styles":"ready"});mw.loader.implement("user.tokens@1dqfd7l",function($,jQuery,require,module){/*@nomin*/mw.user.tokens.set({"editToken":"+\\","patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+});mw.loader.load(["ext.cite.a11y","ext.math.scripts","site","mediawiki.page.startup","mediawiki.user","mediawiki.page.ready","mediawiki.toc","mediawiki.searchSuggest","ext.gadget.teahouse","ext.gadget.ReferenceTooltips","ext.gadget.watchlist-notice","ext.gadget.DRN-wizard","ext.gadget.charinsert","ext.gadget.refToolbar","ext.gadget.extra-toolbar-buttons","ext.gadget.switcher","ext.centralauth.centralautologin","mmv.head","mmv.bootstrap.autostart","ext.popups","ext.visualEditor.desktopArticleTarget.init","ext.visualEditor.targetLoader","ext.eventLogging.subscriber","ext.wikimediaEvents","ext.navigationTiming","ext.uls.eventlogger","ext.uls.init","ext.uls.compactlinks","ext.uls.interface","ext.3d","ext.centralNotice.geoIP","ext.centralNotice.startUp","skins.vector.js"]);});</script>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=ext.cite.styles%7Cext.math.styles%7Cext.uls.interlanguage%7Cext.visualEditor.desktopArticleTarget.noscript%7Cext.wikimediaBadges%7Cmediawiki.legacy.commonPrint%2Cshared%7Cmediawiki.skinning.interface%7Cskins.vector.styles%7Cwikibase.client.init&amp;only=styles&amp;skin=vector"/>
+<script async="" src="/w/load.php?debug=false&amp;lang=en&amp;modules=startup&amp;only=scripts&amp;skin=vector"></script>
+<meta name="ResourceLoaderDynamicStyles" content=""/>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=ext.gadget.charinsert-styles&amp;only=styles&amp;skin=vector"/>
+<link rel="stylesheet" href="/w/load.php?debug=false&amp;lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=vector"/>
+<meta name="generator" content="MediaWiki 1.32.0-wmf.10"/>
+<meta name="referrer" content="origin"/>
+<meta name="referrer" content="origin-when-crossorigin"/>
+<meta name="referrer" content="origin-when-cross-origin"/>
+<link rel="alternate" href="android-app://org.wikipedia/http/en.m.wikipedia.org/wiki/VC_dimension"/>
+<link rel="alternate" type="application/x-wiki" title="Edit this page" href="/w/index.php?title=VC_dimension&amp;action=edit"/>
+<link rel="edit" title="Edit this page" href="/w/index.php?title=VC_dimension&amp;action=edit"/>
+<link rel="apple-touch-icon" href="/static/apple-touch/wikipedia.png"/>
+<link rel="shortcut icon" href="/static/favicon/wikipedia.ico"/>
+<link rel="search" type="application/opensearchdescription+xml" href="/w/opensearch_desc.php" title="Wikipedia (en)"/>
+<link rel="EditURI" type="application/rsd+xml" href="//en.wikipedia.org/w/api.php?action=rsd"/>
+<link rel="license" href="//creativecommons.org/licenses/by-sa/3.0/"/>
+<link rel="canonical" href="https://en.wikipedia.org/wiki/VC_dimension"/>
+<link rel="dns-prefetch" href="//login.wikimedia.org"/>
+<link rel="dns-prefetch" href="//meta.wikimedia.org" />
+<!--[if lt IE 9]><script src="/w/load.php?debug=false&amp;lang=en&amp;modules=html5shiv&amp;only=scripts&amp;skin=vector&amp;sync=1"></script><![endif]-->
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-VC_dimension rootpage-VC_dimension skin-vector action-view">		<div id="mw-page-base" class="noprint"></div>
+		<div id="mw-head-base" class="noprint"></div>
+		<div id="content" class="mw-body" role="main">
+			<a id="top"></a>
+			<div id="siteNotice" class="mw-body-content"><!-- CentralNotice --></div><div class="mw-indicators mw-body-content">
+</div>
+<h1 id="firstHeading" class="firstHeading" lang="en">VC dimension</h1>			<div id="bodyContent" class="mw-body-content">
+				<div id="siteSub" class="noprint">From Wikipedia, the free encyclopedia</div>				<div id="contentSub"></div>
+				<div id="jump-to-nav"></div>				<a class="mw-jump-link" href="#mw-head">Jump to navigation</a>
+				<a class="mw-jump-link" href="#p-search">Jump to search</a>
+				<div id="mw-content-text" lang="en" dir="ltr" class="mw-content-ltr"><div class="mw-parser-output"><p>In <a href="/wiki/Vapnik%E2%80%93Chervonenkis_theory" title="Vapnik–Chervonenkis theory">Vapnik–Chervonenkis theory</a>, the <b>VC dimension</b> (for <b>Vapnik–Chervonenkis dimension</b>) is a measure of the <b>capacity</b> (complexity, expressive power, richness, or flexibility) of a space of functions that can be learned by a <a href="/wiki/Statistical_classification" title="Statistical classification">statistical classification</a> <a href="/wiki/Algorithm" title="Algorithm">algorithm</a>. It is defined as the <a href="/wiki/Cardinality" title="Cardinality">cardinality</a> of the largest set of points that the algorithm can <a href="/wiki/Shattering_(machine_learning)" class="mw-redirect" title="Shattering (machine learning)">shatter</a>. It was originally defined by <a href="/wiki/Vladimir_Vapnik" title="Vladimir Vapnik">Vladimir Vapnik</a> and <a href="/wiki/Alexey_Chervonenkis" title="Alexey Chervonenkis">Alexey Chervonenkis</a>.<sup id="cite_ref-vc_1-0" class="reference"><a href="#cite_note-vc-1">[1]</a></sup></p>
+<p>Formally, the capacity of a classification model is related to how complicated it can be. For example, consider the <a href="/wiki/Heaviside_step_function" title="Heaviside step function">thresholding</a> of a high-<a href="/wiki/Degree_of_a_polynomial" title="Degree of a polynomial">degree</a> <a href="/wiki/Polynomial" title="Polynomial">polynomial</a>: if the polynomial evaluates above zero, that point is classified as positive, otherwise as negative. A high-degree polynomial can be wiggly, so it can fit a given set of training points well. But one can expect that the classifier will make errors on other points, because it is too wiggly. Such a polynomial has a high capacity. A much simpler alternative is to threshold a linear function. This function may not fit the training set well, because it has a low capacity. This notion of capacity is made rigorous below.</p>
+<p></p>
+<div id="toc" class="toc">
+<div class="toctitle" lang="en" dir="ltr">
+<h2>Contents</h2>
+</div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#Definitions"><span class="tocnumber">1</span> <span class="toctext">Definitions</span></a>
+<ul>
+<li class="toclevel-2 tocsection-2"><a href="#VC_dimension_of_a_set-family"><span class="tocnumber">1.1</span> <span class="toctext">VC dimension of a set-family</span></a></li>
+<li class="toclevel-2 tocsection-3"><a href="#VC_dimension_of_a_classification_model"><span class="tocnumber">1.2</span> <span class="toctext">VC dimension of a classification model</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-4"><a href="#Examples"><span class="tocnumber">2</span> <span class="toctext">Examples</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#Uses"><span class="tocnumber">3</span> <span class="toctext">Uses</span></a>
+<ul>
+<li class="toclevel-2 tocsection-6"><a href="#In_statistical_learning_theory"><span class="tocnumber">3.1</span> <span class="toctext">In statistical learning theory</span></a></li>
+<li class="toclevel-2 tocsection-7"><a href="#In_computational_geometry"><span class="tocnumber">3.2</span> <span class="toctext">In computational geometry</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1 tocsection-8"><a href="#Bounds"><span class="tocnumber">4</span> <span class="toctext">Bounds</span></a></li>
+<li class="toclevel-1 tocsection-9"><a href="#VC_dimension_of_a_finite_projective_plane"><span class="tocnumber">5</span> <span class="toctext">VC dimension of a finite projective plane</span></a></li>
+<li class="toclevel-1 tocsection-10"><a href="#VC_dimension_of_a_boosting_classifier"><span class="tocnumber">6</span> <span class="toctext">VC dimension of a boosting classifier</span></a></li>
+<li class="toclevel-1 tocsection-11"><a href="#VC_dimension_of_a_neural_network"><span class="tocnumber">7</span> <span class="toctext">VC dimension of a neural network</span></a></li>
+<li class="toclevel-1 tocsection-12"><a href="#Generalizations"><span class="tocnumber">8</span> <span class="toctext">Generalizations</span></a></li>
+<li class="toclevel-1 tocsection-13"><a href="#See_also"><span class="tocnumber">9</span> <span class="toctext">See also</span></a></li>
+<li class="toclevel-1 tocsection-14"><a href="#Footnotes"><span class="tocnumber">10</span> <span class="toctext">Footnotes</span></a></li>
+<li class="toclevel-1 tocsection-15"><a href="#References"><span class="tocnumber">11</span> <span class="toctext">References</span></a></li>
+</ul>
+</div>
+<p></p>
+<h2><span class="mw-headline" id="Definitions">Definitions</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=1" title="Edit section: Definitions">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<h3><span class="mw-headline" id="VC_dimension_of_a_set-family">VC dimension of a set-family</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=2" title="Edit section: VC dimension of a set-family">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>Let <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/75a9edddcca2f782014371f75dca39d7e13a9c1b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.064ex; height:2.176ex;" alt="H"/></span> be a <a href="/wiki/Set_family" class="mw-redirect" title="Set family">set family</a> (a set of sets) and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle C}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>C</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle C}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4fc55753007cd3c18576f7933f6f089196732029" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.766ex; height:2.176ex;" alt="C"/></span> a set. Their <i>intersection</i> is defined as the following set-family:</p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H\cap C:=\{h\cap C\mid h\in H\}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+        <mo>&#x2229;<!-- ∩ --></mo>
+        <mi>C</mi>
+        <mo>:=</mo>
+        <mo fence="false" stretchy="false">{</mo>
+        <mi>h</mi>
+        <mo>&#x2229;<!-- ∩ --></mo>
+        <mi>C</mi>
+        <mo>&#x2223;<!-- ∣ --></mo>
+        <mi>h</mi>
+        <mo>&#x2208;<!-- ∈ --></mo>
+        <mi>H</mi>
+        <mo fence="false" stretchy="false">}</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H\cap C:=\{h\cap C\mid h\in H\}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/dad00f8eb7d6a38bf2f93884dfb319f1ffe8ad41" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:26.351ex; height:2.843ex;" alt="{\displaystyle H\cap C:=\{h\cap C\mid h\in H\}}"/></span></dd>
+</dl>
+<p>We say that a set <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle C}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>C</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle C}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4fc55753007cd3c18576f7933f6f089196732029" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.766ex; height:2.176ex;" alt="C"/></span> is <i><a href="/wiki/Shattered_set" title="Shattered set">shattered</a></i> by <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/75a9edddcca2f782014371f75dca39d7e13a9c1b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.064ex; height:2.176ex;" alt="H"/></span> if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H\cap C}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+        <mo>&#x2229;<!-- ∩ --></mo>
+        <mi>C</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H\cap C}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/9602d7d8fd4eff18d7d4b062d6f9bd52cea796df" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:6.413ex; height:2.176ex;" alt="{\displaystyle H\cap C}"/></span> contains all the subsets of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle C}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>C</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle C}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4fc55753007cd3c18576f7933f6f089196732029" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.766ex; height:2.176ex;" alt="C"/></span>, i.e:</p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H\cap C=2^{C}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+        <mo>&#x2229;<!-- ∩ --></mo>
+        <mi>C</mi>
+        <mo>=</mo>
+        <msup>
+          <mn>2</mn>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>C</mi>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H\cap C=2^{C}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/1dbb83f1722fcdf518ebbb104fdee1520d428e24" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:12.155ex; height:2.676ex;" alt="{\displaystyle H\cap C=2^{C}}"/></span></dd>
+</dl>
+<p>The <b>VC dimension</b> of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/75a9edddcca2f782014371f75dca39d7e13a9c1b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.064ex; height:2.176ex;" alt="H"/></span> is the largest integer <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle D}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>D</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f34a0c600395e5d4345287e21fb26efd386990e6" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.924ex; height:2.176ex;" alt="D"/></span> such that there exists a set <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle C}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>C</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle C}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/4fc55753007cd3c18576f7933f6f089196732029" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.766ex; height:2.176ex;" alt="C"/></span> with <a href="/wiki/Cardinality" title="Cardinality">cardinality</a> <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle D}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>D</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f34a0c600395e5d4345287e21fb26efd386990e6" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.924ex; height:2.176ex;" alt="D"/></span> that is shattered by <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/75a9edddcca2f782014371f75dca39d7e13a9c1b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.064ex; height:2.176ex;" alt="H"/></span>.</p>
+<h3><span class="mw-headline" id="VC_dimension_of_a_classification_model">VC dimension of a classification model</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=3" title="Edit section: VC dimension of a classification model">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>A classification model <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> with some parameter vector <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/6e5ab2664b422d53eb0c7df3b87e1360d75ad9af" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.09ex; height:2.176ex;" alt="\theta "/></span> is said to <i><a href="/wiki/Shattered_set" title="Shattered set">shatter</a></i> a set of data points <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle (x_{1},x_{2},\ldots ,x_{n})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo stretchy="false">(</mo>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>,</mo>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msub>
+        <mo>,</mo>
+        <mo>&#x2026;<!-- … --></mo>
+        <mo>,</mo>
+        <msub>
+          <mi>x</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>n</mi>
+          </mrow>
+        </msub>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle (x_{1},x_{2},\ldots ,x_{n})}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/47d8b3ec62633086002489cad8df4214e9585880" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:15.337ex; height:2.843ex;" alt="(x_{1},x_{2},\ldots ,x_{n})"/></span> if, for all assignments of labels to those points, there exists a <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/6e5ab2664b422d53eb0c7df3b87e1360d75ad9af" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.09ex; height:2.176ex;" alt="\theta "/></span> such that the model <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> makes no errors when evaluating that set of data points.</p>
+<p>The <b>VC dimension</b> of a model <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> is the maximum number of points that can be arranged so that <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> shatters them. More formally, it is the maximum cardinal <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle D}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>D</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f34a0c600395e5d4345287e21fb26efd386990e6" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.924ex; height:2.176ex;" alt="D"/></span> such that some data point set of <a href="/wiki/Cardinality" title="Cardinality">cardinality</a> <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle D}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>D</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f34a0c600395e5d4345287e21fb26efd386990e6" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.924ex; height:2.176ex;" alt="D"/></span> can be shattered by <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span>.</p>
+<h2><span class="mw-headline" id="Examples">Examples</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=4" title="Edit section: Examples">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>1. <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> is a constant classifier (with no parameters). Its VC-dimension is 0 since it cannot shatter even a single point. In general, the VC dimension of a finite classification model, which can return at most <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle 2^{d}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mn>2</mn>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>d</mi>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle 2^{d}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e78df590f3fc81f0201082eaaa6844c145c8bdf3" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.254ex; height:2.676ex;" alt="2^{d}"/></span> different classifiers, is at most <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle d}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>d</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle d}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e85ff03cbe0c7341af6b982e47e9f90d235c66ab" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.216ex; height:2.176ex;" alt="d"/></span> (this is an upper bound on the VC dimension; the <a href="/wiki/Sauer%E2%80%93Shelah_lemma" title="Sauer–Shelah lemma">Sauer–Shelah lemma</a> gives a lower bound on the dimension).</p>
+<p>2. <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> is a single-parametric threshold classifier on real numbers; i.e, for a certain threshold <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/6e5ab2664b422d53eb0c7df3b87e1360d75ad9af" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.09ex; height:2.176ex;" alt="\theta "/></span>, the classifier <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f_{\theta }}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>f</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>&#x03B8;<!-- θ --></mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f_{\theta }}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/9874ae06066a2250709085e0fb521eebff2c2fb7" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.143ex; height:2.509ex;" alt="f_{\theta }"/></span> returns 1 if the input number is larger than <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/6e5ab2664b422d53eb0c7df3b87e1360d75ad9af" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.09ex; height:2.176ex;" alt="\theta "/></span> and 0 otherwise. The VC dimension of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> is 1 because: (a) It can shatter a single point. For every point <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/87f9e315fd7e2ba406057a97300593c4802b53e4" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:1.676ex;" alt="x"/></span>, a classifier <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f_{\theta }}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>f</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>&#x03B8;<!-- θ --></mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f_{\theta }}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/9874ae06066a2250709085e0fb521eebff2c2fb7" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.143ex; height:2.509ex;" alt="f_{\theta }"/></span> labels it as 0 if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta &gt;x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mo>&gt;</mo>
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta &gt;x}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/1649977d05fb80a021f9dd0df7b759e31481d8e9" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:5.519ex; height:2.176ex;" alt="{\displaystyle \theta &gt;x}"/></span> and labels it as 1 if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta &lt;x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mo>&lt;</mo>
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta &lt;x}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/1d9991be389564b72f1fe478b5a7eb702807a77d" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:5.519ex; height:2.176ex;" alt="{\displaystyle \theta &lt;x}"/></span>. (b) It cannot shatter any set of two points. For every set of two numbers, if the smaller is labeled 1, then the larger must also be labeled 1, so not all labelings are possible.</p>
+<p>3. <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> is a single-parametric interval classifier on real numbers; i.e, for a certain parameter <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/6e5ab2664b422d53eb0c7df3b87e1360d75ad9af" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.09ex; height:2.176ex;" alt="\theta "/></span>, the classifier <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f_{\theta }}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>f</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>&#x03B8;<!-- θ --></mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f_{\theta }}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/9874ae06066a2250709085e0fb521eebff2c2fb7" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.143ex; height:2.509ex;" alt="f_{\theta }"/></span> returns 1 if the input number is in the interval <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle [\theta ,\theta +4]}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo stretchy="false">[</mo>
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mo>,</mo>
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mo>+</mo>
+        <mn>4</mn>
+        <mo stretchy="false">]</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle [\theta ,\theta +4]}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/a8d44ec88941a2c7c909ec726a88aa5002d3990d" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:8.511ex; height:2.843ex;" alt="{\displaystyle [\theta ,\theta +4]}"/></span> and 0 otherwise. The VC dimension of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> is 2 because: (a) It can shatter some sets of two points. E.g, for every set <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \{x,x+2\}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo fence="false" stretchy="false">{</mo>
+        <mi>x</mi>
+        <mo>,</mo>
+        <mi>x</mi>
+        <mo>+</mo>
+        <mn>2</mn>
+        <mo fence="false" stretchy="false">}</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \{x,x+2\}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/3b4c1d3fd34fdf11223137e6b3a4c191741b0bb6" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:10.021ex; height:2.843ex;" alt="{\displaystyle \{x,x+2\}}"/></span>, a classifier <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f_{\theta }}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>f</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>&#x03B8;<!-- θ --></mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f_{\theta }}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/9874ae06066a2250709085e0fb521eebff2c2fb7" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.143ex; height:2.509ex;" alt="f_{\theta }"/></span> labels it as (0,0) if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta &lt;x-4}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mo>&lt;</mo>
+        <mi>x</mi>
+        <mo>&#x2212;<!-- − --></mo>
+        <mn>4</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta &lt;x-4}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/b77341fd3ad6473b9d6c35bd67ec0469c4ebec79" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.505ex; width:9.521ex; height:2.343ex;" alt="{\displaystyle \theta &lt;x-4}"/></span> or if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta &gt;x+2}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mo>&gt;</mo>
+        <mi>x</mi>
+        <mo>+</mo>
+        <mn>2</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta &gt;x+2}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/3e0a2e64db5c56f9cb8be67135da6969627eb26c" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.505ex; width:9.521ex; height:2.343ex;" alt="{\displaystyle \theta &gt;x+2}"/></span>, as (1,0) if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta \in [x-4,x-2)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mo>&#x2208;<!-- ∈ --></mo>
+        <mo stretchy="false">[</mo>
+        <mi>x</mi>
+        <mo>&#x2212;<!-- − --></mo>
+        <mn>4</mn>
+        <mo>,</mo>
+        <mi>x</mi>
+        <mo>&#x2212;<!-- − --></mo>
+        <mn>2</mn>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta \in [x-4,x-2)}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/33ac02c3831a4df439bab0e42d611a1245084715" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:17.182ex; height:2.843ex;" alt="{\displaystyle \theta \in [x-4,x-2)}"/></span>, as (1,1) if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta \in [x-2,x]}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mo>&#x2208;<!-- ∈ --></mo>
+        <mo stretchy="false">[</mo>
+        <mi>x</mi>
+        <mo>&#x2212;<!-- − --></mo>
+        <mn>2</mn>
+        <mo>,</mo>
+        <mi>x</mi>
+        <mo stretchy="false">]</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta \in [x-2,x]}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/3cc0c0ffdae78696f1de7a552a80d2cc59e18694" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:12.921ex; height:2.843ex;" alt="{\displaystyle \theta \in [x-2,x]}"/></span>, and as (0,1) if <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta \in (x,x+2]}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mo>&#x2208;<!-- ∈ --></mo>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo>,</mo>
+        <mi>x</mi>
+        <mo>+</mo>
+        <mn>2</mn>
+        <mo stretchy="false">]</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta \in (x,x+2]}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/b4adcdf37171b523669f5352c245d8de775ab92f" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:13.179ex; height:2.843ex;" alt="{\displaystyle \theta \in (x,x+2]}"/></span>. (b) It cannot shatter any set of three points. For every set of three numbers, if the smallest and the largest are labeled 1, then the middle one must also be labeled 1, so not all labelings are possible.</p>
+<p>4. <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> is a <a href="/wiki/Linear_classifier" title="Linear classifier">straight line</a> as a classification model on points in a two-dimensional plane (this is the model used by a <a href="/wiki/Perceptron" title="Perceptron">perceptron</a>). The line should separate positive data points from negative data points. There exist sets of 3 points that can indeed be shattered using this model (any 3 points that are not collinear can be shattered). However, no set of 4 points can be shattered: by <a href="/wiki/Radon%27s_theorem" title="Radon's theorem">Radon's theorem</a>, any four points can be partitioned into two subsets with intersecting <a href="/wiki/Convex_hull" title="Convex hull">convex hulls</a>, so it is not possible to separate one of these two subsets from the other. Thus, the VC dimension of this particular classifier is 3. It is important to remember that while one can choose any arrangement of points, the arrangement of those points cannot change when attempting to shatter for some label assignment. Note, only 3 of the 2<sup>3</sup>&#160;=&#160;8 possible label assignments are shown for the three points.</p>
+<table border="0" cellpadding="4" cellspacing="0">
+<tr style="text-align:center;">
+<td style="background:#dfd;"><a href="/wiki/File:VC1.svg" class="image"><img alt="VC1.svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/d/d9/VC1.svg/100px-VC1.svg.png" width="100" height="100" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/d/d9/VC1.svg/150px-VC1.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/d/d9/VC1.svg/200px-VC1.svg.png 2x" data-file-width="100" data-file-height="100" /></a></td>
+<td style="background:#dfd;"><a href="/wiki/File:VC2.svg" class="image"><img alt="VC2.svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/b/b8/VC2.svg/100px-VC2.svg.png" width="100" height="100" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/b/b8/VC2.svg/150px-VC2.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/b/b8/VC2.svg/200px-VC2.svg.png 2x" data-file-width="100" data-file-height="100" /></a></td>
+<td style="background:#dfd;"><a href="/wiki/File:VC3.svg" class="image"><img alt="VC3.svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/b/b5/VC3.svg/100px-VC3.svg.png" width="100" height="100" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/b/b5/VC3.svg/150px-VC3.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/b/b5/VC3.svg/200px-VC3.svg.png 2x" data-file-width="100" data-file-height="100" /></a></td>
+<td style="background:#fdd;"><a href="/wiki/File:VC4.svg" class="image"><img alt="VC4.svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/3/37/VC4.svg/100px-VC4.svg.png" width="100" height="100" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/3/37/VC4.svg/150px-VC4.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/3/37/VC4.svg/200px-VC4.svg.png 2x" data-file-width="100" data-file-height="100" /></a></td>
+</tr>
+<tr style="text-align:center;">
+<td colspan="3" style="background:#dfd;"><b>3 points shattered</b></td>
+<td style="background:#fdd;"><b>4 points impossible</b></td>
+</tr>
+</table>
+<p>5. <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> is a single-parametric <a href="/wiki/Sine" title="Sine">sine</a> classifier, i.e, for a certain parameter <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \theta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B8;<!-- θ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \theta }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/6e5ab2664b422d53eb0c7df3b87e1360d75ad9af" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.09ex; height:2.176ex;" alt="\theta "/></span>, the classifier <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f_{\theta }}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>f</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>&#x03B8;<!-- θ --></mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f_{\theta }}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/9874ae06066a2250709085e0fb521eebff2c2fb7" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.143ex; height:2.509ex;" alt="f_{\theta }"/></span> returns 1 if the input number <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle x}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>x</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle x}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/87f9e315fd7e2ba406057a97300593c4802b53e4" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.33ex; height:1.676ex;" alt="x"/></span> is larger than <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \sin(\theta x)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>sin</mi>
+        <mo>&#x2061;<!-- ⁡ --></mo>
+        <mo stretchy="false">(</mo>
+        <mi>&#x03B8;<!-- θ --></mi>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \sin(\theta x)}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/e47232bb9f7037c3595a49b8f4d10dd3ba897a4b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:7.085ex; height:2.843ex;" alt="{\displaystyle \sin(\theta x)}"/></span> and 0 otherwise. The VC dimension of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/132e57acb643253e7810ee9702d9581f159a1c61" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.279ex; height:2.509ex;" alt="f"/></span> is infinite, since it can shatter any finite subset of the set <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \{2^{-m}|m\in \mathbb {N} \}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo fence="false" stretchy="false">{</mo>
+        <msup>
+          <mn>2</mn>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo>&#x2212;<!-- − --></mo>
+            <mi>m</mi>
+          </mrow>
+        </msup>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mi>m</mi>
+        <mo>&#x2208;<!-- ∈ --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mi mathvariant="double-struck">N</mi>
+        </mrow>
+        <mo fence="false" stretchy="false">}</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \{2^{-m}|m\in \mathbb {N} \}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/0bd848b737394a3a5ad827008d462b31d5d95456" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:13.647ex; height:3.009ex;" alt="{\displaystyle \{2^{-m}|m\in \mathbb {N} \}}"/></span>.<sup id="cite_ref-book12_2-0" class="reference"><a href="#cite_note-book12-2">[2]</a></sup><sup class="reference" style="white-space:nowrap;">:<span>57</span></sup></p>
+<h2><span class="mw-headline" id="Uses">Uses</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=5" title="Edit section: Uses">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<h3><span class="mw-headline" id="In_statistical_learning_theory">In statistical learning theory</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=6" title="Edit section: In statistical learning theory">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>The VC dimension can predict a <a href="/wiki/Probabilistic" class="mw-redirect" title="Probabilistic">probabilistic</a> <a href="/wiki/Upper_bound" class="mw-redirect" title="Upper bound">upper bound</a> on the test error of a classification model. Vapnik<sup id="cite_ref-FOOTNOTEVapnik2000_3-0" class="reference"><a href="#cite_note-FOOTNOTEVapnik2000-3">[3]</a></sup> proved that the probability of the test error distancing from an upper bound (on data that is drawn <a href="/wiki/Independent_identically-distributed_random_variables" class="mw-redirect" title="Independent identically-distributed random variables">i.i.d.</a> from the same distribution as the training set) is given by:</p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \Pr \left({\text{test error}}\leqslant {\text{training error}}+{\sqrt {{\frac {1}{N}}\left[D\left(\log \left({\tfrac {2N}{D}}\right)+1\right)-\log \left({\tfrac {\eta }{4}}\right)\right]}}\right)=1-\eta ,}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mo movablelimits="true" form="prefix">Pr</mo>
+        <mrow>
+          <mo>(</mo>
+          <mrow>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mtext>test error</mtext>
+            </mrow>
+            <mo>&#x2A7D;<!-- ⩽ --></mo>
+            <mrow class="MJX-TeXAtom-ORD">
+              <mtext>training error</mtext>
+            </mrow>
+            <mo>+</mo>
+            <mrow class="MJX-TeXAtom-ORD">
+              <msqrt>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mfrac>
+                    <mn>1</mn>
+                    <mi>N</mi>
+                  </mfrac>
+                </mrow>
+                <mrow>
+                  <mo>[</mo>
+                  <mrow>
+                    <mi>D</mi>
+                    <mrow>
+                      <mo>(</mo>
+                      <mrow>
+                        <mi>log</mi>
+                        <mo>&#x2061;<!-- ⁡ --></mo>
+                        <mrow>
+                          <mo>(</mo>
+                          <mrow class="MJX-TeXAtom-ORD">
+                            <mstyle displaystyle="false" scriptlevel="0">
+                              <mfrac>
+                                <mrow>
+                                  <mn>2</mn>
+                                  <mi>N</mi>
+                                </mrow>
+                                <mi>D</mi>
+                              </mfrac>
+                            </mstyle>
+                          </mrow>
+                          <mo>)</mo>
+                        </mrow>
+                        <mo>+</mo>
+                        <mn>1</mn>
+                      </mrow>
+                      <mo>)</mo>
+                    </mrow>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mi>log</mi>
+                    <mo>&#x2061;<!-- ⁡ --></mo>
+                    <mrow>
+                      <mo>(</mo>
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mstyle displaystyle="false" scriptlevel="0">
+                          <mfrac>
+                            <mi>&#x03B7;<!-- η --></mi>
+                            <mn>4</mn>
+                          </mfrac>
+                        </mstyle>
+                      </mrow>
+                      <mo>)</mo>
+                    </mrow>
+                  </mrow>
+                  <mo>]</mo>
+                </mrow>
+              </msqrt>
+            </mrow>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+        <mo>=</mo>
+        <mn>1</mn>
+        <mo>&#x2212;<!-- − --></mo>
+        <mi>&#x03B7;<!-- η --></mi>
+        <mo>,</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Pr \left({\text{test error}}\leqslant {\text{training error}}+{\sqrt {{\frac {1}{N}}\left[D\left(\log \left({\tfrac {2N}{D}}\right)+1\right)-\log \left({\tfrac {\eta }{4}}\right)\right]}}\right)=1-\eta ,}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/fedf2a28deab07459cf7701c2c5adbd6ff7d6289" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -2.505ex; width:79.968ex; height:6.343ex;" alt="{\displaystyle \Pr \left({\text{test error}}\leqslant {\text{training error}}+{\sqrt {{\frac {1}{N}}\left[D\left(\log \left({\tfrac {2N}{D}}\right)+1\right)-\log \left({\tfrac {\eta }{4}}\right)\right]}}\right)=1-\eta ,}"/></span></dd>
+</dl>
+<p>where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle D}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>D</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f34a0c600395e5d4345287e21fb26efd386990e6" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.924ex; height:2.176ex;" alt="D"/></span> is the VC dimension of the classification model, <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle 0\leqslant \eta \leqslant 1}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mn>0</mn>
+        <mo>&#x2A7D;<!-- ⩽ --></mo>
+        <mi>&#x03B7;<!-- η --></mi>
+        <mo>&#x2A7D;<!-- ⩽ --></mo>
+        <mn>1</mn>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle 0\leqslant \eta \leqslant 1}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/5f0a62b59191470e8e2925ce9127761e1950f946" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:9.691ex; height:2.676ex;" alt="{\displaystyle 0\leqslant \eta \leqslant 1}"/></span>, and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle N}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>N</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle N}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f5e3890c981ae85503089652feb48b191b57aae3" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.064ex; height:2.176ex;" alt="N"/></span> is the size of the training set (restriction: this formula is valid when <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle D\ll N}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>D</mi>
+        <mo>&#x226A;<!-- ≪ --></mo>
+        <mi>N</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D\ll N}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/2af6ff5903e360b9ac1a1b4815378b0f8ad0bfa5" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:7.602ex; height:2.176ex;" alt="{\displaystyle D\ll N}"/></span>. When <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle D}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>D</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f34a0c600395e5d4345287e21fb26efd386990e6" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.924ex; height:2.176ex;" alt="D"/></span> is larger, the test-error may be much higher than the training-error. This is due to <a href="/wiki/Overfitting" title="Overfitting">overfitting</a>).</p>
+<p>The VC dimension also appears in <a href="/wiki/Sample-complexity_bounds" class="mw-redirect" title="Sample-complexity bounds">sample-complexity bounds</a>. A space of binary functions with VC dimension <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle D}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>D</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f34a0c600395e5d4345287e21fb26efd386990e6" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.924ex; height:2.176ex;" alt="D"/></span> can be learned with:</p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle N=\Theta \left({\frac {D+\ln {1 \over \delta }}{\epsilon }}\right)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>N</mi>
+        <mo>=</mo>
+        <mi mathvariant="normal">&#x0398;<!-- Θ --></mi>
+        <mrow>
+          <mo>(</mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mfrac>
+              <mrow>
+                <mi>D</mi>
+                <mo>+</mo>
+                <mi>ln</mi>
+                <mo>&#x2061;<!-- ⁡ --></mo>
+                <mrow class="MJX-TeXAtom-ORD">
+                  <mfrac>
+                    <mn>1</mn>
+                    <mi>&#x03B4;<!-- δ --></mi>
+                  </mfrac>
+                </mrow>
+              </mrow>
+              <mi>&#x03F5;<!-- ϵ --></mi>
+            </mfrac>
+          </mrow>
+          <mo>)</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle N=\Theta \left({\frac {D+\ln {1 \over \delta }}{\epsilon }}\right)}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/418304d30912a84debaba77067e2e07fdbf2e5b8" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.171ex; width:20.624ex; height:7.843ex;" alt="{\displaystyle N=\Theta \left({\frac {D+\ln {1 \over \delta }}{\epsilon }}\right)}"/></span></dd>
+</dl>
+<p>samples, where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \epsilon }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03F5;<!-- ϵ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \epsilon }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/c3837cad72483d97bcdde49c85d3b7b859fb3fd2" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:0.944ex; height:1.676ex;" alt="\epsilon "/></span> is the learning error and <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \delta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>&#x03B4;<!-- δ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \delta }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/c5321cfa797202b3e1f8620663ff43c4660ea03a" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.049ex; height:2.343ex;" alt="\delta "/></span> is the failure probability. Thus, the sample-complexity is a linear function of the VC dimension of the hypothesis space.</p>
+<h3><span class="mw-headline" id="In_computational_geometry">In <a href="/wiki/Computational_geometry" title="Computational geometry">computational geometry</a></span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=7" title="Edit section: In computational geometry">edit</a><span class="mw-editsection-bracket">]</span></span></h3>
+<p>The VC dimension is one of the critical parameters in the size of <a href="/wiki/E-net_(computational_geometry)" class="mw-redirect" title="E-net (computational geometry)">ε-nets</a>, which determines the complexity of approximation algorithms based on them; range sets without finite VC dimension may not have finite ε-nets at all.</p>
+<h2><span class="mw-headline" id="Bounds">Bounds</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=8" title="Edit section: Bounds">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>1. The VC dimension of a finite set-family <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/75a9edddcca2f782014371f75dca39d7e13a9c1b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.064ex; height:2.176ex;" alt="H"/></span> is at most <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \log _{2}|H|}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>log</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msub>
+        <mo>&#x2061;<!-- ⁡ --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mi>H</mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \log _{2}|H|}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/6c80d7ade3b7ebca649cd5ec4c965be0d541bdec" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:7.77ex; height:2.843ex;" alt="{\displaystyle \log _{2}|H|}"/></span>.<sup id="cite_ref-book12_2-1" class="reference"><a href="#cite_note-book12-2">[2]</a></sup><sup class="reference" style="white-space:nowrap;">:<span>56</span></sup> This is because <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle |H\cap C|\leq |H|}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mi>H</mi>
+        <mo>&#x2229;<!-- ∩ --></mo>
+        <mi>C</mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mo>&#x2264;<!-- ≤ --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mi>H</mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle |H\cap C|\leq |H|}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/74847ee2260c992221c8e4ebf344ce802bf8ae4c" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:14.162ex; height:2.843ex;" alt="{\displaystyle |H\cap C|\leq |H|}"/></span> by definition.</p>
+<p>2. Given a set-family <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/75a9edddcca2f782014371f75dca39d7e13a9c1b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.064ex; height:2.176ex;" alt="H"/></span>, define <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H_{s}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>H</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>s</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H_{s}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/b9040b5202c8b29954091a7f903c792a59e612a1" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:2.935ex; height:2.509ex;" alt="H_{s}"/></span> as a set-family that contains all intersections of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle s}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>s</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle s}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/01d131dfd7673938b947072a13a9744fe997e632" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.09ex; height:1.676ex;" alt="s"/></span> elements of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/75a9edddcca2f782014371f75dca39d7e13a9c1b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.064ex; height:2.176ex;" alt="H"/></span>. Then:<sup id="cite_ref-book12_2-2" class="reference"><a href="#cite_note-book12-2">[2]</a></sup><sup class="reference" style="white-space:nowrap;">:<span>57</span></sup></p>
+<dl>
+<dd>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle {\text{VCDim}}(H_{s})\leq {\text{VCDim}}(H)\cdot (2s\log _{2}(3s))}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mtext>VCDim</mtext>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <msub>
+          <mi>H</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>s</mi>
+          </mrow>
+        </msub>
+        <mo stretchy="false">)</mo>
+        <mo>&#x2264;<!-- ≤ --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mtext>VCDim</mtext>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <mi>H</mi>
+        <mo stretchy="false">)</mo>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mo stretchy="false">(</mo>
+        <mn>2</mn>
+        <mi>s</mi>
+        <msub>
+          <mi>log</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msub>
+        <mo>&#x2061;<!-- ⁡ --></mo>
+        <mo stretchy="false">(</mo>
+        <mn>3</mn>
+        <mi>s</mi>
+        <mo stretchy="false">)</mo>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\text{VCDim}}(H_{s})\leq {\text{VCDim}}(H)\cdot (2s\log _{2}(3s))}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/6dc1e1075cea974e3c12fce18306b34fc73125b0" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:41.491ex; height:2.843ex;" alt="{\displaystyle {\text{VCDim}}(H_{s})\leq {\text{VCDim}}(H)\cdot (2s\log _{2}(3s))}"/></span></dd>
+</dl>
+</dd>
+</dl>
+<p>3. Given a set-family <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/75a9edddcca2f782014371f75dca39d7e13a9c1b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:2.064ex; height:2.176ex;" alt="H"/></span> and an element <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle h_{0}\in H}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>h</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <mo>&#x2208;<!-- ∈ --></mo>
+        <mi>H</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle h_{0}\in H}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/63d0fe86ee66fa820efb1c9830d39897aacaaaac" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:7.297ex; height:2.509ex;" alt="{\displaystyle h_{0}\in H}"/></span>, define <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle H\Delta h_{0}:=\{h\Delta h_{0}\mid h\in H\}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>H</mi>
+        <mi mathvariant="normal">&#x0394;<!-- Δ --></mi>
+        <msub>
+          <mi>h</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <mo>:=</mo>
+        <mo fence="false" stretchy="false">{</mo>
+        <mi>h</mi>
+        <mi mathvariant="normal">&#x0394;<!-- Δ --></mi>
+        <msub>
+          <mi>h</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <mo>&#x2223;<!-- ∣ --></mo>
+        <mi>h</mi>
+        <mo>&#x2208;<!-- ∈ --></mo>
+        <mi>H</mi>
+        <mo fence="false" stretchy="false">}</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle H\Delta h_{0}:=\{h\Delta h_{0}\mid h\in H\}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/ea3db6a518d6cddf5de58ff2de864e1afd244e4b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:26.311ex; height:2.843ex;" alt="{\displaystyle H\Delta h_{0}:=\{h\Delta h_{0}\mid h\in H\}}"/></span> where <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \Delta }">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">&#x0394;<!-- Δ --></mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Delta }</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/32769037c408874e1890f77554c65f39c523ebe2" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.936ex; height:2.176ex;" alt="\Delta "/></span> denotes <a href="/wiki/Symmetric_set_difference" class="mw-redirect" title="Symmetric set difference">symmetric set difference</a>. Then:<sup id="cite_ref-book12_2-3" class="reference"><a href="#cite_note-book12-2">[2]</a></sup><sup class="reference" style="white-space:nowrap;">:<span>58</span></sup></p>
+<dl>
+<dd>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle {\text{VCDim}}(H\Delta h_{0})={\text{VCDim}}(H)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mrow class="MJX-TeXAtom-ORD">
+          <mtext>VCDim</mtext>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <mi>H</mi>
+        <mi mathvariant="normal">&#x0394;<!-- Δ --></mi>
+        <msub>
+          <mi>h</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>0</mn>
+          </mrow>
+        </msub>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mtext>VCDim</mtext>
+        </mrow>
+        <mo stretchy="false">(</mo>
+        <mi>H</mi>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle {\text{VCDim}}(H\Delta h_{0})={\text{VCDim}}(H)}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/5f960d000e10d7dd7b2573d7b1fb97cb65799377" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:30.732ex; height:2.843ex;" alt="{\displaystyle {\text{VCDim}}(H\Delta h_{0})={\text{VCDim}}(H)}"/></span></dd>
+</dl>
+</dd>
+</dl>
+<h2><span class="mw-headline" id="VC_dimension_of_a_finite_projective_plane">VC dimension of a finite projective plane</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=9" title="Edit section: VC dimension of a finite projective plane">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>A <a href="/wiki/Finite_projective_plane" class="mw-redirect" title="Finite projective plane">finite projective plane</a> of order <i>n</i> is a collection of <i>n</i>^2 +<i>n</i> + 1 sets (called "lines") over <i>n</i>^2 + <i>n</i> + 1 elements (called "points"). Each line contains exactly <i>n</i> + 1 points. Each line intersects every other line in exactly one point. The VC dimension of a finite projective plane is 2.<sup id="cite_ref-ahw87_4-0" class="reference"><a href="#cite_note-ahw87-4">[4]</a></sup></p>
+<p><i>Proof</i>: (a) For each pair of distinct points, there is one line that contains both of them, lines that contain only one of them, and lines that contain none of them, so every set of size 2 is shattered. (b) For any triple of three distinct points, if there is a line <i>x</i> that contain all three, then there is no line <i>y</i> that contains exactly two (since then <i>x</i> and <i>y</i> would intersect in two points, which is contrary to the definition of a projective plane). Hence, no set of size 3 is shattered.</p>
+<h2><span class="mw-headline" id="VC_dimension_of_a_boosting_classifier">VC dimension of a boosting classifier</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=10" title="Edit section: VC dimension of a boosting classifier">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>Suppose we have a base class <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle B}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>B</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle B}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/47136aad860d145f75f3eed3022df827cee94d7a" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.764ex; height:2.176ex;" alt="B"/></span> of simple classifiers, whose VC dimension is <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle D}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>D</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle D}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f34a0c600395e5d4345287e21fb26efd386990e6" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.924ex; height:2.176ex;" alt="D"/></span>.</p>
+<p>We can construct a more powerful classifier by combining several different classifiers from <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle B}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>B</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle B}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/47136aad860d145f75f3eed3022df827cee94d7a" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.764ex; height:2.176ex;" alt="B"/></span>; this technique is called <a href="/wiki/Boosting_(machine_learning)" title="Boosting (machine learning)">boosting</a>. Formally, given <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle T}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>T</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle T}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/ec7200acd984a1d3a3d7dc455e262fbe54f7f6e0" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.636ex; height:2.176ex;" alt="T"/></span> classifiers <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle h_{1},\ldots ,h_{T}\in B}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>h</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo>,</mo>
+        <mo>&#x2026;<!-- … --></mo>
+        <mo>,</mo>
+        <msub>
+          <mi>h</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msub>
+        <mo>&#x2208;<!-- ∈ --></mo>
+        <mi>B</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle h_{1},\ldots ,h_{T}\in B}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/7f7b5c0c2f329dfbe9f658ee7cfa16234325a10d" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:14.904ex; height:2.509ex;" alt="{\displaystyle h_{1},\ldots ,h_{T}\in B}"/></span> and a weight vector <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle w\in \mathbb {R} ^{T}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>w</mi>
+        <mo>&#x2208;<!-- ∈ --></mo>
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="double-struck">R</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle w\in \mathbb {R} ^{T}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/b2dedbeeab44e8a6ff575987195460f4c800cbdb" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:7.572ex; height:2.676ex;" alt="{\displaystyle w\in \mathbb {R} ^{T}}"/></span>, we can define the following classifier:</p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle f(x)=\operatorname {sign} (\sum _{t=1}^{T}w_{t}\cdot h_{t}(x))}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>f</mi>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo>=</mo>
+        <mi>sign</mi>
+        <mo>&#x2061;<!-- ⁡ --></mo>
+        <mo stretchy="false">(</mo>
+        <munderover>
+          <mo>&#x2211;<!-- ∑ --></mo>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>t</mi>
+            <mo>=</mo>
+            <mn>1</mn>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </munderover>
+        <msub>
+          <mi>w</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>t</mi>
+          </mrow>
+        </msub>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <msub>
+          <mi>h</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>t</mi>
+          </mrow>
+        </msub>
+        <mo stretchy="false">(</mo>
+        <mi>x</mi>
+        <mo stretchy="false">)</mo>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle f(x)=\operatorname {sign} (\sum _{t=1}^{T}w_{t}\cdot h_{t}(x))}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/afa553e3bce618793dfab98cc2e574c2449df15f" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -3.005ex; width:26.559ex; height:7.343ex;" alt="{\displaystyle f(x)=\operatorname {sign} (\sum _{t=1}^{T}w_{t}\cdot h_{t}(x))}"/></span></dd>
+</dl>
+<p>The VC dimension of the set of all such classifiers (for all selections of <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle T}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>T</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle T}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/ec7200acd984a1d3a3d7dc455e262fbe54f7f6e0" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.636ex; height:2.176ex;" alt="T"/></span> classifiers from <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle B}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>B</mi>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle B}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/47136aad860d145f75f3eed3022df827cee94d7a" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:1.764ex; height:2.176ex;" alt="B"/></span> and a weight-vector from <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \mathbb {R} ^{T}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi mathvariant="double-struck">R</mi>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>T</mi>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \mathbb {R} ^{T}}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/a1bed70312af4ab7ee5eed503cd5c54575ca513b" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:3.067ex; height:2.676ex;" alt="{\mathbb  {R}}^{T}"/></span>) is at most:<sup id="cite_ref-book14_5-0" class="reference"><a href="#cite_note-book14-5">[5]</a></sup><sup class="reference" style="white-space:nowrap;">:<span>108-109</span></sup></p>
+<dl>
+<dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle T\cdot (D+1)\cdot (3\cdot \log(T\cdot (D+1))+2)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>T</mi>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mo stretchy="false">(</mo>
+        <mi>D</mi>
+        <mo>+</mo>
+        <mn>1</mn>
+        <mo stretchy="false">)</mo>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mo stretchy="false">(</mo>
+        <mn>3</mn>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mi>log</mi>
+        <mo>&#x2061;<!-- ⁡ --></mo>
+        <mo stretchy="false">(</mo>
+        <mi>T</mi>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mo stretchy="false">(</mo>
+        <mi>D</mi>
+        <mo>+</mo>
+        <mn>1</mn>
+        <mo stretchy="false">)</mo>
+        <mo stretchy="false">)</mo>
+        <mo>+</mo>
+        <mn>2</mn>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle T\cdot (D+1)\cdot (3\cdot \log(T\cdot (D+1))+2)}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/d52d9110cc0f072dfefa92fd115c504d072250eb" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:37.217ex; height:2.843ex;" alt="{\displaystyle T\cdot (D+1)\cdot (3\cdot \log(T\cdot (D+1))+2)}"/></span></dd>
+</dl>
+<h2><span class="mw-headline" id="VC_dimension_of_a_neural_network">VC dimension of a neural network</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=11" title="Edit section: VC dimension of a neural network">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>A <a href="/wiki/Neural_network" title="Neural network">neural network</a> is described by a <a href="/wiki/Directed_acyclic_graph" title="Directed acyclic graph">directed acyclic graph</a> G(V,E), where:</p>
+<ul>
+<li>V is the set of nodes. Each node is a simple computation cell.</li>
+<li>E is the set of edges, Each edge has a weight.</li>
+<li>The input to the network is represented by the sources of the graph - the nodes with no incoming edges.</li>
+<li>The output of the network is represented by the sinks of the graph - the nodes with no outgoing edges.</li>
+<li>Each intermediate node gets as input a weighted sum of the outputs of the nodes at its incoming edges, where the weights are the weights on the edges.</li>
+<li>Each intermediate node outputs a certain increasing function of its input, such as the <a href="/wiki/Sign_function" title="Sign function">sign function</a> or the <a href="/wiki/Sigmoid_function" title="Sigmoid function">sigmoid function</a>. This function is called the <i>activation function</i>.</li>
+</ul>
+<p>The VC dimension of a neural network is bounded as follows:<sup id="cite_ref-book14_5-1" class="reference"><a href="#cite_note-book14-5">[5]</a></sup><sup class="reference" style="white-space:nowrap;">:<span>234-235</span></sup></p>
+<ul>
+<li>If the activation function is the sign function and the weights are general, then the VC dimension is at most <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle O(|E|\cdot \log(|E|))}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mi>E</mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mi>log</mi>
+        <mo>&#x2061;<!-- ⁡ --></mo>
+        <mo stretchy="false">(</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mi>E</mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mo stretchy="false">)</mo>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(|E|\cdot \log(|E|))}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/2b0ed1bbd4b6448747c31fcafbc3fae9ddd0ab57" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:16.181ex; height:2.843ex;" alt="{\displaystyle O(|E|\cdot \log(|E|))}"/></span>.</li>
+<li>If the activation function is the sigmoid function and the weights are general, then the VC dimension is at least <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle \Omega (|E|^{2})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi mathvariant="normal">&#x03A9;<!-- Ω --></mi>
+        <mo stretchy="false">(</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mi>E</mi>
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo stretchy="false">|</mo>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle \Omega (|E|^{2})}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/79066a003da907c749fb597936db6b7d6fdddf87" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:7.611ex; height:3.343ex;" alt="{\displaystyle \Omega (|E|^{2})}"/></span> and at most <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle O(|E|^{2}\cdot |V|^{2})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mi>E</mi>
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo stretchy="false">|</mo>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msup>
+        <mo>&#x22C5;<!-- ⋅ --></mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mi>V</mi>
+        <msup>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mo stretchy="false">|</mo>
+          </mrow>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msup>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(|E|^{2}\cdot |V|^{2})}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/12f57750a0b90337e038da3fb3b170f7448eb714" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:13.52ex; height:3.343ex;" alt="{\displaystyle O(|E|^{2}\cdot |V|^{2})}"/></span>.</li>
+<li>If the weights come from a finite family (e.g. the weights are real numbers that can be represented by at most 32 bits in a computer), then, for both activation functions, the VC dimension is at most <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle O(|E|)}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>O</mi>
+        <mo stretchy="false">(</mo>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mi>E</mi>
+        <mrow class="MJX-TeXAtom-ORD">
+          <mo stretchy="false">|</mo>
+        </mrow>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle O(|E|)}</annotation>
+  </semantics>
+</math></span><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/976fe7f1e011d0dcdb3d6163754c877aaad5187f" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:6.652ex; height:2.843ex;" alt="O(|E|)"/></span>.</li>
+</ul>
+<h2><span class="mw-headline" id="Generalizations">Generalizations</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=12" title="Edit section: Generalizations">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>The VC dimension is defined for spaces of binary functions (functions to {0,1}). Several generalizations have been suggested for spaces of non-binary functions.</p>
+<ul>
+<li>For multi-valued functions (functions to {0,...,n}), the <a href="/w/index.php?title=Natarajan_dimension&amp;action=edit&amp;redlink=1" class="new" title="Natarajan dimension (page does not exist)">Natarajan dimension</a><sup id="cite_ref-FOOTNOTENatarajan1989_6-0" class="reference"><a href="#cite_note-FOOTNOTENatarajan1989-6">[6]</a></sup> can be used. Ben David et al<sup id="cite_ref-FOOTNOTEBen-DavidCesa-BianchiLong1992_7-0" class="reference"><a href="#cite_note-FOOTNOTEBen-DavidCesa-BianchiLong1992-7">[7]</a></sup> present a generalization of this concept.</li>
+<li>For real-valued functions (e.g. functions to a real interval, [0,1]), Pollard's pseudo-dimension<sup id="cite_ref-FOOTNOTEPollard1984_8-0" class="reference"><a href="#cite_note-FOOTNOTEPollard1984-8">[8]</a></sup><sup id="cite_ref-FOOTNOTEAnthonyBartlett2009_9-0" class="reference"><a href="#cite_note-FOOTNOTEAnthonyBartlett2009-9">[9]</a></sup><sup id="cite_ref-FOOTNOTEMorgensternRoughgarden2015_10-0" class="reference"><a href="#cite_note-FOOTNOTEMorgensternRoughgarden2015-10">[10]</a></sup> can be used.</li>
+<li>The <a href="/wiki/Rademacher_complexity" title="Rademacher complexity">Rademacher complexity</a> provides similar bounds to the VC, and can sometimes provide more insight than VC dimension calculations into such statistical methods such as those using <a href="/wiki/Kernel_methods" class="mw-redirect" title="Kernel methods">kernels</a>.</li>
+</ul>
+<h2><span class="mw-headline" id="See_also">See also</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=13" title="Edit section: See also">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<table role="presentation" class="mbox-small plainlinks sistersitebox" style="background-color:#f9f9f9;border:1px solid #aaa;color:#000">
+<tr>
+<td class="mbox-image"><img alt="" src="//upload.wikimedia.org/wikipedia/en/thumb/4/4a/Commons-logo.svg/30px-Commons-logo.svg.png" width="30" height="40" class="noviewer" srcset="//upload.wikimedia.org/wikipedia/en/thumb/4/4a/Commons-logo.svg/45px-Commons-logo.svg.png 1.5x, //upload.wikimedia.org/wikipedia/en/thumb/4/4a/Commons-logo.svg/59px-Commons-logo.svg.png 2x" data-file-width="1024" data-file-height="1376" /></td>
+<td class="mbox-text plainlist">Wikimedia Commons has media related to <i><b><a href="https://commons.wikimedia.org/wiki/Category:Vapnik-Chervonenkis_dimension" class="extiw" title="commons:Category:Vapnik-Chervonenkis dimension">Vapnik-Chervonenkis dimension</a></b></i>.</td>
+</tr>
+</table>
+<ul>
+<li><a href="/wiki/Growth_function" title="Growth function">Growth function</a></li>
+<li><a href="/wiki/Sauer%E2%80%93Shelah_lemma" title="Sauer–Shelah lemma">Sauer–Shelah lemma</a>, a bound on the number of sets in a set system in terms of the VC dimension.</li>
+<li><a href="/w/index.php?title=Karpinski-Macintyre_theorem&amp;action=edit&amp;redlink=1" class="new" title="Karpinski-Macintyre theorem (page does not exist)">Karpinski-Macintyre theorem</a>,<sup id="cite_ref-FOOTNOTEKarpinskiMacintyre1997_11-0" class="reference"><a href="#cite_note-FOOTNOTEKarpinskiMacintyre1997-11">[11]</a></sup> a bound on the VC dimension of general Pfaffian formulas.</li>
+</ul>
+<h2><span class="mw-headline" id="Footnotes">Footnotes</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=14" title="Edit section: Footnotes">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<div class="reflist" style="list-style-type: decimal;">
+<div class="mw-references-wrap mw-references-columns">
+<ol class="references">
+<li id="cite_note-vc-1"><span class="mw-cite-backlink"><b><a href="#cite_ref-vc_1-0">^</a></b></span> <span class="reference-text"><cite class="citation journal">Vapnik, V. N.; Chervonenkis, A. Ya. (1971). "On the Uniform Convergence of Relative Frequencies of Events to Their Probabilities". <i>Theory of Probability &amp; Its Applications</i>. <b>16</b> (2): 264. <a href="/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="//doi.org/10.1137/1116025">10.1137/1116025</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Theory+of+Probability+%26+Its+Applications&amp;rft.atitle=On+the+Uniform+Convergence+of+Relative+Frequencies+of+Events+to+Their+Probabilities&amp;rft.volume=16&amp;rft.issue=2&amp;rft.pages=264&amp;rft.date=1971&amp;rft_id=info%3Adoi%2F10.1137%2F1116025&amp;rft.aulast=Vapnik&amp;rft.aufirst=V.+N.&amp;rft.au=Chervonenkis%2C+A.+Ya.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span> This is an English translation, by B. Seckler, of the Russian paper: <cite class="citation journal">"On the Uniform Convergence of Relative Frequencies of Events to Their Probabilities". <i>Dokl. Akad. Nauk</i>. <b>181</b> (4): 781. 1968.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Dokl.+Akad.+Nauk&amp;rft.atitle=On+the+Uniform+Convergence+of+Relative+Frequencies+of+Events+to+Their+Probabilities&amp;rft.volume=181&amp;rft.issue=4&amp;rft.pages=781&amp;rft.date=1968&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span> The translation was reproduced as: <cite class="citation book">Vapnik, V. N.; Chervonenkis, A. Ya. (2015). "On the Uniform Convergence of Relative Frequencies of Events to Their Probabilities". <i>Measures of Complexity</i>. p.&#160;11. <a href="/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="//doi.org/10.1007/978-3-319-21852-6_3">10.1007/978-3-319-21852-6_3</a>. <a href="/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&#160;<a href="/wiki/Special:BookSources/978-3-319-21851-9" title="Special:BookSources/978-3-319-21851-9">978-3-319-21851-9</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=bookitem&amp;rft.atitle=On+the+Uniform+Convergence+of+Relative+Frequencies+of+Events+to+Their+Probabilities&amp;rft.btitle=Measures+of+Complexity&amp;rft.pages=11&amp;rft.date=2015&amp;rft_id=info%3Adoi%2F10.1007%2F978-3-319-21852-6_3&amp;rft.isbn=978-3-319-21851-9&amp;rft.aulast=Vapnik&amp;rft.aufirst=V.+N.&amp;rft.au=Chervonenkis%2C+A.+Ya.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></span></li>
+<li id="cite_note-book12-2"><span class="mw-cite-backlink">^ <a href="#cite_ref-book12_2-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-book12_2-1"><sup><i><b>b</b></i></sup></a> <a href="#cite_ref-book12_2-2"><sup><i><b>c</b></i></sup></a> <a href="#cite_ref-book12_2-3"><sup><i><b>d</b></i></sup></a></span> <span class="reference-text"><cite class="citation book"><a href="/wiki/Mehryar_Mohri" title="Mehryar Mohri">Mohri, Mehryar</a>; Rostamizadeh, Afshin; Talwalkar, Ameet (2012). <i>Foundations of Machine Learning</i>. USA, Massachusetts: MIT Press. <a href="/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&#160;<a href="/wiki/Special:BookSources/9780262018258" title="Special:BookSources/9780262018258">9780262018258</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Foundations+of+Machine+Learning&amp;rft.place=USA%2C+Massachusetts&amp;rft.pub=MIT+Press&amp;rft.date=2012&amp;rft.isbn=9780262018258&amp;rft.aulast=Mohri&amp;rft.aufirst=Mehryar&amp;rft.au=Rostamizadeh%2C+Afshin&amp;rft.au=Talwalkar%2C+Ameet&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></span></li>
+<li id="cite_note-FOOTNOTEVapnik2000-3"><span class="mw-cite-backlink"><b><a href="#cite_ref-FOOTNOTEVapnik2000_3-0">^</a></b></span> <span class="reference-text"><a href="#CITEREFVapnik2000">Vapnik 2000</a>.</span></li>
+<li id="cite_note-ahw87-4"><span class="mw-cite-backlink"><b><a href="#cite_ref-ahw87_4-0">^</a></b></span> <span class="reference-text"><cite class="citation journal">Alon, N.; Haussler, D.; Welzl, E. (1987). "Proceedings of the third annual symposium on Computational geometry - SCG '87": 331. <a href="/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="//doi.org/10.1145/41958.41994">10.1145/41958.41994</a>. <a href="/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&#160;<a href="/wiki/Special:BookSources/0897912314" title="Special:BookSources/0897912314">0897912314</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.atitle=Proceedings+of+the+third+annual+symposium+on+Computational+geometry++-+SCG+%2787&amp;rft.pages=331&amp;rft.date=1987&amp;rft_id=info%3Adoi%2F10.1145%2F41958.41994&amp;rft.isbn=0897912314&amp;rft.aulast=Alon&amp;rft.aufirst=N.&amp;rft.au=Haussler%2C+D.&amp;rft.au=Welzl%2C+E.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span> <span style="font-size:100%" class="error citation-comment"><code style="color:inherit; border:inherit; padding:inherit;">|chapter=</code> ignored (<a href="/wiki/Help:CS1_errors#chapter_ignored" title="Help:CS1 errors">help</a>)</span></span></li>
+<li id="cite_note-book14-5"><span class="mw-cite-backlink">^ <a href="#cite_ref-book14_5-0"><sup><i><b>a</b></i></sup></a> <a href="#cite_ref-book14_5-1"><sup><i><b>b</b></i></sup></a></span> <span class="reference-text"><cite class="citation book">Shalev-Shwartz, Shai; Ben-David, Shai (2014). <i>Understanding Machine Learning - from Theory to Algorithms</i>. Cambridge university press. <a href="/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&#160;<a href="/wiki/Special:BookSources/9781107057135" title="Special:BookSources/9781107057135">9781107057135</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Understanding+Machine+Learning+-+from+Theory+to+Algorithms&amp;rft.pub=Cambridge+university+press&amp;rft.date=2014&amp;rft.isbn=9781107057135&amp;rft.aulast=Shalev-Shwartz&amp;rft.aufirst=Shai&amp;rft.au=Ben-David%2C+Shai&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></span></li>
+<li id="cite_note-FOOTNOTENatarajan1989-6"><span class="mw-cite-backlink"><b><a href="#cite_ref-FOOTNOTENatarajan1989_6-0">^</a></b></span> <span class="reference-text"><a href="#CITEREFNatarajan1989">Natarajan 1989</a>.</span></li>
+<li id="cite_note-FOOTNOTEBen-DavidCesa-BianchiLong1992-7"><span class="mw-cite-backlink"><b><a href="#cite_ref-FOOTNOTEBen-DavidCesa-BianchiLong1992_7-0">^</a></b></span> <span class="reference-text"><a href="#CITEREFBen-DavidCesa-BianchiLong1992">Ben-David, Cesa-Bianchi &amp; Long 1992</a>.</span></li>
+<li id="cite_note-FOOTNOTEPollard1984-8"><span class="mw-cite-backlink"><b><a href="#cite_ref-FOOTNOTEPollard1984_8-0">^</a></b></span> <span class="reference-text"><a href="#CITEREFPollard1984">Pollard 1984</a>.</span></li>
+<li id="cite_note-FOOTNOTEAnthonyBartlett2009-9"><span class="mw-cite-backlink"><b><a href="#cite_ref-FOOTNOTEAnthonyBartlett2009_9-0">^</a></b></span> <span class="reference-text"><a href="#CITEREFAnthonyBartlett2009">Anthony &amp; Bartlett 2009</a>.</span></li>
+<li id="cite_note-FOOTNOTEMorgensternRoughgarden2015-10"><span class="mw-cite-backlink"><b><a href="#cite_ref-FOOTNOTEMorgensternRoughgarden2015_10-0">^</a></b></span> <span class="reference-text"><a href="#CITEREFMorgensternRoughgarden2015">Morgenstern &amp; Roughgarden 2015</a>.</span></li>
+<li id="cite_note-FOOTNOTEKarpinskiMacintyre1997-11"><span class="mw-cite-backlink"><b><a href="#cite_ref-FOOTNOTEKarpinskiMacintyre1997_11-0">^</a></b></span> <span class="reference-text"><a href="#CITEREFKarpinskiMacintyre1997">Karpinski &amp; Macintyre 1997</a>.</span></li>
+</ol>
+</div>
+</div>
+<h2><span class="mw-headline" id="References">References</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=VC_dimension&amp;action=edit&amp;section=15" title="Edit section: References">edit</a><span class="mw-editsection-bracket">]</span></span></h2>
+<ul>
+<li><cite class="citation web">Moore, Andrew. <a rel="nofollow" class="external text" href="http://www-2.cs.cmu.edu/~awm/tutorials/vcdim.html">"VC dimension tutorial"</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=unknown&amp;rft.btitle=VC+dimension+tutorial&amp;rft.aulast=Moore&amp;rft.aufirst=Andrew&amp;rft_id=http%3A%2F%2Fwww-2.cs.cmu.edu%2F~awm%2Ftutorials%2Fvcdim.html&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></li>
+<li><cite id="CITEREFVapnik2000" class="citation book">Vapnik, Vladimir (2000). <i>The nature of statistical learning theory</i>. Springer.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=The+nature+of+statistical+learning+theory&amp;rft.pub=Springer&amp;rft.date=2000&amp;rft.aulast=Vapnik&amp;rft.aufirst=Vladimir&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></li>
+<li><cite class="citation journal">Blumer, A.; Ehrenfeucht, A.; Haussler, D.; <a href="/wiki/Manfred_K._Warmuth" title="Manfred K. Warmuth">Warmuth, M. K.</a> (1989). <a rel="nofollow" class="external text" href="http://l2r.cs.uiuc.edu/~danr/Teaching/CS446-16/Papers/p929-blumer.pdf">"Learnability and the Vapnik–Chervonenkis dimension"</a> <span style="font-size:85%;">(PDF)</span>. <i>Journal of the ACM</i>. <b>36</b> (4): 929–865. <a href="/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="//doi.org/10.1145/76359.76371">10.1145/76359.76371</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Journal+of+the+ACM&amp;rft.atitle=Learnability+and+the+Vapnik%E2%80%93Chervonenkis+dimension&amp;rft.volume=36&amp;rft.issue=4&amp;rft.pages=929-865&amp;rft.date=1989&amp;rft_id=info%3Adoi%2F10.1145%2F76359.76371&amp;rft.aulast=Blumer&amp;rft.aufirst=A.&amp;rft.au=Ehrenfeucht%2C+A.&amp;rft.au=Haussler%2C+D.&amp;rft.au=Warmuth%2C+M.+K.&amp;rft_id=http%3A%2F%2Fl2r.cs.uiuc.edu%2F~danr%2FTeaching%2FCS446-16%2FPapers%2Fp929-blumer.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></li>
+<li><cite class="citation web">Burges, Christopher. <a rel="nofollow" class="external text" href="http://research.microsoft.com/en-us/um/people/cburges/papers/svmtutorial.pdf">"Tutorial on SVMs for Pattern Recognition"</a> <span style="font-size:85%;">(PDF)</span>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=unknown&amp;rft.btitle=Tutorial+on+SVMs+for+Pattern+Recognition&amp;rft.aulast=Burges&amp;rft.aufirst=Christopher&amp;rft_id=http%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fum%2Fpeople%2Fcburges%2Fpapers%2Fsvmtutorial.pdf&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span> (containing information also for VC dimension)</li>
+<li><cite class="citation web"><a href="/wiki/Bernard_Chazelle" title="Bernard Chazelle">Chazelle, Bernard</a>. <a rel="nofollow" class="external text" href="http://www.cs.princeton.edu/~chazelle/book.html">"The Discrepancy Method"</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=unknown&amp;rft.btitle=The+Discrepancy+Method&amp;rft.aulast=Chazelle&amp;rft.aufirst=Bernard&amp;rft_id=http%3A%2F%2Fwww.cs.princeton.edu%2F~chazelle%2Fbook.html&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></li>
+<li><cite id="CITEREFNatarajan1989" class="citation journal">Natarajan, B.K. (1989). <a rel="nofollow" class="external text" href="https://link.springer.com/article/10.1007%2FBF00114804#page-1">"On Learning sets and functions"</a>. <i>Machine Learning</i>. <b>4</b>: 67–97. <a href="/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="//doi.org/10.1007/BF00114804%23page-1">10.1007/BF00114804#page-1</a> (inactive 2017-06-06).</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Machine+Learning&amp;rft.atitle=On+Learning+sets+and+functions&amp;rft.volume=4&amp;rft.pages=67-97&amp;rft.date=1989&amp;rft_id=info%3Adoi%2F10.1007%2FBF00114804%23page-1&amp;rft.aulast=Natarajan&amp;rft.aufirst=B.K.&amp;rft_id=https%3A%2F%2Flink.springer.com%2Farticle%2F10.1007%252FBF00114804%23page-1&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></li>
+<li><cite id="CITEREFBen-DavidCesa-BianchiLong1992" class="citation conference">Ben-David, Shai; Cesa-Bianchi, Nicolò; Long, Philip M. (1992). "Characterizations of learnability for classes of {O, …, n}-valued functions". <i>Proceedings of the fifth annual workshop on Computational learning theory - COLT '92</i>. p.&#160;333. <a href="/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="//doi.org/10.1145/130385.130423">10.1145/130385.130423</a>. <a href="/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&#160;<a href="/wiki/Special:BookSources/089791497X" title="Special:BookSources/089791497X">089791497X</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=conference&amp;rft.atitle=Characterizations+of+learnability+for+classes+of+%7BO%2C+%E2%80%A6%2C+n%7D-valued+functions&amp;rft.btitle=Proceedings+of+the+fifth+annual+workshop+on+Computational+learning+theory++-+COLT+%2792&amp;rft.pages=333&amp;rft.date=1992&amp;rft_id=info%3Adoi%2F10.1145%2F130385.130423&amp;rft.isbn=089791497X&amp;rft.aulast=Ben-David&amp;rft.aufirst=Shai&amp;rft.au=Cesa-Bianchi%2C+Nicol%C3%B2&amp;rft.au=Long%2C+Philip+M.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></li>
+<li><cite id="CITEREFPollard1984" class="citation book">Pollard, D. (1984). <i>Convergence of Stochastic Processes</i>. Springer. <a href="/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&#160;<a href="/wiki/Special:BookSources/9781461252542" title="Special:BookSources/9781461252542">9781461252542</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Convergence+of+Stochastic+Processes&amp;rft.pub=Springer&amp;rft.date=1984&amp;rft.isbn=9781461252542&amp;rft.aulast=Pollard&amp;rft.aufirst=D.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></li>
+<li><cite id="CITEREFAnthonyBartlett2009" class="citation book">Anthony, Martin; Bartlett, Peter L. (2009). <i>Neural Network Learning: Theoretical Foundations</i>. <a href="/wiki/International_Standard_Book_Number" title="International Standard Book Number">ISBN</a>&#160;<a href="/wiki/Special:BookSources/9780521118620" title="Special:BookSources/9780521118620">9780521118620</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=book&amp;rft.btitle=Neural+Network+Learning%3A+Theoretical+Foundations&amp;rft.date=2009&amp;rft.isbn=9780521118620&amp;rft.aulast=Anthony&amp;rft.aufirst=Martin&amp;rft.au=Bartlett%2C+Peter+L.&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></li>
+<li><cite id="CITEREFMorgensternRoughgarden2015" class="citation conference">Morgenstern, Jamie H.; Roughgarden, Tim (2015). <a rel="nofollow" class="external text" href="http://papers.nips.cc/paper/5766-on-the-pseudo-dimension-of-nearly-optimal-auctions"><i>On the Pseudo-Dimension of Nearly Optimal Auctions</i></a>. NIPS. <a href="/wiki/ArXiv" title="ArXiv">arXiv</a>:<span class="plainlinks"><a rel="nofollow" class="external text" href="//arxiv.org/abs/1506.03684">1506.03684</a> <img alt="Freely accessible" src="//upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/9px-Lock-green.svg.png" title="Freely accessible" width="9" height="14" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/14px-Lock-green.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/6/65/Lock-green.svg/18px-Lock-green.svg.png 2x" data-file-width="512" data-file-height="813" /></span>. <a href="/wiki/Bibcode" title="Bibcode">Bibcode</a>:<a rel="nofollow" class="external text" href="http://adsabs.harvard.edu/abs/2015arXiv150603684M">2015arXiv150603684M</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Abook&amp;rft.genre=conference&amp;rft.btitle=On+the+Pseudo-Dimension+of+Nearly+Optimal+Auctions&amp;rft.date=2015&amp;rft_id=info%3Aarxiv%2F1506.03684&amp;rft_id=info%3Abibcode%2F2015arXiv150603684M&amp;rft.aulast=Morgenstern&amp;rft.aufirst=Jamie+H.&amp;rft.au=Roughgarden%2C+Tim&amp;rft_id=http%3A%2F%2Fpapers.nips.cc%2Fpaper%2F5766-on-the-pseudo-dimension-of-nearly-optimal-auctions&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></li>
+<li><cite id="CITEREFKarpinskiMacintyre1997" class="citation journal">Karpinski, Marek; Macintyre, Angus (February 1997). <a rel="nofollow" class="external text" href="http://www.sciencedirect.com/science/article/pii/S002200009791477X">"Polynomial Bounds for VC Dimension of Sigmoidal and General Pfaffian Neural Networks"</a>. <i>Journal of Computer and System Sciences</i>. <b>54</b> (1): 169–176. <a href="/wiki/Digital_object_identifier" title="Digital object identifier">doi</a>:<a rel="nofollow" class="external text" href="//doi.org/10.1006/jcss.1997.1477">10.1006/jcss.1997.1477</a>.</cite><span title="ctx_ver=Z39.88-2004&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.jtitle=Journal+of+Computer+and+System+Sciences&amp;rft.atitle=Polynomial+Bounds+for+VC+Dimension+of+Sigmoidal+and+General+Pfaffian+Neural+Networks&amp;rft.volume=54&amp;rft.issue=1&amp;rft.pages=169-176&amp;rft.date=1997-02&amp;rft_id=info%3Adoi%2F10.1006%2Fjcss.1997.1477&amp;rft.aulast=Karpinski&amp;rft.aufirst=Marek&amp;rft.au=Macintyre%2C+Angus&amp;rft_id=http%3A%2F%2Fwww.sciencedirect.com%2Fscience%2Farticle%2Fpii%2FS002200009791477X&amp;rfr_id=info%3Asid%2Fen.wikipedia.org%3AVC+dimension" class="Z3988"><span style="display:none;">&#160;</span></span></li>
+</ul>
+
+
+<!-- 
+NewPP limit report
+Parsed by mw1324
+Cached time: 20180703135409
+Cache expiry: 1900800
+Dynamic content: false
+CPU time usage: 0.296 seconds
+Real time usage: 0.452 seconds
+Preprocessor visited node count: 1531/1000000
+Preprocessor generated node count: 0/1500000
+Post‐expand include size: 35818/2097152 bytes
+Template argument size: 476/2097152 bytes
+Highest expansion depth: 9/40
+Expensive parser function count: 0/500
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 13288/5000000 bytes
+Number of Wikibase entities loaded: 1/400
+Lua time usage: 0.096/10.000 seconds
+Lua memory usage: 2.98 MB/50 MB
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%  202.015      1 -total
+ 44.08%   89.043      1 Template:Reflist
+ 29.39%   59.379      6 Template:Cite_journal
+ 26.91%   54.365      1 Template:Cite_Vapnik_Chervonenkis
+ 15.36%   31.031      1 Template:Commons_category
+ 14.51%   29.308      6 Template:Cite_book
+ 12.28%   24.806      7 Template:Sfn
+  5.87%   11.850      2 Template:Cite_conference
+  5.55%   11.202      3 Template:Cite_web
+  4.68%    9.464      1 Template:Commons
+-->
+</div>
+<!-- Saved in parser cache with key enwiki:pcache:idhash:305846-0!canonical!math=5 and timestamp 20180703135408 and revision id 846805558
+ -->
+<noscript><img src="//en.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1" alt="" title="" width="1" height="1" style="border: none; position: absolute;" /></noscript></div>					<div class="printfooter">
+						Retrieved from "<a dir="ltr" href="https://en.wikipedia.org/w/index.php?title=VC_dimension&amp;oldid=846805558">https://en.wikipedia.org/w/index.php?title=VC_dimension&amp;oldid=846805558</a>"					</div>
+				<div id="catlinks" class="catlinks" data-mw="interface"><div id="mw-normal-catlinks" class="mw-normal-catlinks"><a href="/wiki/Help:Category" title="Help:Category">Categories</a>: <ul><li><a href="/wiki/Category:Dimension" title="Category:Dimension">Dimension</a></li><li><a href="/wiki/Category:Statistical_classification" title="Category:Statistical classification">Statistical classification</a></li><li><a href="/wiki/Category:Computational_learning_theory" title="Category:Computational learning theory">Computational learning theory</a></li><li><a href="/wiki/Category:Measures_of_complexity" title="Category:Measures of complexity">Measures of complexity</a></li></ul></div><div id="mw-hidden-catlinks" class="mw-hidden-catlinks mw-hidden-cats-hidden">Hidden categories: <ul><li><a href="/wiki/Category:CS1_errors:_chapter_ignored" title="Category:CS1 errors: chapter ignored">CS1 errors: chapter ignored</a></li><li><a href="/wiki/Category:Pages_with_DOIs_inactive_since_2017" title="Category:Pages with DOIs inactive since 2017">Pages with DOIs inactive since 2017</a></li></ul></div></div>				<div class="visualClear"></div>
+							</div>
+		</div>
+		<div id="mw-navigation">
+			<h2>Navigation menu</h2>
+			<div id="mw-head">
+									<div id="p-personal" role="navigation" class="" aria-labelledby="p-personal-label">
+						<h3 id="p-personal-label">Personal tools</h3>
+						<ul>
+							<li id="pt-anonuserpage">Not logged in</li><li id="pt-anontalk"><a href="/wiki/Special:MyTalk" title="Discussion about edits from this IP address [n]" accesskey="n">Talk</a></li><li id="pt-anoncontribs"><a href="/wiki/Special:MyContributions" title="A list of edits made from this IP address [y]" accesskey="y">Contributions</a></li><li id="pt-createaccount"><a href="/w/index.php?title=Special:CreateAccount&amp;returnto=VC+dimension" title="You are encouraged to create an account and log in; however, it is not mandatory">Create account</a></li><li id="pt-login"><a href="/w/index.php?title=Special:UserLogin&amp;returnto=VC+dimension" title="You&#039;re encouraged to log in; however, it&#039;s not mandatory. [o]" accesskey="o">Log in</a></li>						</ul>
+					</div>
+									<div id="left-navigation">
+										<div id="p-namespaces" role="navigation" class="vectorTabs" aria-labelledby="p-namespaces-label">
+						<h3 id="p-namespaces-label">Namespaces</h3>
+						<ul>
+							<li id="ca-nstab-main" class="selected"><span><a href="/wiki/VC_dimension" title="View the content page [c]" accesskey="c">Article</a></span></li><li id="ca-talk"><span><a href="/wiki/Talk:VC_dimension" rel="discussion" title="Discussion about the content page [t]" accesskey="t">Talk</a></span></li>						</ul>
+					</div>
+										<div id="p-variants" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-variants-label">
+												<input type="checkbox" class="vectorMenuCheckbox" aria-labelledby="p-variants-label" />
+						<h3 id="p-variants-label">
+							<span>Variants</span>
+						</h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+									</div>
+				<div id="right-navigation">
+										<div id="p-views" role="navigation" class="vectorTabs" aria-labelledby="p-views-label">
+						<h3 id="p-views-label">Views</h3>
+						<ul>
+							<li id="ca-view" class="collapsible selected"><span><a href="/wiki/VC_dimension">Read</a></span></li><li id="ca-edit" class="collapsible"><span><a href="/w/index.php?title=VC_dimension&amp;action=edit" title="Edit this page [e]" accesskey="e">Edit</a></span></li><li id="ca-history" class="collapsible"><span><a href="/w/index.php?title=VC_dimension&amp;action=history" title="Past revisions of this page [h]" accesskey="h">View history</a></span></li>						</ul>
+					</div>
+										<div id="p-cactions" role="navigation" class="vectorMenu emptyPortlet" aria-labelledby="p-cactions-label">
+						<input type="checkbox" class="vectorMenuCheckbox" aria-labelledby="p-cactions-label" />
+						<h3 id="p-cactions-label"><span>More</span></h3>
+						<div class="menu">
+							<ul>
+															</ul>
+						</div>
+					</div>
+										<div id="p-search" role="search">
+						<h3>
+							<label for="searchInput">Search</label>
+						</h3>
+						<form action="/w/index.php" id="searchform">
+							<div id="simpleSearch">
+								<input type="search" name="search" placeholder="Search Wikipedia" title="Search Wikipedia [f]" accesskey="f" id="searchInput"/><input type="hidden" value="Special:Search" name="title"/><input type="submit" name="fulltext" value="Search" title="Search Wikipedia for this text" id="mw-searchButton" class="searchButton mw-fallbackSearchButton"/><input type="submit" name="go" value="Go" title="Go to a page with this exact name if it exists" id="searchButton" class="searchButton"/>							</div>
+						</form>
+					</div>
+									</div>
+			</div>
+			<div id="mw-panel">
+				<div id="p-logo" role="banner"><a class="mw-wiki-logo" href="/wiki/Main_Page"  title="Visit the main page"></a></div>
+						<div class="portal" role="navigation" id="p-navigation" aria-labelledby="p-navigation-label">
+			<h3 id="p-navigation-label">Navigation</h3>
+			<div class="body">
+								<ul>
+					<li id="n-mainpage-description"><a href="/wiki/Main_Page" title="Visit the main page [z]" accesskey="z">Main page</a></li><li id="n-contents"><a href="/wiki/Portal:Contents" title="Guides to browsing Wikipedia">Contents</a></li><li id="n-featuredcontent"><a href="/wiki/Portal:Featured_content" title="Featured content – the best of Wikipedia">Featured content</a></li><li id="n-currentevents"><a href="/wiki/Portal:Current_events" title="Find background information on current events">Current events</a></li><li id="n-randompage"><a href="/wiki/Special:Random" title="Load a random article [x]" accesskey="x">Random article</a></li><li id="n-sitesupport"><a href="https://donate.wikimedia.org/wiki/Special:FundraiserRedirector?utm_source=donate&amp;utm_medium=sidebar&amp;utm_campaign=C13_en.wikipedia.org&amp;uselang=en" title="Support us">Donate to Wikipedia</a></li><li id="n-shoplink"><a href="//shop.wikimedia.org" title="Visit the Wikipedia store">Wikipedia store</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-interaction" aria-labelledby="p-interaction-label">
+			<h3 id="p-interaction-label">Interaction</h3>
+			<div class="body">
+								<ul>
+					<li id="n-help"><a href="/wiki/Help:Contents" title="Guidance on how to use and edit Wikipedia">Help</a></li><li id="n-aboutsite"><a href="/wiki/Wikipedia:About" title="Find out about Wikipedia">About Wikipedia</a></li><li id="n-portal"><a href="/wiki/Wikipedia:Community_portal" title="About the project, what you can do, where to find things">Community portal</a></li><li id="n-recentchanges"><a href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]" accesskey="r">Recent changes</a></li><li id="n-contactpage"><a href="//en.wikipedia.org/wiki/Wikipedia:Contact_us" title="How to contact Wikipedia">Contact page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-tb" aria-labelledby="p-tb-label">
+			<h3 id="p-tb-label">Tools</h3>
+			<div class="body">
+								<ul>
+					<li id="t-whatlinkshere"><a href="/wiki/Special:WhatLinksHere/VC_dimension" title="List of all English Wikipedia pages containing links to this page [j]" accesskey="j">What links here</a></li><li id="t-recentchangeslinked"><a href="/wiki/Special:RecentChangesLinked/VC_dimension" rel="nofollow" title="Recent changes in pages linked from this page [k]" accesskey="k">Related changes</a></li><li id="t-upload"><a href="/wiki/Wikipedia:File_Upload_Wizard" title="Upload files [u]" accesskey="u">Upload file</a></li><li id="t-specialpages"><a href="/wiki/Special:SpecialPages" title="A list of all special pages [q]" accesskey="q">Special pages</a></li><li id="t-permalink"><a href="/w/index.php?title=VC_dimension&amp;oldid=846805558" title="Permanent link to this revision of the page">Permanent link</a></li><li id="t-info"><a href="/w/index.php?title=VC_dimension&amp;action=info" title="More information about this page">Page information</a></li><li id="t-wikibase"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q2662236" title="Link to connected data repository item [g]" accesskey="g">Wikidata item</a></li><li id="t-cite"><a href="/w/index.php?title=Special:CiteThisPage&amp;page=VC_dimension&amp;id=846805558" title="Information on how to cite this page">Cite this page</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-coll-print_export" aria-labelledby="p-coll-print_export-label">
+			<h3 id="p-coll-print_export-label">Print/export</h3>
+			<div class="body">
+								<ul>
+					<li id="coll-create_a_book"><a href="/w/index.php?title=Special:Book&amp;bookcmd=book_creator&amp;referer=VC+dimension">Create a book</a></li><li id="coll-download-as-rdf2latex"><a href="/w/index.php?title=Special:ElectronPdf&amp;page=VC+dimension&amp;action=show-download-screen">Download as PDF</a></li><li id="t-print"><a href="/w/index.php?title=VC_dimension&amp;printable=yes" title="Printable version of this page [p]" accesskey="p">Printable version</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-wikibase-otherprojects" aria-labelledby="p-wikibase-otherprojects-label">
+			<h3 id="p-wikibase-otherprojects-label">In other projects</h3>
+			<div class="body">
+								<ul>
+					<li class="wb-otherproject-link wb-otherproject-commons"><a href="https://commons.wikimedia.org/wiki/Category:Vapnik-Chervonenkis_dimension" hreflang="en">Wikimedia Commons</a></li>				</ul>
+							</div>
+		</div>
+			<div class="portal" role="navigation" id="p-lang" aria-labelledby="p-lang-label">
+			<h3 id="p-lang-label">Languages</h3>
+			<div class="body">
+								<ul>
+					<li class="interlanguage-link interwiki-es"><a href="https://es.wikipedia.org/wiki/Dimensi%C3%B3n_VC" title="Dimensión VC – Spanish" lang="es" hreflang="es" class="interlanguage-link-target">Español</a></li><li class="interlanguage-link interwiki-fr"><a href="https://fr.wikipedia.org/wiki/Dimension_de_Vapnik-Chervonenkis" title="Dimension de Vapnik-Chervonenkis – French" lang="fr" hreflang="fr" class="interlanguage-link-target">Français</a></li><li class="interlanguage-link interwiki-he"><a href="https://he.wikipedia.org/wiki/%D7%9E%D7%9E%D7%93_VC" title="ממד VC – Hebrew" lang="he" hreflang="he" class="interlanguage-link-target">עברית</a></li><li class="interlanguage-link interwiki-pl"><a href="https://pl.wikipedia.org/wiki/Wymiar_Wapnika-Czerwonienkisa" title="Wymiar Wapnika-Czerwonienkisa – Polish" lang="pl" hreflang="pl" class="interlanguage-link-target">Polski</a></li><li class="interlanguage-link interwiki-ru"><a href="https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%BC%D0%B5%D1%80%D0%BD%D0%BE%D1%81%D1%82%D1%8C_%D0%92%D0%B0%D0%BF%D0%BD%D0%B8%D0%BA%D0%B0_%E2%80%94_%D0%A7%D0%B5%D1%80%D0%B2%D0%BE%D0%BD%D0%B5%D0%BD%D0%BA%D0%B8%D1%81%D0%B0" title="Размерность Вапника — Червоненкиса – Russian" lang="ru" hreflang="ru" class="interlanguage-link-target">Русский</a></li><li class="interlanguage-link interwiki-uk"><a href="https://uk.wikipedia.org/wiki/%D0%92%D0%A7-%D1%80%D0%BE%D0%B7%D0%BC%D1%96%D1%80%D0%BD%D1%96%D1%81%D1%82%D1%8C" title="ВЧ-розмірність – Ukrainian" lang="uk" hreflang="uk" class="interlanguage-link-target">Українська</a></li><li class="interlanguage-link interwiki-vi"><a href="https://vi.wikipedia.org/wiki/Chi%E1%BB%81u_VC" title="Chiều VC – Vietnamese" lang="vi" hreflang="vi" class="interlanguage-link-target">Tiếng Việt</a></li>				</ul>
+				<div class="after-portlet after-portlet-lang"><span class="wb-langlinks-edit wb-langlinks-link"><a href="https://www.wikidata.org/wiki/Special:EntityPage/Q2662236#sitelinks-wikipedia" title="Edit interlanguage links" class="wbc-editpage">Edit links</a></span></div>			</div>
+		</div>
+				</div>
+		</div>
+				<div id="footer" role="contentinfo">
+						<ul id="footer-info">
+								<li id="footer-info-lastmod"> This page was last edited on 21 June 2018, at 00:45<span class="anonymous-show"> (UTC)</span>.</li>
+								<li id="footer-info-copyright">Text is available under the <a rel="license" href="//en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">Creative Commons Attribution-ShareAlike License</a><a rel="license" href="//creativecommons.org/licenses/by-sa/3.0/" style="display:none;"></a>;
+additional terms may apply.  By using this site, you agree to the <a href="//wikimediafoundation.org/wiki/Terms_of_Use">Terms of Use</a> and <a href="//wikimediafoundation.org/wiki/Privacy_policy">Privacy Policy</a>. Wikipedia® is a registered trademark of the <a href="//www.wikimediafoundation.org/">Wikimedia Foundation, Inc.</a>, a non-profit organization.</li>
+							</ul>
+						<ul id="footer-places">
+								<li id="footer-places-privacy"><a href="https://wikimediafoundation.org/wiki/Privacy_policy" class="extiw" title="wmf:Privacy policy">Privacy policy</a></li>
+								<li id="footer-places-about"><a href="/wiki/Wikipedia:About" title="Wikipedia:About">About Wikipedia</a></li>
+								<li id="footer-places-disclaimer"><a href="/wiki/Wikipedia:General_disclaimer" title="Wikipedia:General disclaimer">Disclaimers</a></li>
+								<li id="footer-places-contact"><a href="//en.wikipedia.org/wiki/Wikipedia:Contact_us">Contact Wikipedia</a></li>
+								<li id="footer-places-developers"><a href="https://www.mediawiki.org/wiki/Special:MyLanguage/How_to_contribute">Developers</a></li>
+								<li id="footer-places-cookiestatement"><a href="https://wikimediafoundation.org/wiki/Cookie_statement">Cookie statement</a></li>
+								<li id="footer-places-mobileview"><a href="//en.m.wikipedia.org/w/index.php?title=VC_dimension&amp;mobileaction=toggle_view_mobile" class="noprint stopMobileRedirectToggle">Mobile view</a></li>
+							</ul>
+										<ul id="footer-icons" class="noprint">
+										<li id="footer-copyrightico">
+						<a href="https://wikimediafoundation.org/"><img src="/static/images/wikimedia-button.png" srcset="/static/images/wikimedia-button-1.5x.png 1.5x, /static/images/wikimedia-button-2x.png 2x" width="88" height="31" alt="Wikimedia Foundation"/></a>					</li>
+										<li id="footer-poweredbyico">
+						<a href="//www.mediawiki.org/"><img src="/static/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" srcset="/static/images/poweredby_mediawiki_132x47.png 1.5x, /static/images/poweredby_mediawiki_176x62.png 2x" width="88" height="31"/></a>					</li>
+									</ul>
+						<div style="clear: both;"></div>
+		</div>
+		
+<script>(window.RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgPageParseReport":{"limitreport":{"cputime":"0.296","walltime":"0.452","ppvisitednodes":{"value":1531,"limit":1000000},"ppgeneratednodes":{"value":0,"limit":1500000},"postexpandincludesize":{"value":35818,"limit":2097152},"templateargumentsize":{"value":476,"limit":2097152},"expansiondepth":{"value":9,"limit":40},"expensivefunctioncount":{"value":0,"limit":500},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":13288,"limit":5000000},"entityaccesscount":{"value":1,"limit":400},"timingprofile":["100.00%  202.015      1 -total"," 44.08%   89.043      1 Template:Reflist"," 29.39%   59.379      6 Template:Cite_journal"," 26.91%   54.365      1 Template:Cite_Vapnik_Chervonenkis"," 15.36%   31.031      1 Template:Commons_category"," 14.51%   29.308      6 Template:Cite_book"," 12.28%   24.806      7 Template:Sfn","  5.87%   11.850      2 Template:Cite_conference","  5.55%   11.202      3 Template:Cite_web","  4.68%    9.464      1 Template:Commons"]},"scribunto":{"limitreport-timeusage":{"value":"0.096","limit":"10.000"},"limitreport-memusage":{"value":3126080,"limit":52428800}},"cachereport":{"origin":"mw1324","timestamp":"20180703135409","ttl":1900800,"transientcontent":false}}});mw.config.set({"wgBackendResponseTime":86,"wgHostname":"mw1266"});});</script>
+	</body>
+</html>

@@ -1,0 +1,151 @@
+<html>
+
+<head>
+<title>
+CS345, Machine Learning, Entropy-Based Decision Tree Induction (ID3)
+</title>
+</head>
+
+<body bgcolor="ffffff">
+
+<center>
+<img src="http://bc.edu/meta-elements/gif/logo-bc-1.gif">
+<h2>
+CS345, Machine Learning
+<br>Prof. Alvarez
+<p>
+Decision Tree Pruning based on Confidence Intervals (as in C4.5)
+</h2>
+</center>
+
+The basic entropy-based decision tree learning algorithm ID3 
+continues to grow a tree until it makes no errors over the set
+of training data. This fact makes ID3 prone to overfitting.
+In order to reduce overfitting, pruning is used. 
+
+<h3>Reduced-Error Pruning</h3>
+
+One approach to pruning is to withhold a portion of the available
+labeled data for validation. The validation set is not used during
+training. Once training has been completed, testing is carried out
+over the validation set. If the error rate of the original decision 
+tree over the validation set exceeds the error rate of a pruned
+version of the tree (obtained by replacing a near-leaf node with
+its child leaves by a single leaf node), then the pruning operation 
+is carried out. Reduced error pruning can reduce overfitting, but
+it also reduces the amount of data available for training.
+
+<h3>Statistical Pruning</h3>
+
+C4.5 uses a pruning technique based on statistical confidence estimates.
+This technique has the advantage that it allows all of the available
+labeled data to be used for training.
+
+<h4>Confidence intervals</h4>
+
+The heart of the statistical pruning technique is the calculation of
+a confidence interval for the error rate. In brief, one starts from
+an observed error rate f measured over the set of N training instances. 
+The observed error rate is analaogous to the observed fraction of heads
+in N tosses of a (usually loaded) coin. One wishes to estimate the
+<i>true</i> error rate p that would be observed if one could test
+over all possible data instances that will ever become available.
+The true error rate p is analogous to the actual probability of
+heads of the given coin. Note the difference between f and p:
+f is the fraction of errors (or heads) that were observed in
+one particular sample of size N, while p is the fraction of errors
+(heads) that will be observed over the infinitely large set of all
+instances, past, present, and future.
+<p>
+The confidence interval is calculated as follows:
+<pre>
+	p = f +- z*sqrt( f*(1-f) / N )
+</pre>
+Here, f, p, and N are as described above. z is a factor that
+depends on the desired level of confidence. Values of z for
+selected confidence levels appear below.
+<table cellpadding=5>
+<tr><td> <td>z	<td>confidence
+</tr>
+<tr><td> <td>0.67	<td>50%
+</tr>
+<tr><td> <td>1	<td>68%
+</tr>
+<tr><td> <td>1.64	<td>90%
+</tr>
+<tr><td> <td>1.96	<td>95%
+</tr>
+</table>
+With the level of confidence given in this table, one can state
+that the true value p will be found inside the corresponding
+confidence interval calculated as described above. For example,
+suppose that 3 errors are observed among a set of 10 instances.
+We thus have
+<pre>
+	f = 0.3, 	N = 10, 	z = 1.64
+</pre>
+The confidence interval for p is:
+<pre>
+	p = 0.3 +- 1.64*sqrt( 0.3*(1-0.3) / 10 )
+</pre>
+To two decimal digits, the confidence interval is:
+<pre>
+	p = 0.3 +- 0.24
+</pre>
+Thus, we can be 90% certain that the true error rate of the
+particular classifier that led to the observed error rate
+of 3/10 will be between 0.16 and 0.54.
+
+<h4>Pruning based on confidence intervals</h4>
+
+In order to decide whether to replace a near-leaf node and its
+child leaves by a single leaf node, C4.5 compares the upper limits 
+of the error confidence intervals for the two trees. For the unpruned 
+tree, the upper error estimate is calculated as a weighted average 
+over its child leaves. Whichever tree has a lower estimated upper 
+limit on the error rate "wins" and is selected.
+
+<h4>Example from the labor negotiations dataset</h4>
+
+The unpruned subtree is:
+<pre>
+                        wage increase?
+                <=2.5 /         \ > 2.5
+                     /           \
+                work hours
+           <=36 /       \ >36
+               /         \
+                        health plan
+                none /    half |   full \
+                    /          |         \
+                4+ 2-        1+ 1-      4+ 2-
+</pre>
+We target the health plan node near the bottom of the tree for pruning.
+First we calculate the average estimated upper error rate for the
+unpruned tree:
+<pre>
+        for health plan = none leaf node:
+                f = 2/6, N=6 => upper p estimate = .46
+                (using z=0.69 for 75-th percentile estimate)
+
+        for health plan = half leaf node:
+                f = 1/2, N=2 => upper p estimate = .74
+
+        for health plan = full leaf node:
+                f = 2/6, N=6 => upper p estimate = .46
+
+        average upper error rate over the three leaves: .55
+</pre>
+On the other hand, if the tree were pruned by replacing the health plan 
+node by a leaf (9+, 5-), the confidence interval calculation would be 
+as follows:
+<pre>
+        f = 5/14, N=14 => upper p estimate = .49
+</pre>
+Since the pruned tree results in a lower upper estimate for the
+error rate, the leaves are indeed pruned.
+
+</body>
+
+</html>
+

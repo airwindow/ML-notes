@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+
+
+    <html itemscope itemtype="http://schema.org/QAPage" class="">
+
+    <head>
+
+        <title>standardization - When conducting multiple regression, when should you center your predictor variables &amp; when should you standardize them? - Cross Validated</title>
+        <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stats/img/favicon.ico?v=573163e34adf">
+        <link rel="apple-touch-icon image_src" href="https://cdn.sstatic.net/Sites/stats/img/apple-touch-icon.png?v=8698dcfb5c72">
+        <link rel="search" type="application/opensearchdescription+xml" title="Cross Validated" href="/opensearch.xml">
+
+
+        <meta property="og:type" content= "website" />
+        <meta property="og:url" content="https://stats.stackexchange.com/questions/29781/when-conducting-multiple-regression-when-should-you-center-your-predictor-varia"/>
+        <meta property="og:site_name" content="Cross Validated" />
+        <meta property="og:image" itemprop="image primaryImageOfPage" content="https://cdn.sstatic.net/Sites/stats/img/apple-touch-icon@2.png?v=344f57aa10cc" />
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:domain" content="stats.stackexchange.com"/>
+        <meta name="twitter:site" content="@StackStats" />
+        <meta name="twitter:creator" content="@StackStats" />
+        <meta name="twitter:title" property="og:title" itemprop="title name" content="When conducting multiple regression, when should you center your predictor variables &amp; when should you standardize them?" />
+        <meta name="twitter:description" property="og:description" itemprop="description" content="In some literature, I have read that a regression with multiple explanatory variables, if in different units, needed to be standardized.  (Standardizing consists in subtracting the mean and dividin..." />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://cdn.sstatic.net/Js/stub.en.js?v=bc8c68de9216"></script>
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Shared/stacks.css?v=8cddb3177a61">
+        <link rel="stylesheet" type="text/css" href="https://cdn.sstatic.net/Sites/stats/primary.css?v=2c1e095a66c3">
+    
+            <link rel="alternate" type="application/atom+xml" title="Feed for question &#39;When conducting multiple regression, when should you center your predictor variables &amp; when should you standardize them?&#39;" href="/feeds/question/29781">
+<script src="https://cdn.sstatic.net/Js/citation.en.js?v=b36466a50cf8"></script>            <meta name="twitter:app:country" content="US" />
+            <meta name="twitter:app:name:iphone" content="Stack Exchange iOS" />
+            <meta name="twitter:app:id:iphone" content="871299723" />
+            <meta name="twitter:app:url:iphone" content="se-zaphod://stats.stackexchange.com/questions/29781/when-conducting-multiple-regression-when-should-you-center-your-predictor-varia" />
+            <meta name="twitter:app:name:ipad" content="Stack Exchange iOS" />
+            <meta name="twitter:app:id:ipad" content="871299723" />
+            <meta name="twitter:app:url:ipad" content="se-zaphod://stats.stackexchange.com/questions/29781/when-conducting-multiple-regression-when-should-you-center-your-predictor-varia" />
+            <meta name="twitter:app:name:googleplay" content="Stack Exchange Android">
+            <meta name="twitter:app:url:googleplay" content="http://stats.stackexchange.com/questions/29781/when-conducting-multiple-regression-when-should-you-center-your-predictor-varia">
+            <meta name="twitter:app:id:googleplay" content="com.stackexchange.marvin">
+        <script>
+
+            StackExchange.ready(function () {
+                
+                StackExchange.using("postValidation", function () {
+                    StackExchange.postValidation.initOnBlurAndSubmit($('#post-form'), 2, 'answer');
+                });
+
+                
+                StackExchange.question.init({votesCast:[],autoShowCommentHelp:true,showCitation:true,showAnswerHelp:true,totalCommentCount:5,shownCommentCount:5,highlightColor:'#F4A83D',backgroundColor:'#FFF',questionId:29781});
+
+                styleCode();
+
+                    StackExchange.realtime.subscribeToQuestion('65', '29781');
+                                                    StackExchange.using("gps", function () { StackExchange.gps.trackOutboundClicks('#content', '.post-text'); });
+
+            });
+        </script>
+
+        
+        
+        
+        
+        
+        
+                    <script type="text/x-mathjax-config">
+                MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
+                    tex2jax: { inlineMath: [ ["$", "$"], ["\\\\(","\\\\)"] ], displayMath: [ ["$$","$$"], ["\\[", "\\]"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno" },
+                    TeX: { 
+                        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
+                    messageStyle: "none"
+            });
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_HTML-full"></script>
+        <script>
+        StackExchange.ready(function () {
+            StackExchange.realtime.init('wss://qa.sockets.stackexchange.com');
+            StackExchange.realtime.subscribeToReputationNotifications('65');
+                StackExchange.realtime.subscribeToTopBarNotifications('65');
+        });
+    </script>
+    <script>
+        StackExchange.init({"locale":"en","serverTime":1531840327,"routeName":"Questions/Show","stackAuthUrl":"https://stackauth.com","networkMetaHostname":"meta.stackexchange.com","site":{"name":"Cross Validated","description":"Q&A for people interested in statistics, machine learning, data analysis, data mining, and data visualization","isNoticesTabEnabled":true,"enableNewTagCreationWarning":false,"insertSpaceAfterNameTabCompletion":false,"id":65,"childUrl":"https://stats.meta.stackexchange.com","enableSocialMediaInSharePopup":true,"protocol":"https"},"user":{"fkey":"dc7346a2fd1f75e6a6951880592a1799cf0e982bac8aff26d58442da8b73f834","tid":"46a67e33-a8c4-d873-ed85-be8dddee5ed0","rep":1,"isRegistered":true,"userType":3,"userId":189221,"accountId":9999838,"gravatar":"<div class=\"gravatar-wrapper-32\"><img src=\"https://lh6.googleusercontent.com/-PebIYCuIe0A/AAAAAAAAAAI/AAAAAAAAAAA/oPrKp8z_vkk/photo.jpg?sz=32\" alt=\"\" width=\"32\" height=\"32\"></div>","profileUrl":"https://stats.stackexchange.com/users/189221/airwindow","canSeeDeletedPosts":false},"realtime":{"newest":true,"active":true,"tagged":true,"staleDisconnectIntervalInHours":0,"workerIframeDomain":"https://cdn.sstatic.net"},"events":{"postType":{"question":1},"postEditionSection":{"title":1,"body":2,"tags":3}},"story":{"minCompleteBodyLength":75,"likedTagsMaxLength":300,"dislikedTagsMaxLength":300},"jobPreferences":{"maxNumDeveloperRoles":2,"maxNumIndustries":4}}, {"site":{"allowImageUploads":true,"enableUserHovercards":true,"styleCode":true,"enableImgurHttps":true,"forceHttpsImages":true},"userMessaging":{},"comments":{},"userProfile":{},"tags":{},"accounts":{"currentPasswordRequiredForChangingStackIdPassword":true},"flags":{"allowRetractingFlags":true},"snippets":{"renderDomain":"stacksnippets.net"},"paths":{},"markdown":{"asteriskIntraWordEmphasis":true},"monitoring":{"clientTimingsAbsoluteTimeout":30000,"clientTimingsDebounceTimeout":1000},"channels":{"removeExtraBillingAndShippingFields":true},"slack":{"sidebarAdDismissCookie":"slack-sidebar-ad"}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.en.js":"9948f5adc8a9","js/moderator.en.js":"b12b1794a6b5","js/full-anon.en.js":"f6f581dafaff","js/full.en.js":"0f49fa9d8975","js/wmd.en.js":"1748f64cbc56","js/mobile.en.js":"f941cd34fe0a","js/help.en.js":"118cb359bcc6","js/tageditor.en.js":"b024ef11f4ad","js/tageditornew.en.js":"328252a9a517","js/inline-tag-editing.en.js":"31d184a1c9dd","js/revisions.en.js":"a7ac7cb26f15","js/review.en.js":"c05a160c9cc6","js/tagsuggestions.en.js":"d1ff9b84abe5","js/post-validation.en.js":"114603c28035","js/explore-qlist.en.js":"726bf7958c2a","js/events.en.js":"7ee2c7cc5011","js/keyboard-shortcuts.en.js":"5e1bc3c37627","js/external-editor.en.js":"7b394d770531","js/adops.en.js":"22a9bd59b1e9","js/mathjax-editing.en.js":"7a7db4446972"});
+        StackExchange.using("gps", function() {
+             StackExchange.gps.init(true);
+        });
+    </script>
+    <noscript id="noscript-css"><style>body,.top-bar{margin-top:1.9em}</style></noscript>
+    </head>
+        <body class="question-page new-topbar">
+    <div id="notify-container"></div>
+    <div id="custom-header"></div>
+
+
+
+
+<header class="top-bar js-top-bar _fixed">
+    <div class="-container">
+        <div class="-main">
+                            <a href="#" class="-logo js-gps-track js-network-logo network-logo"
+                   data-gps-track="stack_exchange_popup.show">
+                    <svg aria-hidden="true" class="svg-icon native iconLogoSEAlternativeSm" width="110" height="15" viewBox="0 0 110 15"><g><path d="M50.4 11.92l-1.98-3.23-1.05 1.17v2.06h-1.42V2.08h1.42v6.07l2.76-3.24h1.73L49.4 7.66l2.77 4.26h-1.76zm-7.86.08c-1.6 0-3.16-.97-3.16-3.6 0-2.62 1.56-3.57 3.16-3.57.97 0 1.66.28 2.33.98l-.98.94c-.45-.48-.8-.66-1.35-.66s-1.01.22-1.32.62c-.3.39-.42.88-.42 1.7 0 .81.11 1.32.42 1.71.3.4.77.62 1.32.62s.9-.18 1.35-.66l.98.93c-.67.7-1.36.99-2.33.99zm-5.7-3.18h-1.67c-.84 0-1.27.38-1.27 1.01 0 .64.4 1 1.3 1 .54 0 .95-.05 1.33-.4.2-.21.3-.54.3-1.04v-.57zm.02 3.1v-.64c-.51.51-1 .72-1.88.72-.89 0-1.47-.2-1.9-.64a2.13 2.13 0 0 1-.57-1.5c0-1.17.83-2.02 2.45-2.02h1.87v-.5c0-.88-.44-1.3-1.55-1.3-.78 0-1.16.17-1.55.67l-.94-.87c.67-.77 1.37-1 2.55-1 1.94 0 2.92.8 2.92 2.4v4.68h-1.4zm-6.44 0c-1.33 0-1.95-.94-1.95-1.95V6.12h-.8V5.04h.8V2.9h1.43v2.13h1.37v1.08H29.9V9.9c0 .51.25.82.78.82h.59v1.2h-.85zm-6.9.08c-1.5 0-2.57-.35-3.52-1.3l1-.98a3.3 3.3 0 0 0 2.55.94c1.3 0 2.06-.55 2.06-1.5 0-.43-.13-.8-.4-1.03-.25-.23-.5-.33-1.09-.41l-1.17-.17a3.43 3.43 0 0 1-1.89-.79 2.43 2.43 0 0 1-.72-1.87c0-1.72 1.25-2.89 3.32-2.89 1.32 0 2.24.33 3.1 1.12l-.97.94a2.94 2.94 0 0 0-2.17-.76c-1.17 0-1.82.66-1.82 1.53 0 .36.12.68.38.91.25.22.66.39 1.12.46l1.13.16c.93.14 1.44.36 1.86.74.55.47.81 1.17.81 2.01 0 1.81-1.5 2.89-3.58 2.89z" fill="#FFF"/><path d="M107.4 6.88c-.2-.44-.61-.76-1.23-.76-.63 0-1.04.32-1.23.76-.12.27-.16.46-.17.79h2.8a2 2 0 0 0-.17-.8zm-2.63 2.04c0 .94.58 1.63 1.6 1.63.81 0 1.21-.23 1.68-.69l1.11 1.08a3.52 3.52 0 0 1-2.8 1.16c-1.74 0-3.4-.8-3.4-3.76 0-2.39 1.3-3.74 3.2-3.74 2.06 0 3.22 1.5 3.22 3.5v.82h-4.61zm-5.68-2.67c-1.1 0-1.2.92-1.2 1.9 0 .96.1 1.9 1.2 1.9 1.08 0 1.21-.94 1.21-1.9 0-.98-.13-1.9-1.21-1.9zm-.19 8.53c-1.13 0-1.9-.22-2.67-.96l1.14-1.15c.41.4.83.56 1.45.56 1.1 0 1.48-.77 1.48-1.51v-.75c-.48.53-1.03.73-1.75.73s-1.34-.24-1.76-.65c-.69-.68-.74-1.63-.74-2.9 0-1.29.05-2.21.74-2.9a2.5 2.5 0 0 1 1.77-.65c.78 0 1.29.21 1.8.77V4.7h1.78v7.05c0 1.76-1.26 3.04-3.24 3.04zm-5.58-2.77V7.58c0-1-.63-1.33-1.21-1.33s-1.23.33-1.23 1.33v4.43h-1.84V4.7h1.8v.67c.47-.5 1.15-.76 1.83-.76.74 0 1.33.24 1.74.65.6.59.75 1.28.75 2.08V12h-1.84zm-7.14-3.1h-1.46c-.66 0-1.03.32-1.03.84 0 .5.34.84 1.06.84.51 0 .84-.04 1.16-.35.2-.18.27-.48.27-.93v-.4zm.04 3.1v-.63c-.5.49-.96.7-1.8.7-.84 0-1.45-.21-1.89-.65-.4-.4-.6-1-.6-1.64 0-1.17.8-2.12 2.51-2.12h1.74V7.3c0-.8-.4-1.15-1.37-1.15-.7 0-1.03.17-1.42.6l-1.17-1.14c.72-.78 1.43-1 2.66-1 2.06 0 3.14.86 3.14 2.58V12h-1.8zm-7 0V7.54c0-.97-.62-1.3-1.2-1.3-.57 0-1.18.34-1.18 1.3v4.47H75V2h1.84v3.36c.5-.5 1.11-.76 1.76-.76 1.62 0 2.47 1.13 2.47 2.67v4.74h-1.84zm-7.7.09c-1.48 0-3.3-.8-3.3-3.76 0-2.97 1.82-3.74 3.3-3.74 1 0 1.77.31 2.42.99L72.7 6.82c-.38-.4-.7-.57-1.19-.57-.44 0-.78.15-1.05.47-.28.36-.4.85-.4 1.62 0 .77.12 1.28.4 1.63.27.33.61.48 1.05.48.48 0 .8-.17 1.19-.58l1.24 1.23c-.65.67-1.41 1-2.43 1zm-6.07-.1l-1.36-2.2-1.34 2.2h-2.2l2.54-3.74-2.45-3.58h2.2l1.25 2.1 1.26-2.1h2.2l-2.44 3.58L67.65 12h-2.2zm-12.46 0V2h6.63v1.74h-4.66V6.1h3.97v1.75h-3.97v2.43h4.66V12H53z" fill="#2F96E8"/><path d="M2 1h8a2 2 0 0 1 2 2H0c0-1.1.9-2 2-2z" fill="#8FD8F7"/><path d="M0 10h12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm7 2v3l3-3z" fill="#155397"/><path fill="#46A2D9" d="M0 4h12v2H0z"/><path fill="#2D6DB5" d="M0 7h12v2H0z"/></g></svg>
+                </a>
+                <div class="topbar-dialog network-logo-dialog js-network-logo-dialog dno">
+                    <div class="dialog-content">
+                        <h4 class="bold">Stack Exchange Network</h4>
+                        <p>
+                            Stack Exchange network consists of 174 Q&amp;A communities including <a href="https://stackoverflow.com">Stack Overflow</a>, the largest, most trusted online community for developers to learn, share their knowledge, and build their careers.
+                        </p>
+                        <a class="btn-secondary" href="https://stackexchange.com"
+                        data-gps-track="stack_exchange_popup.click">Visit Stack Exchange</a>
+                        <a class="icon-close js-close-button"><svg aria-hidden="true" class="svg-icon iconClear" width="18" height="18" viewBox="0 0 18 18"><path d="M15 4.41L13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9z"/></svg></a>
+                    </div>
+                </div>
+
+
+                <nav class="navigation" role="navigation" aria-label="site navigation">
+                    <ol class="-list">
+                    </ol>
+                </nav>
+
+        </div>
+
+            <form id="search" action=/search method="get" class="searchbar js-searchbar " autocomplete="off" role="search">
+                    <div class="ps-relative">
+                        <input name="q" type="text" placeholder="Search on Cross Validated…" value="" autocomplete="off" maxlength="240" class="f-input js-search-field " />
+                        <button type="submit" aria-label="Search..." class="s-btn s-btn__primary btn-topbar-primary js-search-submit"><svg aria-hidden="true" class="svg-icon mx0 iconSearch" width="18" height="18" viewBox="0 0 18 18"><path d="M12.86 11.32L18 16.5 16.5 18l-5.18-5.14v-.35a7 7 0 1 1 1.19-1.19h.35zM7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10z"/></svg></button>
+                    </div>
+            </form>
+
+        
+
+
+
+
+
+<ol class="-secondary js-secondary-topbar-links">
+        <li class="-item searchbar-trigger js-searchbar-trigger"><a href="#" class="-link"><svg aria-hidden="true" class="svg-icon iconSearch" width="18" height="18" viewBox="0 0 18 18"><path d="M12.86 11.32L18 16.5 16.5 18l-5.18-5.14v-.35a7 7 0 1 1 1.19-1.19h.35zM7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10z"/></svg></a></li>
+                <li class="-item">
+                <a href="/users/189221/airwindow" class="my-profile js-gps-track" data-gps-track="profile_summary.click()">
+                <div class="gravatar-wrapper-24" title="airwindow"><img src="https://lh6.googleusercontent.com/-PebIYCuIe0A/AAAAAAAAAAI/AAAAAAAAAAA/oPrKp8z_vkk/photo.jpg?sz=48" alt="" width="24" height="24" class="-avatar js-avatar-me"></div>
+                    <div class="-rep js-header-rep" title="your reputation: 1">1</div>
+                        <div class="-badges">
+                        </div>
+                </a>
+            </li>
+        <li class="-item">
+        <a href="https://stackexchange.com/users/9999838?tab=inbox" class="-link js-inbox-button" title="Recent inbox messages">
+            <svg aria-hidden="true" class="svg-icon iconInbox" width="20" height="18" viewBox="0 0 20 18"><path d="M15.19 1H4.63c-.85 0-1.6.54-1.85 1.35L0 10.79V15c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-4.21l-2.87-8.44A2 2 0 0 0 15.19 1zm-.28 10l-2 2h-6l-2-2H1.96L4.4 3.68A1 1 0 0 1 5.35 3h9.12a1 1 0 0 1 .95.68L17.86 11h-2.95z"/></svg>
+            <span class="indicator-badge js-unread-count _important" style="display: none;"></span>
+        </a>
+    </li>
+    <li class="-item">
+        <a href="https://stackexchange.com/users/9999838?tab=reputation" class="-link js-achievements-button" title="Recent achievements: reputation, badges, and privileges earned" data-unread-class="_highlighted-positive">
+            <svg aria-hidden="true" class="svg-icon iconAchievements" width="18" height="18" viewBox="0 0 18 18"><path d="M15 2V1H3v1H0v4c0 1.6 1.4 3 3 3v1c.4 1.5 3 2.6 5 3v2H5s-1 1.5-1 2h10c0-.4-1-2-1-2h-3v-2c2-.4 4.6-1.5 5-3V9c1.6-.2 3-1.4 3-3V2h-3zM3 7c-.5 0-1-.5-1-1V4h1v3zm8.4 2.5L9 8 6.6 9.4l1-2.7L5 5h3l1-2.7L10 5h2.8l-2.3 1.8 1 2.7h-.1zM16 6c0 .5-.5 1-1 1V4h1v2z"/></svg>
+            <span class="indicator-badge js-unread-count _positive" style="display: none;"></span>
+        </a>
+    </li>
+
+    <li class="-item help-button-item" data-remove-order="1"><a href="#" class="-link js-help-button" title="Help Center and other resources">
+        <svg aria-hidden="true" class="svg-icon iconHelp" width="18" height="18" viewBox="0 0 18 18"><path d="M9 1a8 8 0 1 0 0 16A8 8 0 0 0 9 1zm.81 12.13c-.02.71-.55 1.15-1.24 1.13-.66-.02-1.17-.49-1.15-1.2.02-.72.56-1.18 1.22-1.16.7.03 1.2.51 1.17 1.23zM11.77 8a5.8 5.8 0 0 1-1.02.91l-.53.37c-.26.2-.42.43-.5.69a4 4 0 0 0-.09.75c0 .05-.03.16-.18.16H7.88c-.16 0-.18-.1-.18-.15.03-.66.12-1.21.4-1.66a5.29 5.29 0 0 1 1.43-1.22c.16-.12.28-.25.38-.39a1.34 1.34 0 0 0 .02-1.71c-.24-.31-.51-.46-1.03-.46-.51 0-.8.26-1.02.6-.21.33-.18.73-.18 1.1H5.75c0-1.38.35-2.25 1.1-2.76.52-.35 1.17-.5 1.93-.5 1 0 1.79.18 2.49.71.64.5.98 1.18.98 2.12 0 .57-.2 1.05-.48 1.44z"/></svg>
+    </a></li>
+
+    <li class="-item">
+        <a href="https://stackexchange.com" class="-link js-site-switcher-button js-gps-track" data-gps-track="site_switcher.show" title="A list of all 174 Stack Exchange sites">
+            <svg aria-hidden="true" class="svg-icon iconStackExchange" width="18" height="18" viewBox="0 0 18 18"><path d="M1 13c0 1.1.9 2 2 2h8v3l3-3h1a2 2 0 0 0 2-2v-2H1v2zM15 1H3a2 2 0 0 0-2 2v2h16V3a2 2 0 0 0-2-2zM1 6h16v4H1V6z"/></svg>
+        </a>
+    </li>
+
+
+    <li class="-dialog-container js-topbar-dialog-corral">
+
+
+    <div class="topbar-dialog siteSwitcher-dialog dno">
+        <div class="header">
+            <h3><a href="https://stats.stackexchange.com">current community</a>
+            </h3>
+        </div>
+        <div class="modal-content current-site-container">
+            <ul class="current-site">
+                    <li class="grid">
+                            <div class="fl1">
+            <a href="https://stats.stackexchange.com"
+       class="current-site-link site-link js-gps-track grid gs8 gsx"
+       data-id="65"
+       data-gps-track="site_switcher.click({ item_type:3 })">
+        <div class="favicon favicon-stats site-icon grid--cell" title="Cross Validated"></div>
+        <span class="grid--cell fl1">
+            Cross Validated
+        </span>
+    </a>
+
+    </div>
+    <div class="related-links">
+            <a href="https://stats.stackexchange.com/help" class="js-gps-track"     data-gps-track="site_switcher.click({ item_type:14 })"
+>help</a>
+                    <a href="https://chat.stackexchange.com?tab=site&amp;host=stats.stackexchange.com" class="js-gps-track"     data-gps-track="site_switcher.click({ item_type:6 })"
+>chat</a>
+                    <a href="https://stats.stackexchange.com/users/logout" class="js-gps-track"     data-gps-track="site_switcher.click({ item_type:8 })"
+>log out</a>
+    </div>
+
+                    </li>
+                    <li class="related-site grid">
+                            <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                            <a href="https://stats.meta.stackexchange.com"
+       class="site-link js-gps-track grid gs8 gsx"
+       data-id="66"
+       data-gps-track="site.switch({ target_site:66, item_type:3 }),site_switcher.click({ item_type:4 })">
+        <div class="favicon favicon-statsmeta site-icon grid--cell" title="Cross Validated Meta"></div>
+        <span class="grid--cell fl1">
+            Cross Validated Meta
+        </span>
+    </a>
+
+                    </li>
+            </ul>
+        </div>
+
+        <div class="header" id="your-communities-header">
+            <h3>
+                    <a href="https://stackexchange.com/users/9999838/?tab=accounts">your communities</a>
+            </h3>
+
+                <a href="#" id="edit-pinned-sites">edit</a>
+                <a href="#" id="cancel-pinned-sites" style="display: none;">cancel</a>
+        </div>
+        <div class="modal-content" id="your-communities-section">
+
+                <ul class="my-sites">
+                        <li>
+                                <a href="https://stackoverflow.com"
+       class="site-link js-gps-track grid gs8 gsx"
+       data-id="1"
+       data-gps-track="site.switch({ target_site:1, item_type:3 }),site_switcher.click({ item_type:1 })">
+        <div class="favicon favicon-stackoverflow site-icon grid--cell" title="Stack Overflow"></div>
+        <span class="grid--cell fl1">
+            Stack Overflow
+        </span>
+            <span class="rep-score grid--cell">28</span>
+    </a>
+
+                        </li>
+                        <li>
+                                <a href="https://stats.stackexchange.com"
+       class="site-link js-gps-track grid gs8 gsx"
+       data-id="65"
+       data-gps-track="site.switch({ target_site:65, item_type:3 }),site_switcher.click({ item_type:1 })">
+        <div class="favicon favicon-stats site-icon grid--cell" title="Cross Validated"></div>
+        <span class="grid--cell fl1">
+            Cross Validated
+        </span>
+            <span class="rep-score grid--cell">1</span>
+    </a>
+
+                        </li>
+                        <li>
+                                <a href="https://datascience.stackexchange.com"
+       class="site-link js-gps-track grid gs8 gsx"
+       data-id="557"
+       data-gps-track="site.switch({ target_site:557, item_type:3 }),site_switcher.click({ item_type:1 })">
+        <div class="favicon favicon-datascience site-icon grid--cell" title="Data Science"></div>
+        <span class="grid--cell fl1">
+            Data Science
+        </span>
+            <span class="rep-score grid--cell">1</span>
+    </a>
+
+                        </li>
+                        <li>
+                                <a href="https://superuser.com"
+       class="site-link js-gps-track grid gs8 gsx"
+       data-id="3"
+       data-gps-track="site.switch({ target_site:3, item_type:3 }),site_switcher.click({ item_type:1 })">
+        <div class="favicon favicon-superuser site-icon grid--cell" title="Super User"></div>
+        <span class="grid--cell fl1">
+            Super User
+        </span>
+            <span class="rep-score grid--cell">1</span>
+    </a>
+
+                        </li>
+                </ul>
+                    <div class="pinned-site-editor-container" style="display: none;">
+                        <input type="hidden" name="fkey" value="dc7346a2fd1f75e6a6951880592a1799cf0e982bac8aff26d58442da8b73f834">
+                        <input id="js-site-search-txt"
+                                type="text"
+                                class="site-filter-input"
+                                value=""
+                                placeholder="Add a Stack Exchange community"/>
+                        <input type="submit" id="pin-site-btn" value="Add" disabled="disabled"/>
+                        <ul class="js-found-sites found-sites"></ul>
+                        <ul class="pinned-site-list sortable" data-custom-list="False">
+                        </ul>
+                        <input type="submit" value="Save" id="save-pinned-sites-btn" disabled="disabled"/>
+                        <a href="#" id="reset-pinned-sites">reset to default list</a>
+                    </div>
+        </div>
+
+        <div class="header">
+            <h3><a href="https://stackexchange.com/sites">more stack exchange communities</a>
+            </h3>
+            <a href="https://stackoverflow.blog" class="fr">company blog</a>
+        </div>
+        <div class="modal-content">
+                <div class="child-content"></div>
+        </div>        
+    </div>
+            <div class="topbar-dialog help-dialog js-help-dialog dno">
+        <div class="modal-content">
+            <ul>
+                                    <li>
+                        <a href="/tour" class="js-gps-track" data-gps-track="help_popup.click({ item_type:1 })">
+                            Tour
+                            <span class="item-summary">
+                                Start here for a quick overview of the site
+                            </span>
+                        </a>
+                    </li>
+                <li>
+                    <a href="/help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:4 })">
+                        Help Center
+                        <span class="item-summary">
+                            Detailed answers to any questions you might have
+                        </span>
+                    </a>
+                </li>
+                        <li>
+                            <a href="https://stats.meta.stackexchange.com" class="js-gps-track" data-gps-track="help_popup.click({ item_type:2 })">
+                                Meta
+                                <span class="item-summary">
+                                    Discuss the workings and policies of this site
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://stackoverflow.com/company/about" class="js-gps-track" data-gps-track="help_popup.click({ item_type:6 })">
+                                About Us
+                                <span class="item-summary">
+                                    Learn more about Stack Overflow the company
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.stackoverflowbusiness.com/?ref=topbar_help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:7 })">
+                                Business
+                                <span class="item-summary">
+                                    Learn more about hiring developers or posting ads with us
+                                </span>
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+            </li>
+</ol>
+
+    </div>
+</header>
+
+    <script>
+        StackExchange.ready(function () { StackExchange.topbar.init({ observeSize: false }); });
+        StackExchange.scrollPadding.setPaddingTop(50, 10);     </script>
+
+
+    
+
+
+    <div class="container  ">
+            <div id="header">
+                <br class="cbt">
+                <div id="hlogo">
+                    <a href="https://stats.stackexchange.com"
+                        class="js-gps-track"
+                        data-gps-track="top_nav.click({is_current:false, location:2, destination:8})">
+                        Cross Validated
+                    </a>
+                </div>
+                <div id="hmenus">
+                    <div class="nav mainnavs" role="navigation" aria-label="site navigation">
+                        <ul>
+                                <li class="youarehere">
+        <a id="nav-questions"
+           href="/questions"
+           class="js-gps-track"
+           data-gps-track="top_nav.click({is_current:true, location:2, destination:1})">
+        Questions
+        </a>
+    </li>
+
+                                <li>
+        <a id="nav-tags"
+           href="/tags"
+           class="js-gps-track"
+           data-gps-track="top_nav.click({is_current:false, location:2, destination:2})">
+        Tags
+        </a>
+    </li>
+
+                                <li>
+        <a id="nav-users"
+           href="/users"
+           class="js-gps-track"
+           data-gps-track="top_nav.click({is_current:false, location:2, destination:3})">
+        Users
+        </a>
+    </li>
+
+                                <li>
+        <a id="nav-badges"
+           href="/help/badges"
+           class="js-gps-track"
+           data-gps-track="top_nav.click({is_current:false, location:2, destination:4})">
+        Badges
+        </a>
+    </li>
+
+    <li>
+        <a id="nav-unanswered"
+           href="/unanswered"
+           class="js-gps-track"
+           data-gps-track="top_nav.click({is_current:false, location:2, destination:5})">
+        Unanswered
+        </a>
+    </li>
+                        </ul>
+                    </div>
+                    <div class="nav askquestion" role="navigation" aria-label="ask new question">
+                        <ul>
+                            <li>
+                                <a id="nav-askquestion"   href="/questions/ask"  >Ask Question</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                
+        <div id="content">
+
+
+            
+
+
+<div itemscope itemtype="http://schema.org/Question">
+    <link itemprop="image" href="https://cdn.sstatic.net/Sites/stats/img/apple-touch-icon.png?v=8698dcfb5c72">
+
+    <div class="inner-content clearfix">
+            <div id="question-header">
+                    <h1 itemprop="name"><a href="/questions/29781/when-conducting-multiple-regression-when-should-you-center-your-predictor-varia" class="question-hyperlink">When conducting multiple regression, when should you center your predictor variables &amp; when should you standardize them?</a></h1>
+
+            
+
+
+
+        </div>
+            <div id="mainbar" role="main" aria-label="question and answers">
+
+            
+
+<div class="question" data-questionid="29781"  id="question">
+
+    <style>.everyoneloves__top-leaderboard:empty,.everyoneloves__mid-leaderboard:empty{                margin-bottom:0;
+}</style>
+        <div id="dfp-tlb" class="everyonelovesstackoverflow everyoneloves__top-leaderboard"></div>
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="29781">
+        <a class="vote-up-off" title="This question shows research effort; it is useful and clear (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">226</span>
+        <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful (click again to undo)">down vote</a>
+
+        <a class="star-off" href="#">favorite</a>
+        <div class="favoritecount"><b>245</b></div>
+
+
+
+</div>
+
+            </div>
+
+            
+<div class="postcell post-layout--right">
+    <div class="post-text" itemprop="text">
+
+<p>In some literature, I have read that a regression with multiple explanatory variables, if in different units, needed to be standardized.  (Standardizing consists in subtracting the mean and dividing by the standard deviation.)  In which other cases do I need to standardize my data?  Are there cases in which I should only center my data (i.e., without dividing by standard deviation)? </p>
+    </div>
+    <div class="post-taglist">
+        <a href="/questions/tagged/multiple-regression" class="post-tag" title="show questions tagged &#39;multiple-regression&#39;" rel="tag">multiple-regression</a> <a href="/questions/tagged/standardization" class="post-tag" title="show questions tagged &#39;standardization&#39;" rel="tag">standardization</a> <a href="/questions/tagged/centering" class="post-tag" title="show questions tagged &#39;centering&#39;" rel="tag">centering</a> 
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/q/29781/189221" title="short permalink to this question" class="short-link" id="link-post-29781">share</a><span class="lsep">|</span><a id="cite-link-29781" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/29781/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>        
+    </div>
+
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="/posts/29781/revisions" title="show all edits to this post">edited <span title="2015-08-23 10:11:35Z" class="relativetime">Aug 23 '15 at 10:11</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/179/fmark"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/e57b10d7528f2fae99d6033816ee2216?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/179/fmark">fmark</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">2,292</span><span title="4 gold badges"><span class="badge1"></span><span class="badgecount">4</span></span><span title="27 silver badges"><span class="badge2"></span><span class="badgecount">27</span></span><span title="45 bronze badges"><span class="badge3"></span><span class="badgecount">45</span></span>
+        </div>
+    </div>
+</div>    </div>
+    <div class="post-signature owner grid--cell fl0">
+        <div class="user-info ">
+    <div class="user-action-time">
+        asked <span title="2012-06-04 16:32:19Z" class="relativetime">Jun 4 '12 at 16:32</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/11621/mathieu-r"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/784e88a4e83a43a0b4b626cb8ed1254b?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/11621/mathieu-r">mathieu_r</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">1,381</span><span title="3 gold badges"><span class="badge1"></span><span class="badgecount">3</span></span><span title="10 silver badges"><span class="badge2"></span><span class="badgecount">10</span></span><span title="5 bronze badges"><span class="badge3"></span><span class="badgecount">5</span></span>
+        </div>
+    </div>
+</div>
+    </div>
+    </div>
+</div>
+
+                
+    <div class="post-layout--right">
+	    <div id="comments-29781" class="comments js-comments-container ">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="0"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+
+
+    <li id="comment-56849" class="comment js-comment " data-comment-id="56849">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="warm">7</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">A <a href="http://andrewgelman.com/2009/07/when_to_standar/" rel="nofollow noreferrer">related post</a> in Andrew Gelman&#39;s blog.</span>
+		            &ndash;&nbsp;<span class="comment-user">user10525</span>
+                <span class="comment-date" dir="ltr"><span title="2012-06-04 18:45:51Z" class="relativetime-clean">Jun 4 '12 at 18:45</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-56920" class="comment js-comment " data-comment-id="56920">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="hot">23</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">In addition to the great answers already given, let me mention that when using penalization methods such as ridge regression or lasso the result is no longer invariant to standardization. It is, however, often recommended to standardize. In this case not for reasons directly related to interpretations, but because the penalization will then treat different explanatory variables on a more equal footing.</span>
+                    &ndash;&nbsp;<a href="/users/4376/nrh"
+                       title="13,477 reputation"
+                       class="comment-user">NRH</a>
+                <span class="comment-date" dir="ltr"><span title="2012-06-05 07:42:34Z" class="relativetime-clean">Jun 5 '12 at 7:42</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-57051" class="comment js-comment " data-comment-id="57051">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="warm">5</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Welcome to the site @mathieu_r! You&#39;ve posted two very popular questions. Please consider upvoting/accepting some of the excellent answers you&#39;ve received to both questions ;)</span>
+                    &ndash;&nbsp;<a href="/users/4856/macro"
+                       title="30,149 reputation"
+                       class="comment-user">Macro</a>
+                <span class="comment-date" dir="ltr"><span title="2012-06-05 20:41:36Z" class="relativetime-clean">Jun 5 '12 at 20:41</span></span>
+                        <span class="edited-yes" title="this comment was edited 1 time"></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-88895" class="comment js-comment " data-comment-id="88895">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">4</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">There are similar questions on CV here: <a href="http://stats.stackexchange.com/questions/7112/">When and how to use standardized explanatory variables in linear regression</a>, &amp; here: <a href="http://stats.stackexchange.com/questions/19216/">Variables are often adjusted (e.g., standardised) before making a model - when is this a good idea, and when is it a bad one?</a>.</span>
+                    &ndash;&nbsp;<a href="/users/7290/gung"
+                       title="101,262 reputation"
+                       class="comment-user">gung<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2012-12-13 14:43:12Z" class="relativetime-clean">Dec 13 '12 at 14:43</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-212833" class="comment js-comment " data-comment-id="212833">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">1</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">When I read this Q&amp;A it reminded me of a usenet site I stumbled on many years ago <a href="http://www.faqs.org/faqs/ai-faq/neural-nets/part2/section-16.html" rel="nofollow noreferrer">faqs.org/faqs/ai-faq/neural-nets/part2/section-16.html</a> This gives in simple terms some of the issues and considerations when one wants to normalize/standardize/rescale the data. I didn&#39;t see it mentioned anywhere on the answers here. It treats the subject from more of a machine learning perspective, but it might help someone coming here.</span>
+                    &ndash;&nbsp;<a href="/users/31564/paul"
+                       title="281 reputation"
+                       class="comment-user">Paul</a>
+                <span class="comment-date" dir="ltr"><span title="2014-08-06 14:58:50Z" class="relativetime-clean">Aug 6 '14 at 14:58</span></span>
+                                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-29781" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </div>        </div>
+</div>
+
+
+
+        <div id="answers">
+
+                <a name="tab-top"></a>
+                <div id="answers-header">
+                    <div class="subheader answers-subheader">
+                        <h2 data-answercount="7">
+                                7 Answers
+                                <span style="display:none;" itemprop="answerCount">7</span>
+                        </h2>
+                        <div>
+                            
+<div id="tabs">
+        <a href="/questions/29781/when-conducting-multiple-regression-when-should-you-center-your-predictor-varia?answertab=active#tab-top" data-nav-xhref="" title="Answers with the latest activity first" data-value="active" data-shortcut="A">
+            active</a>
+        <a href="/questions/29781/when-conducting-multiple-regression-when-should-you-center-your-predictor-varia?answertab=oldest#tab-top" data-nav-xhref="" title="Answers in the order they were provided" data-value="oldest" data-shortcut="O">
+            oldest</a>
+        <a class="youarehere is-selected " href="/questions/29781/when-conducting-multiple-regression-when-should-you-center-your-predictor-varia?answertab=votes#tab-top" data-nav-xhref="" title="Answers with the highest score first" data-value="votes" data-shortcut="V">
+            votes</a>
+    </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+  
+<a name="29783"></a>
+<div id="answer-29783" class="answer" data-answerid="29783"  itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="29783">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">165</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>In regression, it is often recommended to <strong>center</strong> the variables so that the predictors have mean $0$. This makes it so the intercept term is interpreted as <strong>the expected value of $Y_i$ when the predictor values are set to their means</strong>. Otherwise, the intercept is interpreted as the expected value of $Y_i$ when the predictors are set to 0, which may not be a realistic or interpretable situation (e.g. what if the predictors were height and weight?). Another practical reason for <strong>scaling</strong> in regression is when one variable has a very large scale, e.g. if you were using population size of a country as a predictor. In that case, the regression coefficients may be on a <em>very</em> small order of magnitude (e.g. $10^{-6}$) which can be a little annoying when you're reading computer output, so you may convert the variable to, for example, population size in millions. The convention that you standardize predictions primarily exists so that the units of the regression coefficients are the same. </p>
+
+<p>As @gung alludes to and @MånsT shows explicitly (+1 to both, btw), centering/scaling does not effect your statistical inference in regression models - the estimates are adjusted appropriately and the $p$-values will be the same. </p>
+
+<p>Other situations where centering and/or scaling may be useful: </p>
+
+<ul>
+<li><p>when you're trying to <a href="https://stats.stackexchange.com/questions/13267/how-to-sum-two-variables-that-are-on-different-scales/13271#13271">sum or average variables that are on different scales</a>, perhaps to create a composite score of some kind. Without scaling, it may be the case that one variable has a larger impact on the sum due purely to its scale, which may be undesirable. </p></li>
+<li><p>To simplify calculations and notation. For example, the sample <a href="http://en.wikipedia.org/wiki/Covariance_matrix" rel="noreferrer">covariance matrix</a> of a matrix of values centered by their sample means is simply $X'X$. Similarly, if a univariate random variable $X$ has been mean centered, then ${\rm var}(X) = E(X^2)$ and the variance can be estimated from a sample by looking at the sample mean of the squares of the observed values.</p></li>
+<li><p>Related to aforementioned, <a href="http://en.wikipedia.org/wiki/Principal_component_analysis" rel="noreferrer">PCA</a> can only be interpreted as the <a href="http://en.wikipedia.org/wiki/Singular_value_decomposition" rel="noreferrer">singular value decomposition</a> of a data matrix when the columns have first been centered by their means. </p></li>
+</ul>
+
+<p>Note that scaling is not necessary in the last two bullet points I mentioned and centering <em>may</em> not be necessary in the first bullet I mentioned, so the two do not need to go hand and hand at all times.</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/29783/189221" title="short permalink to this answer" class="short-link" id="link-post-29783">share</a><span class="lsep">|</span><a id="cite-link-29783" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/29783/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="/posts/29783/revisions" title="show all edits to this post">edited <span title="2017-04-13 12:44:33Z" class="relativetime">Apr 13 '17 at 12:44</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/-1/community"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/a007be5a61f6aa8f3e85ae2fc18dd66e?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/-1/community">Community</a><span class="mod-flair" title="moderator">&#9830;</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">1</span>
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-06-04 16:59:05Z" class="relativetime">Jun 4 '12 at 16:59</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/4856/macro"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/3c4714f22561b8dc160f974395d66721?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/4856/macro">Macro</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 30,149" dir="ltr">30.1k</span><span title="4 gold badges"><span class="badge1"></span><span class="badgecount">4</span></span><span title="122 silver badges"><span class="badge2"></span><span class="badgecount">122</span></span><span title="136 bronze badges"><span class="badge3"></span><span class="badgecount">136</span></span>
+        </div>
+    </div>
+</div>
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-29783" class="comments js-comments-container ">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="6"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+
+
+    <li id="comment-56845" class="comment js-comment " data-comment-id="56845">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">2</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">+1, these are good points I didn&#39;t think of. For clarity, let me list some concrete examples where a researcher might want to combine explanatory variables prior to running a regression, &amp; thus need to standardize. One case might be for research into children&#39;s behavioral disorders; researchers might get ratings from both parents &amp; teachers, &amp; then want to combine them into a single measure of maladjustment. Another case could be a study on the activity level at a nursing home w/ self-ratings by residents &amp; the number of signatures on sign-up sheets for activities.</span>
+                    &ndash;&nbsp;<a href="/users/7290/gung"
+                       title="101,262 reputation"
+                       class="comment-user">gung<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2012-06-04 18:15:43Z" class="relativetime-clean">Jun 4 '12 at 18:15</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-56908" class="comment js-comment " data-comment-id="56908">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">3</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Ten edits in 8 hours? ;-)</span>
+                    &ndash;&nbsp;<a href="/users/2970/cardinal"
+                       title="20,785 reputation"
+                       class="comment-user">cardinal<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2012-06-05 02:02:49Z" class="relativetime-clean">Jun 5 '12 at 2:02</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-56911" class="comment js-comment " data-comment-id="56911">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">4</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">It&#39;s like simulated annealing @cardinal! I was making uphill steps. Also, I find I have a bad habit of barely missing the time window (around 5 minutes I think it is) where it doesn&#39;t count as a new edit :)</span>
+                    &ndash;&nbsp;<a href="/users/4856/macro"
+                       title="30,149 reputation"
+                       class="comment-user">Macro</a>
+                <span class="comment-date" dir="ltr"><span title="2012-06-05 02:24:13Z" class="relativetime-clean">Jun 5 '12 at 2:24</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-56921" class="comment js-comment " data-comment-id="56921">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">2</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">But shouldn&#39;t we in theory use the population mean and standard deviation for centering/scaling? In practice, is it as simple as using the sample mean/SD or is there more to it?</span>
+                    &ndash;&nbsp;<a href="/users/2020/alefsin"
+                       title="765 reputation"
+                       class="comment-user">AlefSin</a>
+                <span class="comment-date" dir="ltr"><span title="2012-06-05 08:18:34Z" class="relativetime-clean">Jun 5 '12 at 8:18</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-56929" class="comment js-comment " data-comment-id="56929">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">3</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">For the sake of completeness, let me add to this nice answer that $X&#39;X$ of the centered and standardized $X$ is the correlation matrix.</span>
+                    &ndash;&nbsp;<a href="/users/4598/cbeleites"
+                       title="21,257 reputation"
+                       class="comment-user">cbeleites</a>
+                <span class="comment-date" dir="ltr"><span title="2012-06-05 11:03:43Z" class="relativetime-clean">Jun 5 '12 at 11:03</span></span>
+                                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-29783" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link  dno"
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   ></a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link " title="expand to show all comments on this post" href=# onclick="">show <b>6</b> more comments</a>
+        </div>         
+    </div>    </div>
+</div>
+<div id="dfp-mlb" class="everyonelovesstackoverflow everyoneloves__mid-leaderboard"></div>
+  
+<a name="29782"></a>
+<div id="answer-29782" class="answer" data-answerid="29782"  itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="29782">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">117</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>You have come across a common belief.  However, in general, you do not need to center or standardize your data for multiple regression.  Different explanatory variables are almost always on different scales (i.e., measured in different units).  This is not a problem; the betas are estimated such that they convert the units of each explanatory variable into the units of the response variable appropriately.  One thing that people sometimes say is that if you have standardized your variables first, you can then interpret the betas as measures of importance.  For instance, if $\beta_1=.6$, and $\beta_2=.3$, then the first explanatory variable is twice as important as the second.  While this idea is appealing, unfortunately, it is not valid.  There are several issues, but perhaps the easiest to follow is that you have no way to control for possible range restrictions in the variables.  Inferring the 'importance' of different explanatory variables relative to each other is a very tricky philosophical issue.  None of that is to suggest that standardizing is <em>bad</em> or <em>wrong</em>, just that it typically isn't <em>necessary</em>.  </p>
+
+<p>The only case I can think of off the top of my head where centering is helpful is before creating power terms.  Lets say you have a variable, $X$, that ranges from 1 to 2, but you suspect a curvilinear relationship with the response variable, and so you want to create an $X^2$ term.  If you don't center $X$ first, your squared term will be highly correlated with $X$, which could muddy the estimation of the beta.  Centering <em>first</em> addresses this issue.  </p>
+
+<hr>
+
+<p><em>(Update added much later:)</em> An analogous case that I forgot to mention is creating <em>interaction</em> terms.  If an interaction / product term is created from two variables that are not centered on 0, some amount of collinearity will be induced (with the exact amount depending on various factors).  Centering <em>first</em> addresses this potential problem.  For a fuller explanation, see this excellent answer from @Affine: <a href="https://stats.stackexchange.com/questions/60476//61022#61022">Collinearity diagnostics problematic only when the interaction term is included</a>.  </p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/29782/189221" title="short permalink to this answer" class="short-link" id="link-post-29782">share</a><span class="lsep">|</span><a id="cite-link-29782" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/29782/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="/posts/29782/revisions" title="show all edits to this post">edited <span title="2017-04-13 12:44:28Z" class="relativetime">Apr 13 '17 at 12:44</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/-1/community"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/a007be5a61f6aa8f3e85ae2fc18dd66e?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/-1/community">Community</a><span class="mod-flair" title="moderator">&#9830;</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">1</span>
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-06-04 16:51:27Z" class="relativetime">Jun 4 '12 at 16:51</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/7290/gung"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/96ebcc67fba4e8626c011fdf66c96259?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/7290/gung">gung</a><span class="mod-flair" title="moderator">&#9830;</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 101,262" dir="ltr">101k</span><span title="33 gold badges"><span class="badge1"></span><span class="badgecount">33</span></span><span title="238 silver badges"><span class="badge2"></span><span class="badgecount">238</span></span><span title="494 bronze badges"><span class="badge3"></span><span class="badgecount">494</span></span>
+        </div>
+    </div>
+</div>
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-29782" class="comments js-comments-container ">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="3"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+
+
+    <li id="comment-73214" class="comment js-comment " data-comment-id="73214">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="warm">8</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">If anyone is interested, I also talk about the mistaken idea of using standardized betas to infer relative &#39;importance&#39; here: <a href="http://stats.stackexchange.com/questions/25690/25707#25707">multiple-linear-regression-for-hypothesis-testing</a></span>
+                    &ndash;&nbsp;<a href="/users/7290/gung"
+                       title="101,262 reputation"
+                       class="comment-user">gung<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2012-09-15 04:05:18Z" class="relativetime-clean">Sep 15 '12 at 4:05</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-175572" class="comment js-comment " data-comment-id="175572">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Thanks for a nice answer. I was just wondering whether there is a link between your points regarding squared terms and interactions (in the update), though</span>
+                    &ndash;&nbsp;<a href="/users/37253/abhimanyu-arora"
+                       title="206 reputation"
+                       class="comment-user">Abhimanyu Arora</a>
+                <span class="comment-date" dir="ltr"><span title="2014-03-12 15:56:01Z" class="relativetime-clean">Mar 12 '14 at 15:56</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-175578" class="comment js-comment " data-comment-id="175578">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">I don&#39;t understand your comment, @AbhimanyuArora, but the same point holds for interactions &amp; squared terms; you might also read Affine&#39;s linked answer.</span>
+                    &ndash;&nbsp;<a href="/users/7290/gung"
+                       title="101,262 reputation"
+                       class="comment-user">gung<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2014-03-12 16:07:15Z" class="relativetime-clean">Mar 12 '14 at 16:07</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-175650" class="comment js-comment " data-comment-id="175650">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Thanks for your reply. I think I figured it out meanwhile: one could think of the squared term as X interacted with itself, so to speak and your point on interacted variable  would be more general.</span>
+                    &ndash;&nbsp;<a href="/users/37253/abhimanyu-arora"
+                       title="206 reputation"
+                       class="comment-user">Abhimanyu Arora</a>
+                <span class="comment-date" dir="ltr"><span title="2014-03-12 19:32:12Z" class="relativetime-clean">Mar 12 '14 at 19:32</span></span>
+                        <span class="edited-yes" title="this comment was edited 1 time"></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-313837" class="comment js-comment " data-comment-id="313837">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">4</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Belsley, Kuh, and Welsch have a thoughtful analysis of this situation in their 1980 book <i>Regression Diagnostics.</i> (See Appendix 3B for details.) They conclude you are incorrect that rescaling doesn&#39;t help. Their analysis is in terms of <i>numerical stability</i> of the solution procedure, which is measured in terms of the condition number of the data matrix $X$. That condition number can be very high when variables are measured on scales with disparate ranges. Rescaling will then absorb most of the &quot;badness&quot; in $X$ within the scale factors. The resulting problem will be much better conditioned.</span>
+                    &ndash;&nbsp;<a href="/users/919/whuber"
+                       title="192,371 reputation"
+                       class="comment-user">whuber<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2015-08-06 16:20:16Z" class="relativetime-clean">Aug 6 '15 at 16:20</span></span>
+                                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-29782" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link  dno"
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   ></a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link " title="expand to show all comments on this post" href=# onclick="">show <b>3</b> more comments</a>
+        </div>         
+    </div>    </div>
+</div>
+
+  
+<a name="29784"></a>
+<div id="answer-29784" class="answer" data-answerid="29784"  itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="29784">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">65</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>In addition to the remarks in the other answers, I'd like to point out that the scale and location of the explanatory variables does not affect the <em>validity</em> of the regression model in any way.</p>
+
+<p>Consider the model $y=\beta_0+\beta_1x_1+\beta_2x_2+\ldots+\epsilon$.</p>
+
+<p>The <a href="http://en.wikipedia.org/wiki/Linear_regression#Least-squares_estimation_and_related_techniques">least squares estimators</a> of $\beta_1, \beta_2,\ldots$ are not affected by shifting. The reason is that these are the slopes of the fitting surface - how much the surface changes if you change $x_1,x_2,\ldots$ one unit. This does not depend on location. (The estimator of $\beta_0$, however, does.)</p>
+
+<p>By looking at the equations for the estimators you can see that scaling $x_1$  with a factor $a$ scales $\hat{\beta}_1$ by a factor $1/a$. To see this, note that</p>
+
+<p>$$\hat{\beta}_1(x_1)=\frac{\sum_{i=1}^n(x_{1,i}-\bar{x}_1)(y_i-\bar{y})}{\sum_{i=1}^n(x_{1,i}-\bar{x}_1)^2}.$$</p>
+
+<p>Thus</p>
+
+<p>$$\hat{\beta}_1(ax_1)=\frac{\sum_{i=1}^n(ax_{1,i}-a\bar{x}_1)(y_i-\bar{y})}{\sum_{i=1}^n(ax_{1,i}-a\bar{x}_1)^2}=\frac{a\sum_{i=1}^n(x_{1,i}-\bar{x}_1)(y_i-\bar{y})}{a^2\sum_{i=1}^n(x_{1,i}-\bar{x}_1)^2}=\frac{\hat{\beta}_1(x_1)}{a}.$$</p>
+
+<p>By looking at the corresponding formula for $\hat{\beta}_2$ (for instance) it is (hopefully) clear that this scaling doesn't affect the estimators of the other slopes.</p>
+
+<p>Thus, scaling simply corresponds to scaling the corresponding slopes.</p>
+
+<p>As gung points out, some people like to rescale by the standard deviation in hopes that they will be able to interpret how "important" the different variables are. While this practice can be questioned, it can be noted that this corresponds to choosing $a_i=1/s_i$ in the above computations, where $s_i$ is the standard deviation of $x_1$ (which in a strange thing to say to begin with, since the $x_i$ are assumed to be deterministic).</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/29784/189221" title="short permalink to this answer" class="short-link" id="link-post-29784">share</a><span class="lsep">|</span><a id="cite-link-29784" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/29784/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="/posts/29784/revisions" title="show all edits to this post">edited <span title="2012-06-05 08:06:19Z" class="relativetime">Jun 5 '12 at 8:06</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        
+        <div class="-flair">
+            
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2012-06-04 17:02:33Z" class="relativetime">Jun 4 '12 at 17:02</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/8507/m%c3%a5nst"><div class="gravatar-wrapper-32"><img src="https://i.stack.imgur.com/atIU9.jpg?s=32&amp;g=1" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/8507/m%c3%a5nst">M&#229;nsT</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">7,947</span><span title="1 gold badge"><span class="badge1"></span><span class="badgecount">1</span></span><span title="36 silver badges"><span class="badge2"></span><span class="badgecount">36</span></span><span title="56 bronze badges"><span class="badge3"></span><span class="badgecount">56</span></span>
+        </div>
+    </div>
+</div>
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-29784" class="comments js-comments-container  dno">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="0"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+            </ul>
+	    </div>
+
+        <div id="comments-link-29784" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+
+  
+<a name="29817"></a>
+<div id="answer-29817" class="answer" data-answerid="29817"  itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="29817">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">23</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>I prefer "solid reasons" for both centering and standardization (they exist very often). In general, they have more to do with the data set and the problem than with the data analysis method.</p>
+
+<p>Very often, I prefer to center (i.e. shift the origin of the data) to other points that are physically/chemically/biologically/... more meaningful than the mean (see also Macro's answer), e.g. </p>
+
+<ul>
+<li><p>the mean of a control group</p></li>
+<li><p>blank signal</p></li>
+</ul>
+
+<p>Numerical stability is an algorithm-related reason to center and/or scale data.</p>
+
+<p>Also, have a look at the similar <a href="https://stats.stackexchange.com/q/19216/4598">question about standardization</a>. Which also covers "center only".</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/29817/189221" title="short permalink to this answer" class="short-link" id="link-post-29817">share</a><span class="lsep">|</span><a id="cite-link-29817" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/29817/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="/posts/29817/revisions" title="show all edits to this post">edited <span title="2017-04-13 12:44:25Z" class="relativetime">Apr 13 '17 at 12:44</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/-1/community"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/a007be5a61f6aa8f3e85ae2fc18dd66e?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/-1/community">Community</a><span class="mod-flair" title="moderator">&#9830;</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">1</span>
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2012-06-05 11:00:34Z" class="relativetime">Jun 5 '12 at 11:00</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/4598/cbeleites"><div class="gravatar-wrapper-32"><img src="https://i.stack.imgur.com/nAU0F.png?s=32&amp;g=1" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/4598/cbeleites">cbeleites</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 21,257" dir="ltr">21.3k</span><span title="45 silver badges"><span class="badge2"></span><span class="badgecount">45</span></span><span title="93 bronze badges"><span class="badge3"></span><span class="badgecount">93</span></span>
+        </div>
+    </div>
+</div>
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-29817" class="comments js-comments-container  dno">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="0"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+            </ul>
+	    </div>
+
+        <div id="comments-link-29817" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+
+  
+<a name="29820"></a>
+<div id="answer-29820" class="answer" data-answerid="29820"  itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="29820">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">23</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>In case you use gradient descent to fit your model, standardizing covariates may speed up convergence (because when you have unscaled covariates, the corresponding parameters may inappropriately dominate the gradient). To illustrate this, some R code:</p>
+
+<pre><code>&gt; objective &lt;- function(par){ par[1]^2+par[2]^2}  #quadratic function in two variables with a minimum at (0,0)
+&gt; optim(c(10,10), objective, method="BFGS")$counts  #returns the number of times the function and its gradient had to be evaluated until convergence
+    function gradient 
+          12        3 
+&gt; objective2 &lt;- function(par){ par[1]^2+0.1*par[2]^2}  #a transformation of the above function, corresponding to unscaled covariates
+&gt; optim(c(10,10), objective2, method="BFGS")$counts
+function gradient 
+      19       10 
+&gt; optim(c(10,1), objective2, method="BFGS")$counts  #scaling of initial parameters doesn't get you back to original performance
+function gradient 
+      12        8
+</code></pre>
+
+<p>Also, for some applications of SVMs, scaling may improve predictive performance: <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.100.2524">Feature scaling in support vector data description</a>. </p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/29820/189221" title="short permalink to this answer" class="short-link" id="link-post-29820">share</a><span class="lsep">|</span><a id="cite-link-29820" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/29820/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-06-05 11:55:58Z" class="relativetime">Jun 5 '12 at 11:55</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/5296/mogron"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/2f434bef52487a7e4ca36e65d89b3c61?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/5296/mogron">mogron</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">592</span><span title="5 silver badges"><span class="badge2"></span><span class="badgecount">5</span></span><span title="12 bronze badges"><span class="badge3"></span><span class="badgecount">12</span></span>
+        </div>
+    </div>
+</div>
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-29820" class="comments js-comments-container  dno">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="0"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+            </ul>
+	    </div>
+
+        <div id="comments-link-29820" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+
+  
+<a name="111997"></a>
+<div id="answer-111997" class="answer" data-answerid="111997"  itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="111997">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">20</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>To illustrate the numerical stability issue mentioned by @cbeleites, here is an example from Simon Wood on how to "break" <code>lm()</code>. First we'll generate some simple data and fit a simple quadratic curve.</p>
+
+<pre><code>set.seed(1); n &lt;- 100
+xx &lt;- sort(runif(n))
+y &lt;- .2*(xx-.5)+(xx-.5)^2 + rnorm(n)*.1
+x &lt;- xx+100
+b &lt;- lm(y ~ x+I(x^2))
+
+plot(x,y)
+lines(x, predict(b), col='red')
+</code></pre>
+
+<p><img src="https://i.stack.imgur.com/hmEnq.jpg" alt="enter image description here"></p>
+
+<p>But if we add 900 to X, then the result should be pretty much the same except shifted to the right, no? Unfortunately not...</p>
+
+<pre><code>X &lt;- x + 900
+B &lt;- lm(y ~ X+I(X^2))
+plot(X,y)
+lines(X, predict(B), col='blue')
+</code></pre>
+
+<p><img src="https://i.stack.imgur.com/JHHOJ.jpg" alt="enter image description here"></p>
+
+<p><em>Edit</em> to add to the comment by @Scortchi - if we look at the object returned by lm() we see that the quadratic term has not been estimated and is shown as NA.</p>
+
+<pre><code>&gt; B
+Call:
+lm(formula = y ~ X + I(X^2))
+
+Coefficients:
+(Intercept)            X       I(X^2)  
+  -139.3927       0.1394           NA  
+</code></pre>
+
+<p>And indeed as suggested by @Scortchi, if we look at the model matrix and try to solve directly, it "breaks".</p>
+
+<pre><code>&gt; X &lt;- model.matrix(b) ## get same model matrix used above
+&gt; beta.hat &lt;- solve(t(X)%*%X,t(X)%*%y) ## direct solution of ‘normal equations’
+Error in solve.default(t(X) %*% X, t(X) %*% y) : 
+  system is computationally singular: reciprocal condition number = 3.9864e-19
+</code></pre>
+
+<p>However, <code>lm()</code> does not give me any warning or error message other than the <code>NA</code>s on the <code>I(X^2)</code> line of <code>summary(B)</code> in R-3.1.1.
+Other algorithms can of course be "broken" in different ways with different examples.</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/111997/189221" title="short permalink to this answer" class="short-link" id="link-post-111997">share</a><span class="lsep">|</span><a id="cite-link-111997" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/111997/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="/posts/111997/revisions" title="show all edits to this post">edited <span title="2014-08-16 13:53:46Z" class="relativetime">Aug 16 '14 at 13:53</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        
+        <div class="-flair">
+            
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2014-08-15 12:29:45Z" class="relativetime">Aug 15 '14 at 12:29</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/6579/sean"><div class="gravatar-wrapper-32"><img src="https://www.gravatar.com/avatar/8a71a2b9ee77bda5f0ca7f67f75cba2b?s=32&amp;d=identicon&amp;r=PG" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/6579/sean">Sean</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">1,188</span><span title="1 gold badge"><span class="badge1"></span><span class="badgecount">1</span></span><span title="13 silver badges"><span class="badge2"></span><span class="badgecount">13</span></span><span title="21 bronze badges"><span class="badge3"></span><span class="badgecount">21</span></span>
+        </div>
+    </div>
+</div>
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-111997" class="comments js-comments-container ">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="0"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+
+
+    <li id="comment-214735" class="comment js-comment " data-comment-id="214735">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="warm">6</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">(+1) Note <code>lm</code> fails to estimate a coefficient for the quadratic term, &amp; gives a warning about a singular design matrix - perhaps more directly illustrative of the problem than these plots.</span>
+                    &ndash;&nbsp;<a href="/users/17230/scortchi"
+                       title="22,475 reputation"
+                       class="comment-user">Scortchi<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2014-08-15 12:53:07Z" class="relativetime-clean">Aug 15 '14 at 12:53</span></span>
+                        <span class="edited-yes" title="this comment was edited 1 time"></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-419682" class="comment js-comment " data-comment-id="419682">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">2</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Good answer. +1 for the illustration.</span>
+                    &ndash;&nbsp;<a href="/users/57240/abhinav"
+                       title="110 reputation"
+                       class="comment-user">Abhinav</a>
+                <span class="comment-date" dir="ltr"><span title="2016-07-03 06:55:13Z" class="relativetime-clean">Jul 3 '16 at 6:55</span></span>
+                                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-111997" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+
+  
+<a name="89701"></a>
+<div id="answer-89701" class="answer" data-answerid="89701"  itemscope itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="vote">
+        <input type="hidden" name="_id_" value="89701">
+        <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+        <span itemprop="upvoteCount" class="vote-count-post ">2</span>
+        <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+
+
+
+
+
+</div>
+
+            </div>
+            
+
+
+<div class="answercell post-layout--right">
+    <div class="post-text" itemprop="text">
+<p>I doubt seriously whether centering or standardizing the original data could really mitigate the multicollinearity problem when squared terms or other interaction terms are included in regression, as some of you, gung in particular, have recommend above.</p>
+
+<p>To illustrate my point, let's consider a simple example. </p>
+
+<p>Suppose the true specification takes the following form such that</p>
+
+<p>$$y_i=b_0+b_1x_i+b_2x_i^2+u_i$$</p>
+
+<p>Thus the corresponding OLS equation is given by</p>
+
+<p>$$y_i=\hat{y_i}+\hat{u_i}=\hat{b_0}+\hat{b_1}x_i+\hat{b_2}x_i^2+\hat{u_i}$$</p>
+
+<p>where $\hat{y_i}$ is the fitted value of $y_i$, $u_i$ is the residual, $\hat{b_0}$-$\hat{b_2}$ denote the OLS estimates for $b0$-$b2$ – the parameters that we are ultimately interested in. For simplicity, let $z_i=x_i^2$ thereafter.</p>
+
+<p>Usually, we know $x$ and $x^2$ are likely to be highly correlated and this would cause the multicollinearity problem. To mitigate this, a popular suggestion would be centering the original data by subtracting mean of $y_i$ from $y_i$ before adding squared terms.</p>
+
+<p>It is fairly easy to show that the mean of $y_i$ is given as follows: 
+$$\bar{y}=\hat{b_0}+\hat{b_1} \bar{x}+\hat{b_2} \bar{z}$$
+where $\bar{y}$, $\bar{x}$, $\bar{z}$ denote means of $y_i$, $x_i$ and $z_i$, respectively.</p>
+
+<p>Hence, subtracting $\bar{y}$ from $y_i$ gives</p>
+
+<p>$$y_i-\bar{y}=\hat{b_1}(x_i-\bar{x})+\hat{b_2}(z_i-\bar{z})+\hat{u_i}$$</p>
+
+<p>where $y_i-\bar{y}$, $x_i-\bar{x}$, and $z_i-\bar{z}$ are centered variables. $\hat{b_1}$ and $\hat{b_2}$ – the parameters to be estimated, remain the same as those in the original OLS regression.</p>
+
+<p>However, it is clear that in my example, centered RHS-variables $x$ and $x^2$ have exactly the same covariance/correlation as the uncentered $x$ and $x^2$, i.e. $\text{corr}(x, z)=\text{corr}(x-\bar{x}, z-\bar{z})$.</p>
+
+<p>In summary, if my understanding on centering is correct, then I do not think centering data would do any help to mitigate the MC-problem caused by including squared terms or other higher order terms into regression. </p>
+
+<p>I'd be happy to hear your opinions!</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="/a/89701/189221" title="short permalink to this answer" class="short-link" id="link-post-89701">share</a><span class="lsep">|</span><a id="cite-link-89701" class="cite-link">cite</a><span class="lsep">|</span><a href="/posts/89701/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="/posts/89701/revisions" title="show all edits to this post">edited <span title="2014-03-12 08:25:05Z" class="relativetime">Mar 12 '14 at 8:25</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/32036/nick-stauner"><div class="gravatar-wrapper-32"><img src="https://i.stack.imgur.com/5Vkq8.jpg?s=32&amp;g=1" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/32036/nick-stauner">Nick Stauner</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 10,280" dir="ltr">10.3k</span><span title="5 gold badges"><span class="badge1"></span><span class="badgecount">5</span></span><span title="35 silver badges"><span class="badge2"></span><span class="badgecount">35</span></span><span title="82 bronze badges"><span class="badge3"></span><span class="badgecount">82</span></span>
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2014-03-12 07:29:08Z" class="relativetime">Mar 12 '14 at 7:29</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="/users/41764/rudi0086021"><div class="gravatar-wrapper-32"><img src="https://i.stack.imgur.com/KtR29.jpg?s=32&amp;g=1" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="/users/41764/rudi0086021">rudi0086021</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">21</span><span title="2 bronze badges"><span class="badge3"></span><span class="badgecount">2</span></span>
+        </div>
+    </div>
+</div>
+    </div>
+    </div>
+</div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-89701" class="comments js-comments-container ">
+            <ul class="comments-list js-comments-list"
+                    data-remaining-comments-count="0"
+                    data-canpost="false"
+                    data-cansee="true"
+                    data-comments-unavailable="false"
+                    data-addlink-disabled="true">
+
+
+
+    <li id="comment-175590" class="comment js-comment " data-comment-id="175590">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">2</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Thanks for your contribution, @rudi0086021. You may be right, but I see a couple of issues here. 1st, centering is about subtracting the mean of <b>x</b>, not about subtracting the mean of <b>y</b>; 2nd, you need to center first, centering afterwords has no effect as you note. Consider: <code>x = c(1,2,3); x2 = x^2; cor(x, x2); # [1] 0.9897433; xc = c(-1,0,1); xc2 = xc^2; cor(xc, xc2) # [1] 0</code>.</span>
+                    &ndash;&nbsp;<a href="/users/7290/gung"
+                       title="101,262 reputation"
+                       class="comment-user">gung<span class="mod-flair" title="moderator">&#9830;</span></a>
+                <span class="comment-date" dir="ltr"><span title="2014-03-12 16:29:44Z" class="relativetime-clean">Mar 12 '14 at 16:29</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-175730" class="comment js-comment " data-comment-id="175730">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Thank you for your reply, @gung. Here is my thoughts. Firstly, personally I saw no convincing reason to treat dependent and independent variables differently, that is, to independent variables, while not to do so for dependent variables.</span>
+                    &ndash;&nbsp;<a href="/users/41764/rudi0086021"
+                       title="21 reputation"
+                       class="comment-user">rudi0086021</a>
+                <span class="comment-date" dir="ltr"><span title="2014-03-13 01:27:46Z" class="relativetime-clean">Mar 13 '14 at 1:27</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-175731" class="comment js-comment " data-comment-id="175731">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+                    <span title="number of &#39;useful comment&#39; votes received"
+                            class="cool">2</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Secondly, as you said, perhaps we should center the data before creating squared terms. Such a practice will mitigate the MC problem. However, it could lead to biased estimates, or more concretely, the omitted variable bias (OVB). To illustrate, see the following example: suppose the true specification is: y=b0+b1*x+b2*x^2+u. Centering the data beforehand will give: y=b0+b1*(x-xhar)+b2*(x-xbar)^2+v, where the new error term v=u+b1*xbar-b2*xbar^2+2b2*xbar*x. It is clear that cov(x-xbar, v)!=0. Thus, unfortunately, centering data beforehand would lead to biased estimates.</span>
+                    &ndash;&nbsp;<a href="/users/41764/rudi0086021"
+                       title="21 reputation"
+                       class="comment-user">rudi0086021</a>
+                <span class="comment-date" dir="ltr"><span title="2014-03-13 01:43:11Z" class="relativetime-clean">Mar 13 '14 at 1:43</span></span>
+                                                                            </div>
+        </div>
+    </li>
+    <li id="comment-620518" class="comment js-comment " data-comment-id="620518">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">@rudi0086021 It looks like in your last comment you assume that you would get the same coefficients when fitting the centered data as you would have when fitting the uncentered data.  But centering before taking the square isn&#39;t a simple shift by a constant, so one shouldn&#39;t expect to get the same coefficients.  The best fit after centering is given by B0 + B1*(x-xbar) + B2*(x-xbar)^2 where B0 =  b0 + b1*xbar + b2*xbar^2, B1 = b1 + 2*b2*xbar and B2 = b2.  Thus, v = u.  Sorry to respond to this comment so belatedly, but there could always be others like me who see it for the first time today.</span>
+                    &ndash;&nbsp;<a href="/users/45576/tim-goodman"
+                       title="103 reputation"
+                       class="comment-user">Tim Goodman</a>
+                <span class="comment-date" dir="ltr"><span title="2018-02-08 01:59:32Z" class="relativetime-clean">Feb 8 at 1:59</span></span>
+                                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-89701" data-rep=50 data-reg=true>
+
+                <a class="js-add-link comments-link disabled-link "
+                   title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."
+                   >add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href=# onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+                    <div class="question-status">
+        <h2>                    <b>protected</b> by <a href="/users/11887/kjetil-b-halvorsen">kjetil b halvorsen</a> <span dir="ltr"><span title="2018-07-08 17:41:41Z" class="relativetime">Jul 8 at 17:41</span></span>
+</h2>
+        <p>
+Thank you for your interest in this question. 
+Because it has attracted low-quality or spam answers that had to be removed, posting an answer now requires 10 <a href="/help/whats-reputation">reputation</a> on this site (the <a href="/help/privileges/new-user">association bonus does not count</a>).
+<br /><br />
+Would you like to answer one of these <a href="/unanswered?fromProtectedNotice=true">unanswered questions</a> instead?</p>
+    </div>
+
+
+
+
+
+                        <h2 class="bottom-notice" data-loc="1">
+Not the answer you&#39;re looking for?                            Browse other questions tagged <a href="/questions/tagged/multiple-regression" class="post-tag" title="show questions tagged &#39;multiple-regression&#39;" rel="tag">multiple-regression</a> <a href="/questions/tagged/standardization" class="post-tag" title="show questions tagged &#39;standardization&#39;" rel="tag">standardization</a> <a href="/questions/tagged/centering" class="post-tag" title="show questions tagged &#39;centering&#39;" rel="tag">centering</a>  or <a href="/questions/ask">ask your own question</a>.                        </h2>
+            </div>
+        </div>
+                <div id="sidebar" class="show-votes" role="complementary" aria-label="sidebar">
+
+<script>
+    window.showNewUser = false;
+
+</script>
+
+<div class="module newuser newuser-greeting" id="newuser-box" style="display:none;">
+    <h4>Welcome!</h4>
+    <div>
+        <p>This is a collaboratively edited question and answer site for <b>people interested in statistics, machine learning, data analysis, data mining, and data visualization</b>. It's 100% free, no registration required.</p><p>Got a question about the site itself? <a href="https://stats.meta.stackexchange.com">meta</a> is the place to talk about things like what questions are appropriate, what tags we should use, etc.</p>
+        <p class="ar">
+                <a href="/tour?mnu=1">about &raquo;</a>&nbsp;&nbsp;&nbsp;
+            <a href="/help?mnu=1">help &raquo;</a>
+                &nbsp; <a href="https://stats.meta.stackexchange.com">meta &raquo;</a>
+        </p>
+    </div>
+</div>
+    <script>
+    if (showNewUser) {
+        document.getElementById('newuser-box').style.display = '';
+    }
+    </script>                            <div class="module question-stats">
+                    <table id="qinfo">
+                        <tr>
+                            <td>
+                                <p class="label-key">asked</p>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <p class="label-key" title="2012-06-04 16:32:19Z"><b>6 years, 1 month ago</b></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="label-key">viewed</p>
+                            </td>
+
+                            <td style="padding-left: 10px">
+                                <p class="label-key">
+                                    <b>204,195 times</b>
+                                </p>
+                            </td>
+                        </tr>
+                            <tr>
+                                <td>
+                                    <p class="label-key">active</p>
+                                </td>
+                                <td style="padding-left: 10px">
+                                    <p class="label-key"><b><a href="?lastactivity" class="lastactivity-link" title="2015-08-23 10:11:35Z">2 years, 10 months ago</a></b></p>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+            <div class="module community-bulletin" data-tracker="cb=1">
+    <div class="related">
+                <div class="bulletin-title">
+                    Featured on Meta
+                </div>
+                <hr />
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <a href="https://meta.stackexchange.com/questions/312038/wed-like-your-feedback-on-our-new-code-of-conduct" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackexchange.com/questions/312038/wed-like-your-feedback-on-our-new-code-of-conduct&quot;,null,null]">
+<div class="favicon favicon-stackexchangemeta" title="Meta Stack Exchange"></div>                </a>
+        </div>
+        <div class="bulletin-item-content">
+            <a href="https://meta.stackexchange.com/questions/312038/wed-like-your-feedback-on-our-new-code-of-conduct" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackexchange.com/questions/312038/wed-like-your-feedback-on-our-new-code-of-conduct&quot;,null,null]">We&#39;d like your feedback on our new Code of Conduct!</a>
+        </div>
+        <br class="cbt" />
+    </div>
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <a href="https://meta.stackexchange.com/questions/312365/rollout-of-new-network-site-themes" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackexchange.com/questions/312365/rollout-of-new-network-site-themes&quot;,null,null]">
+<div class="favicon favicon-stackexchangemeta" title="Meta Stack Exchange"></div>                </a>
+        </div>
+        <div class="bulletin-item-content">
+            <a href="https://meta.stackexchange.com/questions/312365/rollout-of-new-network-site-themes" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackexchange.com/questions/312365/rollout-of-new-network-site-themes&quot;,null,null]">Rollout of new network site themes</a>
+        </div>
+        <br class="cbt" />
+    </div>
+                <div class="bulletin-title">
+                    Hot Meta Posts
+                </div>
+                <hr />
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <span title="Vote score (upvotes - downvotes)">10</span>
+        </div>
+        <div class="bulletin-item-content">
+            <a href="https://stats.meta.stackexchange.com/questions/5321/does-close-as-duplicate-require-an-accepted-answer-on-the-target-thread" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Hot Meta Posts&quot;,&quot;https://stats.meta.stackexchange.com/questions/5321/does-close-as-duplicate-require-an-accepted-answer-on-the-target-thread&quot;,null,null]">Does close-as-duplicate require an accepted answer on the target thread?</a>
+        </div>
+        <br class="cbt" />
+    </div>
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <span title="Vote score (upvotes - downvotes)">5</span>
+        </div>
+        <div class="bulletin-item-content">
+            <a href="https://stats.meta.stackexchange.com/questions/5331/why-are-some-questions-locked-by-the-community-user" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Hot Meta Posts&quot;,&quot;https://stats.meta.stackexchange.com/questions/5331/why-are-some-questions-locked-by-the-community-user&quot;,null,null]">Why are some questions locked by the Community user?</a>
+        </div>
+        <br class="cbt" />
+    </div>
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <span title="Vote score (upvotes - downvotes)">28</span>
+        </div>
+        <div class="bulletin-item-content">
+            <a href="https://stats.meta.stackexchange.com/questions/5325/we-have-a-very-large-widening-gap-between-questions-and-answers-how-do-we-fix" title="We have a very large &amp; widening gap between questions and answers. How do we fix it?" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Hot Meta Posts&quot;,&quot;https://stats.meta.stackexchange.com/questions/5325/we-have-a-very-large-widening-gap-between-questions-and-answers-how-do-we-fix&quot;,null,null]">We have a very large &amp; widening gap between questions and answers. How do we&hellip;</a>
+        </div>
+        <br class="cbt" />
+    </div>
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <span title="Vote score (upvotes - downvotes)">10</span>
+        </div>
+        <div class="bulletin-item-content">
+            <a href="https://stats.meta.stackexchange.com/questions/5343/what-is-considered-an-unanswered-question-in-stack-exchange" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Hot Meta Posts&quot;,&quot;https://stats.meta.stackexchange.com/questions/5343/what-is-considered-an-unanswered-question-in-stack-exchange&quot;,null,null]">What is considered an &ldquo;unanswered question&rdquo; in Stack Exchange?</a>
+        </div>
+        <br class="cbt" />
+    </div>
+    </div>
+</div>
+            
+<div id="dfp-tsb" class="everyonelovesstackoverflow everyoneloves__top-sidebar"></div>
+            <div id="hireme"></div>
+<script>;try{(function(a){function b(a){return'string'==typeof a?document.getElementById(a):a}function c(a){return a=b(a),!!a&&'none'===getComputedStyle(a).display}function d(a){return!c(a)}function e(a){return!!a}function f(a){return /^\s*$/.test(b(a).innerHTML)}function g(a){var b=a.style;b.height=b.maxHeight=b.minHeight='auto',b.display='none',[].forEach.call(a.children,g)}function h(a,b){var c;return function(){return a&&(c=a.call(b||this,arguments),a=null),c}}function i(a){var b=document.createElement('script');b.src=a,document.body.appendChild(b)}function j(a){return k([],a)}function k(a,b){return a.push=function(a){return b(),delete this.push,this.push(a)},a}function l(){try{return!new Function('return async()=>{};')}catch(a){return!0}}function m(){return'undefined'!=typeof googletag&&!!googletag.apiReady}function n(){m()||(googletag={cmd:j(A)})}function o(){var a=document.createElement('div');a.className='adsbox',a.id='clc-abd',a.style.position='absolute',a.style.pointerEvents='none',a.innerHTML='&nbsp;',document.body.appendChild(a)}function p(a){var b=a.serviceName,c=a.slot,d=a.lineItemId;try{var e=c.getSlotElementId(),f=[];e||f.push('id=0');var h=document.getElementById(e);if(!e||h?h.hasAttribute('data-clc-stalled')&&f.push('st=1'):f.push('el=0'),0!==f.length)return void B(f.join('&'));-1===x.dh.indexOf(d)?h.setAttribute('data-clc-prefilled','true'):g(h),h.setAttribute('data-clc-ready','true')}catch(a){var i=document.querySelector('#dfp-tsb, #dfp-isb, #clc-tsb');i&&i.setAttribute('data-clc-ready','true'),B('e=1')}}function q(){return Object.keys(F.ids)}function r(a){var b=F.ids[a],c=F.slots[b];'function'==typeof c&&(c=c(a));return{path:'/'+C+'/'+E+'/'+b+'/'+D,sizes:c,zone:b}}function s(a){return!(clc.collapse&&void 0!==clc.collapse[a])||!!clc.collapse[a]}function t(a,b){'dfp-isb'===a&&b.setTargeting('Sidebar',['Inline']),'dfp-tsb'===a&&b.setTargeting('Sidebar',['Right']);var c=r(a),d=c.path,e=c.sizes,f=c.zone,g=googletag.defineSlot(d,e,a);s(f)&&g.setCollapseEmptyDiv(!0,!0),g.addService(b),!1}function u(b){var c=a.dfp&&a.dfp.targeting||{};Object.keys(c).forEach(function(a){b.setTargeting(a,c[a])})}function v(a){var g=a.map(b).filter(e);return{eligible:g.filter(f).filter(d).map(function(a){return a.id}),ineligible:g.filter(c)}}function w(b){if(void 0===b&&(b=q()),!m())return n(),void googletag.cmd.push(function(){return w(b)});var c=v(b),d=c.eligible,e=c.ineligible;if(e.forEach(g),0!==d.length){o(),googletag.destroySlots();var f=googletag.pubads();f.enableSingleRequest(),a.sreEvent||(f.addEventListener('slotRenderEnded',p),a.sreEvent=!0),u(f),d.forEach(function(a){return t(a,f)}),googletag.enableServices(),d.forEach(function(a){googletag.display(a)})}}var x=function(a){for(var b=[],c=1;c<arguments.length;c++)b[c-1]=arguments[c];for(var d,e=0,f=b;e<f.length;e++)for(var g in d=f[e],d)a[g]=d[g];return a}({"lib":"https://cdn.sstatic.net/clc/clc.min.js?v=04d772c81312","style":"https://cdn.sstatic.net/clc/styles/clc.min.css?v=f28c677e209b","u":"https://clc.stackoverflow.com/markup.js","wa":true,"kt":2000,"tto":true,"h":"clc.stackoverflow.com","allowed":"^(((talent\\.)?stackoverflow)|(blog\\.codinghorror)|(serverfault|askubuntu)|([^\\.]+\\.stackexchange))\\.com$","wv":true,"al":false,"dh":[4385506061,4386578282,4386579572]},a.options||{}),y=h(function(){i(l()?x.lib.replace(/(\.min)?\.js(\?v=[0-9a-fA-F]+)?$/,'.ie$1.js$2'):x.lib)}),z=a.cmd||[];Array.isArray(z)&&(0<z.length?y():k(z,y));var A=h(function(){i('https://www.googletagservices.com/tag/js/gpt.js')}),B=function(a){new Image().src='https://'+x.h+'/stalled.gif?'+a},C='248424177',D=/^\/tags\//.test(location.pathname)||/^\/questions\/tagged\//.test(location.pathname)?'tag-pages':'question-pages',E=location.hostname;var F={slots:{lb:[[728,90]],mlb:[[728,90]],sb:function(a){return'dfp-tsb'===a?[[300,250],[300,600]]:[[300,250]]},"tag-sponsorship":[[730,135]],"mobile-below-question":[[320,50],[300,250]]},ids:{"dfp-tlb":'lb',"dfp-mlb":'mlb',"dfp-tsb":'sb',"dfp-isb":'sb',"dfp-tag":'tag-sponsorship',"dfp-m-aq":'mobile-below-question',"clc-tlb":'lb',"clc-mlb":'mlb',"clc-tsb":'sb'}};(function(){x.al&&z.push(function(){return a.load()})})(),n();a.cmd=z,a.dfp={load:w},a.options=x})(this.clc=this.clc||{})}catch(a){window.console.error(a)}</script>            <script>
+                var clc = clc || {};
+                clc.collapse = { sb: !0,'tag-sponsorship':!0,lb:!0,mlb:!0,'mobile-below-question':!0};
+                clc.cmd = clc.cmd || [];
+                clc.cmd.push(function () { window.clc_request='AuL5s6n369UI3pWYAFV0AAAOAAAAAgAAAAMvAAAAfG11bHRpcGxlLXJlZ3Jlc3Npb258c3RhbmRhcmRpemF0aW9ufGNlbnRlcmluZ3wAcgTxJjypHsqxpg'; clc.load(); });
+                                clc.dfp = clc.dfp || {};
+                clc.dfp.targeting = {Registered:['true'],'ron-tag':['multiple-regression','standardization','centering'],Industry:['Electronics'],CompanySize:['large'],Persona:['BigData']};
+                
+                var googletag = googletag || {};
+                googletag.cmd = googletag.cmd || [];
+                googletag.cmd.push(function () { clc.dfp.load(); });
+            </script>
+            <div class="module sidebar-linked">
+	<h4 id="h-linked">Linked</h4>
+	<div class="linked" data-tracker="lq=1">
+
+<div class="spacer">
+	<a href="/q/201909" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">13</div>
+	</a>
+	<a href="/questions/201909/when-to-normalize-data-in-regression?noredirect=1" class="question-hyperlink">When to normalize data in regression?</a>
+</div>
+<div class="spacer">
+	<a href="/q/284679" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="/questions/284679/why-and-when-do-we-need-standardization-for-machine-learning?noredirect=1" class="question-hyperlink">Why and When Do We Need Standardization for Machine Learning</a>
+</div>
+<div class="spacer">
+	<a href="/q/251613" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">0</div>
+	</a>
+	<a href="/questions/251613/do-i-need-to-standardize-data-before-doing-regression-with-python-statsmodels-ol?noredirect=1" class="question-hyperlink">Do I need to standardize data before doing regression with python statsmodels.OLS</a>
+</div>
+<div class="spacer">
+	<a href="/q/44487" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">1</div>
+	</a>
+	<a href="/questions/44487/do-i-center-an-already-transformed-variable?noredirect=1" class="question-hyperlink">Do I center an already transformed variable?</a>
+</div>
+<div class="spacer">
+	<a href="/q/126749" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="/questions/126749/normalization-interval-variable?noredirect=1" class="question-hyperlink">Normalization Interval variable</a>
+</div>
+<div class="spacer">
+	<a href="/q/72482" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">2</div>
+	</a>
+	<a href="/questions/72482/what-are-the-pros-and-cons-of-standardizing-variable-in-presence-of-an-interacti?noredirect=1" class="question-hyperlink">What are the pros and cons of standardizing variable in presence of an interaction?</a>
+</div>
+<div class="spacer">
+	<a href="/q/237559" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="/questions/237559/normalization-of-change-variables-in-logistic-regression?noredirect=1" class="question-hyperlink">Normalization of &#39;change variables&#39; in logistic regression</a>
+</div>
+<div class="spacer">
+	<a href="/q/155960" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">2</div>
+	</a>
+	<a href="/questions/155960/when-to-standardize-data?noredirect=1" class="question-hyperlink">When to standardize data</a>
+</div>
+<div class="spacer">
+	<a href="/q/178974" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">1</div>
+	</a>
+	<a href="/questions/178974/how-do-i-know-when-to-normalize-my-data-or-not-for-prediction-purposes?noredirect=1" class="question-hyperlink">How do I know when to normalize my data or not for prediction purposes?</a>
+</div>
+<div class="spacer">
+	<a href="/q/120137" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">0</div>
+	</a>
+	<a href="/questions/120137/mean-centering-variables-not-in-a-moderation-interaction-term?noredirect=1" class="question-hyperlink">Mean centering variables NOT in a moderation/interaction term</a>
+</div>					<div class="spacer more">
+				<a href="/questions/linked/29781">see more linked questions…</a>
+			</div>
+	</div>
+</div>
+
+                <div class="module sidebar-related">
+                    <h4 id="h-related">Related</h4>
+                    <div class="related js-gps-related-questions" data-tracker="rq=1">
+                        <div class="spacer"><a href="/q/35628" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">6</div></a><a href="/questions/35628/standardize-normalize-power-law-distribution-for-machine-learning" class="question-hyperlink">Standardize/normalize power law distribution for machine learning</a></div><div class="spacer"><a href="/q/44109" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">2</div></a><a href="/questions/44109/multivariate-regression-estimation-when-the-variables-variances-are-known-a-pri" class="question-hyperlink">Multivariate regression estimation when the variables&#39; variances are known a priori / sourced seperately</a></div><div class="spacer"><a href="/q/99820" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">9</div></a><a href="/questions/99820/how-to-include-x-and-x2-into-regression-and-whether-to-center-them" class="question-hyperlink">How to include $x$ and $x^2$ into regression, and whether to center them?</a></div><div class="spacer"><a href="/q/148310" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">7</div></a><a href="/questions/148310/is-the-covariance-of-standardized-variables-the-correlation" class="question-hyperlink">Is the covariance of standardized variables the correlation?</a></div><div class="spacer"><a href="/q/156791" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">6</div></a><a href="/questions/156791/standardized-vs-centered-variables" class="question-hyperlink">Standardized VS centered variables</a></div><div class="spacer"><a href="/q/173410" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">1</div></a><a href="/questions/173410/lasso-centering-and-standarization-with-r" class="question-hyperlink">Lasso centering and standarization with R</a></div><div class="spacer"><a href="/q/206397" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">1</div></a><a href="/questions/206397/what-is-the-correct-way-of-standardizing-data-when-there-are-training-validatio" class="question-hyperlink">What is the correct way of standardizing data when there are training, validation and test set</a></div><div class="spacer"><a href="/q/264039" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">0</div></a><a href="/questions/264039/is-there-a-rule-of-thumb-to-choose-a-specific-standardization-method-for-regress" class="question-hyperlink">Is there a rule of thumb to choose a specific standardization method for regression?</a></div><div class="spacer"><a href="/q/278566" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">1</div></a><a href="/questions/278566/if-you-standardize-x-must-you-always-standardize-y" class="question-hyperlink">If you standardize X, must you always standardize y?</a></div><div class="spacer"><a href="/q/310723" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">3</div></a><a href="/questions/310723/why-shouldnt-i-standardize-my-predictors-when-putting-them-into-a-regression-mo" class="question-hyperlink">Why shouldn&#39;t I standardize my predictors when putting them into a regression model?</a></div>
+                    </div>
+                </div>
+
+<div id="hot-network-questions" class="module tex2jax_ignore">
+    <h4>
+        <a href="https://stackexchange.com/questions?tab=hot"
+           class="js-gps-track" 
+           data-gps-track="posts_hot_network.click({ item_type:1, location:11 })">
+            Hot Network Questions
+        </a>
+    </h4>
+    <ul>
+            <li >
+                <div class="favicon favicon-mathoverflow" title="MathOverflow"></div><a href="https://mathoverflow.net/questions/306172/homotopy-theories-of-operads" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:504 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    homotopy theories of operads
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-ell" title="English Language Learners Stack Exchange"></div><a href="https://ell.stackexchange.com/questions/173347/had-begun-vs-began" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:481 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Had Begun vs Began
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-security" title="Information Security Stack Exchange"></div><a href="https://security.stackexchange.com/questions/189726/does-it-improve-security-to-use-obscure-port-numbers" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:162 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Does it improve security to use obscure port numbers?
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-tex" title="TeX - LaTeX Stack Exchange"></div><a href="https://tex.stackexchange.com/questions/441984/incomplete-ifcase-error-depends-not-on-the-ifcase-but-the-integer-at-which-i" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    &quot;Incomplete \ifcase&quot; error depends not on the \ifcase but the integer at which it&#39;s evaluated
+                </a>
+
+            </li>
+            <li >
+                <div class="favicon favicon-mathoverflow" title="MathOverflow"></div><a href="https://mathoverflow.net/questions/306197/is-there-a-pl-or-topological-bordism-hypothesis" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:504 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is there a PL, or topological, bordism hypothesis?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-tex" title="TeX - LaTeX Stack Exchange"></div><a href="https://tex.stackexchange.com/questions/442044/drawing-annulus-region-with-rectangle" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Drawing Annulus region with rectangle
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="https://rpg.stackexchange.com/questions/127458/what-is-the-n-in-the-hit-point-stats" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is the + n in the hit point stats?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-worldbuilding" title="Worldbuilding Stack Exchange"></div><a href="https://worldbuilding.stackexchange.com/questions/118378/how-can-a-defecting-pilot-improve-their-odds-of-survival" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:579 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How can a defecting pilot improve their odds of survival?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-apple" title="Ask Different"></div><a href="https://apple.stackexchange.com/questions/331329/macos-how-do-i-run-airdrop-from-the-dock-is-this-possible" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:118 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    macOS: How do I run AirDrop from the Dock. Is this Possible?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-tex" title="TeX - LaTeX Stack Exchange"></div><a href="https://tex.stackexchange.com/questions/441977/voltameter-in-tex" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Voltameter in TeX?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-history" title="History Stack Exchange"></div><a href="https://history.stackexchange.com/questions/47161/in-ww2-why-did-germany-sink-allied-supply-convoys-instead-of-capturing-them" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:324 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    In WW2, why did Germany sink allied supply convoys instead of capturing them?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-history" title="History Stack Exchange"></div><a href="https://history.stackexchange.com/questions/47204/what-is-the-pre-schism-christian-church-called-today" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:324 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is the pre-schism Christian church called today?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-politics" title="Politics Stack Exchange"></div><a href="https://politics.stackexchange.com/questions/32205/did-marx-or-some-other-marxist-say-something-like-war-benefits-the-rich-at-the-e" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:475 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Did Marx or some other marxist say something like war benefits the rich at the expense of the poor?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-worldbuilding" title="Worldbuilding Stack Exchange"></div><a href="https://worldbuilding.stackexchange.com/questions/118369/is-it-possible-to-create-a-gas-mask-using-only-medieval-technology" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:579 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is it possible to create a Gas Mask using only Medieval Technology?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-skeptics" title="Skeptics Stack Exchange"></div><a href="https://skeptics.stackexchange.com/questions/41763/is-tag-named-for-touch-and-go" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:212 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is &quot;tag&quot; named for &quot;touch and go&quot;?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-english" title="English Language &amp; Usage Stack Exchange"></div><a href="https://english.stackexchange.com/questions/456046/can-someone-cease-to-be-a-founder" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:97 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Can someone cease to be a &quot;founder&quot;?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-stackoverflow" title="Stack Overflow"></div><a href="https://stackoverflow.com/questions/51373516/array-syntax-vs-pointer-syntax-and-code-generation" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:1 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Array-syntax vs pointer-syntax and code generation?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="https://rpg.stackexchange.com/questions/127419/multiclassed-character-with-all-classes-any-reason-this-cant-be-done-in-12-le" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Multiclassed character with all classes - any reason this can&#39;t be done in 12 levels?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-scifi" title="Science Fiction &amp; Fantasy Stack Exchange"></div><a href="https://scifi.stackexchange.com/questions/191215/do-any-of-the-hogwarts-founders-have-living-descendants" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Do any of the Hogwarts founders have living descendants?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-scifi" title="Science Fiction &amp; Fantasy Stack Exchange"></div><a href="https://scifi.stackexchange.com/questions/191246/were-all-titans-as-powerful-as-thanos" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Were all titans as powerful as Thanos?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-salesforce" title="Salesforce Stack Exchange"></div><a href="https://salesforce.stackexchange.com/questions/225350/the-code-block-of-a-trigger-cannot-contain-the-static-keyword-can-elaborate-the" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:459 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    The code block of a trigger cannot contain the static keyword.Can elaborate the statement
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-interpersonal" title="Interpersonal Skills Stack Exchange"></div><a href="https://interpersonal.stackexchange.com/questions/16586/how-can-i-tactfully-discuss-the-intentions-of-an-online-acquaintance-before-meet" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:680 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How can I tactfully discuss the intentions of an online acquaintance before meeting?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-codereview" title="Code Review Stack Exchange"></div><a href="https://codereview.stackexchange.com/questions/199646/aggregate-prescriptions-per-drug-in-a-csv-file" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:196 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Aggregate prescriptions per drug in a CSV file
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="https://rpg.stackexchange.com/questions/127454/can-an-illusion-give-a-player-partial-cover" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Can an illusion give a player partial cover?
+                </a>
+
+            </li>
+    </ul>
+
+        <a href="#" 
+           class="show-more js-show-more js-gps-track" 
+           data-gps-track="posts_hot_network.click({ item_type:3, location:11 })">
+            more hot questions
+        </a>
+</div>
+
+<div id="feed-link">
+    <a href="/feeds/question/29781" title="feed of this question and its answers">
+        <svg aria-hidden="true" class="svg-icon fc-orange-400 iconRss" width="18" height="18" viewBox="0 0 18 18"><path d="M1 3c0-1.1.9-2 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3zm14.5 12C15.5 8.1 9.9 2.5 3 2.5V5a10 10 0 0 1 10 10h2.5zm-5 0A7.5 7.5 0 0 0 3 7.5V10a5 5 0 0 1 5 5h2.5zm-5 0A2.5 2.5 0 0 0 3 12.5V15h2.5z"/></svg>
+        question feed
+    </a>
+</div>
+        </div>
+    </div>
+<script>StackExchange.ready(function(){$.get('/posts/29781/ivc/3a1e');});</script>
+<noscript><div><img src="/posts/29781/ivc/3a1e" class="dno" alt="" width="0" height="0"></div></noscript><div style="display:none" id="prettify-lang"></div></div>
+
+
+        </div>
+    </div>
+
+    <footer id="footer" class="site-footer js-footer" role="contentinfo">
+        <div class="site-footer--container">
+            
+            <nav class="site-footer--nav">
+                    <div class="site-footer--col site-footer--col__visible js-footer-col" data-name="default">
+                        <h5 class="-title"><a href="/">Cross Validated</a></h5>
+                        <ul class="-list js-primary-footer-links">
+                                    <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 2 })" href="/tour">Tour</a></li>
+                                <li class="-item"><a href="/help" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 3 })">Help</a></li>
+                                    <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 5 })" href="https://chat.stackexchange.com?tab=site&host=stats.stackexchange.com">Chat</a></li>
+                            <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 13 })" href="/contact">Contact</a></li>
+                                <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 14 })" href="https://stats.meta.stackexchange.com">Feedback</a></li>
+                                                            <li class="-item"><a onclick='StackExchange.switchMobile("on")' class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 12 })">Mobile</a></li>
+                        </ul>
+                    </div>
+                <div class="site-footer--col site-footer--col__visible js-footer-col" data-name="default">
+                    <h5 class="-title"><a class="js-gps-track" data-gps-track="footer.click({ location: 2, link: 1 })" href="https://stackoverflow.com/company/about">Company</a></h5>
+                    <ul class="-list">
+                                                    <li class="-item"><a href="https://stackoverflow.com" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 15})">Stack Overflow</a></li>
+                            <li class="-item"><a href="https://www.stackoverflowbusiness.com" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 19 })">Stack Overflow Business</a></li>
+                            <li class="-item"><a href="https://stackoverflow.com/jobs" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 17})">Developer Jobs</a></li>
+                                <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 1 })" href="https://stackoverflow.com/company/about">About</a></li>
+                        <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 27 })" href="https://stackoverflow.com/company/press">Press</a></li>
+                        <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 7 })" href="https://stackoverflow.com/legal">Legal</a></li>
+                        <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 8 })" href="https://stackoverflow.com/legal/privacy-policy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="site-footer--col site-footer--categories-nav site-footer--col__visible">
+                    <a href="#" class="site-footer--back js-footer-back"><svg aria-hidden="true" class="svg-icon iconArrowLeftAlt" width="18" height="18" viewBox="0 0 18 18"><path d="M10.58 16L12 14.59 6.4 9 12 3.41 10.57 2l-7 7z"/></svg></a>
+                    <div>
+                        <h5 class="-title"><a href="https://stackexchange.com">Stack Exchange<br> Network</a></h5>
+                        <ul class="-list">
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Technology">Technology</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Life / Arts">Life / Arts</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Culture / Recreation">Culture / Recreation</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Science">Science</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Other">Other</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="site-footer--categories">
+                    <div class="site-footer--col site-footer--category js-footer-col" data-name="Technology">
+        <ul class="-list">
+                <li class="-item"><a href="https://stackoverflow.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professional and enthusiast programmers">Stack Overflow</a></li>
+                <li class="-item"><a href="https://serverfault.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="system and network administrators">Server Fault</a></li>
+                <li class="-item"><a href="https://superuser.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="computer enthusiasts and power users">Super User</a></li>
+                <li class="-item"><a href="https://webapps.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="power users of web applications">Web Applications</a></li>
+                <li class="-item"><a href="https://askubuntu.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Ubuntu users and developers">Ask Ubuntu</a></li>
+                <li class="-item"><a href="https://webmasters.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="pro webmasters">Webmasters</a></li>
+                <li class="-item"><a href="https://gamedev.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professional and independent game developers">Game Development</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://tex.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users of TeX, LaTeX, ConTeXt, and related typesetting systems">TeX - LaTeX</a></li>
+                <li class="-item"><a href="https://softwareengineering.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professionals, academics, and students working within the systems development life cycle">Software Engineering</a></li>
+                <li class="-item"><a href="https://unix.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users of Linux, FreeBSD and other Un*x-like operating systems">Unix &amp; Linux</a></li>
+                <li class="-item"><a href="https://apple.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="power users of Apple hardware and software">Ask Different (Apple)</a></li>
+                <li class="-item"><a href="https://wordpress.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="WordPress developers and administrators">WordPress Development</a></li>
+                <li class="-item"><a href="https://gis.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="cartographers, geographers and GIS professionals">Geographic Information Systems</a></li>
+                <li class="-item"><a href="https://electronics.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="electronics and electrical engineering professionals, students, and enthusiasts">Electrical Engineering</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://android.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="enthusiasts and power users of the Android operating system">Android Enthusiasts</a></li>
+                <li class="-item"><a href="https://security.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="information security professionals">Information Security</a></li>
+                <li class="-item"><a href="https://dba.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="database professionals who wish to improve their database skills and learn from others in the community">Database Administrators</a></li>
+                <li class="-item"><a href="https://drupal.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Drupal developers and administrators">Drupal Answers</a></li>
+                <li class="-item"><a href="https://sharepoint.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="SharePoint enthusiasts">SharePoint</a></li>
+                <li class="-item"><a href="https://ux.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="user experience researchers and experts">User Experience</a></li>
+                <li class="-item"><a href="https://mathematica.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users of Wolfram Mathematica">Mathematica</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://salesforce.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Salesforce administrators, implementation experts, developers and anybody in-between">Salesforce</a></li>
+                <li class="-item"><a href="https://expressionengine.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="administrators, end users, developers and designers for ExpressionEngine&#174; CMS">ExpressionEngine&#174; Answers</a></li>
+                <li class="-item"><a href="https://pt.stackoverflow.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="programadores profissionais e entusiastas">Stack Overflow em Portugu&#234;s</a></li>
+                <li class="-item"><a href="https://blender.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people who use Blender to create 3D graphics, animations, or games">Blender</a></li>
+                <li class="-item"><a href="https://networkengineering.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="network engineers">Network Engineering</a></li>
+                <li class="-item"><a href="https://crypto.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="software developers, mathematicians and others interested in cryptography">Cryptography</a></li>
+                <li class="-item"><a href="https://codereview.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="peer programmer code reviews">Code Review</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://magento.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users of the Magento e-Commerce platform">Magento</a></li>
+                <li class="-item"><a href="https://softwarerecs.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people seeking specific software recommendations">Software Recommendations</a></li>
+                <li class="-item"><a href="https://dsp.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="practitioners of the art and science of signal, image and video processing">Signal Processing</a></li>
+                <li class="-item"><a href="https://emacs.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="those using, extending or developing Emacs">Emacs</a></li>
+                <li class="-item"><a href="https://raspberrypi.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users and developers of hardware and software for Raspberry Pi">Raspberry Pi</a></li>
+                <li class="-item"><a href="https://ru.stackoverflow.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="программистов">Stack Overflow на русском</a></li>
+                <li class="-item"><a href="https://codegolf.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="programming puzzle enthusiasts and code golfers">Programming Puzzles &amp; Code Golf</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://es.stackoverflow.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="programadores y profesionales de la inform&#225;tica">Stack Overflow en espa&#241;ol</a></li>
+                <li class="-item"><a href="https://ethereum.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="users of Ethereum, the decentralized application platform and smart contract enabled blockchain">Ethereum</a></li>
+                <li class="-item"><a href="https://datascience.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Data science professionals, Machine Learning specialists, and those interested in learning more about the field">Data Science</a></li>
+                <li class="-item"><a href="https://arduino.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="developers of open-source hardware and software that is compatible with Arduino">Arduino</a></li>
+                <li class="-item"><a href="https://bitcoin.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Bitcoin crypto-currency enthusiasts">Bitcoin</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#technology" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                        <strong>
+                            more (30)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Life / Arts">
+        <ul class="-list">
+                <li class="-item"><a href="https://photo.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professional, enthusiast and amateur photographers">Photography</a></li>
+                <li class="-item"><a href="https://scifi.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="science fiction and fantasy enthusiasts">Science Fiction &amp; Fantasy</a></li>
+                <li class="-item"><a href="https://graphicdesign.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="Graphic Design professionals, students, and enthusiasts">Graphic Design</a></li>
+                <li class="-item"><a href="https://movies.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="movie and tv enthusiasts">Movies &amp; TV</a></li>
+                <li class="-item"><a href="https://music.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="musicians, students, and enthusiasts">Music: Practice &amp; Theory</a></li>
+                <li class="-item"><a href="https://worldbuilding.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="writers/artists using science, geography and culture to construct imaginary worlds and settings">Worldbuilding</a></li>
+                <li class="-item"><a href="https://cooking.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professional and amateur chefs">Seasoned Advice (cooking)</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Life / Arts"><ul class="-list">
+                <li class="-item"><a href="https://diy.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="contractors and serious DIYers">Home Improvement</a></li>
+                <li class="-item"><a href="https://money.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people who want to be financially literate">Personal Finance &amp; Money</a></li>
+                <li class="-item"><a href="https://academia.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="academics and those enrolled in higher education">Academia</a></li>
+                <li class="-item"><a href="https://law.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="legal professionals, students, and others with experience or interest in law">Law</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#lifearts" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                        <strong>
+                            more (15)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Culture / Recreation">
+        <ul class="-list">
+                <li class="-item"><a href="https://english.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="linguists, etymologists, and serious English language enthusiasts">English Language &amp; Usage</a></li>
+                <li class="-item"><a href="https://skeptics.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="scientific skepticism">Skeptics</a></li>
+                <li class="-item"><a href="https://judaism.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="those who base their lives on Jewish law and tradition and anyone interested in learning more">Mi Yodeya (Judaism)</a></li>
+                <li class="-item"><a href="https://travel.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="road warriors and seasoned travelers">Travel</a></li>
+                <li class="-item"><a href="https://christianity.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="committed Christians, experts in Christianity and those interested in learning more">Christianity</a></li>
+                <li class="-item"><a href="https://ell.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="speakers of other languages learning English">English Language Learners</a></li>
+                <li class="-item"><a href="https://japanese.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="students, teachers, and linguists wanting to discuss the finer points of the Japanese language">Japanese Language</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Culture / Recreation"><ul class="-list">
+                <li class="-item"><a href="https://gaming.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="passionate videogamers on all platforms">Arqade (gaming)</a></li>
+                <li class="-item"><a href="https://bicycles.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people who build and repair bicycles, people who train cycling, or commute on bicycles">Bicycles</a></li>
+                <li class="-item"><a href="https://rpg.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="gamemasters and players of tabletop, paper-and-pencil role-playing games">Role-playing Games</a></li>
+                <li class="-item"><a href="https://anime.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="anime and manga fans">Anime &amp; Manga</a></li>
+                <li class="-item"><a href="https://puzzling.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="those who create, solve, and study puzzles">Puzzling</a></li>
+                <li class="-item"><a href="https://mechanics.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="mechanics and DIY enthusiast owners of cars, trucks, and motorcycles">Motor Vehicle Maintenance &amp; Repair</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#culturerecreation" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                        <strong>
+                            more (33)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Science">
+        <ul class="-list">
+                <li class="-item"><a href="https://mathoverflow.net" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="professional mathematicians">MathOverflow</a></li>
+                <li class="-item"><a href="https://math.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people studying math at any level and professionals in related fields">Mathematics</a></li>
+                <li class="-item"><a href="https://stats.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="people interested in statistics, machine learning, data analysis, data mining, and data visualization">Cross Validated (stats)</a></li>
+                <li class="-item"><a href="https://cstheory.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="theoretical computer scientists and researchers in related fields">Theoretical Computer Science</a></li>
+                <li class="-item"><a href="https://physics.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="active researchers, academics and students of physics">Physics</a></li>
+                <li class="-item"><a href="https://chemistry.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="scientists, academics, teachers and students">Chemistry</a></li>
+                <li class="-item"><a href="https://biology.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="biology researchers, academics, and students">Biology</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Science"><ul class="-list">
+                <li class="-item"><a href="https://cs.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="students, researchers and practitioners of computer science">Computer Science</a></li>
+                <li class="-item"><a href="https://philosophy.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="those interested in the study of the fundamental nature of knowledge, reality, and existence">Philosophy</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#science" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 26 })">
+                        <strong>
+                            more (10)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Other">
+        <ul class="-list">
+                <li class="-item"><a href="https://meta.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="meta-discussion of the Stack Exchange family of Q&amp;A websites">Meta Stack Exchange</a></li>
+                <li class="-item"><a href="https://stackapps.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="apps, scripts, and development with the Stack Exchange API">Stack Apps</a></li>
+                <li class="-item"><a href="https://api.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="programmatic interaction with Stack Exchange sites">API</a></li>
+                <li class="-item"><a href="https://data.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="querying Stack Exchange data using SQL">Data</a></li>
+                <li class="-item"><a href="https://area51.stackexchange.com" class="-link js-gps-track" data-gps-track="footer.click({ location: 2, link: 25 })" title="proposing new sites in the Stack Exchange network">Area 51</a></li>
+                    </ul>
+    </div>
+                </div>
+            </nav>
+            <div class="site-footer--copyright fs-fine">
+                <ul class="-list">
+                    <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link:4 })" href="https://stackoverflow.blog?blb=1">Blog</a></li>
+                    <li class="-item"><a href="https://www.facebook.com/officialstackoverflow/" class="-link">Facebook</a></li>
+                    <li class="-item"><a href="https://twitter.com/stackoverflow" class="-link">Twitter</a></li>
+                    <li class="-item"><a href="https://linkedin.com/company/stack-overflow" class="-link">LinkedIn</a></li>
+                </ul>
+
+                <p class="mt-auto mb24">
+site design / logo &#169; 2018 Stack Exchange Inc; user contributions licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc by-sa 3.0</a>
+                            with <a href="https://stackoverflow.blog/2009/06/25/attribution-required/" rel="license">attribution required</a>.
+                    <span id="svnrev">rev&nbsp;2018.7.16.31036</span>
+                </p>
+            </div>
+        </div>
+
+            </footer>
+    <noscript>
+        <div id="noscript-warning">Cross Validated works best with JavaScript enabled
+            <img src="https://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno">
+        </div>
+    </noscript>
+
+<script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function() { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            StackExchange.ready(function () {
+
+                StackExchange.ga.init({
+                    sendTitles: true,
+                    tracker: window.ga,
+                    trackingCodes: [
+                        'UA-108242619-5'
+                    ]
+                });
+
+                    StackExchange.ga.setDimension('dimension1', '9999838');
+
+
+                    StackExchange.ga.setDimension('dimension2', '|multiple-regression|standardization|centering|');
+
+                    StackExchange.ga.setDimension('dimension3', 'Questions/Show');
+
+
+                StackExchange.ga.trackPageView();
+            });
+            
+/**/
+            
+            var _qevents = _qevents || [],
+            _comscore = _comscore || [];
+            (function() {
+                var ssl = 'https:' == document.location.protocol,
+                    s = document.getElementsByTagName('script')[0],
+                    qc = document.createElement('script');
+                 qc.async = true;
+                    qc.src = (ssl ? 'https://secure' : 'http://edge') + '.quantserve.com/quant.js';
+                    s.parentNode.insertBefore(qc, s);
+                    _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+/**/
+                 var sc = document.createElement('script');
+                    sc.async = true;
+                    sc.src = (ssl ? 'https://sb' : 'http://b') + '.scorecardresearch.com/beacon.js';
+                    s.parentNode.insertBefore(sc, s);
+                    _comscore.push({ c1: "2", c2: "17440561" });
+            })();
+            
+
+</script>
+            
+    </body>
+    </html>
