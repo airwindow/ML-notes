@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://www.avanwyk.com/an-overview-of-lightgbm/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>An Overview of LightGBM</title>
+<meta name="HandheldFriendly" content="True">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="./An Overview of LightGBM_files/css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="./An Overview of LightGBM_files/bootstrap.min.css">
+<link rel="stylesheet" href="./An Overview of LightGBM_files/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="./An Overview of LightGBM_files/screen.css">
+<link rel="stylesheet" type="text/css" href="./An Overview of LightGBM_files/atom-one-light.css">
+
+
+<script type="text/javascript" async="" src="./An Overview of LightGBM_files/analytics.js"></script><script>
+  /*====================================================
+    THEME SETTINGS & GLOBAL VARIABLES
+  ====================================================*/
+  //  1. Disqus comment settings
+  var disqus_shortname = 'avanwyk'; // required: replace example with your forum shortname
+
+  //	2. Sidebar Position
+  var sidebar_left = true; // Set true or flase for positioning sidebar on left
+
+  //	3. Google+ badge settings
+  var badge_type = ''; // person / page / community ----- three type of google badge
+  var google_plus_url = '';
+
+  //	4. Facebook Page Setting
+  var facebook_page_url = '';
+
+  //	5. Mailchimp signup form Setting
+  var mailchimp_form_url = '';
+  var success_message = '';
+</script> <meta name="description" content="This post gives an overview of LightGBM and aims to serve as a practical reference. An overview of the LightGBM API and algorithm parameters is given.">
+<link rel="shortcut icon" href="https://www.avanwyk.com/favicon.png" type="image/png">
+<link rel="canonical" href="https://www.avanwyk.com/an-overview-of-lightgbm/">
+<meta name="referrer" content="no-referrer-when-downgrade">
+<link rel="amphtml" href="https://www.avanwyk.com/an-overview-of-lightgbm/amp/">
+<meta property="og:site_name" content="avanwyk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="An Overview of LightGBM">
+<meta property="og:description" content="This post gives an overview of LightGBM and aims to serve as a practical reference. A brief introduction to gradient boosting is given, followed by a look at the LightGBM API and algorithm parameters.">
+<meta property="og:url" content="https://www.avanwyk.com/an-overview-of-lightgbm/">
+<meta property="og:image" content="https://www.avanwyk.com/content/images/2018/06/alberto-tondo-328006-unsplash.jpg">
+<meta property="article:published_time" content="2018-05-16T21:40:00.000Z">
+<meta property="article:modified_time" content="2018-08-16T13:35:50.000Z">
+<meta property="article:tag" content="data science">
+<meta property="article:tag" content="machine learning">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="An Overview of LightGBM">
+<meta name="twitter:description" content="This post gives an overview of LightGBM and aims to serve as a practical reference.">
+<meta name="twitter:url" content="https://www.avanwyk.com/an-overview-of-lightgbm/">
+<meta name="twitter:image" content="https://www.avanwyk.com/content/images/2018/05/alberto-tondo-328006-unsplash-1.jpg">
+<meta name="twitter:label1" content="Written by">
+<meta name="twitter:data1" content="Andrich van Wyk">
+<meta name="twitter:label2" content="Filed under">
+<meta name="twitter:data2" content="data science, machine learning">
+<meta name="twitter:site" content="@avanwykai">
+<meta name="twitter:creator" content="@andrichvanwyk">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1536">
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "avanwyk",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.avanwyk.com/favicon.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Andrich van Wyk",
+        "image": {
+            "@type": "ImageObject",
+            "url": "//www.gravatar.com/avatar/fe98ae716c622fbdd6f9c935d67cf79b?s=250&d=mm&r=x",
+            "width": 250,
+            "height": 250
+        },
+        "url": "https://www.avanwyk.com/author/avanwyk/",
+        "sameAs": [
+            "https://www.avanwyk.com/about/",
+            "https://twitter.com/andrichvanwyk"
+        ]
+    },
+    "headline": "An Overview of LightGBM",
+    "url": "https://www.avanwyk.com/an-overview-of-lightgbm/",
+    "datePublished": "2018-05-16T21:40:00.000Z",
+    "dateModified": "2018-08-16T13:35:50.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://www.avanwyk.com/content/images/2018/08/alberto-tondo-328006-unsplash.jpg",
+        "width": 2048,
+        "height": 1536
+    },
+    "keywords": "data science, machine learning",
+    "description": "This post gives an overview of LightGBM and aims to serve as a practical reference. A brief introduction to gradient boosting is given, followed by a look at the LightGBM API and algorithm parameters.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.avanwyk.com/"
+    }
+}
+    </script>
+<script src="./An Overview of LightGBM_files/ghost-sdk.min.js"></script>
+<script>
+ghost.init({
+	clientId: "ghost-frontend",
+	clientSecret: "72e79fcbe36f"
+});
+</script>
+<meta name="generator" content="Ghost 2.2">
+<link rel="alternate" type="application/rss+xml" title="avanwyk" href="https://www.avanwyk.com/rss/">
+
+<script async="" src="./An Overview of LightGBM_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-117187657-1');
+</script>
+<script src="./An Overview of LightGBM_files/MathJax.js" async="">
+</script>
+<script type="text/javascript" async="" src="./An Overview of LightGBM_files/embed.js"></script><script async="" type="text/javascript" src="./An Overview of LightGBM_files/count.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.medium-zoom-overlay{bottom:0;left:0;opacity:0;position:fixed;right:0;top:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{cursor:pointer;cursor:zoom-out;position:relative;will-change:transform}</style><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><script src="./An Overview of LightGBM_files/count-data.js"></script><link rel="preload" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.d49f53e192b9080ef8880a7c9b24f1c3.css"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.a5e978e28df65e5c393be61ad30e685d.js"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.eecf2550b6ed239f7b01b302d8eaef4b.js"><link rel="preload" as="script" href="https://disqus.com/next/config.js"><style type="text/css">.mjx-chtml {display: inline-block; line-height: 0; text-indent: 0; text-align: left; text-transform: none; font-style: normal; font-weight: normal; font-size: 100%; font-size-adjust: none; letter-spacing: normal; word-wrap: normal; word-spacing: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; margin: 0; padding: 1px 0}
+.MJXc-display {display: block; text-align: center; margin: 1em 0; padding: 0}
+.mjx-chtml[tabindex]:focus, body :focus .mjx-chtml[tabindex] {display: inline-table}
+.mjx-full-width {text-align: center; display: table-cell!important; width: 10000em}
+.mjx-math {display: inline-block; border-collapse: separate; border-spacing: 0}
+.mjx-math * {display: inline-block; -webkit-box-sizing: content-box!important; -moz-box-sizing: content-box!important; box-sizing: content-box!important; text-align: left}
+.mjx-numerator {display: block; text-align: center}
+.mjx-denominator {display: block; text-align: center}
+.MJXc-stacked {height: 0; position: relative}
+.MJXc-stacked > * {position: absolute}
+.MJXc-bevelled > * {display: inline-block}
+.mjx-stack {display: inline-block}
+.mjx-op {display: block}
+.mjx-under {display: table-cell}
+.mjx-over {display: block}
+.mjx-over > * {padding-left: 0px!important; padding-right: 0px!important}
+.mjx-under > * {padding-left: 0px!important; padding-right: 0px!important}
+.mjx-stack > .mjx-sup {display: block}
+.mjx-stack > .mjx-sub {display: block}
+.mjx-prestack > .mjx-presup {display: block}
+.mjx-prestack > .mjx-presub {display: block}
+.mjx-delim-h > .mjx-char {display: inline-block}
+.mjx-surd {vertical-align: top}
+.mjx-mphantom * {visibility: hidden}
+.mjx-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 2px 3px; font-style: normal; font-size: 90%}
+.mjx-annotation-xml {line-height: normal}
+.mjx-menclose > svg {fill: none; stroke: currentColor}
+.mjx-mtr {display: table-row}
+.mjx-mlabeledtr {display: table-row}
+.mjx-mtd {display: table-cell; text-align: center}
+.mjx-label {display: table-row}
+.mjx-box {display: inline-block}
+.mjx-block {display: block}
+.mjx-span {display: inline}
+.mjx-char {display: block; white-space: pre}
+.mjx-itable {display: inline-table; width: auto}
+.mjx-row {display: table-row}
+.mjx-cell {display: table-cell}
+.mjx-table {display: table; width: 100%}
+.mjx-line {display: block; height: 0}
+.mjx-strut {width: 0; padding-top: 1em}
+.mjx-vsize {width: 0}
+.MJXc-space1 {margin-left: .167em}
+.MJXc-space2 {margin-left: .222em}
+.MJXc-space3 {margin-left: .278em}
+.mjx-chartest {display: block; visibility: hidden; position: absolute; top: 0; line-height: normal; font-size: 500%}
+.mjx-chartest .mjx-char {display: inline}
+.mjx-chartest .mjx-box {padding-top: 1000px}
+.MJXc-processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MJXc-processed {display: none}
+.mjx-test {display: block; font-style: normal; font-weight: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow: hidden; height: 1px}
+.mjx-ex-box-test {position: absolute; overflow: hidden; width: 1px; height: 60ex}
+.mjx-line-box-test {display: table!important}
+.mjx-line-box-test span {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
+#MathJax_CHTML_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.mjx-chtml .mjx-noError {line-height: 1.2; vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+.MJXc-TeX-unknown-R {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: normal; font-weight: normal}
+.MJXc-TeX-unknown-I {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: italic; font-weight: normal}
+.MJXc-TeX-unknown-B {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: normal; font-weight: bold}
+.MJXc-TeX-unknown-BI {font-family: STIXGeneral,'Cambria Math','Arial Unicode MS',serif; font-style: italic; font-weight: bold}
+.MJXc-TeX-ams-R {font-family: MJXc-TeX-ams-R,MJXc-TeX-ams-Rw}
+.MJXc-TeX-cal-B {font-family: MJXc-TeX-cal-B,MJXc-TeX-cal-Bx,MJXc-TeX-cal-Bw}
+.MJXc-TeX-frak-R {font-family: MJXc-TeX-frak-R,MJXc-TeX-frak-Rw}
+.MJXc-TeX-frak-B {font-family: MJXc-TeX-frak-B,MJXc-TeX-frak-Bx,MJXc-TeX-frak-Bw}
+.MJXc-TeX-math-BI {font-family: MJXc-TeX-math-BI,MJXc-TeX-math-BIx,MJXc-TeX-math-BIw}
+.MJXc-TeX-sans-R {font-family: MJXc-TeX-sans-R,MJXc-TeX-sans-Rw}
+.MJXc-TeX-sans-B {font-family: MJXc-TeX-sans-B,MJXc-TeX-sans-Bx,MJXc-TeX-sans-Bw}
+.MJXc-TeX-sans-I {font-family: MJXc-TeX-sans-I,MJXc-TeX-sans-Ix,MJXc-TeX-sans-Iw}
+.MJXc-TeX-script-R {font-family: MJXc-TeX-script-R,MJXc-TeX-script-Rw}
+.MJXc-TeX-type-R {font-family: MJXc-TeX-type-R,MJXc-TeX-type-Rw}
+.MJXc-TeX-cal-R {font-family: MJXc-TeX-cal-R,MJXc-TeX-cal-Rw}
+.MJXc-TeX-main-B {font-family: MJXc-TeX-main-B,MJXc-TeX-main-Bx,MJXc-TeX-main-Bw}
+.MJXc-TeX-main-I {font-family: MJXc-TeX-main-I,MJXc-TeX-main-Ix,MJXc-TeX-main-Iw}
+.MJXc-TeX-main-R {font-family: MJXc-TeX-main-R,MJXc-TeX-main-Rw}
+.MJXc-TeX-math-I {font-family: MJXc-TeX-math-I,MJXc-TeX-math-Ix,MJXc-TeX-math-Iw}
+.MJXc-TeX-size1-R {font-family: MJXc-TeX-size1-R,MJXc-TeX-size1-Rw}
+.MJXc-TeX-size2-R {font-family: MJXc-TeX-size2-R,MJXc-TeX-size2-Rw}
+.MJXc-TeX-size3-R {font-family: MJXc-TeX-size3-R,MJXc-TeX-size3-Rw}
+.MJXc-TeX-size4-R {font-family: MJXc-TeX-size4-R,MJXc-TeX-size4-Rw}
+.MJXc-TeX-vec-R {font-family: MJXc-TeX-vec-R,MJXc-TeX-vec-Rw}
+.MJXc-TeX-vec-B {font-family: MJXc-TeX-vec-B,MJXc-TeX-vec-Bx,MJXc-TeX-vec-Bw}
+@font-face {font-family: MJXc-TeX-ams-R; src: local('MathJax_AMS'), local('MathJax_AMS-Regular')}
+@font-face {font-family: MJXc-TeX-ams-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_AMS-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_AMS-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_AMS-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-cal-B; src: local('MathJax_Caligraphic Bold'), local('MathJax_Caligraphic-Bold')}
+@font-face {font-family: MJXc-TeX-cal-Bx; src: local('MathJax_Caligraphic'); font-weight: bold}
+@font-face {font-family: MJXc-TeX-cal-Bw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Caligraphic-Bold.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Bold.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Bold.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-frak-R; src: local('MathJax_Fraktur'), local('MathJax_Fraktur-Regular')}
+@font-face {font-family: MJXc-TeX-frak-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Fraktur-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Fraktur-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Fraktur-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-frak-B; src: local('MathJax_Fraktur Bold'), local('MathJax_Fraktur-Bold')}
+@font-face {font-family: MJXc-TeX-frak-Bx; src: local('MathJax_Fraktur'); font-weight: bold}
+@font-face {font-family: MJXc-TeX-frak-Bw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Fraktur-Bold.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Fraktur-Bold.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Fraktur-Bold.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-math-BI; src: local('MathJax_Math BoldItalic'), local('MathJax_Math-BoldItalic')}
+@font-face {font-family: MJXc-TeX-math-BIx; src: local('MathJax_Math'); font-weight: bold; font-style: italic}
+@font-face {font-family: MJXc-TeX-math-BIw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Math-BoldItalic.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Math-BoldItalic.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Math-BoldItalic.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-sans-R; src: local('MathJax_SansSerif'), local('MathJax_SansSerif-Regular')}
+@font-face {font-family: MJXc-TeX-sans-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_SansSerif-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_SansSerif-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_SansSerif-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-sans-B; src: local('MathJax_SansSerif Bold'), local('MathJax_SansSerif-Bold')}
+@font-face {font-family: MJXc-TeX-sans-Bx; src: local('MathJax_SansSerif'); font-weight: bold}
+@font-face {font-family: MJXc-TeX-sans-Bw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_SansSerif-Bold.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_SansSerif-Bold.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_SansSerif-Bold.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-sans-I; src: local('MathJax_SansSerif Italic'), local('MathJax_SansSerif-Italic')}
+@font-face {font-family: MJXc-TeX-sans-Ix; src: local('MathJax_SansSerif'); font-style: italic}
+@font-face {font-family: MJXc-TeX-sans-Iw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_SansSerif-Italic.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_SansSerif-Italic.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_SansSerif-Italic.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-script-R; src: local('MathJax_Script'), local('MathJax_Script-Regular')}
+@font-face {font-family: MJXc-TeX-script-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Script-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Script-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Script-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-type-R; src: local('MathJax_Typewriter'), local('MathJax_Typewriter-Regular')}
+@font-face {font-family: MJXc-TeX-type-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Typewriter-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Typewriter-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Typewriter-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-cal-R; src: local('MathJax_Caligraphic'), local('MathJax_Caligraphic-Regular')}
+@font-face {font-family: MJXc-TeX-cal-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Caligraphic-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-main-B; src: local('MathJax_Main Bold'), local('MathJax_Main-Bold')}
+@font-face {font-family: MJXc-TeX-main-Bx; src: local('MathJax_Main'); font-weight: bold}
+@font-face {font-family: MJXc-TeX-main-Bw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Main-Bold.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-main-I; src: local('MathJax_Main Italic'), local('MathJax_Main-Italic')}
+@font-face {font-family: MJXc-TeX-main-Ix; src: local('MathJax_Main'); font-style: italic}
+@font-face {font-family: MJXc-TeX-main-Iw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Main-Italic.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-main-R; src: local('MathJax_Main'), local('MathJax_Main-Regular')}
+@font-face {font-family: MJXc-TeX-main-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Main-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-math-I; src: local('MathJax_Math Italic'), local('MathJax_Math-Italic')}
+@font-face {font-family: MJXc-TeX-math-Ix; src: local('MathJax_Math'); font-style: italic}
+@font-face {font-family: MJXc-TeX-math-Iw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Math-Italic.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-size1-R; src: local('MathJax_Size1'), local('MathJax_Size1-Regular')}
+@font-face {font-family: MJXc-TeX-size1-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Size1-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-size2-R; src: local('MathJax_Size2'), local('MathJax_Size2-Regular')}
+@font-face {font-family: MJXc-TeX-size2-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Size2-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-size3-R; src: local('MathJax_Size3'), local('MathJax_Size3-Regular')}
+@font-face {font-family: MJXc-TeX-size3-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Size3-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-size4-R; src: local('MathJax_Size4'), local('MathJax_Size4-Regular')}
+@font-face {font-family: MJXc-TeX-size4-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Size4-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-vec-R; src: local('MathJax_Vector'), local('MathJax_Vector-Regular')}
+@font-face {font-family: MJXc-TeX-vec-Rw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Vector-Regular.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Vector-Regular.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Vector-Regular.otf') format('opentype')}
+@font-face {font-family: MJXc-TeX-vec-B; src: local('MathJax_Vector Bold'), local('MathJax_Vector-Bold')}
+@font-face {font-family: MJXc-TeX-vec-Bx; src: local('MathJax_Vector'); font-weight: bold}
+@font-face {font-family: MJXc-TeX-vec-Bw; src /*1*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/eot/MathJax_Vector-Bold.eot'); src /*2*/: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/woff/MathJax_Vector-Bold.woff') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/fonts/HTML-CSS/TeX/otf/MathJax_Vector-Bold.otf') format('opentype')}
+</style><script src="./An Overview of LightGBM_files/alfalfa_min.d078e4f2a4721192a99e02601a767617.js" async="" charset="UTF-8"></script></head>
+<body class="post-template tag-data-science tag-machine-learning"><div id="MathJax_Message" style="display: none;"></div>
+
+<header class="main-header">
+<div class="container">
+<div class="row">
+<div class="col-sm-12">
+
+<a class="branding" href="https://www.avanwyk.com/">avanwyk</a>
+
+</div>
+</div>
+</div>
+</header>
+
+
+<nav class="main-navigation">
+<div class="container">
+<div class="row">
+<div class="col-sm-12">
+<div class="navbar-header">
+<span class="nav-toggle-button collapsed" data-toggle="collapse" data-target="#main-menu">
+<span class="sr-only">Toggle navigation</span>
+<i class="fa fa-bars"></i>
+</span>
+</div>
+<div class="collapse navbar-collapse" id="main-menu">
+<ul class="menu">
+<li class="nav-home" role="presentation"><a href="https://www.avanwyk.com/">Home</a></li>
+<li class="nav-projects" role="presentation"><a href="https://www.avanwyk.com/projects/">Projects</a></li>
+<li class="nav-publications" role="presentation"><a href="https://www.avanwyk.com/publications/">Publications</a></li>
+<li class="nav-about" role="presentation"><a href="https://www.avanwyk.com/about/">About</a></li>
+<li class="nav-contact" role="presentation"><a href="https://www.avanwyk.com/contact/">Contact</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</nav>
+
+
+<section class="content-wrap">
+<div class="container">
+<div class="row">
+
+<div class="col-md-8 main-content col-md-push-4">
+
+<article class="post tag-data-science tag-machine-learning featured">
+<div class="post-head">
+<h1 class="post-title h2">An Overview of LightGBM</h1>
+<div class="post-meta">
+<span class="author">By <a href="https://www.avanwyk.com/author/avanwyk/">Andrich van Wyk</a></span> •
+<span class="date">May 16, 2018</span> •
+<span class="comment-count"><a href="https://www.avanwyk.com/an-overview-of-lightgbm/#disqus_thread">0 Comments</a></span>
+</div>
+</div>
+<div class="featured-media">
+<img src="./An Overview of LightGBM_files/alberto-tondo-328006-unsplash.jpg" alt="An Overview of LightGBM">
+</div>
+<div class="post-content">
+<h2 id="contents">Contents</h2>
+<ol>
+<li><a href="https://www.avanwyk.com/an-overview-of-lightgbm/#lightgbm">LightGBM Introduction</a></li>
+<li><a href="https://www.avanwyk.com/an-overview-of-lightgbm/#gradientboosting">Gradient Boosting</a><br>
+i. <a href="https://www.avanwyk.com/an-overview-of-lightgbm/#algorithm">Algorithm</a></li>
+<li><a href="https://www.avanwyk.com/an-overview-of-lightgbm/#lightgbmapi">LightGBM API</a><br>
+i. <a href="https://www.avanwyk.com/an-overview-of-lightgbm/#plotting">Plotting</a><br>
+ii. <a href="https://www.avanwyk.com/an-overview-of-lightgbm/#savingthemodel">Saving the model</a></li>
+<li><a href="https://www.avanwyk.com/an-overview-of-lightgbm/#lightgbmparameters">LightGBM Parameters</a><br>
+i. <a href="https://www.avanwyk.com/an-overview-of-lightgbm/#treeparameters">Tree parameters</a><br>
+ii. <a href="https://www.avanwyk.com/an-overview-of-lightgbm/#tuningforimbalanceddata">Tuning for imbalanced data</a><br>
+iii. <a href="https://www.avanwyk.com/an-overview-of-lightgbm/#tuningforoverfitting">Tuning for overfitting</a><br>
+iv. <a href="https://www.avanwyk.com/an-overview-of-lightgbm/#tuningforaccuracy">Tuning for accuracy</a></li>
+<li><a href="https://www.avanwyk.com/an-overview-of-lightgbm/#resources">Resources</a></li>
+</ol>
+<p>Although maybe not as fashionable as deep learning algorithms in 2018, the effectiveness of tree and tree ensemble based learning methods certainly cannot be questioned. Across a variety of domains (<a href="https://www.kaggle.com/pureheart/1st-place-lgb-model-public-0-470-private-0-502?scriptVersionId=2372967/comments">restaurant visitor forecasting</a>, <a href="https://www.kaggle.com/c/kkbox-music-recommendation-challenge/discussion/45942">music recommendation</a>, <a href="https://www.kaggle.com/c/porto-seguro-safe-driver-prediction/discussion/44629">safe driver prediction</a>, and <a href="https://github.com/dmlc/xgboost/blob/master/demo/README.md#machine-learning-challenge-winning-solutions">many more</a>), ensemble tree models - specifically gradient boosted trees - are widely used on Kaggle, often as part of the winning solution.</p>
+<p>Decision trees also have certain advantages over deep learning methods: decision trees are more readily interpreted than deep neural networks, naturally better at learning from imbalanced data, often much faster to train, and work directly with un-encoded feature data (such as text).</p>
+<p>This post gives an overview of LightGBM and aims to serve as a practical reference. A brief introduction to gradient boosting is given, followed by a look at the LightGBM API and algorithm parameters. The examples given in this post are taken from an end-to-end practical example of applying LightGBM to the problem of <a href="https://www.kaggle.com/mlg-ulb/creditcardfraud">credit card fraud detection</a>: <a href="https://www.kaggle.com/avanwyk/a-lightgbm-overview">https://www.kaggle.com/avanwyk/a-lightgbm-overview</a>.</p>
+<h2 id="lightgbm">LightGBM</h2>
+<p><a href="https://github.com/Microsoft/LightGBM">LightGBM</a> is an open-source framework for gradient boosted machines. By default LightGBM will train a Gradient Boosted Decision Tree (GBDT), but it also supports random forests, <a href="https://arxiv.org/abs/1505.01866">Dropouts meet Multiple Additive Regression Trees (DART)</a>, and <a href="https://papers.nips.cc/paper/6579-gradient-based-sampling-an-adaptive-importance-sampling-for-least-squares.pdf">Gradient Based One-Side Sampling (Goss)</a>.</p>
+<p>The framework is fast and was designed for distributed training. It supports large-scale datasets and training on the GPU. In many cases LightGBM has been found to be more accurate and faster than XGBoost, though this is <a href="https://towardsdatascience.com/catboost-vs-light-gbm-vs-xgboost-5f93620723db">problem dependent</a>.</p>
+<p>Both LightGBM and <a href="https://github.com/dmlc/xgboost">XGBoost</a> are widely used and provide highly optimized, scalable and fast implementations of gradient boosted machines (GBMs). I have previously used XGBoost for a number of applications, but have yet to take an in depth look at LightGBM.</p>
+<p>The section below gives some theoretical background on gradient boosting. The section <a href="https://www.avanwyk.com/an-overview-of-lightgbm/#LightGBM-API">LightGBM API</a> continues with practicalities on using the LightGBM.</p>
+<h2 id="gradientboosting">Gradient Boosting</h2>
+<p>When considering ensemble learning, there are two primary methods: <em>bagging</em> and <em>boosting</em>. Bagging involves the training of many independent models and combines their predictions through some form of aggregation (averaging, voting etc.). An example of a bagging ensemble is a <a href="https://en.wikipedia.org/wiki/Random_forest">Random Forest</a>.</p>
+<p><a href="https://en.wikipedia.org/wiki/Boosting_(machine_learning)">Boosting</a> instead trains models <em>sequentially</em>, where each model learns from the errors of the previous model. Starting with a weak base model, models are trained iteratively, each adding to the prediction of the previous model to produce a strong overall prediction.</p>
+<p>In the case of gradient boosted decision trees, successive models are found by applying <a href="https://en.wikipedia.org/wiki/Gradient_descent">gradient descent</a> in the direction of the average gradient, calculated with respect to the error residuals of the loss function, of the leaf nodes of previous models.</p>
+<p>An <a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/">excellent explanation</a> of gradient boosting is given by <a href="https://www.linkedin.com/in/ben-gorman-4a6b3650">Ben Gorman</a> over on the Kaggle Blog and I strongly advise reading the <a href="http://blog.kaggle.com/2017/01/23/a-kaggle-master-explains-gradient-boosting/">post</a> if you would like to understand gradient boosting. A summary is given here.</p>
+<p>Considering decision trees, we proceed as follows. We start with an initial fit, <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-1-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-1" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-2" class="mjx-mrow"><span id="MJXc-Node-3" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-4" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-5" class="mjx-mn" style=""><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">0</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>F</mi><mn>0</mn></msub></math></span></span><script type="math/tex" id="MathJax-Element-1">F_0</script>, of our data: a constant value that minimizes our loss function <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-2-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-6" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-7" class="mjx-mrow"><span id="MJXc-Node-8" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">L</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi></math></span></span><script type="math/tex" id="MathJax-Element-2">L</script>:<br>
+<span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="mjx-chtml MJXc-display" style="text-align: center;"><span id="MathJax-Element-3-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;munder&gt;&lt;mrow&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mtext&gt;&amp;#xA0;&lt;/mtext&gt;&lt;mo movablelimits=&quot;true&quot; form=&quot;prefix&quot;&gt;min&lt;/mo&gt;&lt;/mrow&gt;&lt;mi&gt;&amp;#x03B3;&lt;/mi&gt;&lt;/munder&gt;&lt;munderover&gt;&lt;mo&gt;&amp;#x2211;&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/mrow&gt;&lt;/munderover&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;&amp;#x03B3;&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; text-align: center; position: relative;"><span id="MJXc-Node-9" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-10" class="mjx-mrow"><span id="MJXc-Node-11" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-12" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-13" class="mjx-mn" style=""><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">0</span></span></span></span><span id="MJXc-Node-14" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-15" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-16" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span><span id="MJXc-Node-17" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.062em; padding-bottom: 0.298em;">=</span></span><span id="MJXc-Node-18" class="mjx-munder MJXc-space3"><span class="mjx-itable"><span class="mjx-row"><span class="mjx-cell"><span class="mjx-op"><span id="MJXc-Node-19" class="mjx-mrow"><span id="MJXc-Node-20" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">a</span></span><span id="MJXc-Node-21" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">r</span></span><span id="MJXc-Node-22" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.003em;">g</span></span><span id="MJXc-Node-23" class="mjx-mtext"><span class="mjx-char MJXc-TeX-main-R" style="margin-top: -0.292em; padding-bottom: 0.357em;">&nbsp;</span></span><span id="MJXc-Node-24" class="mjx-mo MJXc-space1"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">min</span></span></span></span></span></span><span class="mjx-row"><span class="mjx-under" style="font-size: 70.7%; padding-top: 0.236em; padding-bottom: 0.141em; padding-left: 2.234em;"><span id="MJXc-Node-25" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.025em;">γ</span></span></span></span></span></span><span id="MJXc-Node-26" class="mjx-munderover MJXc-space1"><span class="mjx-itable"><span class="mjx-row"><span class="mjx-cell"><span class="mjx-stack"><span class="mjx-over" style="font-size: 70.7%; padding-bottom: 0.247em; padding-top: 0.141em; padding-left: 0.721em;"><span id="MJXc-Node-33" class="mjx-texatom" style=""><span id="MJXc-Node-34" class="mjx-mrow"><span id="MJXc-Node-35" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">n</span></span></span></span></span><span class="mjx-op"><span id="MJXc-Node-27" class="mjx-mo"><span class="mjx-char MJXc-TeX-size2-R" style="padding-top: 0.711em; padding-bottom: 0.711em;">∑</span></span></span></span></span></span><span class="mjx-row"><span class="mjx-under" style="font-size: 70.7%; padding-top: 0.236em; padding-bottom: 0.141em; padding-left: 0.21em;"><span id="MJXc-Node-28" class="mjx-texatom" style=""><span id="MJXc-Node-29" class="mjx-mrow"><span id="MJXc-Node-30" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span><span id="MJXc-Node-31" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.062em; padding-bottom: 0.298em;">=</span></span><span id="MJXc-Node-32" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span></span></span><span id="MJXc-Node-36" class="mjx-mi MJXc-space1"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">L</span></span><span id="MJXc-Node-37" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-38" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.006em;"><span id="MJXc-Node-39" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.006em;">y</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-40" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span></span></span><span id="MJXc-Node-41" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="margin-top: -0.174em; padding-bottom: 0.534em;">,</span></span><span id="MJXc-Node-42" class="mjx-mi MJXc-space1"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.025em;">γ</span></span><span id="MJXc-Node-43" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msub><mi>F</mi><mn>0</mn></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mrow><mi>a</mi><mi>r</mi><mi>g</mi><mtext>&nbsp;</mtext><mo movablelimits="true" form="prefix">min</mo></mrow><mi>γ</mi></munder><munderover><mo>∑</mo><mrow class="MJX-TeXAtom-ORD"><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow class="MJX-TeXAtom-ORD"><mi>n</mi></mrow></munderover><mi>L</mi><mo stretchy="false">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>,</mo><mi>γ</mi><mo stretchy="false">)</mo></math></span></span></span><script type="math/tex; mode=display" id="MathJax-Element-3"> F_0(x) = \underset{\gamma}{arg\ \min} \sum^{n}_{i=1} L(y_i, \gamma) </script><br>
+in the case of optimizing the mean square error, we can take the mean of the target values:<br>
+<span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="mjx-chtml MJXc-display" style="text-align: center;"><span id="MathJax-Element-4-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mfrac&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/mfrac&gt;&lt;munderover&gt;&lt;mo&gt;&amp;#x2211;&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/mrow&gt;&lt;/munderover&gt;&lt;msub&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; text-align: center; position: relative;"><span id="MJXc-Node-44" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-45" class="mjx-mrow"><span id="MJXc-Node-46" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-47" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-48" class="mjx-mn" style=""><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">0</span></span></span></span><span id="MJXc-Node-49" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-50" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-51" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span><span id="MJXc-Node-52" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.062em; padding-bottom: 0.298em;">=</span></span><span id="MJXc-Node-53" class="mjx-mfrac MJXc-space3"><span class="mjx-box MJXc-stacked" style="width: 0.8em; padding: 0px 0.12em;"><span class="mjx-numerator" style="width: 0.8em; top: -1.368em;"><span id="MJXc-Node-54" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span><span class="mjx-denominator" style="width: 0.8em; bottom: -0.722em;"><span id="MJXc-Node-55" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">n</span></span></span><span class="mjx-line" style="border-bottom: 1.3px solid; top: -0.287em; width: 0.8em;"></span></span><span class="mjx-vsize" style="height: 2.089em; vertical-align: -0.722em;"></span></span><span id="MJXc-Node-56" class="mjx-munderover MJXc-space1"><span class="mjx-itable"><span class="mjx-row"><span class="mjx-cell"><span class="mjx-stack"><span class="mjx-over" style="font-size: 70.7%; padding-bottom: 0.247em; padding-top: 0.141em; padding-left: 0.721em;"><span id="MJXc-Node-63" class="mjx-texatom" style=""><span id="MJXc-Node-64" class="mjx-mrow"><span id="MJXc-Node-65" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">n</span></span></span></span></span><span class="mjx-op"><span id="MJXc-Node-57" class="mjx-mo"><span class="mjx-char MJXc-TeX-size2-R" style="padding-top: 0.711em; padding-bottom: 0.711em;">∑</span></span></span></span></span></span><span class="mjx-row"><span class="mjx-under" style="font-size: 70.7%; padding-top: 0.236em; padding-bottom: 0.141em; padding-left: 0.21em;"><span id="MJXc-Node-58" class="mjx-texatom" style=""><span id="MJXc-Node-59" class="mjx-mrow"><span id="MJXc-Node-60" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span><span id="MJXc-Node-61" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.062em; padding-bottom: 0.298em;">=</span></span><span id="MJXc-Node-62" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span></span></span><span id="MJXc-Node-66" class="mjx-msubsup MJXc-space1"><span class="mjx-base" style="margin-right: -0.006em;"><span id="MJXc-Node-67" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.006em;">y</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-68" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span></span></span></span></span><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msub><mi>F</mi><mn>0</mn></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow class="MJX-TeXAtom-ORD"><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow class="MJX-TeXAtom-ORD"><mi>n</mi></mrow></munderover><msub><mi>y</mi><mi>i</mi></msub></math></span></span></span><script type="math/tex; mode=display" id="MathJax-Element-4"> F_0(x) = \frac{1}{n} \sum^{n}_{i=1} y_i </script></p>
+<p>With our initial guess of <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-5-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-69" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-70" class="mjx-mrow"><span id="MJXc-Node-71" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-72" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-73" class="mjx-mn" style=""><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">0</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>F</mi><mn>0</mn></msub></math></span></span><script type="math/tex" id="MathJax-Element-5">F_0</script>, we can now calculate the gradient, or <em>pseudo</em> residuals, of <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-6-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-74" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-75" class="mjx-mrow"><span id="MJXc-Node-76" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">L</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi></math></span></span><script type="math/tex" id="MathJax-Element-6">L</script> with respect to <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-7-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-77" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-78" class="mjx-mrow"><span id="MJXc-Node-79" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-80" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-81" class="mjx-mn" style=""><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">0</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>F</mi><mn>0</mn></msub></math></span></span><script type="math/tex" id="MathJax-Element-7">F_0</script>:<br>
+<span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="mjx-chtml MJXc-display" style="text-align: center;"><span id="MathJax-Element-8-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;msub&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mfrac&gt;&lt;mrow&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;&amp;#x2202;&lt;/mi&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;&amp;#x2202;&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;/mfrac&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; text-align: center; position: relative;"><span id="MJXc-Node-82" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-83" class="mjx-mrow"><span id="MJXc-Node-84" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-85" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">r</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-86" class="mjx-texatom" style=""><span id="MJXc-Node-87" class="mjx-mrow"><span id="MJXc-Node-88" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span><span id="MJXc-Node-89" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span><span id="MJXc-Node-90" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.062em; padding-bottom: 0.298em;">=</span></span><span id="MJXc-Node-91" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.298em; padding-bottom: 0.416em;">−</span></span><span id="MJXc-Node-92" class="mjx-mfrac"><span class="mjx-box MJXc-stacked" style="width: 6.1em; padding: 0px 0.12em;"><span class="mjx-numerator" style="width: 6.1em; top: -1.544em;"><span id="MJXc-Node-93" class="mjx-mrow"><span id="MJXc-Node-94" class="mjx-mi"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.416em; padding-bottom: 0.357em; padding-right: 0.035em;">∂</span></span><span id="MJXc-Node-95" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">L</span></span><span id="MJXc-Node-96" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-97" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.006em;"><span id="MJXc-Node-98" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.006em;">y</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-99" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span></span></span><span id="MJXc-Node-100" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="margin-top: -0.174em; padding-bottom: 0.534em;">,</span></span><span id="MJXc-Node-101" class="mjx-msubsup MJXc-space1"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-102" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-103" class="mjx-texatom" style=""><span id="MJXc-Node-104" class="mjx-mrow"><span id="MJXc-Node-105" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">0</span></span></span></span></span></span><span id="MJXc-Node-106" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-107" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-108" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-109" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span></span></span><span id="MJXc-Node-110" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span><span id="MJXc-Node-111" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="mjx-denominator" style="width: 6.1em; bottom: -1.044em;"><span id="MJXc-Node-112" class="mjx-mrow"><span id="MJXc-Node-113" class="mjx-mi"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.416em; padding-bottom: 0.357em; padding-right: 0.035em;">∂</span></span><span id="MJXc-Node-114" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-115" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-116" class="mjx-texatom" style=""><span id="MJXc-Node-117" class="mjx-mrow"><span id="MJXc-Node-118" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">0</span></span></span></span></span></span><span id="MJXc-Node-119" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-120" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-121" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-122" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span></span></span><span id="MJXc-Node-123" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="mjx-line" style="border-bottom: 1.3px solid; top: -0.287em; width: 6.1em;"></span></span><span class="mjx-vsize" style="height: 2.589em; vertical-align: -1.044em;"></span></span></span></span><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msub><mi>r</mi><mrow class="MJX-TeXAtom-ORD"><mi>i</mi><mn>1</mn></mrow></msub><mo>=</mo><mo>−</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>L</mi><mo stretchy="false">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>,</mo><msub><mi>F</mi><mrow class="MJX-TeXAtom-ORD"><mn>0</mn></mrow></msub><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><mrow><mi mathvariant="normal">∂</mi><msub><mi>F</mi><mrow class="MJX-TeXAtom-ORD"><mn>0</mn></mrow></msub><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow></mfrac></math></span></span></span><script type="math/tex; mode=display" id="MathJax-Element-8"> r_{i1} = -\frac{\partial L(y_i, F_{0}(x_i))}{\partial F_{0}(x_i)} </script></p>
+<p>We now fit a decision tree <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-9-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-124" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-125" class="mjx-mrow"><span id="MJXc-Node-126" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-127" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">h</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-128" class="mjx-texatom" style=""><span id="MJXc-Node-129" class="mjx-mrow"><span id="MJXc-Node-130" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span><span id="MJXc-Node-131" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-132" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-133" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>h</mi><mrow class="MJX-TeXAtom-ORD"><mn>1</mn></mrow></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-9">h_{1}(x)</script>, to the residuals. Using a regression tree, this will yield the <strong>average gradient</strong> for each of the leaf nodes.</p>
+<p>Now we can apply gradient descent to minimize the loss for each leaf by stepping in the direction of the <strong>average gradient</strong> for the leaf nodes as contained in our decision tree <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-10-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-134" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-135" class="mjx-mrow"><span id="MJXc-Node-136" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-137" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">h</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-138" class="mjx-texatom" style=""><span id="MJXc-Node-139" class="mjx-mrow"><span id="MJXc-Node-140" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span><span id="MJXc-Node-141" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-142" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-143" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>h</mi><mrow class="MJX-TeXAtom-ORD"><mn>1</mn></mrow></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-10">h_{1}(x)</script>. The step size is determined by a multiplier <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-11-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;&amp;#x03B3;&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-144" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-145" class="mjx-mrow"><span id="MJXc-Node-146" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.025em;"><span id="MJXc-Node-147" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.025em;">γ</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-148" class="mjx-texatom" style=""><span id="MJXc-Node-149" class="mjx-mrow"><span id="MJXc-Node-150" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>γ</mi><mrow class="MJX-TeXAtom-ORD"><mn>1</mn></mrow></msub></math></span></span><script type="math/tex" id="MathJax-Element-11">\gamma_{1}</script> which can be optimized by performing a <a href="https://en.wikipedia.org/wiki/Line_search">line search</a>. The step size is further shrinked using a learning rate <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-12-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;&amp;#x03BB;&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-151" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-152" class="mjx-mrow"><span id="MJXc-Node-153" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-154" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">λ</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-155" class="mjx-texatom" style=""><span id="MJXc-Node-156" class="mjx-mrow"><span id="MJXc-Node-157" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>λ</mi><mrow class="MJX-TeXAtom-ORD"><mn>1</mn></mrow></msub></math></span></span><script type="math/tex" id="MathJax-Element-12">\lambda_{1}</script>, thus yielding a new boosted fit of the data:<br>
+<span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="mjx-chtml MJXc-display" style="text-align: center;"><span id="MathJax-Element-13-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot; display=&quot;block&quot;&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;&amp;#x03BB;&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;msub&gt;&lt;mi&gt;&amp;#x03B3;&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;msub&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; text-align: center; position: relative;"><span id="MJXc-Node-158" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-159" class="mjx-mrow"><span id="MJXc-Node-160" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-161" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-162" class="mjx-texatom" style=""><span id="MJXc-Node-163" class="mjx-mrow"><span id="MJXc-Node-164" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span><span id="MJXc-Node-165" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-166" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-167" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span><span id="MJXc-Node-168" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.062em; padding-bottom: 0.298em;">=</span></span><span id="MJXc-Node-169" class="mjx-msubsup MJXc-space3"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-170" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-171" class="mjx-texatom" style=""><span id="MJXc-Node-172" class="mjx-mrow"><span id="MJXc-Node-173" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">0</span></span></span></span></span></span><span id="MJXc-Node-174" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-175" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-176" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span><span id="MJXc-Node-177" class="mjx-mo MJXc-space2"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.298em; padding-bottom: 0.416em;">+</span></span><span id="MJXc-Node-178" class="mjx-msubsup MJXc-space2"><span class="mjx-base"><span id="MJXc-Node-179" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">λ</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-180" class="mjx-mn" style=""><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span><span id="MJXc-Node-181" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.025em;"><span id="MJXc-Node-182" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.025em;">γ</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-183" class="mjx-mn" style=""><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span><span id="MJXc-Node-184" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-185" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">h</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-186" class="mjx-mn" style=""><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span><span id="MJXc-Node-187" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-188" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-189" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="MJX_Assistive_MathML MJX_Assistive_MathML_Block" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><msub><mi>F</mi><mrow class="MJX-TeXAtom-ORD"><mn>1</mn></mrow></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi>F</mi><mrow class="MJX-TeXAtom-ORD"><mn>0</mn></mrow></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>+</mo><msub><mi>λ</mi><mn>1</mn></msub><msub><mi>γ</mi><mn>1</mn></msub><msub><mi>h</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math></span></span></span><script type="math/tex; mode=display" id="MathJax-Element-13"> F_{1}(x) = F_{0}(x) + \lambda_1 \gamma_1 h_1(x) </script></p>
+<h3 id="algorithm">Algorithm</h3>
+<p>Putting it all together, we have the following algorithm. For a number of boosting rounds <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-14-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;M&lt;/mi&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-190" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-191" class="mjx-mrow"><span id="MJXc-Node-192" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.081em;">M</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>M</mi></math></span></span><script type="math/tex" id="MathJax-Element-14">M</script> and a differentiable loss function <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-15-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-193" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-194" class="mjx-mrow"><span id="MJXc-Node-195" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">L</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>L</mi></math></span></span><script type="math/tex" id="MathJax-Element-15">L</script>:</p>
+<p>Let <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-16-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;munder&gt;&lt;mrow&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mtext&gt;&amp;#xA0;&lt;/mtext&gt;&lt;mo movablelimits=&quot;true&quot; form=&quot;prefix&quot;&gt;min&lt;/mo&gt;&lt;/mrow&gt;&lt;mi&gt;&amp;#x03B3;&lt;/mi&gt;&lt;/munder&gt;&lt;munderover&gt;&lt;mo&gt;&amp;#x2211;&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/mrow&gt;&lt;/munderover&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;mi&gt;&amp;#x03B3;&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-196" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-197" class="mjx-mrow"><span id="MJXc-Node-198" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-199" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-200" class="mjx-mn" style=""><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">0</span></span></span></span><span id="MJXc-Node-201" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-202" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-203" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span><span id="MJXc-Node-204" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.062em; padding-bottom: 0.298em;">=</span></span><span id="MJXc-Node-205" class="mjx-munder MJXc-space3"><span class="mjx-itable"><span class="mjx-row"><span class="mjx-cell"><span class="mjx-op"><span id="MJXc-Node-206" class="mjx-mrow"><span id="MJXc-Node-207" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">a</span></span><span id="MJXc-Node-208" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">r</span></span><span id="MJXc-Node-209" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.003em;">g</span></span><span id="MJXc-Node-210" class="mjx-mtext"><span class="mjx-char MJXc-TeX-main-R" style="margin-top: -0.292em; padding-bottom: 0.357em;">&nbsp;</span></span><span id="MJXc-Node-211" class="mjx-mo MJXc-space1"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">min</span></span></span></span></span></span><span class="mjx-row"><span class="mjx-under" style="font-size: 70.7%; padding-top: 0.236em; padding-bottom: 0.141em; padding-left: 2.234em;"><span id="MJXc-Node-212" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.025em;">γ</span></span></span></span></span></span><span id="MJXc-Node-213" class="mjx-munderover MJXc-space1"><span class="mjx-base"><span id="MJXc-Node-214" class="mjx-mo"><span class="mjx-char MJXc-TeX-size1-R" style="padding-top: 0.534em; padding-bottom: 0.534em;">∑</span></span></span><span class="mjx-stack" style="vertical-align: -0.31em;"><span class="mjx-sup" style="font-size: 70.7%; padding-bottom: 0.422em; padding-left: 0px; padding-right: 0.071em;"><span id="MJXc-Node-220" class="mjx-texatom" style=""><span id="MJXc-Node-221" class="mjx-mrow"><span id="MJXc-Node-222" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">n</span></span></span></span></span><span class="mjx-sub" style="font-size: 70.7%; padding-right: 0.071em;"><span id="MJXc-Node-215" class="mjx-texatom" style=""><span id="MJXc-Node-216" class="mjx-mrow"><span id="MJXc-Node-217" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span><span id="MJXc-Node-218" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.062em; padding-bottom: 0.298em;">=</span></span><span id="MJXc-Node-219" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span></span><span id="MJXc-Node-223" class="mjx-mi MJXc-space1"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">L</span></span><span id="MJXc-Node-224" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-225" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.006em;"><span id="MJXc-Node-226" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.006em;">y</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-227" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span></span></span><span id="MJXc-Node-228" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="margin-top: -0.174em; padding-bottom: 0.534em;">,</span></span><span id="MJXc-Node-229" class="mjx-mi MJXc-space1"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.025em;">γ</span></span><span id="MJXc-Node-230" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>F</mi><mn>0</mn></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mrow><mi>a</mi><mi>r</mi><mi>g</mi><mtext>&nbsp;</mtext><mo movablelimits="true" form="prefix">min</mo></mrow><mi>γ</mi></munder><munderover><mo>∑</mo><mrow class="MJX-TeXAtom-ORD"><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow class="MJX-TeXAtom-ORD"><mi>n</mi></mrow></munderover><mi>L</mi><mo stretchy="false">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>,</mo><mi>γ</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-16"> F_0(x) = \underset{\gamma}{arg\ \min} \sum^{n}_{i=1} L(y_i, \gamma) </script><br>
+For m = 1 to M:</p>
+<ol>
+<li>Calculate the <em>pseudo</em> residuals <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-17-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mfrac&gt;&lt;mrow&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;&amp;#x2202;&lt;/mi&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;y&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo&gt;,&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;mrow&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;&amp;#x2202;&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;/mfrac&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-231" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-232" class="mjx-mrow"><span id="MJXc-Node-233" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-234" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">r</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-235" class="mjx-texatom" style=""><span id="MJXc-Node-236" class="mjx-mrow"><span id="MJXc-Node-237" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span><span id="MJXc-Node-238" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span></span></span><span id="MJXc-Node-239" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.062em; padding-bottom: 0.298em;">=</span></span><span id="MJXc-Node-240" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.298em; padding-bottom: 0.416em;">−</span></span><span id="MJXc-Node-241" class="mjx-mfrac"><span class="mjx-box MJXc-stacked" style="width: 5.024em; padding: 0px 0.12em;"><span class="mjx-numerator" style="font-size: 70.7%; width: 7.104em; top: -1.655em;"><span id="MJXc-Node-242" class="mjx-mrow" style=""><span id="MJXc-Node-243" class="mjx-mi"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.416em; padding-bottom: 0.357em; padding-right: 0.035em;">∂</span></span><span id="MJXc-Node-244" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">L</span></span><span id="MJXc-Node-245" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-246" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.006em;"><span id="MJXc-Node-247" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.006em;">y</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-248" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span></span></span><span id="MJXc-Node-249" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="margin-top: -0.174em; padding-bottom: 0.534em;">,</span></span><span id="MJXc-Node-250" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-251" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-252" class="mjx-texatom" style=""><span id="MJXc-Node-253" class="mjx-mrow"><span id="MJXc-Node-254" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span><span id="MJXc-Node-255" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.298em; padding-bottom: 0.416em;">−</span></span><span id="MJXc-Node-256" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span><span id="MJXc-Node-257" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-258" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-259" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-260" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span></span></span><span id="MJXc-Node-261" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span><span id="MJXc-Node-262" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="mjx-denominator" style="font-size: 70.7%; width: 7.104em; bottom: -0.948em;"><span id="MJXc-Node-263" class="mjx-mrow" style=""><span id="MJXc-Node-264" class="mjx-mi"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.416em; padding-bottom: 0.357em; padding-right: 0.035em;">∂</span></span><span id="MJXc-Node-265" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-266" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-267" class="mjx-texatom" style=""><span id="MJXc-Node-268" class="mjx-mrow"><span id="MJXc-Node-269" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span><span id="MJXc-Node-270" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.298em; padding-bottom: 0.416em;">−</span></span><span id="MJXc-Node-271" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span><span id="MJXc-Node-272" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-273" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-274" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-275" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span></span></span><span id="MJXc-Node-276" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="mjx-line" style="border-bottom: 1.3px solid; top: -0.287em; width: 5.024em;"></span></span><span class="mjx-vsize" style="height: 1.84em; vertical-align: -0.67em;"></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>r</mi><mrow class="MJX-TeXAtom-ORD"><mi>i</mi><mi>m</mi></mrow></msub><mo>=</mo><mo>−</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>L</mi><mo stretchy="false">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>,</mo><msub><mi>F</mi><mrow class="MJX-TeXAtom-ORD"><mi>m</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><mrow><mi mathvariant="normal">∂</mi><msub><mi>F</mi><mrow class="MJX-TeXAtom-ORD"><mi>m</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow></mfrac></math></span></span><script type="math/tex" id="MathJax-Element-17"> r_{im} = -\frac{\partial L(y_i, F_{m-1}(x_i))}{\partial F_{m-1}(x_i)} </script></li>
+<li>Fit decision tree <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-18-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-277" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-278" class="mjx-mrow"><span id="MJXc-Node-279" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-280" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">h</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-281" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span><span id="MJXc-Node-282" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-283" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-284" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>h</mi><mi>m</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-18"> h_m(x) </script> to <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-19-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-285" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-286" class="mjx-mrow"><span id="MJXc-Node-287" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-288" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">r</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-289" class="mjx-texatom" style=""><span id="MJXc-Node-290" class="mjx-mrow"><span id="MJXc-Node-291" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.416em; padding-bottom: 0.298em;">i</span></span><span id="MJXc-Node-292" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>r</mi><mrow class="MJX-TeXAtom-ORD"><mi>i</mi><mi>m</mi></mrow></msub></math></span></span><script type="math/tex" id="MathJax-Element-19"> r_{im} </script></li>
+<li>Compute the step multiplier <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-20-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;&amp;#x03B3;&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-293" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-294" class="mjx-mrow"><span id="MJXc-Node-295" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.025em;"><span id="MJXc-Node-296" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.025em;">γ</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-297" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>γ</mi><mi>m</mi></msub></math></span></span><script type="math/tex" id="MathJax-Element-20"> \gamma_m </script> for each leaf of <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-21-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-298" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-299" class="mjx-mrow"><span id="MJXc-Node-300" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-301" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">h</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-302" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span><span id="MJXc-Node-303" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-304" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-305" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>h</mi><mi>m</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-21"> h_m(x) </script></li>
+<li>Let <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-22-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;&amp;#x03BB;&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/msub&gt;&lt;msub&gt;&lt;mi&gt;&amp;#x03B3;&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/msub&gt;&lt;msub&gt;&lt;mi&gt;h&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/msub&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-306" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-307" class="mjx-mrow"><span id="MJXc-Node-308" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-309" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-310" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span><span id="MJXc-Node-311" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-312" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-313" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span><span id="MJXc-Node-314" class="mjx-mo MJXc-space3"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.062em; padding-bottom: 0.298em;">=</span></span><span id="MJXc-Node-315" class="mjx-msubsup MJXc-space3"><span class="mjx-base" style="margin-right: -0.106em;"><span id="MJXc-Node-316" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em; padding-right: 0.106em;">F</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-317" class="mjx-texatom" style=""><span id="MJXc-Node-318" class="mjx-mrow"><span id="MJXc-Node-319" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span><span id="MJXc-Node-320" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.298em; padding-bottom: 0.416em;">−</span></span><span id="MJXc-Node-321" class="mjx-mn"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.357em; padding-bottom: 0.357em;">1</span></span></span></span></span></span><span id="MJXc-Node-322" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-323" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-324" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span><span id="MJXc-Node-325" class="mjx-mo MJXc-space2"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.298em; padding-bottom: 0.416em;">+</span></span><span id="MJXc-Node-326" class="mjx-msubsup MJXc-space2"><span class="mjx-base"><span id="MJXc-Node-327" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">λ</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-328" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span><span id="MJXc-Node-329" class="mjx-msubsup"><span class="mjx-base" style="margin-right: -0.025em;"><span id="MJXc-Node-330" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.475em; padding-right: 0.025em;">γ</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-331" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span><span id="MJXc-Node-332" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-333" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">h</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-334" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span><span id="MJXc-Node-335" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">(</span></span><span id="MJXc-Node-336" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">x</span></span><span id="MJXc-Node-337" class="mjx-mo"><span class="mjx-char MJXc-TeX-main-R" style="padding-top: 0.475em; padding-bottom: 0.593em;">)</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>F</mi><mi>m</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi>F</mi><mrow class="MJX-TeXAtom-ORD"><mi>m</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>+</mo><msub><mi>λ</mi><mi>m</mi></msub><msub><mi>γ</mi><mi>m</mi></msub><msub><mi>h</mi><mi>m</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-22"> F_m(x) = F_{m-1}(x) + \lambda_m \gamma_m h_m(x) </script>, where <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-23-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;&amp;#x03BB;&lt;/mi&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-338" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-339" class="mjx-mrow"><span id="MJXc-Node-340" class="mjx-msubsup"><span class="mjx-base"><span id="MJXc-Node-341" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.475em; padding-bottom: 0.298em;">λ</span></span></span><span class="mjx-sub" style="font-size: 70.7%; vertical-align: -0.212em; padding-right: 0.071em;"><span id="MJXc-Node-342" class="mjx-mi" style=""><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>λ</mi><mi>m</mi></msub></math></span></span><script type="math/tex" id="MathJax-Element-23"> \lambda_m </script> is the learning rate for iteration <span class="MathJax_Preview" style="color: inherit; display: none;"></span><span id="MathJax-Element-24-Frame" class="mjx-chtml MathJax_CHTML" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;/math&gt;" role="presentation" style="font-size: 121%; position: relative;"><span id="MJXc-Node-343" class="mjx-math" aria-hidden="true"><span id="MJXc-Node-344" class="mjx-mrow"><span id="MJXc-Node-345" class="mjx-mi"><span class="mjx-char MJXc-TeX-math-I" style="padding-top: 0.239em; padding-bottom: 0.298em;">m</span></span></span></span><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>m</mi></math></span></span><script type="math/tex" id="MathJax-Element-24">m</script></li>
+</ol>
+<p>One caveat of the above explanation is that it neglects to incorporate a regularization term in the loss function. An overview of the gradient boosting <a href="http://xgboost.readthedocs.io/en/latest/model.html">as given in the XGBoost documentation</a> pays special attention to the regularization term while deriving the objective function.</p>
+<p>In terms of LightGBM specifically, a detailed overview of the LightGBM algorithm and its innovations is given in the NIPS <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2017/11/lightgbm.pdf">paper</a>.</p>
+<h2 id="lightgbmapi">LightGBM API</h2>
+<p>Fortunately the details of the gradient boosting algorithm are well abstracted by LightGBM, and using the library is very straightforward.</p>
+<p>LightGBM requires you to wrap datasets in a LightGBM <a href="https://lightgbm.readthedocs.io/en/latest/Python-API.html#lightgbm.Dataset">Dataset</a> object:</p>
+<pre><code class="language-python hljs">lgb_train = lgb.Dataset(X_train, y_train, free_raw_data=<span class="hljs-keyword">False</span>)
+lgb_val = lgb.Dataset(X_val, y_val, reference=lgb_train, free_raw_data=<span class="hljs-keyword">False</span>)
+</code></pre>
+<p>The parameter <code>free_raw_data</code> controls whether the input data is freed after constructing the inner datasets.</p>
+<p>LightGBM supports many parameters that control various aspects of the algorithm (more on that below). Some core parameters that should be defined are:</p>
+<pre><code class="language-python hljs">core_params = {
+    <span class="hljs-string">'boosting_type'</span>: <span class="hljs-string">'gbdt'</span>, <span class="hljs-comment"># rf, dart, goss</span>
+    <span class="hljs-string">'objective'</span>: <span class="hljs-string">'binary'</span>, <span class="hljs-comment"># regression, multiclass, binary</span>
+    <span class="hljs-string">'learning_rate'</span>: <span class="hljs-number">0.05</span>,
+    <span class="hljs-string">'num_leaves'</span>: <span class="hljs-number">31</span>,
+    <span class="hljs-string">'nthread'</span>: <span class="hljs-number">4</span>,
+    <span class="hljs-string">'metric'</span>: <span class="hljs-string">'auc'</span> <span class="hljs-comment"># binary_logloss, mse, mae</span>
+}
+</code></pre>
+<p>We can then call the <a href="https://lightgbm.readthedocs.io/en/latest/Python-API.html#lightgbm.train">training API</a> to train a model, specifying the number of boosting rounds and early stopping rounds as needed:</p>
+<pre><code class="language-python hljs">evals_result = {}
+gbm = lgb.train(core_params, <span class="hljs-comment"># parameter dict to use</span>
+                training_set,
+                init_model=init_gbm, <span class="hljs-comment"># enables continuous training.</span>
+                num_boost_round=boost_rounds, <span class="hljs-comment"># number of boosting rounds.</span>
+                early_stopping_rounds=early_stopping_rounds,
+                valid_sets=validation_set,
+                evals_result=evals_result, <span class="hljs-comment"># stores validation results.</span>
+                verbose_eval=<span class="hljs-keyword">False</span>) <span class="hljs-comment"># print evaluations during training.</span>
+</code></pre>
+<p>Early stopping occurs when there is no improvement in either the objective evaluations or the metrics we defined as calculated on the validation data.</p>
+<p>LightGBM also supports continuous training of a model through the <code>init_model</code> parameter, which can accept an already trained model.</p>
+<p>A detailed overview of the Python API is available <a href="https://lightgbm.readthedocs.io/en/latest/Python-API.html">here</a>.</p>
+<h3 id="plotting">Plotting</h3>
+<p>LightGBM has a built in plotting API which is useful for quickly plotting validation results and tree related figures.</p>
+<p>Given the <code>eval_result</code> dictionary from training, we can easily plot validation metrics:</p>
+<pre><code class="language-python hljs">_ = lgb.plot_metric(evals)
+</code></pre>
+<p><img src="./An Overview of LightGBM_files/training-1.png" alt="training-1"></p>
+<p>Another very useful features that contributes to the explainability of the tree is relative feature importance:</p>
+<pre><code class="language-python hljs">_ = lgb.plot_importance(model)
+</code></pre>
+<p><img src="./An Overview of LightGBM_files/feature-1.png" alt="feature-1"></p>
+<p>It is also possible to visualize individual trees:</p>
+<pre><code class="language-python hljs">_ = lgb.plot_tree(model, figsize=(<span class="hljs-number">20</span>, <span class="hljs-number">20</span>))
+</code></pre>
+<p><img src="./An Overview of LightGBM_files/tree-1.png" alt="tree-1"></p>
+<h3 id="savingthemodel">Saving the model</h3>
+<p>Models can easily be saved to a file or JSON:</p>
+<pre><code class="language-python hljs">gbm.save_model(<span class="hljs-string">'cc_fraud_model.txt'</span>)
+
+loaded_model = lgb.Booster(model_file=<span class="hljs-string">'cc_fraud_model.txt'</span>)
+
+<span class="hljs-comment"># Output to JSON</span>
+model_json = gbm.dump_model()
+</code></pre>
+<h2 id="lightgbmparameters">LightGBM Parameters</h2>
+<p>A list of more advanced parameters for controlling the training of a GBDT is given below with a brief explanation of their effect on the algorithm.</p>
+<pre><code class="language-python hljs">advanced_params = {
+    <span class="hljs-string">'boosting_type'</span>: <span class="hljs-string">'gbdt'</span>,
+    <span class="hljs-string">'objective'</span>: <span class="hljs-string">'binary'</span>,
+    <span class="hljs-string">'metric'</span>: <span class="hljs-string">'auc'</span>,
+    
+    <span class="hljs-string">'learning_rate'</span>: <span class="hljs-number">0.01</span>,
+    <span class="hljs-string">'num_leaves'</span>: <span class="hljs-number">41</span>, <span class="hljs-comment"># more increases accuracy, but may lead to overfitting.</span>
+    
+    <span class="hljs-string">'max_depth'</span>: <span class="hljs-number">5</span>, <span class="hljs-comment"># shallower trees reduce overfitting.</span>
+    <span class="hljs-string">'min_split_gain'</span>: <span class="hljs-number">0</span>, <span class="hljs-comment"># minimal loss gain to perform a split.</span>
+    <span class="hljs-string">'min_child_samples'</span>: <span class="hljs-number">21</span>, <span class="hljs-comment"># specifies the minimum samples per leaf node.</span>
+    <span class="hljs-string">'min_child_weight'</span>: <span class="hljs-number">5</span>, <span class="hljs-comment"># minimal sum hessian in one leaf.</span>
+    
+    <span class="hljs-string">'lambda_l1'</span>: <span class="hljs-number">0.5</span>, <span class="hljs-comment"># L1 regularization.</span>
+    <span class="hljs-string">'lambda_l2'</span>: <span class="hljs-number">0.5</span>, <span class="hljs-comment"># L2 regularization.</span>
+    
+    <span class="hljs-comment"># LightGBM can subsample the data for training (improves speed):</span>
+    <span class="hljs-string">'feature_fraction'</span>: <span class="hljs-number">0.5</span>, <span class="hljs-comment"># randomly select a fraction of the features.</span>
+    <span class="hljs-string">'bagging_fraction'</span>: <span class="hljs-number">0.5</span>, <span class="hljs-comment"># randomly bag or subsample training data.</span>
+    <span class="hljs-string">'bagging_freq'</span>: <span class="hljs-number">0</span>, <span class="hljs-comment"># perform bagging every Kth iteration, disabled if 0.</span>
+    
+    <span class="hljs-string">'scale_pos_weight'</span>: <span class="hljs-number">99</span>, <span class="hljs-comment"># add a weight to the positive class examples.</span>
+    <span class="hljs-comment"># this can account for highly skewed data.</span>
+    
+    <span class="hljs-string">'subsample_for_bin'</span>: <span class="hljs-number">200000</span>, <span class="hljs-comment"># sample size to determine histogram bins.</span>
+    <span class="hljs-string">'max_bin'</span>: <span class="hljs-number">1000</span>, <span class="hljs-comment"># maximum number of bins to bucket feature values in.</span>
+    
+    <span class="hljs-string">'nthread'</span>: <span class="hljs-number">4</span>, <span class="hljs-comment"># best set to number of actual cores.</span>
+}
+</code></pre>
+<h3 id="treeparameters">Tree parameters</h3>
+<p>Both LightGBM and XGBoost build their trees <a href="https://github.com/Microsoft/LightGBM/blob/master/docs/Features.rst#leaf-wise-best-first-tree-growth">leaf-wise</a>.<br>
+<img src="./An Overview of LightGBM_files/leaf-wise-1.png" alt="leaf-wise-1"></p>
+<p>Building the tree leaf-wise results in faster convergence, but may lead to overfitting if the parameters are not tuned accordingly. Important parameters for controlling the tree building are:</p>
+<ul>
+<li><code>num_leaves</code>: the number of leaf nodes to use. Having a large number of leaves will improve accuracy, but will also lead to overfitting.</li>
+<li><code>min_child_samples</code>: the minimum number of samples (data) to group into a leaf. The parameter can greatly assist with overfitting: larger sample sizes per leaf will reduce overfitting (but may lead to under-fitting).</li>
+<li><code>max_depth</code>: controls the depth of the tree explicitly. Shallower trees reduce overfitting.</li>
+</ul>
+<h3 id="tuningforimbalanceddata">Tuning for imbalanced data</h3>
+<p>The simplest way to account for imbalanced or skewed data is to add a weight to the positive class examples:</p>
+<ul>
+<li><code>scale_pos_weight</code>: the weight can be calculated based on the number of negative and positive examples: <code>sample_pos_weight = number of negative samples / number of positive samples</code>.</li>
+</ul>
+<h3 id="tuningforoverfitting">Tuning for overfitting</h3>
+<p>In addition to the parameters mentioned above the following parameters can be used to control overfitting:</p>
+<ul>
+<li><code>max_bin</code>: the maximum numbers bins that feature values are bucketed in. A smaller <code>max_bin</code> reduces overfitting.</li>
+<li><code>min_child_weight</code>: the minimum sum hessian for a leaf. In conjuction with <code>min_child_samples</code>, larger values reduce overfitting.</li>
+<li><code>bagging_fraction</code> and <code>bagging_freq</code>: enables bagging (subsampling) of the training data. Both values need to be set for bagging to be used. The frequency controls how often (iteration) bagging is used. Smaller fractions and frequencies reduce overfitting.</li>
+<li><code>feature_fraction</code>: controls the subsampling of features used for training (as opposed to subsampling the actual training data in the case of bagging). Smaller fractions reduce overfitting.</li>
+<li><code>lambda_l1</code> and <code>lambda_l2</code>: controls L1 and L2 regularization.</li>
+</ul>
+<h3 id="tuningforaccuracy">Tuning for accuracy</h3>
+<p>Accuracy may be improved by tuning the following parameters:</p>
+<ul>
+<li><code>max_bin</code>: a larger <code>max_bin</code> increases accuracy.</li>
+<li><code>learning_rate</code>: using a smaller learning rate and increasing the number of iterations may improve accuracy.</li>
+<li><code>num_leaves</code>: increasing the number of leaves increases accuracy with a high risk of overfitting.</li>
+</ul>
+<p>A great overview of both XGBoost and LightGBM parameters, their effect on various aspects of the algorithms and how they relate to each other is available <a href="https://sites.google.com/view/lauraepp/parameters">here</a>.</p>
+<h2 id="resources">Resources</h2>
+<ol>
+<li>LightGBM project: <a href="https://github.com/Microsoft/LightGBM">https://github.com/Microsoft/LightGBM</a></li>
+<li>LightGBM paper: <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2017/11/lightgbm.pdf">https://www.microsoft.com/en-us/research/wp-content/uploads/2017/11/lightgbm.pdf</a></li>
+<li>Documentation: <a href="https://lightgbm.readthedocs.io/en/latest/index.html">https://lightgbm.readthedocs.io/en/latest/index.html</a></li>
+<li>Parameters: <a href="https://lightgbm.readthedocs.io/en/latest/Parameters.html">https://lightgbm.readthedocs.io/en/latest/Parameters.html</a></li>
+<li>Parameter explorer: <a href="https://sites.google.com/view/lauraepp/parameters">https://sites.google.com/view/lauraepp/parameters</a></li>
+</ol>
+</div>
+<footer class="post-footer clearfix">
+<div class="pull-left tag-list">
+<i class="fa fa-folder-open-o"></i>
+<a href="https://www.avanwyk.com/tag/data-science/">data science</a>,<a href="https://www.avanwyk.com/tag/machine-learning/">machine learning</a>
+</div>
+<div class="pull-right share">
+<ul class="share-icons">
+
+<li>
+<a href="https://twitter.com/share?text=An%20Overview%20of%20LightGBM&amp;url=https://www.avanwyk.com/an-overview-of-lightgbm/" onclick="window.open(this.href, &#39;twitter-share&#39;, &#39;width=550,height=235&#39;);return false;"><i class="fa fa-twitter"></i></a>
+</li>
+
+<li>
+<a href="https://www.facebook.com/sharer/sharer.php?u=https://www.avanwyk.com/an-overview-of-lightgbm/" onclick="window.open(this.href, &#39;facebook-share&#39;,&#39;width=580,height=296&#39;);return false;"><i class="fa fa-facebook"></i></a>
+</li>
+
+<li>
+<a href="https://plus.google.com/share?url=https://www.avanwyk.com/an-overview-of-lightgbm/" onclick="window.open(this.href, &#39;google-plus-share&#39;, &#39;width=490,height=530&#39;);return false;"><i class="fa fa-google-plus"></i></a>
+</li>
+
+<li>
+<a href="javascript:void((function()%7Bvar%20e=document.createElement(&#39;script&#39;);e.setAttribute(&#39;type&#39;,&#39;text/javascript&#39;);e.setAttribute(&#39;charset&#39;,&#39;UTF-8&#39;);e.setAttribute(&#39;src&#39;,&#39;http://assets.pinterest.com/js/pinmarklet.js?r=&#39;+Math.random()*99999999);document.body.appendChild(e)%7D)());"><i class="fa fa-pinterest"></i></a>
+</li>
+
+<li>
+<a href="https://www.linkedin.com/shareArticle?mini=true%26url=https://www.avanwyk.com/an-overview-of-lightgbm/%26source=https://www.avanwyk.com" onclick="window.open(this.href, &#39;linkedin-share&#39;, &#39;width=490,height=530&#39;);return false;"><i class="fa fa-linkedin"></i></a>
+</li>
+</ul> </div>
+</footer>
+</article>
+
+<div class="about-author clearfix">
+<a href="https://www.avanwyk.com/author/avanwyk/"><img src="./An Overview of LightGBM_files/fe98ae716c622fbdd6f9c935d67cf79b.jpeg" alt="Author image" class="avatar pull-left"></a>
+<div class="details">
+<div class="author">
+About <a href="https://www.avanwyk.com/author/avanwyk/">Andrich van Wyk</a>
+</div>
+<div class="meta-info">
+<span class="loaction"><i class="fa fa-home"></i>Pretoria, South Africa</span>
+<span class="website"><i class="fa fa-globe"></i><a href="https://www.avanwyk.com/about/" targer="_BLANK">Website</a></span>
+<span class="twitter"><a href="https://twitter.com/andrichvanwyk"><i class="fa fa-twitter"></i></a></span>
+</div>
+<div class="bio">
+I am Andrich van Wyk, a data scientist based in South Africa. This is my blog, Adjacent Possible; I write here about data science, machine and deep learning and software engineering.
+</div>
+</div>
+</div>
+ <div class="comment-wrap">
+
+<div class="disqus-container">
+<div id="disqus_thread"><iframe id="dsq-app5375" name="dsq-app5375" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./An Overview of LightGBM_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 307px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+<script type="text/javascript">
+	        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	        var disqus_shortname = disqus_shortname; // required: replace example with your forum shortname
+
+	        /* * * DON'T EDIT BELOW THIS LINE * * */
+	        (function() {
+	            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	        })();
+	    </script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+ </div>
+
+<div class="prev-next-wrap clearfix">
+<a class="btn btn-default" href="https://www.avanwyk.com/how-to-read-a-paper/"><i class="fa fa-angle-left fa-fw"></i> Previous Post : How to Read a Paper</a>
+&nbsp;
+<a class="btn btn-default" href="https://www.avanwyk.com/encoding-cyclical-features-for-deep-learning/">Next Post : Encoding Cyclical Features for Deep Learning <i class="fa fa-angle-right fa-fw"></i></a>
+</div> 
+</div>
+
+
+<div class="col-md-4 sidebar col-md-pull-8">
+
+<div class="widget">
+<h4 class="title">Recent Post</h4>
+<div class="content recent-post">
+<div class="recent-single-post">
+<a href="https://www.avanwyk.com/getting-started-with-fastai-v1-tabular-data/" class="post-title">Getting Started with FastAI v1: Tabular Data</a><div class="date">October 19, 2018</div>
+</div>
+<div class="recent-single-post">
+<a href="https://www.avanwyk.com/getting-started-with-fastai-v1-installation/" class="post-title">Getting Started with FastAI v1: Installation</a><div class="date">October 19, 2018</div>
+</div>
+<div class="recent-single-post">
+<a href="https://www.avanwyk.com/how-to-read-a-paper/" class="post-title">How to Read a Paper</a><div class="date">July 05, 2018</div>
+</div>
+</div>
+</div>
+ 
+<div class="widget">
+<h4 class="title">Tags</h4>
+<div class="content tag-cloud">
+<a href="https://www.avanwyk.com/tag/data-science/">data science</a><a href="https://www.avanwyk.com/tag/deep-learning/">deep learning</a><a href="https://www.avanwyk.com/tag/fastai/">fastai</a><a href="https://www.avanwyk.com/tag/feature-engineering/">feature engineering</a><a href="https://www.avanwyk.com/tag/machine-learning/">machine learning</a><a href="https://www.avanwyk.com/tag/research/">research</a>
+</div>
+</div>
+
+
+<div class="widget">
+<h4 class="title">Follow</h4>
+<div class="content">
+<ul class="social">
+
+
+<li><a href="https://github.com/avanwyk/" target="_blank"><i class="fa fa-github"></i></a></li>
+<li><a href="https://twitter.com/avanwykai" target="_blank"><i class="fa fa-twitter"></i></a></li>
+<li><a href="https://www.linkedin.com/in/avanwyk/" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+<li><a href="https://stackoverflow.com/users/1561141/avanwyk" target="_blank"><i class="fa fa-stack-overflow"></i></a></li>
+<li><a href="https://www.avanwyk.com/rss/"><i class="fa fa-rss"></i></a></li>
+
+</ul>
+</div>
+</div>
+ 
+<div class="widget">
+<h4 class="title">About avanwyk</h4>
+<div class="content">
+I am Andrich van Wyk, a data scientist based in South Africa. This is my blog, Adjacent Possible; I write here about
+data science, machine and deep learning and software engineering.
+</div>
+</div>
+</div>
+ </div>
+</div>
+</section>
+
+
+<footer class="main-footer">
+<div class="container">
+<div class="row">
+
+<div class="col-sm-4">
+
+<div class="widget">
+<h4 class="title">Recent Post</h4>
+<div class="content recent-post">
+<div class="recent-single-post">
+<a href="https://www.avanwyk.com/getting-started-with-fastai-v1-tabular-data/" class="post-title">Getting Started with FastAI v1: Tabular Data</a><div class="date">October 19, 2018</div>
+</div>
+<div class="recent-single-post">
+<a href="https://www.avanwyk.com/getting-started-with-fastai-v1-installation/" class="post-title">Getting Started with FastAI v1: Installation</a><div class="date">October 19, 2018</div>
+</div>
+<div class="recent-single-post">
+<a href="https://www.avanwyk.com/how-to-read-a-paper/" class="post-title">How to Read a Paper</a><div class="date">July 05, 2018</div>
+</div>
+</div>
+</div>
+ </div>
+
+
+<div class="col-sm-4">
+
+<div class="widget">
+<h4 class="title">Tags</h4>
+<div class="content tag-cloud">
+<a href="https://www.avanwyk.com/tag/data-science/">data science</a><a href="https://www.avanwyk.com/tag/deep-learning/">deep learning</a><a href="https://www.avanwyk.com/tag/fastai/">fastai</a><a href="https://www.avanwyk.com/tag/feature-engineering/">feature engineering</a><a href="https://www.avanwyk.com/tag/machine-learning/">machine learning</a><a href="https://www.avanwyk.com/tag/research/">research</a>
+</div>
+</div>
+
+</div>
+
+
+
+</div>
+</div>
+</footer>
+
+
+<div class="copyright">
+<div class="container">
+<div class="row">
+<div class="col-sm-12">
+Copyright © 2018, Andrich van Wyk. All right Reserved.
+</div>
+</div>
+</div>
+</div>
+ <a href="https://www.avanwyk.com/an-overview-of-lightgbm/#" id="back-to-top" style="display: block;"><i class="fa fa-angle-up"></i></a>
+
+<script type="text/javascript">
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+<script src="./An Overview of LightGBM_files/jquery.min.js"></script>
+<script src="./An Overview of LightGBM_files/jquery.fitvids.js"></script>
+<script src="./An Overview of LightGBM_files/bootstrap.min.js"></script>
+<script src="./An Overview of LightGBM_files/highlight.pack.js"></script>
+<script src="./An Overview of LightGBM_files/medium-zoom.min.js"></script>
+<script src="./An Overview of LightGBM_files/main.js"></script>
+
+<iframe style="display: none;" src="./An Overview of LightGBM_files/saved_resource(1).html"></iframe></body></html>

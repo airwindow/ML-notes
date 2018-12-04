@@ -1,0 +1,19 @@
+
+Pipeline Syntax
+https://jenkins.io/doc/book/pipeline/syntax/
+
+Jenkin Credentials
+https://jenkins.io/doc/book/using/using-credentials/
+https://issues.jenkins-ci.org/browse/JENKINS-27018
+
+
+https://stackoverflow.com/questions/34437046/checkout-repository-based-on-tag-in-the-jenkins-workflow-plugin
+
+Clean Workspace
+https://stackoverflow.com/questions/37468455/jenkins-pipeline-wipe-out-workspace
+
+Setup Jenkins for private GitHub repository
+https://medium.com/@MaciejNajbar/setup-jenkins-for-private-repository-9060f54eeac9
+
+Jenkins - Setup Build Jobs
+https://www.tutorialspoint.com/jenkins/jenkins_setup_build_jobs.htm
