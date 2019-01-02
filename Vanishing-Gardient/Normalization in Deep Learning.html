@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/ -->
+<html lang="en" class="wf-opensans-n4-active wf-opensans-i4-active wf-opensans-n7-active wf-opensans-i7-active wf-lato-n4-active wf-active"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://calculatedcontent.com/xmlrpc.php">
+
+<title>Normalization in Deep Learning</title>
+<script type="text/javascript" async="" src="./Normalization in Deep Learning_files/recaptcha__en.js"></script><script type="text/javascript" async="" src="./Normalization in Deep Learning_files/platform.js"></script><script src="./Normalization in Deep Learning_files/webfont.js" type="text/javascript" async=""></script><script type="text/javascript">
+  WebFontConfig = {"google":{"families":["Lato:r:latin,latin-ext","Open+Sans:r,i,b,bi:latin,latin-ext"]}};
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://s0.wp.com/wp-content/plugins/custom-fonts/js/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+	})();
+</script><style id="jetpack-custom-fonts-css">.wf-active code, .wf-active kbd, .wf-active pre, .wf-active samp{font-family:"Open Sans",sans-serif}.wf-active body, .wf-active button, .wf-active input, .wf-active select, .wf-active textarea{font-family:"Open Sans",sans-serif}.wf-active pre{font-family:"Open Sans",sans-serif}.wf-active code, .wf-active kbd, .wf-active tt, .wf-active var{font-family:"Open Sans",sans-serif}.wf-active .main-navigation-menu a{font-family:"Open Sans",sans-serif}.wf-active .top-navigation-menu a{font-family:"Open Sans",sans-serif}.wf-active .footer-navigation-menu a{font-family:"Open Sans",sans-serif}@media (max-width: 60em){.wf-active .main-navigation-toggle{font-family:"Open Sans",sans-serif}}.wf-active h1{font-style:normal;font-weight:400}.wf-active .site-title{font-family:"Lato",sans-serif;font-weight:400;font-style:normal}.wf-active .site-description{font-family:"Lato",sans-serif;font-style:normal;font-weight:400}.wf-active .widget-title{font-family:"Lato",sans-serif;font-weight:400;font-style:normal}.wf-active .archive-title, .wf-active .entry-title, .wf-active .page-title{font-family:"Lato",sans-serif;font-weight:400;font-style:normal}.wf-active .post-layout-columns .post-wrapper .post-column article .entry-title{font-style:normal;font-weight:400}.wf-active .comment-reply-title span, .wf-active .comments-header .comments-title{font-family:"Lato",sans-serif;font-weight:400;font-style:normal}@media (max-width: 80em){.wf-active .site-description{font-style:normal;font-weight:400}}@media (max-width: 70em){.wf-active .post-layout-columns .post-wrapper .post-column article .entry-title{font-style:normal;font-weight:400}}@media (max-width: 60em){.wf-active .site-description{font-style:normal;font-weight:400}}@media (max-width: 60em){.wf-active .archive-title, .wf-active .entry-title, .wf-active .page-title{font-style:normal;font-weight:400}}@media (max-width: 60em){.wf-active .post-layout-columns .post-wrapper .post-column article .entry-title{font-style:normal;font-weight:400}}</style>
+		<script src="./Normalization in Deep Learning_files/remote-login.php" type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel="dns-prefetch" href="https://s2.wp.com/">
+<link rel="dns-prefetch" href="https://s1.wp.com/">
+<link rel="dns-prefetch" href="https://charlesmartin14.wordpress.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="alternate" type="application/rss+xml" title=" » Feed" href="https://calculatedcontent.com/feed/">
+<link rel="alternate" type="application/rss+xml" title=" » Comments Feed" href="https://calculatedcontent.com/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title=" » Normalization in Deep Learning Comments Feed" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/feed/">
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s0.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1532082729h&ver=5.0.2"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56760,9792,65039],[55358,56760,8203,9792,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./Normalization in Deep Learning_files/wp-emoji-release.min.js" type="text/javascript" defer=""></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel="stylesheet" id="all-css-0-1" href="./Normalization in Deep Learning_files/saved_resource(2)" type="text/css" media="all">
+<link rel="stylesheet" id="tortuga-default-fonts-css" href="./Normalization in Deep Learning_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="all-css-2-1" href="./Normalization in Deep Learning_files/saved_resource(3)" type="text/css" media="all">
+<script type="text/javascript">
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var tortuga_menu_title = "Menu";
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Normalization in Deep Learning_files/saved_resource(4)"></script>
+<link rel="stylesheet" id="all-css-0-2" href="./Normalization in Deep Learning_files/style(2).css" type="text/css" media="all">
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://charlesmartin14.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Why Deep Learning Works 3:  BackProp minimizes the Free Energy ?" href="https://calculatedcontent.com/2017/02/24/why-deep-learning-works-3-backprop-minimizes-the-free-energy/">
+<link rel="next" title="Interview with a Data Scientist" href="https://calculatedcontent.com/2017/06/26/interview-with-a-data-scientist/">
+<meta name="generator" content="WordPress.com">
+<link rel="canonical" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/">
+<link rel="shortlink" href="https://wp.me/p2clSc-2I9">
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fcalculatedcontent.com%2F2017%2F06%2F16%2Fnormalization-in-deep-learning%2F&amp;for=wpcom-auto-discovery"><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fcalculatedcontent.com%2F2017%2F06%2F16%2Fnormalization-in-deep-learning%2F&amp;for=wpcom-auto-discovery">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Normalization in Deep Learning">
+<meta property="og:url" content="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/">
+<meta property="og:description" content="A few days ago (Jun 2017), a 100 page on Self-Normalizing Networks appeared.  An amazing piece of theoretical work, it claims to have solved the problem of building very large Feed Forward Networks…">
+<meta property="article:published_time" content="2017-06-16T19:45:00+00:00">
+<meta property="article:modified_time" content="2017-10-04T01:47:48+00:00">
+<meta property="og:image" content="https://charlesmartin14.files.wordpress.com/2017/06/batchnorm2-e1497643748774.png">
+<meta property="og:image:width" content="409">
+<meta property="og:image:height" content="261">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:creator" content="@charlesmartin14">
+<meta name="twitter:site" content="@charlesmartin14">
+<meta name="twitter:text:title" content="Normalization in Deep Learning">
+<meta name="twitter:image" content="https://charlesmartin14.files.wordpress.com/2017/06/batchnorm2-e1497643748774.png?w=640">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom">
+
+<!-- End Jetpack Open Graph Tags -->
+<link rel="openid.server" href="https://charlesmartin14.wordpress.com/?openidserver=1">
+<link rel="openid.delegate" href="https://charlesmartin14.wordpress.com/">
+<link rel="search" type="application/opensearchdescription+xml" href="https://calculatedcontent.com/osd.xml" title="">
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com">
+<meta name="theme-color" content="#353535">
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="WordPress.com"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-task" content="name=Subscribe;action-uri=https://calculatedcontent.com/feed/;icon-uri=https://charlesmartin14.files.wordpress.com/2018/02/cropped-wordpress-icon-logo2.png?w=16"><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s1.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s1.wp.com/i/favicon.ico"><meta name="description" content="A few days ago (Jun 2017), a 100 page on Self-Normalizing Networks appeared.  An amazing piece of theoretical work, it claims to have solved the problem of building very large Feed Forward Networks (FNNs). It builds upon a Batch Normalization (BN), introduced in 2015-- and is now the defacto standard for all CNNs and RNNs.  But…">
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #353535; }
+</style>
+	<link rel="amphtml" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/amp/"><style type="text/css" id="syntaxhighlighteranchor"></style>
+<style type="text/css" id="custom-colors-css">.primary-navigation-wrap{background-color:transparent}.main-navigation-menu a:hover,.main-navigation-menu a:hover:after,.main-navigation-menu a:active,.main-navigation-menu a:active:after{color:#fff !important}.main-navigation-menu li.current-menu-item>a,.main-navigation-menu li.current-menu-item>a:after:hover,.main-navigation-menu ul .menu-item-has-children>a:after:hover,.widget_wpcom_social_media_icons_widget ul li a{color:#fff !important}.widget_tag_cloud div a:link,.footer-widgets .widget_tag_cloud div a:link,.widget_tag_cloud div a:hover,.footer-widgets .widget_tag_cloud div a:hover,.widget_tag_cloud div a:active,.footer-widgets .widget_tag_cloud div a:active,.widget_tag_cloud div a:visited,.footer-widgets .widget_tag_cloud div a:visited,.wp_widget_tag_cloud div a:link,.footer-widgets .wp_widget_tag_cloud div a:link,.wp_widget_tag_cloud div a:hover,.footer-widgets .wp_widget_tag_cloud div a:hover,.wp_widget_tag_cloud div a:active,.footer-widgets .wp_widget_tag_cloud div a:active,.wp_widget_tag_cloud div a:visited,.footer-widgets .wp_widget_tag_cloud div a:visited{color:#fff !important}.rtl blockquote{border-left-color:#ddd !important}.entry-meta a:hover,.entry-meta a:active,.footer-widgets .widget a:hover,.footer-widgets .widget a:active,.site-footer a:hover,.site-footer a:active{opacity:.8}.footer-widgets .widget_tag_cloud div a:hover,.footer-widgets .widget_tag_cloud div a:active,.footer-widgets .wp_widget_tag_cloud div a:hover,.footer-widgets .wp_widget_tag_cloud div a:active{opacity:1}.a-stats a{color:#fff !important}.site-header,.site-title a:link,.site-title a:visited,.main-navigation-menu a:link,.main-navigation-menu a:visited,.top-navigation-menu a:link,.top-navigation-menu a:visited,.main-navigation-menu>.menu-item-has-children>a:after,.top-navigation-menu>.menu-item-has-children>a:after,.main-navigation-menu ul .menu-item-has-children>a:after,.top-navigation-menu ul .menu-item-has-children>a:after,.jetpack-social-navigation .menu li a:before,.footer-widgets .widget-title,.footer-widgets .widget a:link,.footer-widgets .widget a:visited,.footer-widgets .widget,.site-footer,.site-footer a:link,.site-footer a:visited{color:#fff}.main-navigation-menu a:hover,.top-navigation-menu a:hover{color:#fff}.site-footer a:link,.site-footer a:visited{border-color:#fff}body{background-color:#353535}body a:hover,body a:focus,body a:active,body .widget_flickr #flickr_badge_uber_wrapper a:hover,body .widget_flickr #flickr_badge_uber_wrapper a:active,body .entry-title a:hover,body .entry-title a:active,.entry-meta,.entry-meta a:link,.entry-meta a:visited{color:#39657d}button:hover,input[type="button"]:hover,input[type="reset"]:hover,input[type="submit"]:hover,button:focus,input[type="button"]:focus,input[type="reset"]:focus,input[type="submit"]:focus,button:active,input[type="button"]:active,input[type="reset"]:active,input[type="submit"]:active,.widget_wpcom_social_media_icons_widget ul li a:hover,.more-link:hover,.more-link:active,.widget_tag_cloud .tagcloud a,.entry-tags .meta-tags a,.widget_tag_cloud div a,.wp_widget_tag_cloud div a,.post-navigation .nav-links a:hover,.post-navigation .nav-links a:active,.post-pagination a,.post-pagination .current,.infinite-scroll #infinite-handle span,.post-slider-controls .zeeflex-direction-nav a:hover,.post-slider-controls .zeeflex-direction-nav a:active{background:#39657d}.site-header,.main-navigation-menu ul,.footer-widgets-wrap{background:#39657d}.header-bar-wrap{background:#31576c}.primary-navigation-wrap,.footer-wrap,.top-navigation-menu ul{background:#29495a}a,a:link,a:visited,.widget-title,.widget_flickr #flickr_badge_uber_wrapper a:link,.widget_flickr #flickr_badge_uber_wrapper a:visited,.archive-title,.page-title,.entry-title,.entry-title a:link,.entry-title a:visited,.comments-header .comments-title,.comment-reply-title span{color:#45a578}button,input[type="button"],input[type="reset"],input[type="submit"],.main-navigation-menu a:hover,.main-navigation-menu a:active,.main-navigation-menu li.current-menu-item>a,.widget_wpcom_social_media_icons_widget ul li a,.more-link,.entry-tags .meta-tags a:hover,.entry-tags .meta-tags a:active,.widget_tag_cloud div a:hover,.widget_tag_cloud div a:active,.wp_widget_tag_cloud div a:hover,.wp_widget_tag_cloud div a:active,.post-navigation .nav-links a,.post-pagination a:hover,.post-pagination a:active,.post-pagination .current,.infinite-scroll #infinite-handle span:hover,.main-navigation-toggle,.main-navigation-toggle:active,.main-navigation-toggle:focus,.main-navigation-toggle:hover,.main-navigation-menu .submenu-dropdown-toggle:hover,.main-navigation-menu .submenu-dropdown-toggle:active,.post-slider-controls .zeeflex-direction-nav a{background:#45a578}.primary-navigation-wrap,.main-navigation-menu ul,.widget,.type-post,.type-page,.type-attachment,.comments-area,.sticky,.page-header,.main-navigation-menu-wrap{border-color:#45a578}blockquote{border-left-color:#45a578}.rtl blockquote{border-right-color:#45a578}</style>
+<link rel="icon" href="https://charlesmartin14.files.wordpress.com/2018/02/cropped-wordpress-icon-logo2.png?w=32" sizes="32x32">
+<link rel="icon" href="https://charlesmartin14.files.wordpress.com/2018/02/cropped-wordpress-icon-logo2.png?w=192" sizes="192x192">
+<link rel="apple-touch-icon-precomposed" href="https://charlesmartin14.files.wordpress.com/2018/02/cropped-wordpress-icon-logo2.png?w=180">
+<meta name="msapplication-TileImage" content="https://charlesmartin14.files.wordpress.com/2018/02/cropped-wordpress-icon-logo2.png?w=270"><link rel="stylesheet" href="./Normalization in Deep Learning_files/css(1)" media="all">
+<style type="text/css"></style><link rel="stylesheet" type="text/css" id="gravatar-card-css" href="./Normalization in Deep Learning_files/hovercard.min.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="./Normalization in Deep Learning_files/services.min.css"></head>
+
+<body class="post-template-default single single-post postid-10425 single-format-standard custom-background mp6 customizer-styles-applied post-layout-two-columns post-layout-columns highlander-enabled highlander-light">
+
+	<div id="page" class="hfeed site">
+
+		<a class="skip-link screen-reader-text" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#content">Skip to content</a>
+
+		<div id="header-top" class="header-bar-wrap">
+
+			
+<div id="header-bar" class="header-bar container clearfix">
+
+	
+</div>
+
+		</div>
+
+		<header id="masthead" class="site-header clearfix" role="banner">
+
+			<div class="header-main container clearfix">
+
+				<div id="logo" class="site-branding clearfix">
+
+															
+				</div><!-- .site-branding -->
+
+			</div><!-- .header-main -->
+
+			<div id="main-navigation-wrap" class="primary-navigation-wrap">
+
+				<button id="main-navigation-toggle" class="main-navigation-toggle">Menu</button><nav id="main-navigation" class="primary-navigation navigation container clearfix" role="navigation">
+
+					<div class="main-navigation-menu-wrap">
+											</div>
+
+				</nav><!-- #main-navigation -->
+
+			</div>
+
+		</header><!-- #masthead -->
+
+		
+			<div id="headimg" class="header-image">
+
+				<a href="https://calculatedcontent.com/" rel="home">
+
+					<img src="./Normalization in Deep Learning_files/wp-logo.jpg" scale="0">
+
+				</a>
+
+			</div>
+
+		
+		<div id="content" class="site-content container clearfix">
+
+	<section id="primary" class="content-single content-area">
+		<main id="main" class="site-main" role="main">
+
+		
+<article id="post-10425" class="post-10425 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+
+	<img width="409" height="261" src="./Normalization in Deep Learning_files/batchnorm2-e1497643748774.png" class="attachment-tortuga-single-post size-tortuga-single-post wp-post-image" alt="" srcset="https://charlesmartin14.files.wordpress.com/2017/06/batchnorm2-e1497643748774.png 409w, https://charlesmartin14.files.wordpress.com/2017/06/batchnorm2-e1497643748774.png?w=150 150w, https://charlesmartin14.files.wordpress.com/2017/06/batchnorm2-e1497643748774.png?w=300 300w" sizes="(max-width: 409px) 100vw, 409px" data-attachment-id="11094" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/batchnorm/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/batchnorm2-e1497643748774.png" data-orig-size="409,261" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Batch Normalization" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/batchnorm2-e1497643748774.png?w=300" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/batchnorm2-e1497643748774.png?w=409">
+	<header class="entry-header"><h1 class="entry-title">Normalization in Deep Learning</h1></header>
+	<div class="entry-meta clearfix"><span class="meta-date"><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/" title="11:45 am" rel="bookmark"><time class="entry-date published updated" datetime="2017-06-16T11:45:00+00:00">June 16, 2017</time></a></span><span class="meta-author"> <span class="author vcard"><a class="url fn n" href="https://calculatedcontent.com/author/charlesmartin14/" title="View all posts by Charles H Martin, PhD" rel="author">Charles H Martin, PhD</a></span></span><span class="meta-category"> <a href="https://calculatedcontent.com/category/uncategorized/" rel="category tag">Uncategorized</a></span><span class="meta-comments"> <a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#comments">5 comments</a></span></div>
+	<div class="entry-content clearfix">
+
+		<p>A few days ago (Jun 2017), a <a href="https://arxiv.org/abs/1706.02515" target="_blank" rel="noopener">100 page on Self-Normalizing Networks</a> appeared. &nbsp;An amazing piece of theoretical work, it claims to have solved the problem of building very large Feed Forward Networks (FNNs).</p>
+<p>It builds upon a <a href="http://jmlr.org/proceedings/papers/v37/ioffe15.pdf">Batch Normalization</a>&nbsp;(BN), introduced in 2015– and is now the defacto standard for all CNNs and RNNs. &nbsp;But not so useful for FNNs.</p>
+<p>What makes normalization so special? &nbsp;It makes <span style="color:#800080;"><em><strong>very</strong></em></span> Deep Networks easier to train, by damping out oscillations in the distribution of activations.</p>
+<p>To see this, the diagram below&nbsp;uses data from Figure 1 (<a href="http://jmlr.org/proceedings/papers/v37/ioffe15.pdf">from the BN paper</a>) to depict&nbsp;how the distribution evolves for a&nbsp;typical <em><span style="color:#800080;"><strong>node outputs</strong></span>&nbsp;</em>in the last hidden layer of a typical&nbsp;network:</p>
+<figure data-shortcode="caption" id="attachment_8985" style="width: 409px" class="wp-caption aligncenter"><a href="https://charlesmartin14.wordpress.com/?attachment_id=8985#main" rel="attachment wp-att-8985"><img data-attachment-id="8985" data-permalink="https://calculatedcontent.com/?attachment_id=8985" data-orig-file="https://charlesmartin14.files.wordpress.com/2016/06/nn.png" data-orig-size="894,571" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2016/06/nn.png?w=409&amp;h=262" data-large-file="https://charlesmartin14.files.wordpress.com/2016/06/nn.png?w=840" class="wp-image-8985" src="./Normalization in Deep Learning_files/nn.png" alt="" width="409" height="262" srcset="https://charlesmartin14.files.wordpress.com/2016/06/nn.png?w=409&amp;h=262 409w, https://charlesmartin14.files.wordpress.com/2016/06/nn.png?w=818&amp;h=522 818w, https://charlesmartin14.files.wordpress.com/2016/06/nn.png?w=150&amp;h=96 150w, https://charlesmartin14.files.wordpress.com/2016/06/nn.png?w=300&amp;h=192 300w, https://charlesmartin14.files.wordpress.com/2016/06/nn.png?w=768&amp;h=491 768w" sizes="(max-width: 409px) 100vw, 409px"></a><figcaption class="wp-caption-text">node outputs, with and without Batch Normalization</figcaption></figure>
+<p>Very Deep nets can be trained faster and generalize better when the distribution of activations is kept normalized during BackProp.</p>
+<p>We regularly see Ultra-Deep ConvNets like Inception, Highway Networks, &nbsp;and ResNet. &nbsp; And giant RNNs for speech recognition, <a href="https://research.googleblog.com/2016/09/a-neural-network-for-machine.html" target="_blank" rel="noopener">machine translation</a>, etc. &nbsp;But we don’t see powerful Feedforward Neural Nets (FNNS) with more than 4 layers. &nbsp;Until now.</p>
+<p style="text-align:center;"><em><strong><span style="color:#008000;">Batch Normalization is great for CNNs and RNNs. </span></strong></em></p>
+<p style="text-align:center;"><span style="color:#ff0000;"><em><strong>But we still can not build deep MLPs</strong></em></span></p>
+<p>This new method — &nbsp;<strong><a href="https://arxiv.org/abs/1706.02515">Self-Normalization</a> </strong>— has been proposed for building very deep MultiLayer Perceptions (MLPs) and other Feed Forward Nets (FNNs).</p>
+<p>The idea is just to tweak a the Exponential Linear Unit (ELU) activation function to obtain a Scaled ELU &nbsp;(SELU):</p>
+<p style="text-align:center;"><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-14-at-2-10-40-pm/" rel="attachment wp-att-10748" class="single-image-gallery"><img data-attachment-id="10748" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-14-at-2-10-40-pm/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-2-10-40-pm.png" data-orig-size="562,136" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Screen Shot 2017-06-14 at 2.10.40 PM" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-2-10-40-pm.png?w=300&amp;h=73" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-2-10-40-pm.png?w=562" class="aligncenter size-medium wp-image-10748" src="./Normalization in Deep Learning_files/screen-shot-2017-06-14-at-2-10-40-pm.png" alt="" width="300" height="73" srcset="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-2-10-40-pm.png?w=300&amp;h=73 300w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-2-10-40-pm.png?w=150&amp;h=36 150w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-2-10-40-pm.png 562w" sizes="(max-width: 300px) 100vw, 300px"></a></p>
+<p>With this new SELU activation function, and a new, alpha Dropout method, it appears we can, <em><span style="color:#800080;"><strong>now</strong></span></em>, build very deep MLPs. &nbsp;And this opens the door for Deep Learning applications on very general data sets. <span style="color:#008000;"><em><strong>That would be great!</strong></em></span></p>
+<p>The paper is, however, ~100 pages long of pure math! &nbsp;Fun stuff.. but a summary is in order.</p>
+<p>I &nbsp;review Normalization in Neural Networks, &nbsp;including Batch Normalization, Self-Normalization, and, of course, some statistical mechanics (<a href="https://www.youtube.com/watch?v=y0QbXfvbjFk" target="_blank" rel="noopener">it’s kinda my thing</a>).</p>
+<p style="text-align:center;"><em><span style="color:#ff0000;">This is an early draft of the post: comments and questions are welcome</span></em></p>
+<hr>
+<h4>Setup</h4>
+<p><a href="https://en.wikipedia.org/wiki/Without_loss_of_generality">WLOG</a>, consider an MLP, where we&nbsp;call the input to each layer <strong>u</strong></p>
+<p><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/mlp-2/" rel="attachment wp-att-11072" class="single-image-gallery"><img data-attachment-id="11072" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/mlp-2/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/mlp1.png" data-orig-size="400,200" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="MLP" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/mlp1.png?w=370&amp;h=185" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/mlp1.png?w=400" class="aligncenter wp-image-11072" src="./Normalization in Deep Learning_files/mlp1.png" alt="" width="370" height="185" srcset="https://charlesmartin14.files.wordpress.com/2017/06/mlp1.png?w=370&amp;h=185 370w, https://charlesmartin14.files.wordpress.com/2017/06/mlp1.png?w=150&amp;h=75 150w, https://charlesmartin14.files.wordpress.com/2017/06/mlp1.png?w=300&amp;h=150 300w, https://charlesmartin14.files.wordpress.com/2017/06/mlp1.png 400w" sizes="(max-width: 370px) 100vw, 370px"></a>The linear&nbsp;transformations at each layer is</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex.php" alt="\mathbf{x}=\mathbf{Wu}+\mathbf{b} " title="\mathbf{x}=\mathbf{Wu}+\mathbf{b} " class="latex" width="90" height="14" srcset="https://s0.wp.com/latex.php?latex=%5Cmathbf%7Bx%7D%3D%5Cmathbf%7BWu%7D%2B%5Cmathbf%7Bb%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">,</p>
+<p>and we apply standard point-wise activations, like a sigmoid</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(1).php" alt="g(\mathbf{x}_{i})=\dfrac{1}{1+exp(-\mathbf{x}_{i})} " title="g(\mathbf{x}_{i})=\dfrac{1}{1+exp(-\mathbf{x}_{i})} " class="latex" width="153" height="39" srcset="https://s0.wp.com/latex.php?latex=g%28%5Cmathbf%7Bx%7D_%7Bi%7D%29%3D%5Cdfrac%7B1%7D%7B1%2Bexp%28-%5Cmathbf%7Bx%7D_%7Bi%7D%29%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p>so that the total set of activations (at each layer) takes the form</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(2).php" alt="\mathbf{z}=g(\mathbf{x})=g(\mathbf{Wu}+\mathbf{b}) " title="\mathbf{z}=g(\mathbf{x})=g(\mathbf{Wu}+\mathbf{b}) " class="latex" width="161" height="18" srcset="https://s0.wp.com/latex.php?latex=%5Cmathbf%7Bz%7D%3Dg%28%5Cmathbf%7Bx%7D%29%3Dg%28%5Cmathbf%7BWu%7D%2B%5Cmathbf%7Bb%7D%29+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p><strong><span style="color:#ff0000;">The problem</span></strong> is that during SGD training, the <em>distribution</em> of weights <strong>W</strong> and/or the outputs <strong>x</strong> can vary widely from iteration to iteration. &nbsp;These large variations lead to instabilities in training that require small learning rates. &nbsp;In particular, if the layer weights <strong>W</strong> or inputs <strong>u</strong> blow up, the activations can become saturated:</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(3).php" alt="as\;\;\Vert\mathbf{W}\Vert\rightarrow\infty,\;\;\;g(\mathbf{x})\rightarrow 0 " title="as\;\;\Vert\mathbf{W}\Vert\rightarrow\infty,\;\;\;g(\mathbf{x})\rightarrow 0 " class="latex" width="190" height="19" srcset="https://s0.wp.com/latex.php?latex=as%5C%3B%5C%3B%5CVert%5Cmathbf%7BW%7D%5CVert%5Crightarrow%5Cinfty%2C%5C%3B%5C%3B%5C%3Bg%28%5Cmathbf%7Bx%7D%29%5Crightarrow+0+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">,</p>
+<p>leading to<a href="https://www.quora.com/What-is-the-vanishing-gradient-problem"> vanishing gradients.</a> &nbsp;Traditionally, this was in MLPs avoided by using larger learning rates, and/or early stopping.</p>
+<p><span style="color:#008080;"><strong>One solution is better activation functions</strong></span>, such as a Rectified Linear Unit (ReLu)</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(4).php" alt="g(\mathbf{x}_{i})=max(\mathbf{x}_{i},0) " title="g(\mathbf{x}_{i})=max(\mathbf{x}_{i},0) " class="latex" width="131" height="18" srcset="https://s0.wp.com/latex.php?latex=g%28%5Cmathbf%7Bx%7D_%7Bi%7D%29%3Dmax%28%5Cmathbf%7Bx%7D_%7Bi%7D%2C0%29+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p>or, for larger networks (depth &gt; 5),&nbsp;an&nbsp;<a href="https://arxiv.org/pdf/1511.07289.pdf">Exponential Linear Unit (ELU):</a></p>
+<div>
+<p><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-14-at-8-32-18-am/" rel="attachment wp-att-10515" class="single-image-gallery"><img data-attachment-id="10515" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-14-at-8-32-18-am/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-32-18-am.png" data-orig-size="1194,178" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Screen Shot 2017-06-14 at 8.32.18 AM" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-32-18-am.png?w=587&amp;h=88" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-32-18-am.png?w=840" class="aligncenter wp-image-10515" src="./Normalization in Deep Learning_files/screen-shot-2017-06-14-at-8-32-18-am.png" alt="" width="587" height="88" srcset="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-32-18-am.png?w=587&amp;h=88 587w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-32-18-am.png?w=1174&amp;h=176 1174w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-32-18-am.png?w=150&amp;h=22 150w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-32-18-am.png?w=300&amp;h=45 300w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-32-18-am.png?w=768&amp;h=114 768w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-32-18-am.png?w=1024&amp;h=153 1024w" sizes="(max-width: 587px) 100vw, 587px"></a></p>
+<p>Which look like:</p>
+<p><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-14-at-8-34-38-am/" rel="attachment wp-att-10517" class="single-image-gallery"><img data-attachment-id="10517" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-14-at-8-34-38-am/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-34-38-am.png" data-orig-size="600,286" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Screen Shot 2017-06-14 at 8.34.38 AM" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-34-38-am.png?w=447&amp;h=213" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-34-38-am.png?w=600" class="aligncenter wp-image-10517" src="./Normalization in Deep Learning_files/screen-shot-2017-06-14-at-8-34-38-am.png" alt="" width="447" height="213" srcset="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-34-38-am.png?w=447&amp;h=213 447w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-34-38-am.png?w=150&amp;h=72 150w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-34-38-am.png?w=300&amp;h=143 300w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-8-34-38-am.png 600w" sizes="(max-width: 447px) 100vw, 447px"><br>
+</a></p>
+<p>Indeed, &nbsp;sigmoid and tanh activations came from early work in computational neuroscience. <a href="https://www.youtube.com/watch?v=7Ht9k824nWA" target="_blank" rel="noopener">&nbsp;Jack Cowan</a> <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4820414/" target="_blank" rel="noopener">proposed first the sigmoid function</a> as <a href="https://www.youtube.com/watch?v=67HdtyJrPkA" target="_blank" rel="noopener">a model for neuronal activity</a>, and sigmoid and tanh functions arise naturally in statistical mechanics. &nbsp;And sigmoids are still widely used for RBMs and MLPs–ReLUs don’t help much here.</p>
+<h4>Note: ReLUs only help Deep CNNs and RNNs</h4>
+<p>SGD training introduces perturbations in training that propagate through the net, causing large variations in weights and activations. &nbsp;For FNNs, this is a <a href="https://www.google.com/url?sa=i&amp;rct=j&amp;q=&amp;esrc=s&amp;source=images&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwiIj4ulw8DUAhVs0oMKHZFPCxgQjRwIBw&amp;url=https%3A%2F%2Fimgflip.com%2Ftag%2Fdonald%2520trump%2520huge&amp;psig=AFQjCNF4Rx1ruEUQk4lPNZmkkbg7Mc6wcg&amp;ust=1497639294663297">huge</a> problem. But for CNNs and RNNs..not so much. &nbsp;why ?</p>
+<ul>
+<li>CNNs and RNNs, are less distorted by the SGD perturbations–presumably because of their weight sharing architectures.</li>
+<li>LSTMs also avoid this problem <a href="https://www.quora.com/How-does-LSTM-help-prevent-the-vanishing-and-exploding-gradient-problem-in-a-recurrent-neural-network">by replacing multiplies with additions</a>.</li>
+<li>Moreover, Dropout (a stochastic regularizer) works very well with ReLUs in CNNs and RNNs, but not so much for MLPs and other FNNs.</li>
+<li>And very Deep Nets, like ResNet, which have &gt; 150 layers, use skip connections to help propagate the internal residuals.</li>
+</ul>
+</div>
+<p>It has been said the no real <em>theoretical progress</em> has been made in deep nets in 30 years. That is absurd. &nbsp; We did not have ReLus or ELUs. In fact, up until Batch Normalization, we were still using SVM-style regularization techniques for Deep Nets. &nbsp;It is clear now that we need to <a href="https://www.quora.com/Why-is-the-paper-%E2%80%9CUnderstanding-Deep-Learning-required-Rethinking-Generalization%E2%80%9C-important">rethink generalization in deep learning</a>.</p>
+<h4><strong>Max-Norm Constraints &nbsp;</strong></h4>
+<p>We can regularize a network, like a <a href="https://calculatedcontent.com/2016/10/21/improving-rbms-with-physical-chemistry/" target="_blank" rel="noopener">Restricted Boltzmann Machine (RBM)</a>, by applying <a href="https://stats.stackexchange.com/questions/257996/what-is-maxnorm-constraint-how-is-it-useful-in-convolutional-neural-networks">max norm constraints&nbsp;</a><em>to the weights </em><strong>W.</strong></p>
+<p>This can be implemented in training by tweaking the weight update at the end of pass over all the training data</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(5).php" alt="\mathbf{dW}\rightarrow\mathbf{dW}+\delta\Vert\mathbf{W}\Vert " title="\mathbf{dW}\rightarrow\mathbf{dW}+\delta\Vert\mathbf{W}\Vert " class="latex" width="147" height="18" srcset="https://s0.wp.com/latex.php?latex=%5Cmathbf%7BdW%7D%5Crightarrow%5Cmathbf%7BdW%7D%2B%5Cdelta%5CVert%5Cmathbf%7BW%7D%5CVert+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p>where <img src="./Normalization in Deep Learning_files/latex(6).php" alt="\Vert\mathbf{W}\Vert " title="\Vert\mathbf{W}\Vert " class="latex" width="32" height="18" srcset="https://s0.wp.com/latex.php?latex=%5CVert%5Cmathbf%7BW%7D%5CVert+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">&nbsp;is an L1 or L2 norm.</p>
+<p><a href="https://www.youtube.com/watch?v=kIbKHIPbxiU" target="_blank" rel="noopener">I have conjectured&nbsp;</a>that this is actually kind of Temperature control, and<a href="https://www.youtube.com/watch?v=kIbKHIPbxiU" target="_blank" rel="noopener">&nbsp;</a>prevents the <a href="https://arxiv.org/pdf/1611.06759.pdf" target="_blank" rel="noopener">effective Temperature</a> of the network from collapsing to zero.</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(7).php" alt="as\;\;\Vert\mathbf{W}\Vert\rightarrow\infty,\;\;\;T^{eff}\rightarrow 0\; " title="as\;\;\Vert\mathbf{W}\Vert\rightarrow\infty,\;\;\;T^{eff}\rightarrow 0\; " class="latex" width="191" height="19" srcset="https://s0.wp.com/latex.php?latex=as%5C%3B%5C%3B%5CVert%5Cmathbf%7BW%7D%5CVert%5Crightarrow%5Cinfty%2C%5C%3B%5C%3B%5C%3BT%5E%7Beff%7D%5Crightarrow+0%5C%3B+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">,</p>
+<p>By avoiding a low Temp, and possibly any glassy regimes, we can use a larger effective <a href="https://calculatedcontent.com/2017/01/05/foundations-mean-field-boltzmann-machines-1987/" target="_blank" rel="noopener">annealing rate</a>–in modern parlance, larger SGD step sizes.</p>
+<p style="text-align:center;"><em><strong><span style="color:#339966;">It makes the network more resilient to changes in scale.</span></strong></em></p>
+<p>After 30 years of research neural nets, we &nbsp;can now achieve an analogous network normalization automagically.</p>
+<p>But first, what is current state-of-the-art in code ? &nbsp;What can we do today &nbsp;with <a href="https://keras.io/">Keras</a> ?</p>
+<p><strong>Batch Normalization (BN) Transformation</strong></p>
+<p><a href="https://www.tensorflow.org/" target="_blank" rel="noopener">Tensorflow</a> and other Deep Learning frameworks now include Batch Normalization out-of-the-box. &nbsp;Under-the-hood, this is the basic idea:</p>
+<p>At the end of every mini-batch <img src="./Normalization in Deep Learning_files/latex(8).php" alt="\mathcal{B}_{k} " title="\mathcal{B}_{k} " class="latex" width="17" height="15" srcset="https://s0.wp.com/latex.php?latex=%5Cmathcal%7BB%7D_%7Bk%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">, &nbsp;the layers are <em>whitened. &nbsp;</em>For each <strong><em>node output x</em></strong><em> (and before activation)</em><strong><em>:&nbsp;</em></strong></p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(9).php" alt="\hat{\mathbf{x}}_{k}=\mathbf{Wu}_{k}+\mathbf{b}_{k} " title="\hat{\mathbf{x}}_{k}=\mathbf{Wu}_{k}+\mathbf{b}_{k} " class="latex" width="110" height="16" srcset="https://s0.wp.com/latex.php?latex=%5Chat%7B%5Cmathbf%7Bx%7D%7D_%7Bk%7D%3D%5Cmathbf%7BWu%7D_%7Bk%7D%2B%5Cmathbf%7Bb%7D_%7Bk%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p>the BN Transform maintains the (internal) zero mean <img src="./Normalization in Deep Learning_files/latex(10).php" alt="\mu_{\mathcal{B}}=0 " title="\mu_{\mathcal{B}}=0 " class="latex" width="48" height="15" srcset="https://s0.wp.com/latex.php?latex=%5Cmu_%7B%5Cmathcal%7BB%7D%7D%3D0+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"> and unit variance (<img src="./Normalization in Deep Learning_files/latex(11).php" alt="\sigma^{2}_{\mathcal{B}}=1 " title="\sigma^{2}_{\mathcal{B}}=1 " class="latex" width="47" height="19" srcset="https://s0.wp.com/latex.php?latex=%5Csigma%5E%7B2%7D_%7B%5Cmathcal%7BB%7D%7D%3D1+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">).</p>
+<p>We evaluate the sample mini-batch mean &nbsp;and variance , and then normalize, scale, and shift the values:</p>
+<p><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-14-at-10-57-33-am-2/" rel="attachment wp-att-10879" class="single-image-gallery"><img data-attachment-id="10879" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-14-at-10-57-33-am-2/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-10-57-33-am1.png" data-orig-size="960,750" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Screen Shot 2017-06-14 at 10.57.33 AM" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-10-57-33-am1.png?w=452&amp;h=352" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-10-57-33-am1.png?w=840" class="aligncenter wp-image-10879" src="./Normalization in Deep Learning_files/screen-shot-2017-06-14-at-10-57-33-am1.png" alt="" width="452" height="352" srcset="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-10-57-33-am1.png?w=452&amp;h=352 452w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-10-57-33-am1.png?w=901&amp;h=704 901w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-10-57-33-am1.png?w=150&amp;h=117 150w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-10-57-33-am1.png?w=300&amp;h=234 300w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-10-57-33-am1.png?w=768&amp;h=600 768w" sizes="(max-width: 452px) 100vw, 452px"></a></p>
+<p>The final transformation is applied inside the activation function g():</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(12).php" alt="g(BN(\mathbf{x}))=g(\mathbf{y})) " title="g(BN(\mathbf{x}))=g(\mathbf{y})) " class="latex" width="129" height="18" srcset="https://s0.wp.com/latex.php?latex=g%28BN%28%5Cmathbf%7Bx%7D%29%29%3Dg%28%5Cmathbf%7By%7D%29%29+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p>although we can absorb the original layer bias term <strong>b</strong> into the BN transform, giving</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(13).php" alt="g(BN(\mathbf{x}))=g(BN(\mathbf{Wu})) " title="g(BN(\mathbf{x}))=g(BN(\mathbf{Wu})) " class="latex" width="181" height="18" srcset="https://s0.wp.com/latex.php?latex=g%28BN%28%5Cmathbf%7Bx%7D%29%29%3Dg%28BN%28%5Cmathbf%7BWu%7D%29%29+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p>So now, instead of renormalizing the weights <strong>W</strong> after passing over all the data, we can normalize the <span style="color:#800080;"><em><strong>node output</strong></em></span>&nbsp;<strong>x=Wu</strong>&nbsp;explicitly, for each mini-batch, in the BackProp pass.</p>
+<p>Note that</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(14).php" alt="\Vert\mathbf{Wu}\Vert&lt;\Vert\mathbf{W}\Vert\Vert\mathbf{u}\Vert " title="\Vert\mathbf{Wu}\Vert&lt;\Vert\mathbf{W}\Vert\Vert\mathbf{u}\Vert " class="latex" width="124" height="18" srcset="https://s0.wp.com/latex.php?latex=%5CVert%5Cmathbf%7BWu%7D%5CVert%3C%5CVert%5Cmathbf%7BW%7D%5CVert%5CVert%5Cmathbf%7Bu%7D%5CVert+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p>so bounding the weights with max-norm constraints got us part of the way already.</p>
+<p>Note that extra scaling and shift parameters <img src="./Normalization in Deep Learning_files/latex(15).php" alt="(\gamma,\beta)_{k} " title="(\gamma,\beta)_{k} " class="latex" width="44" height="18" srcset="https://s0.wp.com/latex.php?latex=%28%5Cgamma%2C%5Cbeta%29_%7Bk%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"> appear for each batch (k), and it is necessary to optimize these parameters as a side step during training.</p>
+<p>At the end of the transform, we can normalize the network outputs (shown above) of the entire training set (population)<a href="https://charlesmartin14.wordpress.com/?attachment_id=8993#main" rel="attachment wp-att-8993"><br>
+</a></p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(16).php" alt="\mathbf{\hat{x}}=\dfrac{\mathbf{x}-\mathbb{E}[\mathbf{x}]}{\sqrt{Var[\mathbf{x}]+e}} " title="\mathbf{\hat{x}}=\dfrac{\mathbf{x}-\mathbb{E}[\mathbf{x}]}{\sqrt{Var[\mathbf{x}]+e}} " class="latex" width="126" height="44" srcset="https://s0.wp.com/latex.php?latex=%5Cmathbf%7B%5Chat%7Bx%7D%7D%3D%5Cdfrac%7B%5Cmathbf%7Bx%7D-%5Cmathbb%7BE%7D%5B%5Cmathbf%7Bx%7D%5D%7D%7B%5Csqrt%7BVar%5B%5Cmathbf%7Bx%7D%5D%2Be%7D%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">,</p>
+<p>where the final statistics are computed as, say, an unbiased estimate over all (m) mini-batches of the training data</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(17).php" alt="Var[\mathbf{\hat{x}}]=\dfrac{m}{m-1}\mathbb{E}_{\mathbb{B}_{m}}[\sigma^{2}_{\mathbb{B}_{m}}] " title="Var[\mathbf{\hat{x}}]=\dfrac{m}{m-1}\mathbb{E}_{\mathbb{B}_{m}}[\sigma^{2}_{\mathbb{B}_{m}}] " class="latex" width="180" height="31" srcset="https://s0.wp.com/latex.php?latex=Var%5B%5Cmathbf%7B%5Chat%7Bx%7D%7D%5D%3D%5Cdfrac%7Bm%7D%7Bm-1%7D%5Cmathbb%7BE%7D_%7B%5Cmathbb%7BB%7D_%7Bm%7D%7D%5B%5Csigma%5E%7B2%7D_%7B%5Cmathbb%7BB%7D_%7Bm%7D%7D%5D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">.</p>
+<hr>
+<h4>Benefits of the Batch Norm Transform</h4>
+<p>The key to Batch Normalization (BN) is that:</p>
+<ul>
+<li>the statistics are gathered during a mini-batch step</li>
+<li>the normalization&nbsp;can be integrated directly into backprop</li>
+<li>the extra parameters can be tuned during training</li>
+</ul>
+<p>BN allows us to manipulate the activation function of the network. It is a differentiable transformation that normalizes activations in the network.</p>
+<p style="text-align:center;"><span style="color:#800080;"><em><strong>It&nbsp;makes the network (even) more resilient to the parameter scale.</strong></em></span></p>
+<p style="text-align:left;">It has been known for some time that Deep Nets perform better if the inputs are whitened. &nbsp;And max-norm constraints&nbsp;do re-normalize the&nbsp;layer weights after every mini-batch.</p>
+<p>Batch normalization appears to&nbsp;be&nbsp;more stable internally, with the advantages that it:</p>
+<ul>
+<li>has replaced&nbsp;<a href="https://www.reddit.com/r/MachineLearning/comments/2bopxs/question_about_the_maxnorm_constraint_used_with/">max norm constraints</a></li>
+<li>is implemented directly in BackProp</li>
+<li>has larger learning rates&nbsp;with standard solvers =&gt; faster convergence</li>
+<li>replaces / augments&nbsp;<a href="http://www.jmlr.org/papers/volume15/srivastava14a.old/source/srivastava14a.pdf">Dropout</a>&nbsp;as a regularizer</li>
+</ul>
+<p>Still, Batch Norm training slows down BackProp. &nbsp; &nbsp;Can we speed it up ?</p>
+<hr>
+<h4><strong>Self-Normalizing Activations</strong></h4>
+<p>A few days ago, the Interwebs was buzzing about the paper <a href="https://arxiv.org/pdf/1706.02515.pdf" target="_blank" rel="noopener">Self-Normalizing Neural Networks</a>. &nbsp; <a href="https://news.ycombinator.com/item?id=14527686" target="_blank" rel="noopener">HackerNews</a>. &nbsp;<a href="https://www.reddit.com/r/MachineLearning/comments/6g5tg1/r_selfnormalizing_neural_networks_improved_elu/?st=j3xofa6g&amp;sh=0912afa3" target="_blank" rel="noopener">Reddit</a>. &nbsp;And my LinkedIn Feed.</p>
+<p>These nets use Scaled Exponential Linear Units (SELU),&nbsp;which have implicit&nbsp;self-normalizing properties. &nbsp;Amazingly, the SELU is just a ELU multiplied by <img src="./Normalization in Deep Learning_files/latex(18).php" alt="\lambda " title="\lambda " class="latex" width="9" height="11" srcset="https://s0.wp.com/latex.php?latex=%5Clambda+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p><img data-attachment-id="10809" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-14-at-5-05-10-pm/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-5-05-10-pm.png?w=309&amp;h=79" data-orig-size="556,142" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Screen Shot 2017-06-14 at 5.05.10 PM" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-5-05-10-pm.png?w=309&amp;h=79?w=300" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-5-05-10-pm.png?w=309&amp;h=79?w=556" class=" wp-image-10809 aligncenter" src="./Normalization in Deep Learning_files/screen-shot-2017-06-14-at-5-05-10-pm.png" alt="Screen Shot 2017-06-14 at 5.05.10 PM" width="309" height="79" srcset="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-5-05-10-pm.png?w=309&amp;h=79 309w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-5-05-10-pm.png?w=150&amp;h=38 150w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-5-05-10-pm.png?w=300&amp;h=77 300w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-5-05-10-pm.png 556w" sizes="(max-width: 309px) 100vw, 309px"></p>
+<p>where <img src="./Normalization in Deep Learning_files/latex(19).php" alt="\lambda&gt;1 " title="\lambda&gt;1 " class="latex" width="38" height="13" srcset="https://s0.wp.com/latex.php?latex=%5Clambda%3E1+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">.</p>
+<p>The paper authors have optimized the values as:</p>
+<p><img data-attachment-id="11108" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-16-at-7-39-49-pm/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-39-49-pm.png?w=577&amp;h=106" data-orig-size="1134,208" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Screen Shot 2017-06-16 at 7.39.49 PM" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-39-49-pm.png?w=577&amp;h=106?w=300" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-39-49-pm.png?w=577&amp;h=106?w=840" class="  wp-image-11108 aligncenter" src="./Normalization in Deep Learning_files/screen-shot-2017-06-16-at-7-39-49-pm.png" alt="Screen Shot 2017-06-16 at 7.39.49 PM" width="577" height="106" srcset="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-39-49-pm.png?w=577&amp;h=106 577w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-39-49-pm.png?w=150&amp;h=28 150w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-39-49-pm.png?w=300&amp;h=55 300w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-39-49-pm.png?w=768&amp;h=141 768w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-39-49-pm.png?w=1024&amp;h=188 1024w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-39-49-pm.png 1134w" sizes="(max-width: 577px) 100vw, 577px"></p>
+<p style="text-align:right;"><small><a href="https://www.reddit.com/r/MachineLearning/comments/6g5tg1/r_selfnormalizing_neural_networks_improved_elu/?st=j40o4ikz&amp;sh=ccd4950b" target="_blank" rel="noopener">**a comment on reddit suggests tanh may work as well</a></small></p>
+<p>The SELUs have the explicit properties of:</p>
+<ol>
+<li>negative and positive values for controlling the mean <img src="./Normalization in Deep Learning_files/latex(20).php" alt="\mu " title="\mu " class="latex" width="10" height="10" srcset="https://s0.wp.com/latex.php?latex=%5Cmu+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></li>
+<li>saturation regions to dampen the variance <img src="./Normalization in Deep Learning_files/latex(21).php" alt="\sigma " title="\sigma " class="latex" width="10" height="7" srcset="https://s0.wp.com/latex.php?latex=%5Csigma+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"> if it is too large in the lower layer,</li>
+<li>a slope &gt; 1 to increase <img src="./Normalization in Deep Learning_files/latex(21).php" alt="\sigma " title="\sigma " class="latex" width="10" height="7" srcset="https://s0.wp.com/latex.php?latex=%5Csigma+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">&nbsp;if it is too small in the lower layer, and</li>
+<li>a continuous curve, which ensures a fixed point.</li>
+</ol>
+<p>Amazingly, the implicit self-normalizing properties are actually proved–in only about 100 pages–using the Banach Fixed Point Theorem.</p>
+<p>They show that, for an FNN using selu(x) actions, there exists a unique attracting and stable fixed point for the mean and variance. &nbsp;(Curiously, this resembles the argument that Deep Learning (RBMs at least) the <a href="https://calculatedcontent.com/2015/04/01/why-deep-learning-works-ii-the-renormalization-group/" target="_blank" rel="noopener">Variational Renormalization Group (VRG) Transform</a>.</p>
+<p>There are, of course, conditions on the weights–things can’t get too crazy. &nbsp;This is hopefully satisfied by selecting &nbsp;initial weights with zero mean and <em>unit variance</em>.</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(22).php" alt="\sigma^{2}_{\mathcal{B}}=1\;or\; \dfrac{1}{\sqrt{N}} " title="\sigma^{2}_{\mathcal{B}}=1\;or\; \dfrac{1}{\sqrt{N}} " class="latex" width="103" height="39" srcset="https://s0.wp.com/latex.php?latex=%5Csigma%5E%7B2%7D_%7B%5Cmathcal%7BB%7D%7D%3D1%5C%3Bor%5C%3B+%5Cdfrac%7B1%7D%7B%5Csqrt%7BN%7D%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">,</p>
+<p style="text-align:right;"><small>(depending how we define terms).</small></p>
+<p>To apply SELUs, we need a special initialization procedure, and a modified version of Dropout, alpha-Dropout,</p>
+<h5>SELU Initialization</h5>
+<p>We select initial weights <img src="./Normalization in Deep Learning_files/latex(23).php" alt="\mathbf{W} " title="\mathbf{W} " class="latex" width="19" height="13" srcset="https://s0.wp.com/latex.php?latex=%5Cmathbf%7BW%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"> from a Gaussian distribution with mean 0 and variance <span style="color:#2b2b2b;font-family:&#39;Noto Sans&#39;, sans-serif, Arial, serif;"><span style="white-space:nowrap;"><img src="./Normalization in Deep Learning_files/latex(24).php" alt="\frac{1}{\sqrt{N}} " title="\frac{1}{\sqrt{N}} " class="latex" width="21" height="23" srcset="https://s0.wp.com/latex.php?latex=%5Cfrac%7B1%7D%7B%5Csqrt%7BN%7D%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">,</span></span>&nbsp;where N is number of weights:</p>
+<figure data-shortcode="caption" id="attachment_11117" style="width: 1370px" class="wp-caption alignnone"><img data-attachment-id="11117" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-16-at-8-08-30-pm/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-8-08-30-pm.png?w=840" data-orig-size="1370,314" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Screen Shot 2017-06-16 at 8.08.30 PM" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-8-08-30-pm.png?w=840?w=300" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-8-08-30-pm.png?w=840?w=840" class="alignnone size-full wp-image-11117" src="./Normalization in Deep Learning_files/screen-shot-2017-06-16-at-8-08-30-pm.png" alt="Screen Shot 2017-06-16 at 8.08.30 PM" srcset="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-8-08-30-pm.png?w=840 840w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-8-08-30-pm.png?w=150 150w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-8-08-30-pm.png?w=300 300w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-8-08-30-pm.png?w=768 768w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-8-08-30-pm.png?w=1024 1024w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-8-08-30-pm.png 1370w" sizes="(max-width: 840px) 100vw, 840px"><figcaption class="wp-caption-text">TensorFlow implementation of Weight Initialization</figcaption></figure>
+<p><a href="https://calculatedcontent.com/2013/11/14/foundations-the-parition-function/" target="_blank" rel="noopener">In Statistical Mechanics</a>, this the Temperature is proportional to the variance of the Energy, and therefore sets the Energy scale. &nbsp;Since E ~ W,</p>
+<p style="text-align:center;"><span style="color:#008000;"><em>SELU Weight initialization is similar in <span style="color:#008000;">spirit</span> to fixing T=1.</em></span></p>
+<h5>Alpha Dropout</h5>
+<p>Note that to apply Dropout with an SELU, we desire that the mean and variance are invariant.</p>
+<p>We must set random inputs to saturated negative value of SELU, <img src="./Normalization in Deep Learning_files/latex(25).php" alt="\alpha\lambda " title="\alpha\lambda " class="latex" width="19" height="11" srcset="https://s0.wp.com/latex.php?latex=%5Calpha%5Clambda+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"> Then, apply an affine transformation, computing relative to dropout rate.</p>
+<p><img data-attachment-id="11109" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-16-at-7-40-40-pm/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-40-40-pm.png?w=577&amp;h=219" data-orig-size="1148,436" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Screen Shot 2017-06-16 at 7.40.40 PM" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-40-40-pm.png?w=577&amp;h=219?w=300" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-40-40-pm.png?w=577&amp;h=219?w=840" class="  wp-image-11109 aligncenter" src="./Normalization in Deep Learning_files/screen-shot-2017-06-16-at-7-40-40-pm.png" alt="Screen Shot 2017-06-16 at 7.40.40 PM" width="577" height="219" srcset="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-40-40-pm.png?w=577&amp;h=219 577w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-40-40-pm.png?w=150&amp;h=57 150w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-40-40-pm.png?w=300&amp;h=114 300w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-40-40-pm.png?w=768&amp;h=292 768w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-40-40-pm.png?w=1024&amp;h=389 1024w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-7-40-40-pm.png 1148w" sizes="(max-width: 577px) 100vw, 577px"></p>
+<p style="text-align:right;"><small>(thanks to <a href="http://www.erogol.com/paper-review-self-normalizing-neural-networks/" target="_blank" rel="noopener">ergol.com</a> for the images and discussion).</small></p>
+<p>All of this is provided, in code, with implementations already on github for <a href="https://github.com/bioinf-jku/SNNs" target="_blank" rel="noopener">Tensorflow</a>, <a href="https://github.com/dannysdeng/selu" target="_blank" rel="noopener">PyTorch</a>, <a href="https://github.com/HolmesShuan/SNNs-Self-Normalizing-Neural-Networks-Caffe-Reimplementation" target="_blank" rel="noopener">Caffe</a>, etc. &nbsp;<a href="https://github.com/fchollet/keras/pull/6969" target="_blank" rel="noopener">Soon…Keras</a>?</p>
+<h4>Key Results</h4>
+<p>The key results are presented in Figure 1 of the paper, where SNN = Self Normalizing Networks, and the data sets studies are MNIST and CIFAR.</p>
+<p><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-16-at-12-52-57-pm/" rel="attachment wp-att-11089" class="single-image-gallery"><img data-attachment-id="11089" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-16-at-12-52-57-pm/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-12-52-57-pm.png" data-orig-size="1582,852" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Screen Shot 2017-06-16 at 12.52.57 PM" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-12-52-57-pm.png?w=587&amp;h=317" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-12-52-57-pm.png?w=840" class="aligncenter  wp-image-11089" src="./Normalization in Deep Learning_files/screen-shot-2017-06-16-at-12-52-57-pm.png" alt="" width="587" height="317" srcset="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-12-52-57-pm.png?w=587&amp;h=317 587w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-12-52-57-pm.png?w=1174&amp;h=632 1174w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-12-52-57-pm.png?w=150&amp;h=81 150w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-12-52-57-pm.png?w=300&amp;h=162 300w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-12-52-57-pm.png?w=768&amp;h=414 768w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-16-at-12-52-57-pm.png?w=1024&amp;h=551 1024w" sizes="(max-width: 587px) 100vw, 587px"></a></p>
+<p style="text-align:right;"><a href="https://github.com/bioinf-jku/SNNs">The original code is available on github</a></p>
+<p style="text-align:right;">Great discussions on <a href="https://news.ycombinator.com/item?id=14527686">HackerNews</a> and <a href="https://www.reddit.com/r/MachineLearning/comments/6g5tg1/r_selfnormalizing_neural_networks_improved_elu/?st=j40a1tx2&amp;sh=4b2fba79">Reddit</a></p>
+<h4>Summary</h4>
+<p>We have reviewed several variants of normalization in deep nets, including</p>
+<ul>
+<li>Max Norm weight constraints</li>
+<li>Batch Normalization, and</li>
+<li>Self-Normalizing, Deep Feed Forward Nets</li>
+</ul>
+<p>Along the way, I have tried to convince you that recent developments in the normalization of Deep Nets represent a culmination over 30 years of research into Neural Network theory, and that early ideas about finite Temperature methods from Statistical Mechanics have evolved into and are deeply related to the Normalization methods employed today to create <strong>very</strong> Deep Neural Networks</p>
+<h4>Appendix:</h4>
+<h4>Temperature Control in Neural Networks</h4>
+<p>Very early research in Neural Networks lifted idea from statistical mechanics. &nbsp;<a href="http://www.cs.toronto.edu/~fritz/absps/cvq.pdf" target="_blank" rel="noopener">Early work by Hinton</a> formulated AutoEncoders and the principle of the Minimum Description Length (MDL) as minimizing a Helmholtz Free Energy:</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(26).php" alt="F=U-TS " title="F=U-TS " class="latex" width="90" height="11" srcset="https://s0.wp.com/latex.php?latex=F%3DU-TS+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">,</p>
+<p style="text-align:left;">where the expected (T=0) Energy is</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(27).php" alt="U=\sum\limits_{i}p_{i}E_{i} " title="U=\sum\limits_{i}p_{i}E_{i} " class="latex" width="83" height="27" srcset="https://s0.wp.com/latex.php?latex=U%3D%5Csum%5Climits_%7Bi%7Dp_%7Bi%7DE_%7Bi%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">,</p>
+<p style="text-align:left;">S is the Entropy,</p>
+<p style="text-align:center;"><span style="color:#800080;"><strong>and the Temperature <img src="./Normalization in Deep Learning_files/latex(28).php" alt="T=\dfrac{1}{\beta}=1 " title="T=\dfrac{1}{\beta}=1 " class="latex" width="76" height="38" srcset="https://s0.wp.com/latex.php?latex=T%3D%5Cdfrac%7B1%7D%7B%5Cbeta%7D%3D1+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"> implicitly.</strong></span></p>
+<p>Minimizing F yields the familiar Boltzmann probability distribution</p>
+<p style="text-align:center;">$latex&nbsp;p_{i}=\dfrac{e^{-\beta E_{i}}}{\sum\limits_{j}e^{-\beta E_{j}}}&amp;bg=ffffff $.</p>
+<p>When we define an RBM, we parameterize the Energy levels <img src="./Normalization in Deep Learning_files/latex(29).php" alt="E_{i} " title="E_{i} " class="latex" width="16" height="14" srcset="https://s0.wp.com/latex.php?latex=E_%7Bi%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"> in terms of the configuration of visible and hidden units <img src="./Normalization in Deep Learning_files/latex(30).php" alt="(i\rightarrow\mathbf{u},\mathbf{v}) " title="(i\rightarrow\mathbf{u},\mathbf{v}) " class="latex" width="69" height="18" srcset="https://s0.wp.com/latex.php?latex=%28i%5Crightarrow%5Cmathbf%7Bu%7D%2C%5Cmathbf%7Bv%7D%29+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(31).php" alt="E(\mathbf{v},\mathbf{h})=\mathbf{b^{T}v}+\mathbf{c^{T}h}+\mathbf{h^{T}Wv} " title="E(\mathbf{v},\mathbf{h})=\mathbf{b^{T}v}+\mathbf{c^{T}h}+\mathbf{h^{T}Wv} " class="latex" width="224" height="18" srcset="https://s0.wp.com/latex.php?latex=E%28%5Cmathbf%7Bv%7D%2C%5Cmathbf%7Bh%7D%29%3D%5Cmathbf%7Bb%5E%7BT%7Dv%7D%2B%5Cmathbf%7Bc%5E%7BT%7Dh%7D%2B%5Cmathbf%7Bh%5E%7BT%7DWv%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2">,</p>
+<p>giving the probability</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(32).php" alt="P(\mathbf{v},\mathbf{h})=\dfrac{e^{-\beta E}}{Z(\beta)} " title="P(\mathbf{v},\mathbf{h})=\dfrac{e^{-\beta E}}{Z(\beta)} " class="latex" width="113" height="41" srcset="https://s0.wp.com/latex.php?latex=P%28%5Cmathbf%7Bv%7D%2C%5Cmathbf%7Bh%7D%29%3D%5Cdfrac%7Be%5E%7B-%5Cbeta+E%7D%7D%7BZ%28%5Cbeta%29%7D+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p>where <a href="https://calculatedcontent.com/2013/11/14/foundations-the-parition-function/" target="_blank" rel="noopener"><img src="./Normalization in Deep Learning_files/latex(33).php" alt="Z(\beta) " title="Z(\beta) " class="latex" width="34" height="18" srcset="https://s0.wp.com/latex.php?latex=Z%28%5Cbeta%29+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"><b>&nbsp;</b>is the Partition Function</a>, and,<strong><span style="color:#800080;"> again, T=1 <em>implicitly</em></span>.&nbsp;</strong></p>
+<p>In Stat Mech, we call RBMs a Mean Field model because we can decompose the total Energy and/or conditional probabilities using sigmoid activations <img src="./Normalization in Deep Learning_files/latex(34).php" alt="\sigma() " title="\sigma() " class="latex" width="21" height="18" srcset="https://s0.wp.com/latex.php?latex=%5Csigma%28%29+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"> for each node</p>
+<p><img data-attachment-id="11008" data-permalink="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/screen-shot-2017-06-14-at-11-31-33-pm/" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-11-31-33-pm.png?w=612&amp;h=72" data-orig-size="1282,150" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Screen Shot 2017-06-14 at 11.31.33 PM" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-11-31-33-pm.png?w=612&amp;h=72?w=300" data-large-file="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-11-31-33-pm.png?w=612&amp;h=72?w=840" class=" wp-image-11008 aligncenter" src="./Normalization in Deep Learning_files/screen-shot-2017-06-14-at-11-31-33-pm.png" alt="Screen Shot 2017-06-14 at 11.31.33 PM" width="612" height="72" srcset="https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-11-31-33-pm.png?w=612&amp;h=72 612w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-11-31-33-pm.png?w=1224&amp;h=144 1224w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-11-31-33-pm.png?w=150&amp;h=18 150w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-11-31-33-pm.png?w=300&amp;h=35 300w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-11-31-33-pm.png?w=768&amp;h=90 768w, https://charlesmartin14.files.wordpress.com/2017/06/screen-shot-2017-06-14-at-11-31-33-pm.png?w=1024&amp;h=120 1024w" sizes="(max-width: 612px) 100vw, 612px"></p>
+<p>In my 2016 MMDS talk, I proposed that without some explicit Temperature control, RBMs could collapse into a glassy state.</p>
+<p style="text-align:right;"><small>And now, <a href="https://www.youtube.com/watch?v=itRbwbVTrzw&amp;t=0m35s" target="_blank" rel="noopener">some proof I am not completely crazy</a>:</small></p>
+<p>Another recent 2017 study on the <a href="https://arxiv.org/pdf/1611.06759.pdf" target="_blank" rel="noopener">Emergence of Compositional Representations in Restricted Boltzmann Machines</a>, &nbsp;we do indeed see that the RBM effective Temperature does indeed drop well below 1 during training</p>
+<p style="text-align:center;"><img src="./Normalization in Deep Learning_files/latex(35).php" alt="T^{eff}&lt;&lt;1 " title="T^{eff}&lt;&lt;1 " class="latex" width="73" height="15" srcset="https://s0.wp.com/latex.php?latex=T%5E%7Beff%7D%3C%3C1+&amp;bg=ffffff&amp;fg=303030&amp;s=0&amp;zoom=2 2x" scale="2"></p>
+<p>and that RBMs can exhibit glassy behavior.</p>
+<p>I also proposed that RBMs could undergo Entropy collapse at very low Temperatures. This has also now been verified in a <a href="https://arxiv.org/pdf/1608.03714.pdf" target="_blank" rel="noopener">recent 2016 paper</a>.</p>
+<p>Finally, this 2017 paper:<a href="https://arxiv.org/abs/1705.08741v1" target="_blank" rel="noopener">Train longer, generalize better: closing the generalization gap in large batch training of neural networks</a>” &nbsp;proposes that many networks exhibit something like glassy behavior described as&nbsp;<em>“ultra-slow” diffusion behavior. &nbsp;</em></p>
+<h4>Sketch of the Proof:</h4>
+<p>I will sketch out the proof in some detail if there is demand. &nbsp;<a href="https://news.ycombinator.com/item?id=14527686">Intuitively (&amp; citing comments in HackerNews)</a>: ”</p>
+<ul>
+<li>“for negative net inputs the variance is decreased, for positive net inputs the variance is increased.</li>
+<li>for very negative values the variance decrease is stronger. For inputs close to zero the variance increase is stronger.</li>
+<li>for large invariance in one layer, the variance gets decreased more in the next layer, and vice versa.</li>
+<li>Theorem 2 states that the variance can be bounded from above and hence there are not exploding gradients.</li>
+<li>Theorem 3 states that the variance can be bounded from below and does not vanish.”</li>
+</ul>
+<hr>
+<h4>x = me kicking your a%%</h4>
+<div class="jetpack-video-wrapper"><span class="embed-youtube" style="text-align:center; display: block;"><iframe class="youtube-player" type="text/html" src="./Normalization in Deep Learning_files/lRITDcEraNk.html" allowfullscreen="true" style="border: 0px; display: block; margin: 0px; width: 766px; height: 431.331px;" data-ratio="0.5630952380952381" data-width="840" data-height="473"></iframe></span></div>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow noopener noreferrer" data-shared="sharing-twitter-10425" class="share-twitter sd-button share-icon" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/?share=twitter&amp;nb=1" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow noopener noreferrer" data-shared="sharing-facebook-10425" class="share-facebook sd-button share-icon" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/?share=facebook&amp;nb=1" target="_blank" title="Click to share on Facebook"><span>Facebook<span class="share-count">27</span></span></a></li><li class="share-linkedin"><a rel="nofollow noopener noreferrer" data-shared="sharing-linkedin-10425" class="share-linkedin sd-button share-icon" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/?share=linkedin&amp;nb=1" target="_blank" title="Click to share on LinkedIn"><span>LinkedIn</span></a></li><li><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#" class="sharing-anchor sd-button share-more"><span>More</span></a></li><li class="share-end"></li></ul><div class="sharing-hidden"><div class="inner" style="display: none;"><ul><li class="share-reddit"><a rel="nofollow noopener noreferrer" data-shared="" class="share-reddit sd-button share-icon" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/?share=reddit&amp;nb=1" target="_blank" title="Click to share on Reddit"><span>Reddit</span></a></li><li class="share-email share-service-visible"><a rel="nofollow noopener noreferrer" data-shared="" class="share-email sd-button share-icon" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/?share=email&amp;nb=1" target="_blank" title="Click to email this to a friend"><span>Email</span></a></li><li class="share-end"></li><li class="share-end"></li></ul></div></div></div></div></div><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-loaded" id="like-post-wrapper-32496692-10425-5c2cd0695f47d" data-src="//widgets.wp.com/likes/index.html?ver=20180319#blog_id=32496692&amp;post_id=10425&amp;origin=charlesmartin14.wordpress.com&amp;obj_id=32496692-10425-5c2cd0695f47d" data-name="like-post-frame-32496692-10425-5c2cd0695f47d"><h3 class="sd-title">Like this:</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px; display: none;"><span class="button"><span>Like</span></span> <span class="loading">Loading...</span></div><iframe class="post-likes-widget jetpack-likes-widget" name="like-post-frame-32496692-10425-5c2cd0695f47d" height="55px" width="100%" frameborder="0" src="./Normalization in Deep Learning_files/index.html"></iframe><span class="sd-text-color"></span><a class="sd-link-color"></a></div>
+<div id="jp-relatedposts" class="jp-relatedposts" style="display: block;">
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+<div class="jp-relatedposts-items jp-relatedposts-items-minimal"><p class="jp-relatedposts-post jp-relatedposts-post0" data-post-id="9923" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://calculatedcontent.com/2017/02/24/why-deep-learning-works-3-backprop-minimizes-the-free-energy/" title="Why Deep Learning Works 3:  BackProp minimizes the Free Energy ?
+
+ ?Deep Learning is presented as Energy-Based Learning Indeed, we train a neural network by running BackProp, thereby minimizing the model error--which is like minimizing an Energy. But what is this Energy ? Deep Learning (DL) Energy functions look nothing like a typical chemistry or physics Energy. Here, we have Free Energy landscapes,…" rel="nofollow" data-origin="10425" data-position="0">Why Deep Learning Works 3:  BackProp minimizes the Free Energy ?</a></span><span class="jp-relatedposts-post-context">With 7 comments</span></p><p class="jp-relatedposts-post jp-relatedposts-post1" data-post-id="3838" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://calculatedcontent.com/2013/11/14/foundations-the-parition-function/" title="Foundations: The Partition Function.
+
+We are going to examine the Partition function that arises in Deep Learning methods like Restricted  Boltzmann Machines. We take the  pedagogic formalism of Statistical Mechanics for Thermodynamics from Theoretical Chemistry and Physics. We will follow the classic text by T. Hill, and one of the first books I ever…" rel="nofollow" data-origin="10425" data-position="1">Foundations: The Partition Function.</a></span><span class="jp-relatedposts-post-context">In "Deep Learning"</span></p><p class="jp-relatedposts-post jp-relatedposts-post2" data-post-id="9947" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="https://calculatedcontent.com/2017/01/05/foundations-mean-field-boltzmann-machines-1987/" title="Foundations:  Mean Field Boltzmann Machines 1987
+
+A friend from grad school pointed out a great foundational paper on Boltzmann Machines.  It is a 1987 paper from complex systems theory A Mean Field Theory Learning Algorithm for Neural Networks just a couple years after Hinton&#39;s seminal 1985 paper , &quot;A Learning Algorithm for Boltzmann Machines&quot;. What I…" rel="nofollow" data-origin="10425" data-position="2">Foundations:  Mean Field Boltzmann Machines 1987</a></span><span class="jp-relatedposts-post-context">With 10 comments</span></p></div></div></div>
+		
+	</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+
+				
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Post navigation</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="https://calculatedcontent.com/2017/02/24/why-deep-learning-works-3-backprop-minimizes-the-free-energy/" rel="prev"><span class="screen-reader-text">Previous Post:</span> Why Deep Learning Works 3:  BackProp minimizes the Free Energy ?</a></div><div class="nav-next"><a href="https://calculatedcontent.com/2017/06/26/interview-with-a-data-scientist/" rel="next"><span class="screen-reader-text">Next Post:</span> Interview with a Data Scientist</a></div></div>
+	</nav>
+	</footer><!-- .entry-footer -->
+
+</article>
+
+	<div id="comments" class="comments-area">
+
+		
+			<header class="comments-header">
+
+				<h2 class="comments-title">
+					5 comments				</h2>
+
+			</header><!-- .comment-header -->
+
+			
+			<ol class="comment-list">
+						<li id="comment-1880" class="pingback even thread-even depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href="http://advanceddataanalytics.net/2017/06/19/distilled-news-541/" rel="external nofollow" class="url">Distilled News | Data Analytics &amp; R</a> 			</div>
+		</li><!-- #comment-## -->
+		<li id="comment-1961" class="pingback odd alt thread-odd thread-alt depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href="https://calculatedcontent.com/2017/07/04/what-is-free-energy-part-i-hinton-helmholtz-and-legendre/" rel="external nofollow" class="url">What is Free Energy part I: Hinton, Helmholtz, and Legendre – CALCULATED CONTENT</a> 			</div>
+		</li><!-- #comment-## -->
+		<li id="comment-2516" class="pingback even thread-even depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href="http://phpcantho.com/normalization-in-deep-learning-calculated-content/" rel="external nofollow" class="url">Normalization in Deep Learning – CALCULATED CONTENT | Premium Blog!</a> 			</div>
+		</li><!-- #comment-## -->
+		<li id="comment-2737" class="comment odd alt thread-odd thread-alt depth-1 highlander-comment">
+			<article id="div-comment-2737" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="./Normalization in Deep Learning_files/dee928d0ccef359036c4ef6038377ae0" class="avatar avatar-56 grav-hashed grav-hijack" height="56" width="56" originals="56" src-orig="https://1.gravatar.com/avatar/dee928d0ccef359036c4ef6038377ae0?s=56&amp;d=identicon&amp;r=G" scale="2" id="grav-dee928d0ccef359036c4ef6038377ae0-0" scale-fail="2">						<b class="fn"><a href="https://www.webtunix.com/" rel="external nofollow" class="url">Babita Koundal</a></b> <span class="says">says:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#comment-2737">
+							<time datetime="2018-03-30T01:49:10+00:00">
+								March 30, 2018 at 1:49 am							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Nice Explanation.</p>
+<p id="comment-like-2737" data-liked="comment-not-liked" class="comment-likes comment-not-liked"><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/?like_comment=2737&amp;_wpnonce=4b35813219" class="comment-like-link needs-login" rel="nofollow" data-blog="32496692"><span>Like</span></a><span id="comment-like-count-2737" class="comment-like-feedback">Like</span></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/?replytocom=2737#respond" onclick="return addComment.moveForm( &quot;div-comment-2737&quot;, &quot;2737&quot;, &quot;respond&quot;, &quot;10425&quot; )" aria-label="Reply to Babita Koundal">Reply</a></div>			</article><!-- .comment-body -->
+		</li><!-- #comment-## -->
+		<li id="comment-2795" class="pingback even thread-even depth-1 highlander-comment">
+			<div class="comment-body">
+				Pingback: <a href="https://163ai.org/14/note/12/05/07/machine-learning/4063/share/author/machinelearning/2017/" rel="external nofollow" class="url">What is Free Energy: Hinton, Helmholtz, and Legendre | 机器学习笔记</a> 			</div>
+		</li><!-- #comment-## -->
+			</ol><!-- .comment-list -->
+
+			
+		
+		
+			<div id="respond" class="comment-respond js">
+		<h3 id="reply-title" class="comment-reply-title"><span>Leave a Reply</span> <small><a rel="nofollow" id="cancel-comment-reply-link" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://calculatedcontent.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="acb85449c3"><input type="hidden" name="_wp_http_referer" value="/2017/06/16/normalization-in-deep-learning/">
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest">
+
+<div class="comment-form-field comment-textarea">
+	
+	<div id="comment-form-comment"><textarea tabindex="-1" style="position: absolute; top: -999px; left: 0px; right: auto; bottom: auto; border: 0px; padding: 0px; box-sizing: content-box; overflow-wrap: break-word; overflow: hidden; transition: none 0s ease 0s; height: 0px !important; min-height: 0px !important; font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif; font-size: 14px; font-weight: 400; font-style: normal; letter-spacing: 0px; text-transform: none; text-decoration: none solid rgba(0, 0, 0, 0.7); word-spacing: 0px; text-indent: 0px; line-height: 24.5px; width: 743.75px;" class="autosizejs "></textarea><textarea id="comment" name="comment" title="Enter your comment here..." placeholder="Enter your comment here..." style="height: 44px; overflow: hidden; overflow-wrap: break-word; resize: none;"></textarea></div>
+</div>
+
+<div id="comment-form-identity" style="display: none;">
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#comment-form-guest" id="postas-guest" class="nascar-signin-link" title="Login via Guest">
+									</a>
+			</li>
+			<li>
+				<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#comment-form-load-service:WordPress.com" id="postas-wordpress" class="nascar-signin-link" title="Login via WordPress.com">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#0087be" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.762-7.57zM3.008 12c0 3.56 2.07 6.634 5.068 8.092L3.788 8.342c-.5 1.117-.78 2.354-.78 3.658zm15.06-.454c0-1.112-.398-1.88-.74-2.48-.456-.74-.883-1.368-.883-2.11 0-.825.627-1.595 1.51-1.595.04 0 .078.006.116.008-1.598-1.464-3.73-2.36-6.07-2.36-3.14 0-5.904 1.613-7.512 4.053.21.008.41.012.58.012.94 0 2.395-.114 2.395-.114.484-.028.54.684.057.74 0 0-.487.058-1.03.086l3.275 9.74 1.968-5.902-1.4-3.838c-.485-.028-.944-.085-.944-.085-.486-.03-.43-.77.056-.742 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.486-.028.543.684.058.74 0 0-.488.058-1.03.086l3.25 9.665.897-2.997c.456-1.17.684-2.137.684-2.907zm1.82-3.86c.04.286.06.593.06.924 0 .912-.17 1.938-.683 3.22l-2.746 7.94c2.672-1.558 4.47-4.454 4.47-7.77 0-1.564-.4-3.033-1.1-4.314zM12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"></path></g></svg>				</a>
+			</li>
+			<li>
+			</li><li>
+				<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#comment-form-load-service:Twitter" id="postas-twitter" class="nascar-signin-link" title="Login via Twitter">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#1DA1F2" d="M22.23 5.924c-.736.326-1.527.547-2.357.646.847-.508 1.498-1.312 1.804-2.27-.793.47-1.67.812-2.606.996C18.325 4.498 17.258 4 16.078 4c-2.266 0-4.103 1.837-4.103 4.103 0 .322.036.635.106.935-3.41-.17-6.433-1.804-8.457-4.287-.353.607-.556 1.312-.556 2.064 0 1.424.724 2.68 1.825 3.415-.673-.022-1.305-.207-1.86-.514v.052c0 1.988 1.415 3.647 3.293 4.023-.344.095-.707.145-1.08.145-.265 0-.522-.026-.773-.074.522 1.63 2.038 2.817 3.833 2.85-1.404 1.1-3.174 1.757-5.096 1.757-.332 0-.66-.02-.98-.057 1.816 1.164 3.973 1.843 6.29 1.843 7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.53.802-.578 1.497-1.3 2.047-2.124z"></path></g></svg>				</a>
+			</li>
+			<li>
+				<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#comment-form-load-service:Facebook" id="postas-facebook" class="nascar-signin-link" title="Login via Facebook">
+					<svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#3B5998" d="M20.007 3H3.993C3.445 3 3 3.445 3 3.993v16.013c0 .55.445.994.993.994h8.62v-6.97H10.27V11.31h2.346V9.31c0-2.325 1.42-3.59 3.494-3.59.993 0 1.847.073 2.096.106v2.43h-1.438c-1.128 0-1.346.537-1.346 1.324v1.734h2.69l-.35 2.717h-2.34V21h4.587c.548 0 .993-.445.993-.993V3.993c0-.548-.445-.993-.993-.993z"></path></g></svg>				</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="./Normalization in Deep Learning_files/ad516503a11cd5ca435acc9bb6523536" alt="Gravatar" width="25" class="no-grav" originals="25" src-orig="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" scale="2">
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value=""></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value=""></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value=""></div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Normalization in Deep Learning_files/ad516503a11cd5ca435acc9bb6523536(1)" alt="WordPress.com Logo" width="25" class="no-grav" originals="25" scale="2">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="">
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="">
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="">
+						<p class="comment-form-posting-as pa-wordpress">
+			<strong></strong>
+			You are commenting using your WordPress.com account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;wordpress&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#0087be" d="M12.158 12.786l-2.698 7.84c.806.236 1.657.365 2.54.365 1.047 0 2.05-.18 2.986-.51-.024-.037-.046-.078-.065-.123l-2.762-7.57zM3.008 12c0 3.56 2.07 6.634 5.068 8.092L3.788 8.342c-.5 1.117-.78 2.354-.78 3.658zm15.06-.454c0-1.112-.398-1.88-.74-2.48-.456-.74-.883-1.368-.883-2.11 0-.825.627-1.595 1.51-1.595.04 0 .078.006.116.008-1.598-1.464-3.73-2.36-6.07-2.36-3.14 0-5.904 1.613-7.512 4.053.21.008.41.012.58.012.94 0 2.395-.114 2.395-.114.484-.028.54.684.057.74 0 0-.487.058-1.03.086l3.275 9.74 1.968-5.902-1.4-3.838c-.485-.028-.944-.085-.944-.085-.486-.03-.43-.77.056-.742 0 0 1.484.114 2.368.114.94 0 2.397-.114 2.397-.114.486-.028.543.684.058.74 0 0-.488.058-1.03.086l3.25 9.665.897-2.997c.456-1.17.684-2.137.684-2.907zm1.82-3.86c.04.286.06.593.06.924 0 .912-.17 1.938-.683 3.22l-2.746 7.94c2.672-1.558 4.47-4.454 4.47-7.77 0-1.564-.4-3.033-1.1-4.314zM12 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"></path></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Normalization in Deep Learning_files/ad516503a11cd5ca435acc9bb6523536(1)" alt="Google+ photo" width="25" class="no-grav" originals="25" scale="2">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="">
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="">
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="">
+						<p class="comment-form-posting-as pa-googleplus">
+			<strong></strong>
+			You are commenting using your Google+ account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;googleplus&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" x="0px" y="0px" viewBox="0 0 60 60"><path fill="#519bf7" d="M56.3,30c0,-1.6 -0.2,-3.4 -0.6,-5h-3.1H42.2H30v10.6h14.8C44,39.3 42,42 39.1,43.9l8.8,6.8C53,46 56.3,39 56.3,30z"></path><path fill="#3db366" d="M30,57.5c6.7,0 13.1,-2.4 17.9,-6.8l-8.8,-6.8c-2.5,1.6 -5.6,2.4 -9.1,2.4c-7.2,0 -13.3,-4.7 -15.4,-11.2l-9.3,7.1C9.8,51.3 19.1,57.5 30,57.5z"></path><path fill="#fdc600" d="M5.3,42.2l9.3,-7.1c-0.5,-1.6 -0.8,-3.3 -0.8,-5.1s0.3,-3.5 0.8,-5.1l-9.3,-7.1C3.5,21.5 2.5,25.6 2.5,30S3.5,38.5 5.3,42.2z"></path><path fill="#f15b44" d="M40.1,17.4l8,-8C43.3,5.1 37,2.5 30,2.5C19.1,2.5 9.8,8.7 5.3,17.8l9.3,7.1c2.1,-6.5 8.2,-11.1 15.4,-11.1C33.9,13.7 37.4,15.1 40.1,17.4z"></path></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Normalization in Deep Learning_files/ad516503a11cd5ca435acc9bb6523536(1)" alt="Twitter picture" width="25" class="no-grav" originals="25" scale="2">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="">
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="">
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="">
+						<p class="comment-form-posting-as pa-twitter">
+			<strong></strong>
+			You are commenting using your Twitter account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;twitter&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#1DA1F2" d="M22.23 5.924c-.736.326-1.527.547-2.357.646.847-.508 1.498-1.312 1.804-2.27-.793.47-1.67.812-2.606.996C18.325 4.498 17.258 4 16.078 4c-2.266 0-4.103 1.837-4.103 4.103 0 .322.036.635.106.935-3.41-.17-6.433-1.804-8.457-4.287-.353.607-.556 1.312-.556 2.064 0 1.424.724 2.68 1.825 3.415-.673-.022-1.305-.207-1.86-.514v.052c0 1.988 1.415 3.647 3.293 4.023-.344.095-.707.145-1.08.145-.265 0-.522-.026-.773-.074.522 1.63 2.038 2.817 3.833 2.85-1.404 1.1-3.174 1.757-5.096 1.757-.332 0-.66-.02-.98-.057 1.816 1.164 3.973 1.843 6.29 1.843 7.547 0 11.675-6.252 11.675-11.675 0-.178-.004-.355-.012-.53.802-.578 1.497-1.3 2.047-2.124z"></path></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="./Normalization in Deep Learning_files/ad516503a11cd5ca435acc9bb6523536(1)" alt="Facebook photo" width="25" class="no-grav" originals="25" scale="2">
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="">
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="">
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="">
+						<p class="comment-form-posting-as pa-facebook">
+			<strong></strong>
+			You are commenting using your Facebook account.			<span class="comment-form-log-out">
+				(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( &#39;facebook&#39; );">Log&nbsp;Out</a>&nbsp;/&nbsp;
+				<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)
+			</span>
+			<span class="pa-icon"><svg xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 24"><rect x="0" fill="none" width="24" height="24"></rect><g><path fill="#3B5998" d="M20.007 3H3.993C3.445 3 3 3.445 3 3.993v16.013c0 .55.445.994.993.994h8.62v-6.97H10.27V11.31h2.346V9.31c0-2.325 1.42-3.59 3.494-3.59.993 0 1.847.073 2.096.106v2.43h-1.438c-1.128 0-1.346.537-1.346 1.324v1.734h2.69l-.35 2.717h-2.34V21h4.587c.548 0 .993-.445.993-.993V3.993c0-.548-.445-.993-.993-.993z"></path></g></svg></span>
+		</p>
+					</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe" style="display: none;">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p><p class="post-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto;"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog" style="display: inline;">Notify me of new posts via email.</label></p></div>
+
+
+
+
+<p class="form-submit" style="display: none;"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment"> <input type="hidden" name="comment_post_ID" value="10425" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="872dce9bfd"></p>
+<input type="hidden" name="genseq" value="1546440809">
+<p style="display: none;"></p>			<input type="hidden" id="ak_js" name="ak_js" value="1546440810475"></form>
+			</div><!-- #respond -->
+	<div style="clear: both"></div>
+	</div><!-- #comments -->
+
+
+		</main><!-- #main -->
+	</section><!-- #primary -->
+
+	
+	<section id="secondary" class="sidebar widget-area clearfix" role="complementary">
+
+		<div class="widget-wrap"><aside id="authors-6" class="widget widget_authors clearfix"><div class="widget-header"><h3 class="widget-title"></h3></div><ul><li><a href="https://calculatedcontent.com/author/charlesmartin14/"> <img alt="" src="./Normalization in Deep Learning_files/1ae78e5099a40f308b172a5a65416cab.jpeg" class="avatar avatar-48 grav-hashed" height="48" width="48" originals="48" src-orig="https://1.gravatar.com/avatar/1ae78e5099a40f308b172a5a65416cab?s=48&amp;d=identicon&amp;r=G" scale="2" id="grav-1ae78e5099a40f308b172a5a65416cab-0"> <strong>Charles H Martin, PhD</strong></a></li></ul></aside></div><div class="widget-wrap"><aside id="text-3" class="widget widget_text clearfix"><div class="widget-header"><h3 class="widget-title">Calculation Consulting</h3></div>			<div class="textwidget"><p>We are a boutique machine learning data science consultancy.  How can we help? Email me at  <a href="mailto:info@calculationconsulting.com">info@calculationconsulting.com</a>.</p>
+<p>or stop by:<br>
+<a href="http://calculationconsulting.com/">http://calculationconsulting.com</a><br>
+<a href="https://www.youtube.com/channel/UCaao8GHAVcRtSZdpObC4_Kg">YouTube Channel</a><br>
+<a href="http://www.quora.com/Charles-H-Martin">Quora</a></p>
+<p>Set Up a quick all on <a href="https://clarity.fm/charlesmartin14">Clarity.fm</a></p>
+</div>
+		</aside></div><div class="widget-wrap"><aside id="jetpack_my_community-5" class="widget widget_jetpack_my_community clearfix"><div class="widget-header"><h3 class="widget-title">The Community</h3></div><div class="widgets-multi-column-grid"><ul><li><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/"><img alt="" src="./Normalization in Deep Learning_files/fd689991ae81222c938880a365cb0a63" class="avatar avatar-48 grav-hashed" height="48" width="48" originals="48" src-orig="https://0.gravatar.com/avatar/fd689991ae81222c938880a365cb0a63?s=48&amp;d=identicon&amp;r=G" scale="2" id="grav-fd689991ae81222c938880a365cb0a63-0"></a></li><li><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/"><img alt="" src="./Normalization in Deep Learning_files/1ae78e5099a40f308b172a5a65416cab.jpeg" class="avatar avatar-48 grav-hashed" height="48" width="48" originals="48" src-orig="https://1.gravatar.com/avatar/1ae78e5099a40f308b172a5a65416cab?s=48&amp;d=identicon&amp;r=G" scale="2" id="grav-1ae78e5099a40f308b172a5a65416cab-1"></a></li><li><a href="http://mubulg.wordpress.com/"><img alt="" src="./Normalization in Deep Learning_files/0464f080b6bc31bc8244555824950bb7" class="avatar avatar-48 grav-hashed" height="48" width="48" originals="48" src-orig="https://0.gravatar.com/avatar/0464f080b6bc31bc8244555824950bb7?s=48&amp;d=identicon&amp;r=G" scale="2" id="grav-0464f080b6bc31bc8244555824950bb7-0"></a></li><li><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/"><img alt="" src="./Normalization in Deep Learning_files/56c1a0e520281669442223efbb000ae4" class="avatar avatar-48 grav-hashed" height="48" width="48" originals="48" src-orig="https://2.gravatar.com/avatar/56c1a0e520281669442223efbb000ae4?s=48&amp;d=identicon&amp;r=G" scale="2" id="grav-56c1a0e520281669442223efbb000ae4-0"></a></li><li><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/"><img alt="" src="./Normalization in Deep Learning_files/053bd692fb95f512a7c6dbbac5093d38" class="avatar avatar-48 grav-hashed" height="48" width="48" originals="48" src-orig="https://0.gravatar.com/avatar/053bd692fb95f512a7c6dbbac5093d38?s=48&amp;d=identicon&amp;r=G" scale="2" id="grav-053bd692fb95f512a7c6dbbac5093d38-0"></a></li><li><a href="https://medium.com/@abhi.mukh"><img alt="" src="./Normalization in Deep Learning_files/f28d351debb805126ebe9ae2c9e11dec" class="avatar avatar-48 grav-hashed" height="48" width="48" originals="48" src-orig="https://0.gravatar.com/avatar/f28d351debb805126ebe9ae2c9e11dec?s=48&amp;d=identicon&amp;r=G" scale="2" id="grav-f28d351debb805126ebe9ae2c9e11dec-0"></a></li><li><a href="http://fancoo.wordpress.com/"><img alt="" src="./Normalization in Deep Learning_files/a2484a44ee08051220ddd558f572d92e.png" class="avatar avatar-48 grav-hashed" height="48" width="48" originals="48" src-orig="https://1.gravatar.com/avatar/a2484a44ee08051220ddd558f572d92e?s=48&amp;d=identicon&amp;r=G" scale="2" id="grav-a2484a44ee08051220ddd558f572d92e-0"></a></li><li><a href="http://twitter.com/alxfed"><img alt="" src="./Normalization in Deep Learning_files/iptn4tctyisr3zjzydzq_normal.jpeg" class="avatar avatar-240" height="48" width="48" originals="240" scale="2" srcset="https://i2.wp.com/pbs.twimg.com/profile_images/2536429300/iptn4tctyisr3zjzydzq_normal.jpeg?w=48&amp;resize=48%2C48&amp;zoom=2 2x"></a></li><li><a href="http://ordinateurtw.wordpress.com/"><img alt="" src="./Normalization in Deep Learning_files/a07a81385db71e2b18479b8af0e7bf10.jpeg" class="avatar avatar-48 grav-hashed" height="48" width="48" originals="48" src-orig="https://1.gravatar.com/avatar/a07a81385db71e2b18479b8af0e7bf10?s=48&amp;d=identicon&amp;r=G" scale="2" id="grav-a07a81385db71e2b18479b8af0e7bf10-0"></a></li><li><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/"><img alt="" src="./Normalization in Deep Learning_files/5d0fe180804f0eaa37a8e0f20c0a82c9.png" class="avatar avatar-48 grav-hashed" height="48" width="48" originals="48" src-orig="https://2.gravatar.com/avatar/5d0fe180804f0eaa37a8e0f20c0a82c9?s=48&amp;d=identicon&amp;r=G" scale="2" id="grav-5d0fe180804f0eaa37a8e0f20c0a82c9-0"></a></li></ul></div></aside></div><div class="widget-wrap"><aside id="blog-stats-4" class="widget widget_blog-stats clearfix"><div class="widget-header"><h3 class="widget-title">Blog Stats</h3></div>		<ul>
+			<li>500,800 hits</li>
+		</ul>
+		</aside></div><div class="widget-wrap"><aside id="follow_button_widget-3" class="widget widget_follow_button_widget clearfix">
+		<iframe src="./Normalization in Deep Learning_files/index(1).html" width="100%" height="20" frameborder="0" scrolling="no"></iframe>
+		<script type="text/javascript">(function(d){var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');p.type = 'text/javascript';p.async = true;p.src = '//widgets.wp.com/platform.js';f.parentNode.insertBefore(p,f);}(document));</script>
+
+		</aside></div><div class="widget-wrap"><aside id="blog_subscription-3" class="widget widget_blog_subscription clearfix"><div class="widget-header"><h3 class="widget-title"><label for="subscribe-field">Follow Blog via Email</label></h3></div>
+				<form action="https://subscribe.wordpress.com/" method="post" accept-charset="utf-8" id="subscribe-blog">
+											<p>Enter your email address to follow this blog and receive notifications of new posts by email.</p>
+<p>Join 688 other followers</p>
+						<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" placeholder="Enter your email address" value="" id="subscribe-field"></p>
+					
+					<p>
+						<input type="hidden" name="action" value="subscribe">
+						<input type="hidden" name="blog_id" value="32496692">
+						<input type="hidden" name="source" value="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/">
+						<input type="hidden" name="sub-type" value="widget">
+						<input type="hidden" name="redirect_fragment" value="">
+						<input type="hidden" id="_wpnonce" name="_wpnonce" value="f189ff804b">						<input type="submit" value="Follow">
+					</p>
+				</form>
+			
+</aside></div><div class="widget-wrap"><aside id="top-posts-3" class="widget widget_top-posts clearfix"><div class="widget-header"><h3 class="widget-title">Top Posts &amp; Pages</h3></div><ul class="widgets-list-layout no-grav">
+					<li>
+												<a href="https://calculatedcontent.com/2012/10/09/spectral-clustering/" title="Spectral Clustering: A quick overview" class="bump-view" data-bump-view="tp">
+							<img width="40" height="40" src="./Normalization in Deep Learning_files/gap.png" class="widgets-list-layout-blavatar" alt="Spectral Clustering: A quick overview" data-pin-nopin="true" scale="0">
+						</a>
+						<div class="widgets-list-layout-links">
+							<a href="https://calculatedcontent.com/2012/10/09/spectral-clustering/" class="bump-view" data-bump-view="tp">
+								Spectral Clustering: A quick overview							</a>
+						</div>
+												</li>
+										<li>
+												<a href="https://calculatedcontent.com/2012/02/06/kernels_part_1/" title="Kernels Part 1: What is an RBF Kernel?  Really?" class="bump-view" data-bump-view="tp">
+							<img width="40" height="40" src="./Normalization in Deep Learning_files/f_eq2.png" class="widgets-list-layout-blavatar" alt="Kernels Part 1: What is an RBF Kernel?  Really?" data-pin-nopin="true" scale="0">
+						</a>
+						<div class="widgets-list-layout-links">
+							<a href="https://calculatedcontent.com/2012/02/06/kernels_part_1/" class="bump-view" data-bump-view="tp">
+								Kernels Part 1: What is an RBF Kernel?  Really?							</a>
+						</div>
+												</li>
+										<li>
+												<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/" title="Normalization in Deep Learning" class="bump-view" data-bump-view="tp">
+							<img width="40" height="40" src="./Normalization in Deep Learning_files/batchnorm2-e1497643748774(1).png" class="widgets-list-layout-blavatar" alt="Normalization in Deep Learning" data-pin-nopin="true" scale="0">
+						</a>
+						<div class="widgets-list-layout-links">
+							<a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/" class="bump-view" data-bump-view="tp">
+								Normalization in Deep Learning							</a>
+						</div>
+												</li>
+										<li>
+												<a href="https://calculatedcontent.com/2014/09/23/machine-learning-with-missing-labels-transductive-svms/" title="Machine Learning with Missing Labels:  Transductive SVMs" class="bump-view" data-bump-view="tp">
+							<img width="40" height="40" src="./Normalization in Deep Learning_files/margin-tsvm.png" class="widgets-list-layout-blavatar" alt="Machine Learning with Missing Labels:  Transductive SVMs" data-pin-nopin="true" scale="0">
+						</a>
+						<div class="widgets-list-layout-links">
+							<a href="https://calculatedcontent.com/2014/09/23/machine-learning-with-missing-labels-transductive-svms/" class="bump-view" data-bump-view="tp">
+								Machine Learning with Missing Labels:  Transductive SVMs							</a>
+						</div>
+												</li>
+										<li>
+												<a href="https://calculatedcontent.com/2018/10/07/dont-peek-deep-learning-without-looking-at-test-data/" title="Don&#39;t Peek: Deep Learning without looking ... at test data" class="bump-view" data-bump-view="tp">
+							<img width="40" height="40" src="./Normalization in Deep Learning_files/screen-shot-2018-10-08-at-11-06-48-am-e1539022115378.png" class="widgets-list-layout-blavatar" alt="Don&#39;t Peek: Deep Learning without looking ... at test data" data-pin-nopin="true" scale="0">
+						</a>
+						<div class="widgets-list-layout-links">
+							<a href="https://calculatedcontent.com/2018/10/07/dont-peek-deep-learning-without-looking-at-test-data/" class="bump-view" data-bump-view="tp">
+								Don't Peek: Deep Learning without looking ... at test data							</a>
+						</div>
+												</li>
+					</ul>
+</aside></div>		<div class="widget-wrap"><aside id="recent-posts-2" class="widget widget_recent_entries clearfix">		<div class="widget-header"><h3 class="widget-title">Recent Posts</h3></div>		<ul>
+											<li>
+					<a href="https://calculatedcontent.com/2018/12/17/heavy-tailed-self-regularization-in-deep-neural-nets-1-year-of-research/">Heavy Tailed Self Regularization in Deep Neural Nets: 1 year of research</a>
+									</li>
+											<li>
+					<a href="https://calculatedcontent.com/2018/11/18/dont-peek-part-2-predictions-without-test-data/">Don’t Peek part 2:  Predictions without Test Data</a>
+									</li>
+											<li>
+					<a href="https://calculatedcontent.com/2018/11/16/machine-learning-and-ai-for-the-lean-start-up/">Machine Learning and AI for the Lean Start Up</a>
+									</li>
+											<li>
+					<a href="https://calculatedcontent.com/2018/10/07/dont-peek-deep-learning-without-looking-at-test-data/">Don’t Peek: Deep Learning without looking … at test data</a>
+									</li>
+											<li>
+					<a href="https://calculatedcontent.com/2018/09/21/rank-collapse-in-deep-learning/">Rank Collapse in Deep Learning</a>
+									</li>
+					</ul>
+		</aside></div><div class="widget-wrap"><aside id="top-clicks-5" class="widget widget_top-clicks clearfix"><div class="widget-header"><h3 class="widget-title">Top Clicks</h3></div><ul><li><a href="https://arxiv.org/abs/1807.09659" target="_blank" rel="nofollow">arxiv.org/abs/1807.09659</a></li><li><a href="http://www.quora.com/Machine-Learning/How-does-one-decide-on-which-kernel-to-choose-for-an-SVM-RBF-vs-linear-vs-poly-kernel" target="_blank" rel="nofollow">quora.com/Machine-Learnin…</a></li><li><a href="https://arxiv.org/abs/1706.02515" target="_blank" rel="nofollow">arxiv.org/abs/1706.02515</a></li><li><a href="http://www.shakirm.com/slides/DeepGenModelsTutorial.pdf" target="_blank" rel="nofollow">shakirm.com/slides/DeepGe…</a></li><li><a href="http://videolectures.net/icml08_belkin_dslmm/" target="_blank" rel="nofollow">videolectures.net/icml08_…</a></li><li><a href="https://arxiv.org/pdf/1712.09913.pdf" target="_blank" rel="nofollow">arxiv.org/pdf/1712.09913.…</a></li><li><a href="https://arxiv.org/abs/1810.01075" target="_blank" rel="nofollow">arxiv.org/abs/1810.01075</a></li><li><a href="https://charlesmartin14.wordpress.com/2012/10/18/data-spectroscopy/" target="_blank" rel="nofollow">charlesmartin14.wordpress…</a></li><li><a href="https://charlesmartin14.wordpress.com/2012/09/06/kernels-part-2-affine-quantum-gravity-continued" target="_blank" rel="nofollow">charlesmartin14.wordpress…</a></li><li><a href="https://www.linkedin.com/in/charlesmartin14/" target="_blank" rel="nofollow">linkedin.com/in/charlesma…</a></li></ul></aside></div><div class="widget-wrap"><aside id="archives-2" class="widget widget_archive clearfix"><div class="widget-header"><h3 class="widget-title">Archives</h3></div>		<ul>
+				<li><a href="https://calculatedcontent.com/2018/12/">December 2018</a></li>
+	<li><a href="https://calculatedcontent.com/2018/11/">November 2018</a></li>
+	<li><a href="https://calculatedcontent.com/2018/10/">October 2018</a></li>
+	<li><a href="https://calculatedcontent.com/2018/09/">September 2018</a></li>
+	<li><a href="https://calculatedcontent.com/2018/06/">June 2018</a></li>
+	<li><a href="https://calculatedcontent.com/2018/04/">April 2018</a></li>
+	<li><a href="https://calculatedcontent.com/2017/12/">December 2017</a></li>
+	<li><a href="https://calculatedcontent.com/2017/09/">September 2017</a></li>
+	<li><a href="https://calculatedcontent.com/2017/07/">July 2017</a></li>
+	<li><a href="https://calculatedcontent.com/2017/06/">June 2017</a></li>
+	<li><a href="https://calculatedcontent.com/2017/02/">February 2017</a></li>
+	<li><a href="https://calculatedcontent.com/2017/01/">January 2017</a></li>
+	<li><a href="https://calculatedcontent.com/2016/10/">October 2016</a></li>
+	<li><a href="https://calculatedcontent.com/2016/09/">September 2016</a></li>
+	<li><a href="https://calculatedcontent.com/2016/06/">June 2016</a></li>
+	<li><a href="https://calculatedcontent.com/2016/02/">February 2016</a></li>
+	<li><a href="https://calculatedcontent.com/2015/12/">December 2015</a></li>
+	<li><a href="https://calculatedcontent.com/2015/04/">April 2015</a></li>
+	<li><a href="https://calculatedcontent.com/2015/03/">March 2015</a></li>
+	<li><a href="https://calculatedcontent.com/2015/01/">January 2015</a></li>
+	<li><a href="https://calculatedcontent.com/2014/11/">November 2014</a></li>
+	<li><a href="https://calculatedcontent.com/2014/09/">September 2014</a></li>
+	<li><a href="https://calculatedcontent.com/2014/08/">August 2014</a></li>
+	<li><a href="https://calculatedcontent.com/2013/11/">November 2013</a></li>
+	<li><a href="https://calculatedcontent.com/2013/10/">October 2013</a></li>
+	<li><a href="https://calculatedcontent.com/2013/08/">August 2013</a></li>
+	<li><a href="https://calculatedcontent.com/2013/05/">May 2013</a></li>
+	<li><a href="https://calculatedcontent.com/2013/04/">April 2013</a></li>
+	<li><a href="https://calculatedcontent.com/2012/12/">December 2012</a></li>
+	<li><a href="https://calculatedcontent.com/2012/11/">November 2012</a></li>
+	<li><a href="https://calculatedcontent.com/2012/10/">October 2012</a></li>
+	<li><a href="https://calculatedcontent.com/2012/09/">September 2012</a></li>
+	<li><a href="https://calculatedcontent.com/2012/04/">April 2012</a></li>
+	<li><a href="https://calculatedcontent.com/2012/02/">February 2012</a></li>
+		</ul>
+			</aside></div><div class="widget-wrap"><aside id="wpcom_social_media_icons_widget-3" class="widget widget_wpcom_social_media_icons_widget clearfix"><div class="widget-header"><h3 class="widget-title">Social</h3></div><ul><li><a href="https://twitter.com/calccon/" class="genericon genericon-twitter" target="_blank"><span class="screen-reader-text">View calccon’s profile on Twitter</span></a></li><li><a href="https://www.linkedin.com/in/charlesmartin14/" class="genericon genericon-linkedin" target="_blank"><span class="screen-reader-text">View charlesmartin14’s profile on LinkedIn</span></a></li><li><a href="https://github.com/charlesmartin/" class="genericon genericon-github" target="_blank"><span class="screen-reader-text">View charlesmartin’s profile on GitHub</span></a></li><li><a href="https://www.youtube.com/channel/UCaao8GHAVcRtSZdpObC4_Kg/" class="genericon genericon-youtube" target="_blank"><span class="screen-reader-text">View UCaao8GHAVcRtSZdpObC4_Kg’s profile on YouTube</span></a></li></ul></aside></div><div class="widget-wrap"><aside id="meta-2" class="widget widget_meta clearfix"><div class="widget-header"><h3 class="widget-title">Meta</h3></div>			<ul>
+			<li><a href="https://wordpress.com/start?ref=wplogin">Register</a></li>			<li><a href="https://charlesmartin14.wordpress.com/wp-login.php">Log in</a></li>
+			<li><a href="https://calculatedcontent.com/feed/">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://calculatedcontent.com/comments/feed/">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="https://wordpress.com/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.com</a></li>			</ul>
+			</aside></div><div class="widget-wrap"><aside id="media_gallery-4" class="widget widget_media_gallery clearfix"><div class="tiled-gallery type-rectangular" data-original-width="840" data-carousel-extra="{&quot;blog_id&quot;:32496692,&quot;permalink&quot;:&quot;https:\/\/calculatedcontent.com\/2017\/06\/16\/normalization-in-deep-learning\/&quot;,&quot;likes_blog_id&quot;:32496692}" itemscope="" itemtype="http://schema.org/ImageGallery"> <div class="gallery-row" style="width: 276px; height: 276px;" data-original-width="840" data-original-height="840"> <div class="gallery-group images-1" style="width: 276px; height: 276px;" data-original-width="840" data-original-height="840"> <div class="tiled-gallery-item tiled-gallery-item-large" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject"> <a href="https://calculatedcontent.com/logo-i-3/" border="0" itemprop="url"> <meta itemprop="width" content="836"> <meta itemprop="height" content="836"> <img data-attachment-id="9991" data-orig-file="https://charlesmartin14.files.wordpress.com/2017/01/logo-i2.png" data-orig-size="1000,1000" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="logo-i" data-image-description="" data-medium-file="https://charlesmartin14.files.wordpress.com/2017/01/logo-i2.png?w=300" data-large-file="https://charlesmartin14.files.wordpress.com/2017/01/logo-i2.png?w=840" src="./Normalization in Deep Learning_files/logo-i2.png" width="272" height="272" data-original-width="836" data-original-height="836" itemprop="http://schema.org/image" title="logo-i" alt="logo-i" style="width: 272px; height: 272px;" srcset="https://charlesmartin14.files.wordpress.com/2017/01/logo-i2.png?w=272&amp;h=272&amp;crop=1&amp;zoom=2 2x" src-orig="https://charlesmartin14.files.wordpress.com/2017/01/logo-i2.png?w=836&amp;h=836&amp;crop=1" scale="2"> </a> </div> </div> <!-- close group --> </div> <!-- close row --> </div></aside></div>
+	</section><!-- #secondary -->
+
+
+
+	</div><!-- #content -->
+
+	
+	<div id="footer" class="footer-wrap">
+
+		<footer id="colophon" class="site-footer container clearfix" role="contentinfo">
+
+			
+			
+		<div class="site-info">
+
+			<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>
+			
+			
+		</div><!-- .site-info -->
+
+		
+		</footer><!-- #colophon -->
+
+	</div>
+
+</div><!-- #page -->
+
+<!--  -->
+<script type="text/javascript" src="./Normalization in Deep Learning_files/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Normalization in Deep Learning_files/wpgroho.js"></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-dee928d0ccef359036c4ef6038377ae0">
+	</div>
+	</div>
+<script type="text/javascript">
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/charlesmartin14.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/charlesmartin14.wordpress.com\/wp-login.php?action=logout&_wpnonce=c2f8a3ee36","homeURL":"https:\/\/calculatedcontent.com\/","postID":"10425","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Normalization in Deep Learning_files/saved_resource(5)"></script>
+
+	<div id="carousel-reblog-box">
+		<form action="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post">
+				<input type="hidden" id="carousel-reblog-blog-id" value="32496692">
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://calculatedcontent.com">
+				<input type="hidden" id="carousel-reblog-blog-title" value="">
+				<input type="hidden" id="carousel-reblog-post-url" value="">
+				<input type="hidden" id="carousel-reblog-post-title" value="">
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="6fb9411505"><input type="hidden" name="_wp_http_referer" value="/2017/06/16/normalization-in-deep-learning/">		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/calculatedcontent.com\/2017\/06\/16\/normalization-in-deep-learning\/":10425};
+	</script>
+					
+<link rel="stylesheet" id="all-css-0-3" href="./Normalization in Deep Learning_files/saved_resource(6)" type="text/css" media="all">
+<!--[if lte IE 8]>
+<link rel='stylesheet' id='jetpack-carousel-ie8fix-css'  href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel-ie8fix.css?m=1412618825h&#038;ver=20121024' type='text/css' media='all' />
+<![endif]-->
+<link rel="stylesheet" id="all-css-2-3" href="./Normalization in Deep Learning_files/tiled-gallery.css" type="text/css" media="all">
+<script type="text/javascript">
+/* <![CDATA[ */
+var comment_like_text = {"loading":"Loading..."};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var actionbardata = {"siteID":"32496692","siteName":"calculatedcontent.com","siteURL":"https:\/\/calculatedcontent.com","icon":"<img alt='' src='https:\/\/charlesmartin14.files.wordpress.com\/2018\/02\/cropped-wordpress-icon-logo2.png?w=50' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"premium\/tortuga","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/charlesmartin14.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fcalculatedcontent.com%2F2017%2F06%2F16%2Fnormalization-in-deep-learning%2F","themeURL":"https:\/\/wordpress.com\/theme\/tortuga\/","xhrURL":"https:\/\/calculatedcontent.com\/wp-admin\/admin-ajax.php","nonce":"b3a03bfeaa","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"f189ff804b\" \/>","referer":"https:\/\/calculatedcontent.com\/2017\/06\/16\/normalization-in-deep-learning\/","canFollow":"1","feedID":"59512828","statusMessage":"","customizeLink":"https:\/\/charlesmartin14.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fcharlesmartin14.wordpress.com%2F2017%2F06%2F16%2Fnormalization-in-deep-learning%2F","postID":"10425","shortlink":"https:\/\/wp.me\/p2clSc-2I9","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/calculatedcontent.com\/10425","statsLink":"https:\/\/wordpress.com\/stats\/post\/10425\/calculatedcontent.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Tortuga","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 688 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/charlesmartin14.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fcalculatedcontent.com%2F2017%2F06%2F16%2Fnormalization-in-deep-learning%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/calculatedcontent.com\/wp-admin\/admin-ajax.php","nonce":"8576500d97","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","copyright":"Copyright","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/charlesmartin14.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fcalculatedcontent.com%2F2017%2F06%2F16%2Fnormalization-in-deep-learning%2F","blog_id":"32496692","meta_data":["camera","aperture","shutter_speed","focal_length","copyright"],"local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=32496692&v=wpcom&tz=-8&user_id=0&subd=charlesmartin14","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Normalization in Deep Learning_files/saved_resource(7)"></script><div id="actionbar" class="actnbr-premium-tortuga actnbr-has-follow actnbr-hidden"><ul><li class="actnbr-btn actnbr-hidden"> 			    	<a class="actnbr-action actnbr-actn-follow" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/"><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Follow</span></a> 			    	<div class="actnbr-popover tip tip-top-left actnbr-notice"> 			    		<div class="tip-arrow"></div> 			    		<div class="tip-inner actnbr-follow-bubble"></div> 			    	</div> 			    </li><li class="actnbr-ellipsis actnbr-hidden"> 			  <svg class="gridicon gridicon__ellipsis" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle></g></svg> 			  <div class="actnbr-popover tip tip-top-left actnbr-more"> 			  	<div class="tip-arrow"></div> 			  	<div class="tip-inner"> 				  <ul> 				    <li class="actnbr-sitename actnbr-hidden"><a href="https://calculatedcontent.com/"><img alt="" src="./Normalization in Deep Learning_files/cropped-wordpress-icon-logo2.png" class="avatar avatar-50" height="50" width="50" srcset="https://charlesmartin14.files.wordpress.com/2018/02/cropped-wordpress-icon-logo2.png?w=50&amp;zoom=2 2x" scale="2"> calculatedcontent.com</a></li> 				   	<li class="actnbr-folded-customize actnbr-hidden"><a href="https://charlesmartin14.wordpress.com/wp-admin/customize.php?url=https%3A%2F%2Fcharlesmartin14.wordpress.com%2F2017%2F06%2F16%2Fnormalization-in-deep-learning%2F"><svg class="gridicon gridicon__customize" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M2 6c0-1.505.78-3.08 2-4 0 .845.69 2 2 2 1.657 0 3 1.343 3 3 0 .386-.08.752-.212 1.09.74.594 1.476 1.19 2.19 1.81L8.9 11.98c-.62-.716-1.214-1.454-1.807-2.192C6.753 9.92 6.387 10 6 10c-2.21 0-4-1.79-4-4zm12.152 6.848l1.34-1.34c.607.304 1.283.492 2.008.492 2.485 0 4.5-2.015 4.5-4.5 0-.725-.188-1.4-.493-2.007L18 9l-2-2 3.507-3.507C18.9 3.188 18.225 3 17.5 3 15.015 3 13 5.015 13 7.5c0 .725.188 1.4.493 2.007L3 20l2 2 6.848-6.848c1.885 1.928 3.874 3.753 5.977 5.45l1.425 1.148 1.5-1.5-1.15-1.425c-1.695-2.103-3.52-4.092-5.448-5.977z" data-reactid=".2.1.1:0.1b.0"></path></g></svg><span>Customize<span></span></span></a></li> 				    <li class="actnbr-folded-follow actnbr-hidden"><a class="actnbr-action actnbr-actn-follow" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/"><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Follow</span></a></li> 					<li class="actnbr-signup actnbr-hidden"><a href="https://wordpress.com/start/">Sign up</a></li> 				    <li class="actnbr-login actnbr-hidden"><a href="https://charlesmartin14.wordpress.com/wp-login.php?redirect_to=https%3A%2F%2Fcalculatedcontent.com%2F2017%2F06%2F16%2Fnormalization-in-deep-learning%2F">Log in</a></li> 				     				    <li class="actnbr-shortlink actnbr-hidden"><a href="https://wp.me/p2clSc-2I9">Copy shortlink</a></li> 				    <li class="flb-report actnbr-hidden"><a href="http://en.wordpress.com/abuse/">Report this content</a></li> 				     				     				    <li class="actnbr-subs actnbr-hidden"><a href="https://subscribe.wordpress.com/">Manage subscriptions</a></li> 				    <li class="actnbr-fold actnbr-hidden"><a href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/">Collapse this bar</a></li> 			      </ul> 			    </div> 		      </div> 		    </li> 	      </ul></div>
+<script type="text/javascript">
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+</script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src="./Normalization in Deep Learning_files/master.html" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+		<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="./Normalization in Deep Learning_files/w.js" type="text/javascript" async="" defer=""></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'32496692','blog_tz':'-8','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'32496692','v':'wpcom','tz':'-8','user_id':'0','post':'10425','subd':'charlesmartin14'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGNrd29+Smw0TDhnZmRTK0hlRi9QSGh6bi9GXVhBJWIlZlR5U1JMLU8/MkNtblkvY1dzWkZHMElNcXlRRzFBQVtTMHZXfj81LT9oZCw9NSs/Y2h0fHAyVkxaeWhCZi13QURvR0FkLjVxfHZXaG5VZCwwMmp3b2ElTTlJckFGLywwRmpGRm5FRXhGU3ZFQ0YwRVtuS3VfbyxuLF82VmdpaD0yUT0tT1JtSko9LHpXLTY4JS5LT21PZm9VJVE3OTU0VXNWazhfcUR8MUcmb3l8YnldYkZhJTRFXUVWNWxUV0pXRGJSP05qQ2VVb3VPS0Q5OUhDblsvZCtVNU5KY2lhWUlKQUk0Ri5beHEraStvZ0RGMTJmRlVKemF8MHRUWEl8fEk5JUs3R0ZlfGtCOD1dVERRb0NZdnwrSFo3UzFbTVEsWy5OOFY5d1BWNkp0UWFBbGJ5ZkZsM2xj'}]);
+_stq.push([ 'clickTrackerInit', '32496692', '10425' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+
+
+<div class="comment-likes-overlay" style="display: none;"></div><div id="sharing_email" style="display: none;">
+		<form action="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/" method="post">
+			<label for="target_email">Send to Email Address</label>
+			<input type="email" name="target_email" id="target_email" value="">
+
+			
+				<label for="source_name">Your Name</label>
+				<input type="text" name="source_name" id="source_name" value="">
+
+				<label for="source_email">Your Email Address</label>
+				<input type="email" name="source_email" id="source_email" value="">
+
+						<input type="text" id="jetpack-source_f_name" name="source_f_name" class="input" value="" size="25" autocomplete="off" title="This field is for validation and should not be changed">
+			
+			<div class="g-recaptcha" data-sitekey="6LcmyE0UAAAAALID28yVNg7pFCodGaArJzHitez_" data-theme="light" data-type="image" data-tabindex="0"><div style="width: 304px; height: 78px;"><div><iframe src="./Normalization in Deep Learning_files/anchor.html" width="304" height="78" role="presentation" name="a-57pbpmiuk71e" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div></div>
+			<script type="text/javascript" src="./Normalization in Deep Learning_files/api.js" async=""></script>
+			
+			<img style="float: right; display: none" class="loading" src="./Normalization in Deep Learning_files/loading.gif" alt="loading" width="16" height="16" scale="0">
+			<input type="submit" value="Send Email" class="sharing_send">
+			<a rel="nofollow" href="https://calculatedcontent.com/2017/06/16/normalization-in-deep-learning/#cancel" class="sharing_cancel" role="button">Cancel</a>
+
+			<div class="errors errors-1" style="display: none;">
+				Post was not sent - check your email addresses!			</div>
+
+			<div class="errors errors-2" style="display: none;">
+				Email check failed, please try again			</div>
+
+			<div class="errors errors-3" style="display: none;">
+				Sorry, your blog cannot share posts by email.			</div>
+		</form>
+	</div><img src="./Normalization in Deep Learning_files/g.gif" alt=":)" id="wpstats" scale="0"><div style="background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); box-shadow: rgba(0, 0, 0, 0.2) 2px 2px 3px; position: absolute; transition: visibility 0s linear 0.3s, opacity 0.3s linear 0s; opacity: 0; visibility: hidden; z-index: 2000000000; left: 0px; top: -10000px;"><div style="width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 2000000000; background-color: rgb(255, 255, 255); opacity: 0.05;"></div><div class="g-recaptcha-bubble-arrow" style="border: 11px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -11px; z-index: 2000000000;"></div><div class="g-recaptcha-bubble-arrow" style="border: 10px solid transparent; width: 0px; height: 0px; position: absolute; pointer-events: none; margin-top: -10px; z-index: 2000000000;"></div><div style="z-index: 2000000000; position: relative;"><iframe title="recaptcha challenge" src="./Normalization in Deep Learning_files/bframe.html" name="c-57pbpmiuk71e" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox" style="width: 100%; height: 100%;"></iframe></div></div></body></html>

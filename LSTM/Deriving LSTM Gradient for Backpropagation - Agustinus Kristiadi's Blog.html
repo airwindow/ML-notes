@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)https://wiseodd.github.io/techblog/2016/08/12/lstm-backprop/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+        <meta property="og:image" content="http://wiseodd.github.io/img/code.png">
+    
+
+    <meta property="og:description" content="Deriving neuralnet gradient is an absolutely great exercise to understand backpropagation and computational graph better. In this post we will walk through the process of deriving LSTM net gradient so that we can use it in backpropagation.">
+
+    <title>Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi's Blog</title>
+
+    <link rel="shortcut icon" type="image/png" href="https://wiseodd.github.io/favicon.png">
+
+    <link rel="canonical" href="http://wiseodd.github.io/techblog/2016/08/12/lstm-backprop/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="./Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi&#39;s Blog_files/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi&#39;s Blog_files/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="./Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi&#39;s Blog_files/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="./Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi&#39;s Blog_files/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="./Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi&#39;s Blog_files/css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+
+
+<body><div id="MathJax_Message" style="display: none;"></div>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top" style="background: black; border: none;">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://wiseodd.github.io/">Agustinus Kristiadi's Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                
+
+                
+                    
+                        <li>
+                            <a href="https://wiseodd.github.io/techblog/">Tech Blog</a>
+                        </li>
+                    
+                
+                    
+                        <li>
+                            <a href="https://wiseodd.github.io/travelblog/">Travel Blog</a>
+                        </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li>
+                            <a href="https://wiseodd.github.io/about/">About Me &amp; CV</a>
+                        </li>
+                    
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<!--<header class="intro-header" style="position: relative; background-image: url('/img/code.png');">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Deriving LSTM Gradient for Backpropagation</h1>
+                    
+                    <h2 class="subheading">Deriving neuralnet gradient is an absolutely great exercise to understand backpropagation and computational graph better. In this post we will walk through the process of deriving LSTM net gradient so that we can use it in backpropagation.</h2>
+                    
+                    <span class="meta">Posted by wiseodd on August 12, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>-->
+
+<!--<header>
+    <div class="container">
+
+    </div>
+</header>-->
+
+<!-- Post Content -->
+<article style="padding-top: 125px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post">
+                    <h1 style="text-align: center; font-size: 36px; padding-bottom: 2em;">Deriving LSTM Gradient for Backpropagation</h1>
+                    <p>Recurrent Neural Network (RNN) is hot in these past years, especially with the boom of Deep Learning. Just like any deep neural network, RNN can be seen as a (very) deep neural network if we “unroll” the network with respect of the time step. Hence, with all the things that enable vanilla deep network, training RNN become more and more feasible too.</p>
+
+<p>The most popular model for RNN right now is the LSTM (Long Short-Term Memory) network. For the background theory, there are a lot of amazing resources available in <a href="https://wiseodd.github.io/techblog/2016/08/12/lstm-backprop/">Andrej Karpathy’s blog</a> and <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Chris Olah’s blog</a>.</p>
+
+<p>Using modern Deep Learning libraries like TensorFlow, Torch, or Theano nowadays, building an LSTM model would be a breeze as we don’t need to analytically derive the backpropagation step. However to understand the model better, it’s absolutely a good thing, albeit optional, to try to derive the LSTM net gradient and implement the backpropagation “manually”.</p>
+
+<p>So, here, we will try to first implement the forward computation step according to the LSTM net formula, then we will try to derive the network gradient analytically. Finally, we will implement it using numpy.</p>
+
+<h2 class="section-heading">LSTM Forward</h2>
+
+<p>We will follow this model for a single LSTM cell:</p>
+
+<p><img src="./Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi&#39;s Blog_files/formula.png" alt="LSTM formula" class="img-responsive"></p>
+
+<p>Let’s implement it!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+
+<span class="n">H</span> <span class="o">=</span> <span class="mi">128</span> <span class="c"># Number of LSTM layer's neurons</span>
+<span class="n">D</span> <span class="o">=</span> <span class="o">...</span> <span class="c"># Number of input dimension == number of items in vocabulary</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">H</span> <span class="o">+</span> <span class="n">D</span> <span class="c"># Because we will concatenate LSTM state with the input</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">Wf</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Z</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">),</span>
+    <span class="n">Wi</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Z</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">),</span>
+    <span class="n">Wc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Z</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">),</span>
+    <span class="n">Wo</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">Z</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">),</span>
+    <span class="n">Wy</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">),</span>
+    <span class="n">bf</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">H</span><span class="p">)),</span>
+    <span class="n">bi</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">H</span><span class="p">)),</span>
+    <span class="n">bc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">H</span><span class="p">)),</span>
+    <span class="n">bo</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">H</span><span class="p">)),</span>
+    <span class="n">by</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">D</span><span class="p">))</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Above, we’re declaring our LSTM net model. Notice that from the formula above, we’re concatenating the old hidden state <code class="highlighter-rouge">h</code> with current input <code class="highlighter-rouge">x</code>, hence the input for our LSTM net would be <code class="highlighter-rouge">Z = H + D</code>. And because our LSTM layer wants to output <code class="highlighter-rouge">H</code> neurons, each weight matrices’ size would be <code class="highlighter-rouge">ZxH</code> and each bias vectors’ size would be <code class="highlighter-rouge">1xH</code>.</p>
+
+<p>One difference is for <code class="highlighter-rouge">Wy</code> and <code class="highlighter-rouge">by</code>. This weight and bias would be used for fully connected layer, which would be fed to a softmax layer. The resulting output should be a probability distribution over all possible items in vocabulary, which would be the size of <code class="highlighter-rouge">1xD</code>. Hence, <code class="highlighter-rouge">Wy</code>’s size must be <code class="highlighter-rouge">HxD</code> and <code class="highlighter-rouge">by</code>’s size must be <code class="highlighter-rouge">1xD</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">lstm_forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="n">Wf</span><span class="p">,</span> <span class="n">Wi</span><span class="p">,</span> <span class="n">Wc</span><span class="p">,</span> <span class="n">Wo</span><span class="p">,</span> <span class="n">Wy</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s">'Wf'</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s">'Wi'</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s">'Wc'</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s">'Wo'</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s">'Wy'</span><span class="p">]</span>
+    <span class="n">bf</span><span class="p">,</span> <span class="n">bi</span><span class="p">,</span> <span class="n">bc</span><span class="p">,</span> <span class="n">bo</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="s">'bf'</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s">'bi'</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s">'bc'</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s">'bo'</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s">'by'</span><span class="p">]</span>
+
+    <span class="n">h_old</span><span class="p">,</span> <span class="n">c_old</span> <span class="o">=</span> <span class="n">state</span>
+
+    <span class="c"># One-hot encode</span>
+    <span class="n">X_one_hot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+    <span class="n">X_one_hot</span><span class="p">[</span><span class="n">X</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span>
+    <span class="n">X_one_hot</span> <span class="o">=</span> <span class="n">X_one_hot</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># Concatenate old state with current input</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">h_old</span><span class="p">,</span> <span class="n">X_one_hot</span><span class="p">))</span>
+
+    <span class="n">hf</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">X</span> <span class="err">@</span> <span class="n">Wf</span> <span class="o">+</span> <span class="n">bf</span><span class="p">)</span>
+    <span class="n">hi</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">X</span> <span class="err">@</span> <span class="n">Wi</span> <span class="o">+</span> <span class="n">bi</span><span class="p">)</span>
+    <span class="n">ho</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">X</span> <span class="err">@</span> <span class="n">Wo</span> <span class="o">+</span> <span class="n">bo</span><span class="p">)</span>
+    <span class="n">hc</span> <span class="o">=</span> <span class="n">tanh</span><span class="p">(</span><span class="n">X</span> <span class="err">@</span> <span class="n">Wc</span> <span class="o">+</span> <span class="n">bc</span><span class="p">)</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">hf</span> <span class="o">*</span> <span class="n">c_old</span> <span class="o">+</span> <span class="n">hi</span> <span class="o">*</span> <span class="n">hc</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">ho</span> <span class="o">*</span> <span class="n">tanh</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">h</span> <span class="err">@</span> <span class="n">Wy</span> <span class="o">+</span> <span class="n">by</span>
+    <span class="n">prob</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="n">state</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="c"># Cache the states of current h &amp; c for next iter</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="o">...</span> <span class="c"># Add all intermediate variables to this cache</span>
+
+    <span class="k">return</span> <span class="n">prob</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">cache</span>
+</code></pre></div></div>
+
+<p>The above code is for the forward step for a single LSTM cell, which identically follows the formula above. The only additions are the one-hot encoding and the hidden-input concatenation process.</p>
+
+<h2 class="section-heading">LSTM Backward</h2>
+
+<p>Now, we will dive into the main point of this post: LSTM backward computation. We will assume that derivative function for <code class="highlighter-rouge">sigmoid</code> and <code class="highlighter-rouge">tanh</code> are already known.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">lstm_backward</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">d_next</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+    <span class="c"># Unpack the cache variable to get the intermediate variables used in forward step</span>
+    <span class="o">...</span> <span class="o">=</span> <span class="n">cache</span>
+    <span class="n">dh_next</span><span class="p">,</span> <span class="n">dc_next</span> <span class="o">=</span> <span class="n">d_next</span>
+
+    <span class="c"># Softmax loss gradient</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">prob</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">dy</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">y_train</span><span class="p">]</span> <span class="o">-=</span> <span class="mf">1.</span>
+
+    <span class="c"># Hidden to output gradient</span>
+    <span class="n">dWy</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">T</span> <span class="err">@</span> <span class="n">dy</span>
+    <span class="n">dby</span> <span class="o">=</span> <span class="n">dy</span>
+    <span class="c"># Note we're adding dh_next here</span>
+    <span class="n">dh</span> <span class="o">=</span> <span class="n">dy</span> <span class="err">@</span> <span class="n">Wy</span><span class="o">.</span><span class="n">T</span> <span class="o">+</span> <span class="n">dh_next</span>
+
+    <span class="c"># Gradient for ho in h = ho * tanh(c)</span>
+    <span class="n">dho</span> <span class="o">=</span> <span class="n">tanh</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">dh</span>
+    <span class="n">dho</span> <span class="o">=</span> <span class="n">dsigmoid</span><span class="p">(</span><span class="n">ho</span><span class="p">)</span> <span class="o">*</span> <span class="n">dho</span>
+
+    <span class="c"># Gradient for c in h = ho * tanh(c), note we're adding dc_next here</span>
+    <span class="n">dc</span> <span class="o">=</span> <span class="n">ho</span> <span class="o">*</span> <span class="n">dh</span> <span class="o">*</span> <span class="n">dtanh</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">dc</span> <span class="o">=</span> <span class="n">dc</span> <span class="o">+</span> <span class="n">dc_next</span>
+
+    <span class="c"># Gradient for hf in c = hf * c_old + hi * hc</span>
+    <span class="n">dhf</span> <span class="o">=</span> <span class="n">c_old</span> <span class="o">*</span> <span class="n">dc</span>
+    <span class="n">dhf</span> <span class="o">=</span> <span class="n">dsigmoid</span><span class="p">(</span><span class="n">hf</span><span class="p">)</span> <span class="o">*</span> <span class="n">dhf</span>
+
+    <span class="c"># Gradient for hi in c = hf * c_old + hi * hc</span>
+    <span class="n">dhi</span> <span class="o">=</span> <span class="n">hc</span> <span class="o">*</span> <span class="n">dc</span>
+    <span class="n">dhi</span> <span class="o">=</span> <span class="n">dsigmoid</span><span class="p">(</span><span class="n">hi</span><span class="p">)</span> <span class="o">*</span> <span class="n">dhi</span>
+
+    <span class="c"># Gradient for hc in c = hf * c_old + hi * hc</span>
+    <span class="n">dhc</span> <span class="o">=</span> <span class="n">hi</span> <span class="o">*</span> <span class="n">dc</span>
+    <span class="n">dhc</span> <span class="o">=</span> <span class="n">dtanh</span><span class="p">(</span><span class="n">hc</span><span class="p">)</span> <span class="o">*</span> <span class="n">dhc</span>
+
+    <span class="c"># Gate gradients, just a normal fully connected layer gradient</span>
+    <span class="n">dWf</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="err">@</span> <span class="n">dhf</span>
+    <span class="n">dbf</span> <span class="o">=</span> <span class="n">dhf</span>
+    <span class="n">dXf</span> <span class="o">=</span> <span class="n">dhf</span> <span class="err">@</span> <span class="n">Wf</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">dWi</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="err">@</span> <span class="n">dhi</span>
+    <span class="n">dbi</span> <span class="o">=</span> <span class="n">dhi</span>
+    <span class="n">dXi</span> <span class="o">=</span> <span class="n">dhi</span> <span class="err">@</span> <span class="n">Wi</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">dWo</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="err">@</span> <span class="n">dho</span>
+    <span class="n">dbo</span> <span class="o">=</span> <span class="n">dho</span>
+    <span class="n">dXo</span> <span class="o">=</span> <span class="n">dho</span> <span class="err">@</span> <span class="n">Wo</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">dWc</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span> <span class="err">@</span> <span class="n">dhc</span>
+    <span class="n">dbc</span> <span class="o">=</span> <span class="n">dhc</span>
+    <span class="n">dXc</span> <span class="o">=</span> <span class="n">dhc</span> <span class="err">@</span> <span class="n">Wc</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="c"># As X was used in multiple gates, the gradient must be accumulated here</span>
+    <span class="n">dX</span> <span class="o">=</span> <span class="n">dXo</span> <span class="o">+</span> <span class="n">dXc</span> <span class="o">+</span> <span class="n">dXi</span> <span class="o">+</span> <span class="n">dXf</span>
+    <span class="c"># Split the concatenated X, so that we get our gradient of h_old</span>
+    <span class="n">dh_next</span> <span class="o">=</span> <span class="n">dX</span><span class="p">[:,</span> <span class="p">:</span><span class="n">H</span><span class="p">]</span>
+    <span class="c"># Gradient for c_old in c = hf * c_old + hi * hc</span>
+    <span class="n">dc_next</span> <span class="o">=</span> <span class="n">hf</span> <span class="o">*</span> <span class="n">dc</span>
+
+    <span class="n">grad</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">Wf</span><span class="o">=</span><span class="n">dWf</span><span class="p">,</span> <span class="n">Wi</span><span class="o">=</span><span class="n">dWi</span><span class="p">,</span> <span class="n">Wc</span><span class="o">=</span><span class="n">dWc</span><span class="p">,</span> <span class="n">Wo</span><span class="o">=</span><span class="n">dWo</span><span class="p">,</span> <span class="n">Wy</span><span class="o">=</span><span class="n">dWy</span><span class="p">,</span> <span class="n">bf</span><span class="o">=</span><span class="n">dbf</span><span class="p">,</span> <span class="n">bi</span><span class="o">=</span><span class="n">dbi</span><span class="p">,</span> <span class="n">bc</span><span class="o">=</span><span class="n">dbc</span><span class="p">,</span> <span class="n">bo</span><span class="o">=</span><span class="n">dbo</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="n">dby</span><span class="p">)</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="p">(</span><span class="n">dh_next</span><span class="p">,</span> <span class="n">dc_next</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">grad</span><span class="p">,</span> <span class="n">state</span>
+</code></pre></div></div>
+
+<p>A bit long isn’t it? However, actually it’s easy enough to derive the LSTM gradients if you understand how to take a partial derivative of a function and how to do chain rule, albeit some tricky stuffs are going on here. For this, I would recommend <a href="http://cs231n.github.io/optimization-2/">CS231n</a>.</p>
+
+<p>Things that are tricky and not-so-obvious when deriving the LSTM gradients are:</p>
+
+<ol>
+  <li>Adding <code class="highlighter-rouge">dh_next</code> to <code class="highlighter-rouge">dh</code>, because <code class="highlighter-rouge">h</code> is branched in forward propagation: it was used in <code class="highlighter-rouge">y = h @ Wy + by</code> and the next time step, concatenated with <code class="highlighter-rouge">x</code>. Hence the gradient is split and has to be added here.</li>
+  <li>Adding <code class="highlighter-rouge">dc_next</code> to <code class="highlighter-rouge">dc</code>. Identical reason with above.</li>
+  <li>Adding <code class="highlighter-rouge">dX = dXo + dXc + dXi + dXf</code>. Similar reason with above: X is used in many places so the gradient is split and need to be accumulated back.</li>
+  <li>Getting <code class="highlighter-rouge">dh_next</code> which is the gradient of <code class="highlighter-rouge">h_old</code>. As <code class="highlighter-rouge">X = [h_old, x]</code>, then <code class="highlighter-rouge">dh_next</code> is just a reverse concatenation: split operation on <code class="highlighter-rouge">dX</code>.</li>
+</ol>
+
+<p>With the forward and backward computation implementations in hands, we could stitch them together to get a full training step that would be useful for optimization algorithms.</p>
+
+<h2 class="section-heading">LSTM Training Step</h2>
+
+<p>This training step consists of three steps: forward computation, loss calculation, and backward computation.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train_step</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">caches</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">h</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">state</span>
+
+    <span class="c"># Forward Step</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y_true</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>
+        <span class="n">prob</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">lstm_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">+=</span> <span class="n">cross_entropy</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">y_true</span><span class="p">)</span>
+
+        <span class="c"># Store forward step result to be used in backward step</span>
+        <span class="n">probs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span>
+        <span class="n">caches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cache</span><span class="p">)</span>
+
+    <span class="c"># The loss is the average cross entropy</span>
+    <span class="n">loss</span> <span class="o">/=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c"># Backward Step</span>
+
+    <span class="c"># Gradient for dh_next and dc_next is zero for the last timestep</span>
+    <span class="n">d_next</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">h</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+    <span class="n">grads</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="c"># Go backward from the last timestep to the first</span>
+    <span class="k">for</span> <span class="n">prob</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">cache</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">caches</span><span class="p">))):</span>
+        <span class="n">grad</span><span class="p">,</span> <span class="n">d_next</span> <span class="o">=</span> <span class="n">lstm_backward</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">d_next</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>
+
+        <span class="c"># Accumulate gradients from all timesteps</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">grads</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">grads</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">grad</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">grads</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">state</span>
+</code></pre></div></div>
+
+<p>In the full training step, first we’re do full forward propagation on all items in training set, then store the results which are the softmax probabilities and cache of each timestep into a list, because we are going to use it in backward step.</p>
+
+<p>Next, at each timestep, we can calculate the cross entropy loss (because we’re using softmax). We then accumulate all of those loss in every timestep, then average them.</p>
+
+<p>Lastly, we do backpropagation based on the forward step results. Notice while we’re iterating the data forward in forward step, we’re going the reverse direction here.</p>
+
+<p>Also notice that <code class="highlighter-rouge">dh_next</code> and <code class="highlighter-rouge">dc_next</code> for the first timestep in backward step is zero. Why? This is because at the last timestep in forward propagation, <code class="highlighter-rouge">h</code> and <code class="highlighter-rouge">c</code> won’t be used in the next timestep, as there are no more timestep! So, the gradient of <code class="highlighter-rouge">h</code> and <code class="highlighter-rouge">c</code> in the last timestep are not split and could be derived directly without <code class="highlighter-rouge">dh_next</code> and <code class="highlighter-rouge">dc_next</code>.</p>
+
+<p>With this function in hands, we could plug this to any optimization algorithm like RMSProp, Adam, etc with some modification. Namely, we have to take account on the state of the network. So, the state for the current timestep need to be passed to the next timestep.</p>
+
+<p>And, that’s it. We can train our LSTM net now!</p>
+
+<h2 class="section-heading">Test Result</h2>
+
+<p>Using Adam to optimize the network, here’s the result when I feed a copy-pasted text about Japan from Wikipedia. Each data is a character in the text. The target is the next character.</p>
+
+<p>After each 100 iterations, the network are sampled.</p>
+
+<p>It works like this:</p>
+
+<ol>
+  <li>Do forward propagation and get the softmax distribution</li>
+  <li>Sample the distribution</li>
+  <li>Feed the sampled character as the input of next time step</li>
+  <li>Repeat</li>
+</ol>
+
+<p>And here’s the snippet of the results:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=========================================================================
+Iter-100 loss: 4.2125
+=========================================================================
+best c ehpnpgteHihcpf,M tt" ao tpo Teoe ep S4 Tt5.8"i neai   neyoserpiila o  rha aapkhMpl rlp pclf5i
+=========================================================================
+
+...
+
+=========================================================================
+Iter-52800 loss: 0.1233
+=========================================================================
+tary shoguns who ruled in the name of the Uprea wal motrko, the copulation of Japan is a sour the wa
+=========================================================================
+</code></pre></div></div>
+
+<p>Our network definitely learned something here!</p>
+
+<h2 class="section-heading">Conclusion</h2>
+
+<p>Here, we looked at the general formula for LSTM and implement the forward propagation step based on it, which is very straightforward to do.</p>
+
+<p>Then, we derived the backward computation step. This step was also straightforward, but there were some tricky stuffs that we had to ponder about, especially the recurrency step in <code class="highlighter-rouge">h</code> and <code class="highlighter-rouge">c</code>.</p>
+
+<p>We then stitched the forward and backward step together to build the full training step that can be used with any optimization algorithm.</p>
+
+<p>Lastly, we tried to run the network using some test data and showed that the network was learning by looking at the loss value and the sample of text that are produced by the network.</p>
+
+<h2 class="section-heading">References</h2>
+
+<ul>
+  <li><a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">http://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></li>
+  <li><a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">http://karpathy.github.io/2015/05/21/rnn-effectiveness/</a></li>
+  <li><a href="http://cs231n.github.io/optimization-2/">http://cs231n.github.io/optimization-2/</a></li>
+  <li><a href="https://gist.github.com/karpathy/d4dee566867f8291f086">https://gist.github.com/karpathy/d4dee566867f8291f086</a></li>
+</ul>
+
+                </div>
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="https://wiseodd.github.io/travel/2016/07/29/iran-voa-guide/" data-toggle="tooltip" data-placement="top" title="" data-original-title="Guide to Get Iranian Visa on Arrival">← Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="https://wiseodd.github.io/techblog/2016/08/15/jekyll-fb-share/" data-toggle="tooltip" data-placement="top" title="" data-original-title="How to Use Specific Image and Description when Sharing Jekyll Post to Facebook">Next Post →</a>
+                    </li>
+                    
+                </ul>
+
+                <hr>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="https://wiseodd.github.io/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/wiseodd">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright © Agustinus Kristiadi's Blog 2018</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="./Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi&#39;s Blog_files/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="./Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi&#39;s Blog_files/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="./Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi&#39;s Blog_files/clean-blog.min.js"></script>
+
+<script src="./Deriving LSTM Gradient for Backpropagation - Agustinus Kristiadi&#39;s Blog_files/MathJax.js" id=""></script>
+
+
+
+
+
+</body></html>

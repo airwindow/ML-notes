@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!-- saved from url=(0300)https://pippio.com/api/sync?pid=1391&ref=http%3A%2F%2Ffreerangestats.info%2Fblog%2F2016%2F12%2F10%2Fextrapolation&it=1&iv=c90r5rfg2krgb0b&it=4&iv=16fafbc0cf00318716cee58c39249991&it=4&iv=8a03bbc811f772aaee6fb083632d916723cd6dcb&it=4&iv=bf5df003831960c6bf0c7f258b1986775ee4066731cf00229ab821d906c1d318 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><meta name="referrer" content="no-referrer"><script>
+		var f = function () {
+	function loadChains(chains, limit, onChainDone) {
+    function newImageLoader(url) {
+        return function () {
+            var e = new Image();
+            addListeners(e);
+            e.src = url;
+        };
+    }
+
+    function newScriptLoader(url) {
+        return function () {
+            var e = document.createElement('script');
+            e.type = 'text/javascript';
+            e.async = true;
+            addListeners(e);
+            e.src = url;
+            document.head.appendChild(e);
+        };
+    }
+
+    function newIframeLoader(url) {
+        return function () {
+            var e = document.createElement('iframe');
+            e.style.display = 'none';
+            e.width = 1;
+            e.height = 1;
+            addListeners(e);
+            e.src = url;
+            document.body.appendChild(e);
+        };
+    }
+
+    function addListeners(e) {
+        addLoadErrorListeners(e, loadNext);
+        if (typeof onChainDone === 'function') {
+            addLoadErrorListeners(e, onChainDone);
+        }
+    }
+
+    function addLoadErrorListeners(e, listener) {
+        if (typeof e.addEventListener === 'function') {
+            e.addEventListener('load', listener, false);
+            e.addEventListener('error', listener, false);
+        } else if (typeof e.attachEvent === 'function') {
+            e.attachEvent('onload', listener);
+            e.attachEvent('onerror', listener);
+        }
+    }
+
+    function loadNext() {
+        var next = loaders.shift();
+        if (typeof next === "function") {
+            setTimeout(next);
+        }
+    }
+
+    var loaders = chains.reduce(function (acc, value) {
+        var mode = value[0];
+        var url = value[1];
+
+        switch (mode) {
+            case 'image':
+                acc.push(newImageLoader(url));
+                break;
+            case 'script':
+                acc.push(newScriptLoader(url));
+                break;
+            case 'iframe':
+                acc.push(newIframeLoader(url));
+                break;
+        }
+        return acc;
+    }, []);
+
+    for (var i = 0; i < limit; i++) {
+        loadNext();
+    }
+}
+
+	var chains = [];
+	chains.push(['image', 'https://e.dlx.addthis.com/e/a-1137/s-7715?ret=img&na_em=55515a119f7033382b074a49c16f3fcfb5e9a4f1&na_em=8a03bbc811f772aaee6fb083632d916723cd6dcb&na_ci=Ke4LS2mf7iFpzR5oPbLxuPDDOQ&na_sp=2166']);
+	chains.push(['image', 'https://ei.rlcdn.com/448046.gif?n=1&partner_site_id=1017&m=16fafbc0cf00318716cee58c39249991&s=8a03bbc811f772aaee6fb083632d916723cd6dcb&s256=bf5df003831960c6bf0c7f258b1986775ee4066731cf00229ab821d906c1d318']);
+	chains.push(['image', 'https://aa.agkn.com/adscores/s.pixel?sid=9102280158&em=8a03bbc811f772aaee6fb083632d916723cd6dcb']);
+	chains.push(['image', 'https://s.thebrighttag.com/px?site=h9JOopZ&referrer=he%3Aevent&e_md5=16fafbc0cf00318716cee58c39249991&e_sha1=8a03bbc811f772aaee6fb083632d916723cd6dcb&e_sha256=bf5df003831960c6bf0c7f258b1986775ee4066731cf00229ab821d906c1d318']);
+	chains.push(['image', 'https://tr.snapchat.com/cs/r?u_hem=bf5df003831960c6bf0c7f258b1986775ee4066731cf00229ab821d906c1d318']);
+	chains.push(['image', 'https://p.adsymptotic.com/d/px/?_pid=15577&_psign=0c2a910e9546544e39482a0408efbc33&_puuid=16fafbc0cf00318716cee58c39249991&_rand=06318172']);
+	chains.push(['image', 'https://pix.cdnwidget.com/hash.gif?md5=16fafbc0cf00318716cee58c39249991&sha1=8a03bbc811f772aaee6fb083632d916723cd6dcb&sha256=bf5df003831960c6bf0c7f258b1986775ee4066731cf00229ab821d906c1d318']);
+	chains.push(['image', 'https://prospect-cm.dsp.linksynergy.com/sync?nw_id=liverampProspecting&nw_uid3=']);
+	chains.push(['image', 'https://ib.adnxs.com/getuid?https%3A%2F%2Fs.cpx.to%2Fca.png%3Fref%3Dhttp%253A%252F%252Ffreerangestats.info%252Fblog%252F2016%252F12%252F10%252Fextrapolation%26pid%3D11718%26url%3Dhttp%253A%252F%252Ffreerangestats.info%252Fblog%252F2016%252F12%252F10%252Fextrapolation%26adnxs_uid%3D%24UID']);
+	chains.push(['image', 'https://tag.apxlv.com/tag/partner/222?pixel_mode=pixel']);
+	chains.push(['image', 'https://p.adsymptotic.com/d/px?_pid=13553&_psign=9e62e5c043ecadc9479a0ccac401dd7d']);
+	chains.push(['image', 'https://rc.rlcdn.com/456809.gif?n=8']);
+	chains.push(['image', 'https://rc.rlcdn.com/456809.gif?n=5']);
+	chains.push(['image', 'https://rc.rlcdn.com/456809.gif?n=10']);
+	chains.push(['image', 'https://rc.rlcdn.com/456809.gif?n=4']);
+
+	loadChains(chains, 10, (typeof onDone === "function") ? onDone : null);
+		};
+
+		if (document.body) { f(); } else { document.addEventListener('DOMContentLoaded', f); }
+	</script>
+</head><body></body></html>

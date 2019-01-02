@@ -1,0 +1,21 @@
+
+var ftGUID_3353186="3411715F287F80";
+var ftConfID_3353186="0";
+var ftParams_3353186="ftx=&fty=&ftadz=&ftscw=&ft_custom=&ftOBA=1&ft_ifb=1&ft_domain=stackoverflow.com&ft_agentEnv=0&ft_referrer=https%3A%2F%2Fstackoverflow.com%2Fquestions%2F40761185%2Fwhat-is-the-intuition-of-using-tanh-in-lstm&cachebuster=424864.39600174554";
+var ftKeyword_3353186="";
+var ftCustom_3353186="";
+var ftSection_3353186="";
+var ftSegment_3353186="n15,gxl,g95,h3b,k58en_US,g9525407_20170527_20170529,n7h,f5t,igp,o2y,igk,qov,qui,ign,rpo,igo,n68,rej,rrb,rre,sio,sou,ore,ny7,n7c,tga,hqf,g9u,ipv,ipu,tg1,tm1,n7a,qof,tapNYC_BOS,o5e,g9uBOS_NYC_20180523_20180524,ipvNYC_20180523_20180524,npo,ujb,uip,t3y,u30,um2,tf8,vr0,twv,v6j,ut2,ulp,vmd";
+var ftSegmentList_3353186=[{s:'n15'},{s:'gxl'},{m:'hca_v',s:'g95'},{m:'h3b_v',s:'h3b'},{m:'k58_v',s:'k58en_US'},{m:'g95_v',s:'g9525407_20170527_20170529'},{s:'n7h'},{s:'f5t'},{s:'igp'},{s:'o2y',t:35272200},{s:'igk'},{s:'qov'},{s:'qui'},{s:'ign'},{s:'rpo'},{s:'igo'},{s:'n68'},{s:'rej'},{s:'rrb'},{s:'rre'},{s:'sio'},{s:'sou'},{m:'c5163_lastviewed_14day',s:'ore',t:36500000},{s:'ny7'},{s:'n7c'},{s:'tga',t:38740000},{m:'ipu_v',s:'hqf'},{s:'g9u'},{s:'ipv'},{s:'ipu'},{s:'tg1'},{s:'tm1'},{s:'n7a'},{s:'qof'},{m:'c1777_priceline',s:'tapNYC_BOS'},{s:'o5e'},{m:'g9u_v',s:'g9uBOS_NYC_20180523_20180524'},{m:'ipv_v',s:'ipvNYC_20180523_20180524'},{s:'npo',t:37940000},{s:'ujb'},{s:'uip'},{s:'t3y'},{s:'u30'},{s:'um2'},{s:'tf8',t:38740000},{s:'vr0'},{s:'twv'},{s:'v6j'},{m:'c4752_AdSelector',s:'ut2'},{s:'ulp'},{s:'vmd'}];
+var ftRuleMatch_3353186="0";
+var ftTimestamp_3353186="1544627545";
+var ftImp3353186 = {};
+ftImp3353186.privacy = "x";
+ftImp3353186.guidAge = "587";
+ftImp3353186.impID = "99F83CA4-EC03-930B-E1E9-563697988AA4";
+
+ftImp3353186.ft_tpplid = "";
+ftImp3353186.ft_c = {};
+
+document.write('<scr'+'ipt src="https://cdn.flashtalking.com/xre/335/3353186/2438404/js/j-3353186-2438404.js" id="ftscript_m3353186" name="ftscript_m3353186"></scr'+'ipt>');
+                    
