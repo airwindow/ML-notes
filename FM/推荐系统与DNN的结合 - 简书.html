@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<!--[if IE 6]><html class="ie lt-ie8"><![endif]-->
+<!--[if IE 7]><html class="ie lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="ie ie8"><![endif]-->
+<!--[if IE 9]><html class="ie ie9"><![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width"/>
+  <meta name="HandheldFriendly" content="true"/>
+  <meta name="mobile-agent" content="format=html5;url=https://www.jianshu.com/p/9419c462ebd4">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description"  content="  这篇博客记录自己前段时间对基于DNN的推荐模型的学习，包括FM、FFM、DCN、PNN、AFM和XDeepFM。 FM   全称是Factorization Machine，分解机。FM的思想在于公式，也就是，如何将巨大的稀疏矩阵分解，用两个小的矩阵的乘积来表示。所以利用FM的思想就可以对二阶组合特征进行一定的变换，变换公式如下：借助对神经网络的理解，我们可以将看做是输入层的第个值经过神...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8" />
+  <meta property="wb:webmaster" content="294ec9de89e7fadb" />
+  <meta property="qc:admins" content="104102651453316562112116375" />
+  <meta property="qc:admins" content="11635613706305617" />
+  <meta property="qc:admins" content="1163561616621163056375" />
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4" />
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI" />
+  <meta http-equiv="mobile-agent" content="format=html5; url=https://www.jianshu.com/p/9419c462ebd4">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/38587278">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="推荐系统与DNN的结合" property="twitter:title">
+  <meta content="  这篇博客记录自己前段时间对基于DNN的推荐模型的学习，包括FM、FFM、DCN、PNN、AFM和XDeepFM。 FM   全称是Factorization Machin..." property="twitter:description">
+  <meta content="https://www.jianshu.com/p/9419c462ebd4" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="推荐系统与DNN的结合">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.jianshu.com/p/9419c462ebd4">
+  <meta property="og:description" content="  这篇博客记录自己前段时间对基于DNN的推荐模型的学习，包括FM、FFM、DCN、PNN、AFM和XDeepFM。 FM   全称是Factorization Machine，分解机。FM的思...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/38587278" />
+  <meta property="al:ios:app_store_id" content="888237539" />
+  <meta property="al:ios:app_name" content="简书" />
+
+  <meta property="al:android:url" content="jianshu://notes/38587278" />
+  <meta property="al:android:package" content="com.jianshu.haruki" />
+  <meta property="al:android:app_name" content="简书" />
+  <!-- End -->
+
+
+    <title>推荐系统与DNN的结合 - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="ilV8AtLo5/kUqSfD31yLOAxa0ePQQ5+vpTjDXjMWAj8uXpcc0quTHOHQtFwznagoP7TmaZT4VmHBi6boCFuOkw==" />
+
+  <link rel="stylesheet" media="all" href="//cdn2.jianshu.io/assets/web-274d6a76417c1f7a7da5.css" />
+  
+  <link rel="stylesheet" media="all" href="//cdn2.jianshu.io/assets/web/pages/notes/show/entry-aa75deb505b1b600256a.css" />
+
+  <link href="//cdn2.jianshu.io/assets/favicons/favicon-e743bfb1821442341c3ab15bdbe804f7ad97676bd07a770ccc9483473aa76f06.ico" rel="shortcut icon" type="image/x-icon">
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/57-a6f1f1ee62ace44f6dc2f6a08575abd3c3b163288881c78dd8d75247682a4b27.png" sizes="57x57" />
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/72-fb9834bcfce738fd7b9c5e31363e79443e09a81a8e931170b58bc815387c1562.png" sizes="72x72" />
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/76-49d88e539ff2489475d603994988d871219141ecaa0b1a7a9a1914f4fe3182d6.png" sizes="76x76" />
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/114-24252fe693524ed3a9d0905e49bff3cbd0228f25a320aa09053c2ebb4955de97.png" sizes="114x114" />
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/120-1bb7371f5e87f93ce780a5f1a05ff1b176828ee0d1d130e768575918a2e05834.png" sizes="120x120" />
+      <link rel="apple-touch-icon-precomposed" href="//cdn2.jianshu.io/assets/apple-touch-icons/152-bf209460fc1c17bfd3e2b84c8e758bc11ca3e570fd411c3bbd84149b97453b99.png" sizes="152x152" />
+
+  <!-- Start of 访问统计 -->
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+  <!-- End of 访问统计 -->
+</head>
+
+  <!-- 只给10%的用户添加代码 -->
+  <!-- ###第四范式-智能推荐：代码直接复制 无需修改参数### -->
+  <!-- ###功能：上报内容并反馈用户行为### -->
+  <!--
+  -->
+  <body lang="zh-CN" class="reader-black-font">
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="/"><img src="//cdn2.jianshu.io/assets/web/nav-logo-4c7bbafe27adc892f3046e6978459bac.png" alt="Nav logo" /></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" id="sign_up" href="/sign_up">注册</a>
+      <a class="btn log-in" id="sign_in" href="/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div id="view-mode-ctrl">
+    </div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="tab ">
+              <a href="/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="tab ">
+              <a id="web-nav-app-download-btn" class="app-download-btn" href="/apps?utm_medium=desktop&amp;utm_source=navbar-apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+              <input type="text" name="q" id="q" value="" autocomplete="off" placeholder="搜索" class="search-input" />
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+  <div id="note-fixed-ad-container">
+    <div id="fixed-ad-container">
+      <div id="write-notes-ad"></div>
+      <div id="youdao-fixed-ad"></div>
+      <div id="yuxi-fixed-ad"></div>
+      <div id="_so_pdsBy_0"></div>
+    </div>
+  </div>
+  <div class="post">
+    <div class="article">
+        <h1 class="title">推荐系统与DNN的结合</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="/u/7588bf1f08ff">
+            <img src="//upload.jianshu.io/users/upload_avatars/13223816/254e20d7-52b6-4157-8844-557bda49a553?imageMogr2/auto-orient/strip|imageView2/1/w/96/h/96" alt="96" />
+</a>          <div class="info">
+            <span class="name"><a href="/u/7588bf1f08ff">妖皇裂天</a></span>
+            <!-- 关注用户按钮 -->
+            <div props-data-classes="user-follow-button-header" data-author-follow-button></div>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 简书钻 -->
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time" data-toggle="tooltip" data-placement="bottom" title="最后编辑于 2018.12.24 11:03">2018.12.21 13:36*</span>
+              <span class="wordage">字数 1511</span>
+            </div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+
+
+        <!-- 文章内容 -->
+        <div data-note-content class="show-content">
+          <div class="show-content-free">
+            <p>  这篇博客记录自己前段时间对基于DNN的推荐模型的学习，包括FM、FFM、DCN、PNN、AFM和XDeepFM。</p>
+<h5>FM</h5>
+<p>  全称是Factorization Machine，分解机。FM的思想在于公式<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Csum_%7Bi%3D1%7D%5En%5Csum_%7Bj%3Di%2B1%7D%5EnW_%7Bij%7DX_iX_j%3D%5Csum_%7Bi%3D1%7D%5En%5Csum_%7Bj%3Di%2B1%7D%5En%3Cv_i%2Cv_j%3EX_iX_j" alt="\sum_{i=1}^n\sum_{j=i+1}^nW_{ij}X_iX_j=\sum_{i=1}^n\sum_{j=i+1}^n&lt;v_i,v_j&gt;X_iX_j" mathimg="1">，也就是<img class="math-inline" src="https://math.jianshu.com/math?formula=W_%7Bij%7D%3A%3D%3Cv_i%2Cv_j%3E" alt="W_{ij}:=&lt;v_i,v_j&gt;" mathimg="1">，如何将巨大的稀疏矩阵<img class="math-inline" src="https://math.jianshu.com/math?formula=W" alt="W" mathimg="1">分解，用两个小的矩阵的乘积来表示。所以利用FM的思想就可以对二阶组合特征<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Csum_%7Bi%3D1%7D%5En%5Csum_%7Bj%3Di%2B1%7D%5EnW_%7Bij%7DX_iX_j" alt="\sum_{i=1}^n\sum_{j=i+1}^nW_{ij}X_iX_j" mathimg="1">进行一定的变换，变换公式如下：<br>
+<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Cbegin%7Balign%7D%20%5Csum_%7Bi%3D1%7D%5En%5Csum_%7Bj%3Di%2B1%7D%5EnW_%7Bij%7DX_iX_j%20%26%3D%20%5Csum_%7Bi%3D1%7D%5En%5Csum_%7Bj%3Di%2B1%7D%5En%3Cv_i%2Cv_j%3EX_iX_j%20%5C%5C%20%26%3D%20%5Csum_%7Bi%3D1%7D%5En%5Csum_%7Bj%3Di%2B1%7D%5En%5Csum_%7Bf%3D1%7D%5Ek%20v_%7Bi%2Cf%7Dv_%7Bj%2Cf%7DX_iX_j%20%5C%5C%20%26%3D%20%5Ccfrac%7B1%7D%7B2%7D(%5Csum_%7Bi%3D1%7D%5En%5Csum_%7Bj%3D1%7D%5En%5Csum_%7Bf%3D1%7D%5Ek%20v_%7Bi%2Cf%7Dv_%7Bj%2Cf%7DX_iX_j-%20%5Csum_%7Bi%3D1%7D%5En%5Csum_%7Bf%3D1%7D%5Ekv_%7Bi%2Cf%7Dv_%7Bi%2Cf%7DX_iX_i)%20%5C%5C%20%26%3D%20%5Ccfrac%7B1%7D%7B2%7D%5Csum_%7Bf%3D1%7D%5Ek((%5Csum_%7Bi%3D1%7D%5Env_%7Bi%2Cf%7DX_i)*(%5Csum_%7Bj%3D1%7D%5Env_%7Bj%2Cf%7DX_j)-%5Csum_%7Bi%3D1%7D%5En(v_%7Bi%2Cf%7DX_i)%5E2)%20%5C%5C%20%26%3D%20%5Ccfrac%7B1%7D%7B2%7D%5Csum_%7Bf%3D1%7D%5Ek((%5Csum_%7Bi%3D1%7D%5Env_%7Bi%2Cf%7DX_i)%5E2-%5Csum_%7Bi%3D1%7D%5E2(v_%7Bi%2Cf%7DX_i)%5E2)%20%5Cend%7Balign%7D" alt="\begin{align} \sum_{i=1}^n\sum_{j=i+1}^nW_{ij}X_iX_j &amp;= \sum_{i=1}^n\sum_{j=i+1}^n&lt;v_i,v_j&gt;X_iX_j \\ &amp;= \sum_{i=1}^n\sum_{j=i+1}^n\sum_{f=1}^k v_{i,f}v_{j,f}X_iX_j \\ &amp;= \cfrac{1}{2}(\sum_{i=1}^n\sum_{j=1}^n\sum_{f=1}^k v_{i,f}v_{j,f}X_iX_j- \sum_{i=1}^n\sum_{f=1}^kv_{i,f}v_{i,f}X_iX_i) \\ &amp;= \cfrac{1}{2}\sum_{f=1}^k((\sum_{i=1}^nv_{i,f}X_i)*(\sum_{j=1}^nv_{j,f}X_j)-\sum_{i=1}^n(v_{i,f}X_i)^2) \\ &amp;= \cfrac{1}{2}\sum_{f=1}^k((\sum_{i=1}^nv_{i,f}X_i)^2-\sum_{i=1}^2(v_{i,f}X_i)^2) \end{align}" mathimg="1"><br>
+借助对神经网络的理解，我们可以将<img class="math-inline" src="https://math.jianshu.com/math?formula=v_%7Bi%2Cf%7Dx_i" alt="v_{i,f}x_i" mathimg="1">看做是输入层的第<img class="math-inline" src="https://math.jianshu.com/math?formula=i" alt="i" mathimg="1">个值经过神经网络后在隐层中的第<img class="math-inline" src="https://math.jianshu.com/math?formula=f" alt="f" mathimg="1">个神经元上得到的值，此时就可以将<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Csum_%7Bi%3D1%7D%5Env_%7Bi%2Cf%7DX_i" alt="\sum_{i=1}^nv_{i,f}X_i" mathimg="1">看作是<img class="math-inline" src="https://math.jianshu.com/math?formula=matmul(%5Cvec%7Bv%7D%2C%5Cvec%7Bx%7D)" alt="matmul(\vec{v},\vec{x})" mathimg="1">。那么公式中的<img class="math-inline" src="https://math.jianshu.com/math?formula=(%5Csum_%7Bi%3D1%7D%5Env_%7Bi%2Cf%7DX_i)%5E2" alt="(\sum_{i=1}^nv_{i,f}X_i)^2" mathimg="1">和<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Csum_%7Bi%3D1%7D%5E2(v_%7Bi%2Cf%7DX_i)%5E2" alt="\sum_{i=1}^2(v_{i,f}X_i)^2" mathimg="1">就可以用下面代码来实现。</p>
+<pre><code>sum_square_part = tf.pow(tf.matmul(x, tf.transpose(v)), 2)
+square_sum_part = tf.matmul(tf.pow(x, 2), tf.pow(v, 2))
+</code></pre>
+<p>当然也可以利用embedding的思想来理解FM，认为<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Cvec%7Bv%7D%20%5Ctimes%20%5Cvec%7Bx%7D" alt="\vec{v} \times \vec{x}" mathimg="1">就是将原始特征向量映射到一个新的低维空间中，用一个低维embedding向量来表示原始特征向量，此时可以利用tf.nn.embedding_lookup函数来实现特征向量的低维嵌入。<br>
+补充：tf.nn.embedding_lookup()中的核心就是gather函数，从array中取出特定的几行数据。因此我们可以用tf.gather()或者tf.gather_nd()实现embedding操作，其中，tf.gather()针对一维数据，而tf.gather_nd()针对多维数据。</p>
+<h5>FFM</h5>
+<p>  FFM可以理解为考虑了field的FM，与FM最大的不同在于分解矩阵的设定。FM的二阶组合特征式是<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Csum_%7Bi%3D1%7D%5En%5Csum_%7Bj%3Di%2B1%7D%5En%3Cv_i%2Cv_j%3EX_iX_j" alt="\sum_{i=1}^n\sum_{j=i+1}^n&lt;v_i,v_j&gt;X_iX_j" mathimg="1">，而FFM的二阶组合特征式是<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Csum_%7Bi%3D1%7D%5En%5Csum_%7Bj%3Di%2B1%7D%5En%3Cv_%7Bi%2Cf_j%7D%2Cv_%7Bj%2Cf_i%7D%3EX_iX_j" alt="\sum_{i=1}^n\sum_{j=i+1}^n&lt;v_{i,f_j},v_{j,f_i}&gt;X_iX_j" mathimg="1">。也就是说，FM中不同特征组合时使用的隐变量是唯一的，但是FFM中不同特征组合用的隐变量是不一样的。FM中值维护1个embedding矩阵，而FFM中要维护field个embedding矩阵（field是one hot前样本的特征数量），也就是要维度一个3维的embedding矩阵，维度是[feature_size, embedding_size, field_size]。下面用图表示：</p><div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 480px;">
+<div class="image-container-fill" style="padding-bottom: 44.080000000000005%;"></div>
+<div class="image-view" data-width="1089" data-height="480"><img data-original-src="//upload-images.jianshu.io/upload_images/13223816-a187a2138c9b633d.png" data-original-width="1089" data-original-height="480" data-original-format="image/png" data-original-filesize="19857"></div>
+</div>
+<div class="image-caption">FM和FFM的embedding表.png</div>
+</div>FM和FFM带来的改进是给LR加入了二阶组合特征，同时优化了二阶组合特征的计算和表示方式。其中，FM在计算上进行了优化，使得二阶组合特征的计算复杂度由<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=O(kn%5E2)" alt="O(kn^2)" mathimg="1"><div class="image-caption"></div>
+</div>降低到<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=O(kn)" alt="O(kn)" mathimg="1"><div class="image-caption"></div>
+</div>；而FFM则在FM的基础上对表示方式做了改进，FM和FFM都对one-hot后的稀疏特征进行了embedding操作，但是FM中每个稀疏特征只映射成1个隐变量，而FFM中每个稀疏特征都映射成field_size个隐变量，特征的表示更加多样，对应的二阶组合方式也就更多。<br>
+  其实FM和FFM与DNN并没有多大联系，但是想要了解推荐模型是如何与DNN结合的话，还是需要很好的理解FM。因为FM带来一个很重要的思想就是将高维稀疏特征映射到低维空间中，这在于DNN的结合中是至关重要的。因为推荐任务中特征经过one-hot后维度都会变得巨大，直接传给DNN带来的后果就是参数量爆炸，模型根本无法收敛，甚至都没法运行这个巨大的模型，所以后续基于DNN的推荐模型都是先对稀疏特征进行embedding操作的。<p></p>
+<h5>DCN</h5>
+<div class="image-package">
+<div class="image-container" style="max-width: 398px; max-height: 394px;">
+<div class="image-container-fill" style="padding-bottom: 98.99%;"></div>
+<div class="image-view" data-width="398" data-height="394"><img data-original-src="//upload-images.jianshu.io/upload_images/13223816-9f12e14cfdc0afd8.png" data-original-width="398" data-original-height="394" data-original-format="image/png" data-original-filesize="74091"></div>
+</div>
+<div class="image-caption">DCN.png</div>
+</div>
+<p>  DCN，全程是Deep&amp;Cross Network。模型有2个组成部分——Cross Network和Deep Network。显然模型的关键在于Cross Network的设计（说实话，我个人认为与DNN结合的模型一般重点都不在DNN的设计上，更多在于输入特征的处理方式或者并行网络的设计上）。Cross Network的核心思想是以有效的方式应用显式特征交叉，Cross Network由cross layer组成，每个cross layer公式是：<img class="math-block" src="https://math.jianshu.com/math?formula=X_%7Bl%2B1%7D%3DX_0%20%5Cotimes%20X_l%5ET%20*%20W_l%2Bb_l%2BX_l%3Df(X_l%2CW_l%2Cb_l)%2BX_l" alt="X_{l+1}=X_0 \otimes X_l^T * W_l+b_l+X_l=f(X_l,W_l,b_l)+X_l" mathimg="1">可见Cross Network中<img class="math-inline" src="https://math.jianshu.com/math?formula=l" alt="l" mathimg="1">层的输出<img class="math-inline" src="https://math.jianshu.com/math?formula=X_%7Bl%2B1%7D" alt="X_{l+1}" mathimg="1">与<img class="math-inline" src="https://math.jianshu.com/math?formula=X_0" alt="X_0" mathimg="1">和<img class="math-inline" src="https://math.jianshu.com/math?formula=l" alt="l" mathimg="1">层输入<img class="math-inline" src="https://math.jianshu.com/math?formula=X_l" alt="X_l" mathimg="1">相关，交叉特征的交叉程度随着层深度的增加而增加。Cross Network的参数量是<img class="math-inline" src="https://math.jianshu.com/math?formula=%E4%BA%A4%E5%8F%89%E5%B1%82%E6%95%B0*%E8%BE%93%E5%85%A5%E7%BB%B4%E5%BA%A6*2" alt="交叉层数*输入维度*2" mathimg="1">，“2”包含了<img class="math-inline" src="https://math.jianshu.com/math?formula=W" alt="W" mathimg="1">和<img class="math-inline" src="https://math.jianshu.com/math?formula=b" alt="b" mathimg="1">。Cross layer实现代码如下：</p>
+<pre><code>x_l = tf.tensordot(tf.matmul(x0, x_l, transpose_b=True), weights['cross_layer_%d' % l], 1) 
+      + weights['cross_layer_%d' % l] + x_l
+</code></pre>
+<p>补充1：公式右边最后一项<img class="math-inline" src="https://math.jianshu.com/math?formula=%2BX_L" alt="+X_L" mathimg="1">借鉴了残差网络的思想。<br>
+补充2：Cross layer的实现可以进行改进。上面的实现代码并没有逻辑上的bug，但是这种实现方式是非常消耗计算和存储资源的，原因就在于<img class="math-inline" src="https://math.jianshu.com/math?formula=X_0%20%5Cotimes%20X_l" alt="X_0 \otimes X_l" mathimg="1">这一步是极度浪费计算和存储资源的。更好的实现方式是将计算过程由<img class="math-inline" src="https://math.jianshu.com/math?formula=(X_0%20%5Cotimes%20X_l)%20*%20W_l" alt="(X_0 \otimes X_l) * W_l" mathimg="1">改为<img class="math-inline" src="https://math.jianshu.com/math?formula=X_0%20*%20(X_l%20%5Cotimes%20W_l)" alt="X_0 * (X_l \otimes W_l)" mathimg="1">，因为<img class="math-inline" src="https://math.jianshu.com/math?formula=X_0%20%5Cotimes%20X_l" alt="X_0 \otimes X_l" mathimg="1">得到的是一个大的2维矩阵，而<img class="math-inline" src="https://math.jianshu.com/math?formula=X_l%20%5Cotimes%20W_l" alt="X_l \otimes W_l" mathimg="1">得到的是一个标量。详细的解释看知乎上的这篇<a href="https://zhuanlan.zhihu.com/p/43364598" target="_blank" rel="nofollow">文章</a>。</p>
+<h5>PNN</h5>
+<div class="image-package">
+<div class="image-container" style="max-width: 658px; max-height: 484px;">
+<div class="image-container-fill" style="padding-bottom: 73.56%;"></div>
+<div class="image-view" data-width="658" data-height="484"><img data-original-src="//upload-images.jianshu.io/upload_images/13223816-22a4d25b37f9dd8a.png" data-original-width="658" data-original-height="484" data-original-format="image/png" data-original-filesize="73267"></div>
+</div>
+<div class="image-caption">PNN.png</div>
+</div>
+<p>  PNN，全称是Product-based Neural Network，关键在于提出了product layer，放在embedding层和DNN之间，对embedding后的特征向量进行基于乘法的特征交叉操作。Product的思想来源于，CTR预估认为特征之间的关系更多的是一种and“且”的关系，而非add“加”（个人认为DNN中实现的特征交互本质上就是add“加”）的关系。<br>
+  Product layer分为两部分——线性部分<img class="math-inline" src="https://math.jianshu.com/math?formula=l_z" alt="l_z" mathimg="1">和非线性部分<img class="math-inline" src="https://math.jianshu.com/math?formula=l_p" alt="l_p" mathimg="1">。其中，<img class="math-block" src="https://math.jianshu.com/math?formula=%5Cbegin%7Balign%7D%20%26%20l_z%3D(l_z%5E1%2Cl_z%5E2%2C...%2Cl_z%5E%7BD_1%7D)%2Cl_z%5En%3DW_z%5En%20%5Codot%20Z%20%5C%5C%20%26%20l_p%3D(l_p%5E1%2Cl_p%5E2%2C...%2Cl_p%5E%7BD_1%7D)%2Cl_p%5En%3DW_p%5En%20%5Codot%20P%20%5Cend%7Balign%7D" alt="\begin{align} &amp; l_z=(l_z^1,l_z^2,...,l_z^{D_1}),l_z^n=W_z^n \odot Z \\ &amp; l_p=(l_p^1,l_p^2,...,l_p^{D_1}),l_p^n=W_p^n \odot P \end{align}" mathimg="1">线性部分有：<img class="math-block" src="https://math.jianshu.com/math?formula=%5Cbegin%7Balign%7D%20%26%20l_z%5En%3DW_z%5En%20%5Codot%20Z%3D%5Csum_%7Bi%3D1%7D%5EN%20%5Csum_%7Bj%3D1%7D%5EM(W_z%5En)_%7Bi%2Cj%7DZ_%7Bi%2Cj%7D%20%5C%5C%20%26%20Z%3D(Z_1%2CZ_2%2C...%2CZ_N)%20%5Cdoteq%20(f_1%2Cf_1%2C...%2Cf_N)%20%5Cend%7Balign%7D" alt="\begin{align} &amp; l_z^n=W_z^n \odot Z=\sum_{i=1}^N \sum_{j=1}^M(W_z^n)_{i,j}Z_{i,j} \\ &amp; Z=(Z_1,Z_2,...,Z_N) \doteq (f_1,f_1,...,f_N) \end{align}" mathimg="1"> <img class="math-inline" src="https://math.jianshu.com/math?formula=W" alt="W" mathimg="1">的维度是<img class="math-inline" src="https://math.jianshu.com/math?formula=%5BN%2CM%2CD_1%5D" alt="[N,M,D_1]" mathimg="1">，所以线性部分中每个特征点都可以看作是embedding特征矩阵的加权和，可见上面PNN的图中线性部分是有问题的，线性部分中每个点都跟所有的embedding向量有关，而不是只跟一个有关。<br>
+非线性部分则分为2种计算方式，因为P的定义分为2种——内积和外积。内积也就是两个embedding向量进行点积，外积就是两个embedding向量进行矩阵乘法（其中一个embedding向量需要进行转置）。<br>
+内积：此时<img class="math-inline" src="https://math.jianshu.com/math?formula=P_%7Bi%2Cj%7D%3D%3Cf_i%2Cf_j%3E" alt="P_{i,j}=&lt;f_i,f_j&gt;" mathimg="1">，可见<img class="math-inline" src="https://math.jianshu.com/math?formula=P" alt="P" mathimg="1">是2维对称矩阵，<img class="math-inline" src="https://math.jianshu.com/math?formula=W%5En" alt="W^n" mathimg="1">也可以分解成两个向量做外积，即<img class="math-inline" src="https://math.jianshu.com/math?formula=W%5En%3D%5Ctheta%5En%20%5Cotimes%20(%5Ctheta%5En)%5ET" alt="W^n=\theta^n \otimes (\theta^n)^T" mathimg="1">。所以<img class="math-inline" src="https://math.jianshu.com/math?formula=l_p%5En%3DW_p%5En%20%5Codot%20P%3D%5Csum_%7Bi%3D1%7D%5EN%20%5Csum_%7Bj%3D1%7D%5EN%5Ctheta_i%5En%5Ctheta_j%5Enf_i%20f_j%3D%5Csum_%7Bi%3D1%7D%5EN%5Ctheta_i%5Enf_i%20%5Csum_%7Bj%3D1%7D%5EN%5Ctheta_j%5Enf_j%3D(%5Csum_%7Bi%3D1%7D%5EN%5Ctheta_i%5Enf_i)%5E2" alt="l_p^n=W_p^n \odot P=\sum_{i=1}^N \sum_{j=1}^N\theta_i^n\theta_j^nf_i f_j=\sum_{i=1}^N\theta_i^nf_i \sum_{j=1}^N\theta_j^nf_j=(\sum_{i=1}^N\theta_i^nf_i)^2" mathimg="1">。假设<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Cdelta_i%5En%3D%5Ctheta_i%5Enf_i" alt="\delta_i^n=\theta_i^nf_i" mathimg="1">，那么有<img class="math-inline" src="https://math.jianshu.com/math?formula=l_p%5En%3D(%5Csum_%7Bi%3D1%7D%5EN%5Cdelta_i%5En)%5E2" alt="l_p^n=(\sum_{i=1}^N\delta_i^n)^2" mathimg="1">。从这里的定义可以看出，如果选择product选择内积，那么非线性部分中每个点也是跟所有的embedding向量有关，而不是只跟两个有关，所以上图中非线性部分也画错了。<br>
+外积：此时<img class="math-inline" src="https://math.jianshu.com/math?formula=P_%7Bi%2Cj%7D%3Df_if_j%5ET" alt="P_{i,j}=f_if_j^T" mathimg="1">，每两个embedding特征向量左外积就可以得到一个矩阵<img class="math-inline" src="https://math.jianshu.com/math?formula=P_%7Bi%2Cj%7D" alt="P_{i,j}" mathimg="1">。论文中定义外积的<img class="math-inline" src="https://math.jianshu.com/math?formula=P%3D%5Csum_%7Bi%3D1%7D%5EN%20%5Csum_%7Bj%3D1%7D%5EN%20p_%7Bi%2Cj%7D" alt="P=\sum_{i=1}^N \sum_{j=1}^N p_{i,j}" mathimg="1">，也就是所有外积矩阵的和，然后再对这个<img class="math-inline" src="https://math.jianshu.com/math?formula=P" alt="P" mathimg="1">求加权和得到非线性部分的一个点。可见外积形式下非线性部分每个点也是跟所有embedding特征向量有关，所以确定PNN图中product layer那一部分是错误的。</p>
+<h5>AFM</h5>
+<p></p><div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 263px;">
+<div class="image-container-fill" style="padding-bottom: 36.08%;"></div>
+<div class="image-view" data-width="729" data-height="263"><img data-original-src="//upload-images.jianshu.io/upload_images/13223816-8e0dabbd21640aaa.png" data-original-width="729" data-original-height="263" data-original-format="image/png" data-original-filesize="67097"></div>
+</div>
+<div class="image-caption">AFM.png</div>
+</div><br>
+  AFM，全程是Attentional Factorization Machine，从名字就可以看出AFM是在FM的基础上加上了attention机制。原始FM在进行预测时，FM会让一个特征映射成一个特定的向量，当这个特征与其他特征做交叉时都是用相同的向量去做计算。这是不合理的，因为特征A与特征B做交叉特征时A的重要程度和特征A与特征C做交叉特征时是不一样的。如何体现出这种差异性呢？除了FFM模型外，AFM中的attention机制就是做这个工作的。这里attention可以视为权重，衡量不同特征之间交互的重要程度。AFM和FM的实现公式对比如下：<div class="image-package">
+<img class="math-block" src="https://math.jianshu.com/math?formula=%5Cbegin%7Balign%7D%20y_%7BAFM%7D%26%3Dw_0%2B%5Csum_%7Bi%3D1%7D%5ENw_ix_i%2BP%5ET%5Csum_%7Bi%3D1%7D%5EN%5Csum_%7Bj%3Di%2B1%7D%5ENa_%7Bij%7D(%5Cvec%7Bv_i%7D%20%5Codot%20%5Cvec%7Bv_j%7D)x_ix_j%20%5C%5C%20y_%7BFM%7D%26%3Dw_0%2B%5Csum_%7Bi%3D1%7D%5ENw_ix_i%2B%5Csum_%7Bi%3D1%7D%5EN%5Csum_%7Bj%3Di%2B1%7D%5EN(%5Cvec%7Bv_i%7D%20%5Codot%20%5Cvec%7Bv_j%7D)x_ix_j%20%5Cend%7Balign%7D" alt="\begin{align} y_{AFM}&amp;=w_0+\sum_{i=1}^Nw_ix_i+P^T\sum_{i=1}^N\sum_{j=i+1}^Na_{ij}(\vec{v_i} \odot \vec{v_j})x_ix_j \\ y_{FM}&amp;=w_0+\sum_{i=1}^Nw_ix_i+\sum_{i=1}^N\sum_{j=i+1}^N(\vec{v_i} \odot \vec{v_j})x_ix_j \end{align}" mathimg="1"><div class="image-caption"></div>
+</div>其中，<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=a_%7Bij%7D" alt="a_{ij}" mathimg="1"><div class="image-caption"></div>
+</div>就是attention值，是将交叉特征向量传入attention网络（可以理解就是一个DNN）中学到权重。<br>
+AFM中的改进工作就是：<p></p>
+<ol>
+<li>对原始的one-hot特征进行embedding操作；</li>
+<li>对embedding特征进行两两交叉（相乘）并拼接得到组合特征向量；</li>
+<li>将组合特征向量传到attention网络中学习的组合特征向量对应的权重向量；</li>
+<li>将组合特征向量与权重向量相乘求和就得到了二阶部分的预测值。</li>
+</ol>
+<h5>xDeepFM</h5>
+<p></p><div class="image-package">
+<div class="image-container" style="max-width: 597px; max-height: 360px;">
+<div class="image-container-fill" style="padding-bottom: 60.3%;"></div>
+<div class="image-view" data-width="597" data-height="360"><img data-original-src="//upload-images.jianshu.io/upload_images/13223816-df474a827ddcf04c.png" data-original-width="597" data-original-height="360" data-original-format="image/png" data-original-filesize="57689"></div>
+</div>
+<div class="image-caption">XDeepFM.png</div>
+</div><br>
+  xDeepFM其实就是Cross Network和DeepFM结合起来，既有Cross Network中的显示高阶组合特征，又有DNN中的隐式高阶组合特征。不过xDeepFM中对Cross Network做了一定的改进，在DCN中已经提到了cross layer的公式<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=x_k%3Dx_0x_%7Bk-1%7D%5ETw_k%2Bb_k%2Bx_%7Bk-1%7D" alt="x_k=x_0x_{k-1}^Tw_k+b_k+x_{k-1}" mathimg="1"><div class="image-caption"></div>
+</div>，xDeepFM利用数学归纳法证明了上述公式可以变成<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=x_k%3D%5Calpha%5E%7Bi%2B1%7Dx_0" alt="x_k=\alpha^{i+1}x_0" mathimg="1"><div class="image-caption"></div>
+</div>，其中<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Calpha%5E%7Bi%2B1%7D%3D%5Calpha%5Ei(x_0%5ETw_%7Bi%2B1%7D%2B1)" alt="\alpha^{i+1}=\alpha^i(x_0^Tw_{i+1}+1)" mathimg="1"><div class="image-caption"></div>
+</div>是一个标量，但这并不意味着<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=x_k" alt="x_k" mathimg="1"><div class="image-caption"></div>
+</div>与<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=x_0" alt="x_0" mathimg="1"><div class="image-caption"></div>
+</div>线性相关，因为<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=x_0" alt="x_0" mathimg="1"><div class="image-caption"></div>
+</div>的乘子<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Calpha" alt="\alpha" mathimg="1"><div class="image-caption"></div>
+</div>与<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=x_0" alt="x_0" mathimg="1"><div class="image-caption"></div>
+</div>有关。不过这种形式的cross network还是有一些缺陷——输出格式受限（必须得和输入维度相同）和特征交互是bit级别的（没有体现出filed的概念）。而xDeepFM对cross network进行了改进，提出了CIN（Compressed Interaction Network）。下图是CIN的网络结构：<div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 461px;">
+<div class="image-container-fill" style="padding-bottom: 34.660000000000004%;"></div>
+<div class="image-view" data-width="1330" data-height="461"><img data-original-src="//upload-images.jianshu.io/upload_images/13223816-fc78af83bf91f4a1.png" data-original-width="1330" data-original-height="461" data-original-format="image/png" data-original-filesize="224005"></div>
+</div>
+<div class="image-caption">xDeepFM结构之CIN模块.png</div>
+</div><br>
+对应的公式是<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=X_%7Bh%2C%5Cast%7D%5Ek%3D%5Csum_%7Bi%3D1%7D%5E%7BH_%7Bk-1%7D%7D%5Csum_%7Bj%3D1%7D%5EmW_%7Bij%7D%5E%7Bk%2Ch%7D(X_%7Bi%2C%5Cast%7D%5E%7Bk-1%7D%20%5Codot%20X_%7Bj%2C%5Cast%7D%5E0)" alt="X_{h,\ast}^k=\sum_{i=1}^{H_{k-1}}\sum_{j=1}^mW_{ij}^{k,h}(X_{i,\ast}^{k-1} \odot X_{j,\ast}^0)" mathimg="1"><div class="image-caption"></div>
+</div>，此时输入<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=X%5E0" alt="X^0" mathimg="1"><div class="image-caption"></div>
+</div>并不是一个向量，而是矩阵，维度是<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=%5Bm%2C%5C%20%5Cast%5D" alt="[m,\ \ast]" mathimg="1"><div class="image-caption"></div>
+</div>，m表示有输入有m个embedding特征向量。CIN中第<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=k-1" alt="k-1" mathimg="1"><div class="image-caption"></div>
+</div>层的输出也是一个矩阵<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=X%5E%7Bk-1%7D" alt="X^{k-1}" mathimg="1"><div class="image-caption"></div>
+</div>，维度是<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=%5BH_%7Bk-1%7D%2C%5C%20%5Cast%5D" alt="[H_{k-1},\ \ast]" mathimg="1"><div class="image-caption"></div>
+</div>。此时<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=X%5E0" alt="X^0" mathimg="1"><div class="image-caption"></div>
+</div>和<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=X%5E%7Bk-1%7D" alt="X^{k-1}" mathimg="1"><div class="image-caption"></div>
+</div>并不能直接做外积，所以xDeepFM的做法是对<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=X%5E0" alt="X^0" mathimg="1"><div class="image-caption"></div>
+</div>和<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=X%5E%7Bk-1%7D" alt="X^{k-1}" mathimg="1"><div class="image-caption"></div>
+</div>做列切分，找相应列做外积，就可以得到一个3维的中间态矩阵。我们可以将这个中间态矩阵想象成图片经过CNN提取的特征图，对每张特征图求加权和就可以得到新向量中的一个点，也就是将原特征图压缩成一个向量。如果同一张特征图进行多次不同加权和，那么就可以得到多个向量中的点，这就是CIN中的压缩过程，图(b)展示了这一过程。CIN的另外一个改进就是并不是只输出最后一层的结果，而是对每一层的输出都进行sum pooling后，再将所有的输出拼接成一个向量作为最终的特征，这样就将不同阶的组合特征结合起来了，具体可看图(c)。这里挖个坑，后面再写论文对CIN的空间和时间复杂度的分析，以此来对比和原cross network的优劣。<br>
+2018.12.24 补充：看了下论文中对CIN模型的复杂度分析，主要是将CIN与相同层数的DNN进行了比较。在空间复杂度上，CIN是<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=O(mTH%5E2)" alt="O(mTH^2)" mathimg="1"><div class="image-caption"></div>
+</div>，其中<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=m" alt="m" mathimg="1"><div class="image-caption"></div>
+</div>是field size，<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=T" alt="T" mathimg="1"><div class="image-caption"></div>
+</div>是层数，<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=H" alt="H" mathimg="1"><div class="image-caption"></div>
+</div>是隐层特征数量，但是作者这里提出，当<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=H%E3%80%81m" alt="H、m" mathimg="1"><div class="image-caption"></div>
+</div>较大时，可以对CIN中维度是<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=%5BH%2C%20m%5D" alt="[H, m]" mathimg="1"><div class="image-caption"></div>
+</div>的参数矩阵<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=W%5E%7Bk%2Ch%7D" alt="W^{k,h}" mathimg="1"><div class="image-caption"></div>
+</div>进行分解，即<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=W%5E%7Bk%2Ch%7D%3DU%5E%7Bk%2Ch%7D(V%5E%7Bk%2Ch%7D)%5ET" alt="W^{k,h}=U^{k,h}(V^{k,h})^T" mathimg="1"><div class="image-caption"></div>
+</div>，此时CIN的空间复杂度是<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=O(TH%5E2L%2BmL%5E2H)" alt="O(TH^2L+mL^2H)" mathimg="1"><div class="image-caption"></div>
+</div>，而相同层数的DNN的空间复杂度是<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=O(mDH%2BTH%5E2)" alt="O(mDH+TH^2)" mathimg="1"><div class="image-caption"></div>
+</div>，CIN的空间复杂度与embedding size<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=D" alt="D" mathimg="1"><div class="image-caption"></div>
+</div>是无关的，而DNN的空间复杂度与D是线性相关的；在时间复杂度上，CIN是<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=O(mDH%5E2T)" alt="O(mDH^2T)" mathimg="1"><div class="image-caption"></div>
+</div>，而DNN是<div class="image-package">
+<img class="math-inline" src="https://math.jianshu.com/math?formula=O(mDH%2BH%5E2T)" alt="O(mDH+H^2T)" mathimg="1"><div class="image-caption"></div>
+</div>，可见DNN的时间复杂度相对较小。综合来看，相对于DNN，CIN在时间复杂度上有优势，但是在空间复杂度上是劣势。<p></p>
+
+          </div>
+        </div>
+    </div>
+
+    <!-- 如果是付费文章，未购买，则显示购买按钮 -->
+
+    <!-- 连载目录项 -->
+
+    <!-- 如果是付费文章 -->
+      <!-- 如果是付费连载，已购买，且作者允许赞赏，则显示付费信息和赞赏 -->
+        <div data-vcomp="free-reward-panel"></div>
+
+      <div class="show-foot">
+        <a class="notebook" href="/nb/33530032">
+          <i class="iconfont ic-search-notebook"></i>
+          <span>推荐算法</span>
+</a>        <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+          © 著作权归作者所有
+        </div>
+        <div class="modal-wrap" data-report-note>
+          <a id="report-modal">举报文章</a>
+        </div>
+      </div>
+
+      <!-- 文章底部作者信息 -->
+        <div class="follow-detail">
+          <div class="info">
+            <a class="avatar" href="/u/7588bf1f08ff">
+              <img src="//upload.jianshu.io/users/upload_avatars/13223816/254e20d7-52b6-4157-8844-557bda49a553?imageMogr2/auto-orient/strip|imageView2/1/w/96/h/96" alt="96" />
+</a>            <div props-data-classes="user-follow-button-footer" data-author-follow-button></div>
+            <a class="title" href="/u/7588bf1f08ff">妖皇裂天</a>
+              <i class="iconfont ic-man"></i>
+          </div>
+            <div class="signature">机器学习入门选手</div>
+        </div>
+
+    <div class="meta-bottom">
+      <div class="btn like-group"></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-action="weibo-share" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;, &#39;推荐 妖皇裂天 的文章《推荐系统与DNN的结合》（ 分享自 @简书 ）&#39;,&#39;https://www.jianshu.com/p/9419c462ebd4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+        <a class="share-circle" data-toggle="tooltip"  id="longshare" target="_blank">
+            <div class="qrcode" id="qrcode">
+             <img src="//cdn2.jianshu.io/assets/web/download-index-side-qrcode-cb13fc9106a478795f8d10f9f632fccf.png" alt="Download index side qrcode" />
+             <p>下载app生成长微博图片</p>
+             </div>
+          <i class="iconfont ic-picture"></i>
+        </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content='
+          <ul class="share-list">
+            <li><a href="javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;https://www.jianshu.com/p/9419c462ebd4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 妖皇裂天 的文章《推荐系统与DNN的结合》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();"><i class="social-icon-sprite social-icon-zone"></i><span>分享到QQ空间</span></a></li>
+            <li><a href="javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/9419c462ebd4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 妖皇裂天 的文章《推荐系统与DNN的结合》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();"><i class="social-icon-sprite social-icon-twitter"></i><span>分享到Twitter</span></a></li>
+            <li><a href="javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/9419c462ebd4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();"><i class="social-icon-sprite social-icon-facebook"></i><span>分享到Facebook</span></a></li>
+            <li><a href="javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/9419c462ebd4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();"><i class="social-icon-sprite social-icon-google"></i><span>分享到Google+</span></a></li>
+            <li><a href="javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;https://www.jianshu.com/p/9419c462ebd4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐系统与DNN的结合&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()"><i class="social-icon-sprite social-icon-douban"></i><span>分享到豆瓣</span></a></li>
+          </ul>
+        '>更多分享</a>
+      </div>
+    </div>
+
+      <a id="web-note-ad-1" target="_blank" href="/apps/redirect?utm_source=note-bottom-click"><img src="//cdn2.jianshu.io/assets/web/web-note-ad-1-c2e1746859dbf03abe49248893c9bea4.png" alt="Web note ad 1" /></a>
+
+    <!--
+    <div id="note-comment-above-ad-container">
+      <span id="youdao-comment-ad" class="ad-badge">广告</span>
+    </div>
+    -->
+    <div id="vue_comment"></div>
+  </div>
+
+  <div class="vue-side-tool" props-data-props-show-qr-code="0"></div>
+</div>
+<div class="note-bottom">
+  <div class="js-included-collections"></div>
+  <div data-vcomp="recommended-notes" data-lazy="1.5" data-note-id="38587278"></div>
+  <!-- 相关文章 -->
+    <!-- 未登录用户 -->
+    <div class="seo-recommended-notes">
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="/p/36b7fcd1591f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="//upload-images.jianshu.io/upload_images/3039546-5530ee465093c49c.png?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>            <a class="title" target="_blank" href="/p/36b7fcd1591f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">&lt;转载&gt;TensorFlow Wide And Deep 模型详解与应用</a>
+            <p class="description">该文章为转载文章，作者简介：汪剑，现在在出门问问负责推荐与个性化。曾在微软雅虎工作，从事过搜索和推荐相关工作。 TensorFlow Wide And Deep 模型详解与应用（一）TensorFlow Wide And Deep 模型详解与应用（二） 这个系列应该是介绍W...</p>
+            <a class="author" target="_blank" href="/u/65a751648086?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="//cdn2.jianshu.io/assets/default_avatar/9-cceda3cf5072bcdd77e8ca4f21c40998.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+              </div>
+              <span class="name">名字真的不重要</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="/p/99e8f24ec7df?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="//upload-images.jianshu.io/upload_images/4155986-d0f6bd99198a0531?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>            <a class="title" target="_blank" href="/p/99e8f24ec7df?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">推荐系统遇上深度学习(二十一)--阶段性回顾</a>
+            <p class="description">本系列已经写了二十篇了，但推荐系统的东西还有很多值得探索和学习的地方。不过在这之前，我们先静下心来，一起回顾下之前学习到的东西！ 由于是总结性质的文章，很多细节不会过多的涉及，有兴趣的同学可以点击文章中给出的链接进行学习。 本文中涉及的大多数算法是计算广告中点击率预估用到的...</p>
+            <a class="author" target="_blank" href="/u/c5df9e229a67?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="//upload.jianshu.io/users/upload_avatars/4155986/0b79def0-fd6c-44d8-9410-1c13d3a2cf7e.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+              </div>
+              <span class="name">石晓文的学习日记</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="/p/7fcce74d90f2?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="//upload-images.jianshu.io/upload_images/10137682-85a22050a4e7e070?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>            <a class="title" target="_blank" href="/p/7fcce74d90f2?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">业界 | 从FM推演各深度CTR预估模型(附代码)</a>
+            <p class="description">大数据文摘投稿作品 **作者：龙心尘、寒小阳 ** 多年以后，当资深算法专家们看着无缝对接用户需求的广告收入节节攀升时，他们可能会想起自己之前痛苦推导FM与深度学习公式的某个夜晚…… ——题记 1.引言 点击率(click-through rate, CTR)是互联网公司进...</p>
+            <a class="author" target="_blank" href="/u/5303a7d15da1?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="//upload.jianshu.io/users/upload_avatars/10137682/b7cd36fa-632a-4eb3-8bd6-e196eaae8782?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+              </div>
+              <span class="name">大数据文摘</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="/p/fdd348db23fe?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="//upload-images.jianshu.io/upload_images/11550176-ca6fbd5278168c6b.png?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>            <a class="title" target="_blank" href="/p/fdd348db23fe?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">深度学习综述</a>
+            <p class="description">The History Began from AlexNet: A Comprehensive Survey on Deep Learning Approaches 作者：Md Zahangir Alom, Tarek M. Taha, Christopher Yakopc...</p>
+            <a class="author" target="_blank" href="/u/ec6093f99ec0?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="//upload.jianshu.io/users/upload_avatars/11550176/9dee9a76-8633-4e17-90a2-5f938c739358.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+              </div>
+              <span class="name">Limityoung</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="/p/e2a076a4425a?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="//upload-images.jianshu.io/upload_images/1319517-dd547314e246ac7a.PNG?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>            <a class="title" target="_blank" href="/p/e2a076a4425a?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">2018深度学习在个性化推荐中的应用</a>
+            <p class="description">深度学习在个性化推荐中的应用 结论 得益于深度学习强大的表示能力，目前深度学习在推荐系统中需要对用户与物品进行表示学习的任务中有着不错的表现，但优势不如图像与文本那么显著[1]。 深度学习与分布式表示简介 深度学习的概念源于人工神经网络的研究。深度学习通过组合低层特征形成更...</p>
+            <a class="author" target="_blank" href="/u/e2051f61b69e?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="//upload.jianshu.io/users/upload_avatars/1319517/8f7c326a2bcf?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+              </div>
+              <span class="name">mafanhe</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="/p/67021701cc69?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">对自己好一点</a>
+            <p class="description">人生而不易，对自己好一点。 赚了钱，不舍得吃，不舍得花，过得苦哈哈的，有意思吗？ 钱是赚不完的，该花就花，不要舍不得。 即使你累死了，但还是没人能体谅你。人生要过得有姿有色，而不是一成不变。</p>
+            <a class="author" target="_blank" href="/u/25215e89094f?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="//upload.jianshu.io/users/upload_avatars/6357833/48858390-ab7f-4123-a4cb-866d03c9194c.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+              </div>
+              <span class="name">明诚看世界</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="/p/d15fda79217f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="//upload-images.jianshu.io/upload_images/11857533-ffa98f7f08467be6?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>            <a class="title" target="_blank" href="/p/d15fda79217f?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">薇甘菊与大树</a>
+            <p class="description">薇甘菊是藤蔓植物，柔弱无力，不能支撑自己向上生长。但它很聪明，借助大树爬上了高空，得到了阳光。 大风来的时候，它依靠大树的强壮树干，保持自己获取阳光雨露的有利位置，而不会掉下来，依然笑傲风月，睥睨群芳。 它越来越繁茂，遮住了整棵树的阳光。树死掉了，烂了…… 轰然倒地。 是贪...</p>
+            <a class="author" target="_blank" href="/u/aba85ee9b4df?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="//upload.jianshu.io/users/upload_avatars/11857533/52f4fdaa-7339-47ab-8d72-bf6aa3ecd553?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+              </div>
+              <span class="name">哈伯</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="/p/86ec32fb8310?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="//upload-images.jianshu.io/upload_images/12514297-8a7af0327d077c8f.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>            <a class="title" target="_blank" href="/p/86ec32fb8310?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">街头影作-球迷</a>
+            <p class="description">球迷</p>
+            <a class="author" target="_blank" href="/u/892ffb5f525c?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="//upload.jianshu.io/users/upload_avatars/12514297/8e0a34dc-806b-4a32-baf2-f2e4bab8dabf.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+              </div>
+              <span class="name">温州夏记</span>
+</a>          </div>
+
+          <div class="note ">
+                        <a class="title" target="_blank" href="/p/16dc8f11b9f4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">iOS11 之后tableview Reload 再设置setContentOffset 不会执行</a>
+            <p class="description">1.视图漂移或者闪动原因： 因为iOS 11后系统默认开启Self-Sizing，首先要知道Self-Sizing是个什么东东。官方文档是这样解释的：大概就是说我们不用再自己去计算cell的高度了，只要设置好这两个属性，约束好布局，系统会自动计算好cell的高度。 IOS1...</p>
+            <a class="author" target="_blank" href="/u/31498d220602?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="//upload.jianshu.io/users/upload_avatars/5304378/a5c0b9c7-5a47-4476-a599-b299cf15ec6b?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+              </div>
+              <span class="name">TomorrowNice</span>
+</a>          </div>
+
+          <div class="note have-img">
+            <a class="cover" target="_blank" href="/p/3bde48a7adca?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <img src="//upload-images.jianshu.io/upload_images/9388334-8c68fad8bacd672d.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/240" alt="240" />
+</a>            <a class="title" target="_blank" href="/p/3bde48a7adca?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">2017-12-31</a>
+            <p class="description">好久没见了，你突然的联系，让我一下子又重新掉进了回忆的漩涡，一直在里面挣扎，却始终出不来……不知道现在对你还有没有那么深的爱，但是我清楚的知道，我是想你的，是的，“想念”这个词语如此的温暖，却又如此的冰冷，这个词语总在我看偶像剧里的男女主角的时候会想起，也会在看到一对对的情...</p>
+            <a class="author" target="_blank" href="/u/4abdce4d9b1c?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+              <div class="avatar">
+                <img src="//upload.jianshu.io/users/upload_avatars/9388334/071eb63e-45bd-4675-ad11-580dd78916e5.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/48/h/48" alt="48" />
+              </div>
+              <span class="name">晨sunshine</span>
+</a>          </div>
+    </div>
+</div>
+
+    <script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"mac","read_mode":"day","read_font":"font2","note_show":{"is_author":false,"is_following_author":false,"is_liked_note":false,"follow_state":0,"uuid":"d8ddf68e-b67f-4be1-a6de-5e6ca81588dc"},"note":{"id":38587278,"slug":"9419c462ebd4","user_id":13223816,"notebook_id":33530032,"commentable":true,"likes_count":0,"views_count":264,"public_wordage":1511,"comments_count":0,"featured_comments_count":0,"total_rewards_count":0,"is_author":false,"paid_type":"free","paid":false,"paid_content_accessible":false,"author":{"nickname":"妖皇裂天","total_wordage":34976,"followers_count":5,"total_likes_count":3}}}</script>
+    
+    <script src="//cdn2.jianshu.io/assets/babel-polyfill-6cd2d6b53fe3184b71cc.js" crossorigin="anonymous"></script>
+    <script src="//cdn2.jianshu.io/assets/web-base-3884f64e8dd7fdf0a8f0.js" crossorigin="anonymous"></script>
+<script src="//cdn2.jianshu.io/assets/web-05daee6d4d872449f8f4.js" crossorigin="anonymous"></script>
+    
+    <script src="//cdn2.jianshu.io/assets/web/pages/notes/show/entry-82e44627b2e2d73431d6.js" crossorigin="anonymous"></script>
+    <script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  </body>
+</html>
