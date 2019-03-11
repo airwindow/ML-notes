@@ -1,0 +1,687 @@
+
+<!-- saved from url=(0057)https://www.artima.com/weblogs/viewpost.jsp?thread=281127 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>The wonders of cooperative inheritance, or using super in Python 3</title>
+<meta name="author" content="Michele Simionato">
+<link rel="stylesheet" type="text/css" href="./The wonders of cooperative inheritance, or using super in Python 3_files/artima.css">
+<link rel="shortcut icon" href="https://www.artima.com/favicon.ico">
+</head>
+<body><table width="100%" cellspacing="0">
+<tbody><tr>
+<td align="left" valign="bottom">
+<a href="https://www.artima.com/index.jsp"><img src="./The wonders of cooperative inheritance, or using super in Python 3_files/a7.gif" alt="The Artima Developer Community" border="0" width="550" height="43"></a>
+</td>
+</tr></tbody></table>
+<table width="100%" bgcolor="#333333">
+<tbody><tr>
+<td align="center">
+<div class="ml">
+<a href="https://www.artima.com/articles" class="hl">Articles</a>&nbsp;|
+<a href="https://www.artima.com/news/index.jsp" class="hl">News</a>&nbsp;|
+<a href="https://www.artima.com/weblogs/index.jsp" class="hl">Weblogs</a>&nbsp;|
+<a href="https://www.artima.com/buzz/index.jsp" class="hl">Buzz</a>&nbsp;|
+<a href="https://www.artima.com/shop/catalog" class="hl">Books</a>&nbsp;|
+<a href="https://www.artima.com/forums/index.jsp" class="hl">Forums</a>
+</div>
+</td>
+</tr>
+</tbody></table>
+<table width="100%" bgcolor="#CCCCCC">
+<tbody><tr>
+<td align="center">
+<div class="sc">
+<a href="https://www.artima.com/weblogs/index.jsp">Artima Weblogs</a>&nbsp;| 
+
+<a href="https://www.artima.com/weblogs/index.jsp?blogger=micheles">Michele Simionato's Weblog</a>&nbsp;| 
+
+<a href="https://www.artima.com/forums/flat.jsp?forum=106&amp;thread=281127">Discuss</a>&nbsp;| 
+<a href="mailto:?subject=The%20wonders%20of%20cooperative%20inheritance,%20or%20using%20super%20in%20Python%203&amp;body=%20%0AArtima%20Weblogs%20%0AThe%20wonders%20of%20cooperative%20inheritance,%20or%20using%20super%20in%20Python%203%20%0Aby%20Michele%20Simionato%20%0A%0Ahttps://www.artima.com/weblogs/viewpost.jsp?thread=281127">Email</a>&nbsp;| 
+<a href="https://www.artima.com/weblogs/viewpostP.jsp?thread=281127">Print</a>&nbsp;| 
+<a href="https://www.artima.com/weblogs/bloggers.jsp">Bloggers</a>&nbsp;| 
+<a class="sl" href="https://www.artima.com/weblogs/viewpost.jsp?thread=274438" title="Clearing caches">Previous</a>&nbsp;| 
+<a class="sl" href="https://www.artima.com/weblogs/viewpost.jsp?thread=293373" title="EuroPython 2010">Next</a>
+</div>
+</td>
+</tr>
+</tbody></table>
+<table width="100%" bgcolor="#EEEEEE">
+<tbody><tr>
+<td align="center">
+<div class="sc">
+<span style="color: #555555">Sponsored Link</span> <span style="color: #888888">•</span> 
+<script language="JavaScript" type="text/javascript" src="./The wonders of cooperative inheritance, or using super in Python 3_files/adx.js"></script>
+<script language="JavaScript" type="text/javascript">
+<!--
+   if (!document.phpAds_used) document.phpAds_used = ',';
+   phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+   
+   document.write ("<" + "script language='JavaScript' type='text/javascript' src='");
+   document.write ("https://www.artima.com/zcr/adjs.php?n=" + phpAds_random);
+   document.write ("&amp;what=zone:9&amp;target=_top");   document.write ("&amp;exclude=" + document.phpAds_used);
+   if (document.referrer)
+      document.write ("&amp;referer=" + escape(document.referrer));
+   document.write ("'><" + "/script>");
+//-->
+</script><noscript><a href='https://www.artima.com/zcr/adclick.php?n=a799ecf6' target='_top'><img src='https://www.artima.com/zcr/adview.php?what=zone:9&amp;n=a0587811' border='0' alt=''></a></noscript>
+</div>
+</td>
+</tr>
+</tbody></table>
+<br>
+<div class="vegies">
+<div class="tc">
+<span class="sts">The Explorer</span><br>
+<span class="ts">The wonders of cooperative inheritance, or using super in Python 3</span><br>
+<span class="as">by Michele Simionato</span><br>
+<span class="pd">February 3, 2010</span><br>
+</div>
+
+
+
+
+<blockquote>
+<b>Summary</b><br>
+This essay is intended for Python programmers wanting to understand the concept of cooperative inheritance and the usage of super. It does not require any previous reading. The target is Python 3.0, since it has a nicer syntax for super, even if most of what I say here can be backported down to Python 2.2.
+
+</blockquote>
+
+<hr align="left" width="90%">
+
+
+
+<table align="right">
+<tbody><tr>
+<td>
+<div class="adnotice">
+Advertisement
+</div>
+<center>
+<script language="JavaScript" type="text/javascript" src="./The wonders of cooperative inheritance, or using super in Python 3_files/adx.js"></script>
+<script language="JavaScript" type="text/javascript">
+<!--
+if (!document.phpAds_used) document.phpAds_used = ',';
+phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+document.write ("<" + "script language='JavaScript' type='text/javascript' src='");
+document.write ("https://www.artima.com/zcr/adjs.php?n=" + phpAds_random);
+document.write ("&amp;what=zone:2");
+document.write ("&amp;exclude=" + document.phpAds_used);
+if (document.referrer)
+document.write ("&amp;referer=" + escape(document.referrer));
+document.write ("'><" + "/script>");
+//-->
+</script><noscript><a href='https://www.artima.com/zcr/adclick.php?n=a74ab060' target='_blank'><img src='https://www.artima.com/zcr/adview.php?what=zone:2&amp;n=a74ab060' border='0' alt=''></a></noscript>
+
+</center>
+ </td>
+</tr>
+</tbody></table>
+
+<p>
+</p><p>Most languages supporting inheritance support cooperative inheritance,
+i.e.  there is a language-supported way for children methods
+to dispatch to their parent method: this is usually done via a
+<tt class="docutils literal"><span class="pre">super</span></tt> keyword.  Things are easy when the language support single
+inheritance only, since each class has a single parent and there is an
+unique concept of super method. Things are difficult when the
+language support multiple inheritance: in that case the programmer
+has to understand the intricacies of the Method Resolution Order.</p>
+<div class="section">
+<h1><a id="why-cooperative-hierarchies-are-tricky" name="why-cooperative-hierarchies-are-tricky">Why cooperative hierarchies are tricky</a></h1>
+<p>This paper is intended to be very practical, so let me start with an example.
+Consider the following hierarchy (in Python 3):</p>
+<pre class="literal-block">class A(object):
+    def __init__(self):
+        print('A.__init__')
+        super().__init__()
+</pre>
+<pre class="literal-block">class B(object):
+    def __init__(self):
+        print('B.__init__')
+        super().__init__()
+</pre>
+<pre class="literal-block">class C(A, B):
+    def __init__(self):
+        print('C.__init__')
+        super().__init__()
+</pre>
+<p>What is the "superclass" of <tt class="docutils literal"><span class="pre">A</span></tt>? In other words, when I create an
+instance of <tt class="docutils literal"><span class="pre">A</span></tt>, which method will be called by
+<tt class="docutils literal"><span class="pre">super().__init__()</span></tt>?  Notice that I am considering here generic
+instances of <tt class="docutils literal"><span class="pre">A</span></tt>, not only direct instances: in particular, an
+instance of <tt class="docutils literal"><span class="pre">C</span></tt> is also an instance of <tt class="docutils literal"><span class="pre">A</span></tt> and instantiating <tt class="docutils literal"><span class="pre">C</span></tt>
+will call <tt class="docutils literal"><span class="pre">super().__init__()</span></tt> in <tt class="docutils literal"><span class="pre">A.__init__</span></tt> at some point: the
+tricky point is to understand which method will be called
+for <em>indirect</em> instances of <tt class="docutils literal"><span class="pre">A</span></tt>.</p>
+<p>In a single inheritance language there is an unique answer both for
+direct and indirect instances (<tt class="docutils literal"><span class="pre">object</span></tt> is the super class of <tt class="docutils literal"><span class="pre">A</span></tt>
+and <tt class="docutils literal"><span class="pre">object.__init__</span></tt> is the method called by
+<tt class="docutils literal"><span class="pre">super().__init__()</span></tt>).  On the other hand, in a multiple inheritance
+language there is no easy answer. It is better to say that there is no
+super class and it is impossible to know which method will be called
+by <tt class="docutils literal"><span class="pre">super().__init__()</span></tt> unless the subclass from wich <tt class="docutils literal"><span class="pre">super</span></tt> is
+called is known. In particular, this is what happens when we instantiate <tt class="docutils literal"><span class="pre">C</span></tt>:</p>
+<pre class="doctest-block">&gt;&gt;&gt; c = C()
+C.__init__
+A.__init__
+B.__init__
+</pre>
+<p>As you see the super call  in <tt class="docutils literal"><span class="pre">C</span></tt> dispatches to <tt class="docutils literal"><span class="pre">A.__init__</span></tt> and then
+the super call there dispatches to  <tt class="docutils literal"><span class="pre">B.__init__</span></tt> which in turns dispatches to
+<tt class="docutils literal"><span class="pre">object.__init__</span></tt>. The important point is that
+<em>the same super call can dispatch to different methods</em>:
+when <tt class="docutils literal"><span class="pre">super().__init__()</span></tt> is called directly by instantiating
+<tt class="docutils literal"><span class="pre">A</span></tt> it dispatches to <tt class="docutils literal"><span class="pre">object.__init__</span></tt> whereas when it is called indirectly
+by instantiating <tt class="docutils literal"><span class="pre">C</span></tt> it dispatches to <tt class="docutils literal"><span class="pre">B.__init__</span></tt>. If somebody
+extends the hierarchy, adds subclasses of <tt class="docutils literal"><span class="pre">A</span></tt> and instantiated them,
+then the super call in <tt class="docutils literal"><span class="pre">A.__init__</span></tt>
+can dispatch to an entirely different method: the super method call
+depends on the instance I am starting from. The precise algorithm
+specifying the order in which the methods are called is
+called the Method Resolution Order algorithm, or MRO for short. It
+is discussed in detail in an old essay I wrote years ago and
+interested readers are referred to it (see the references below).
+Here I will take the easy way and I will ask Python.</p>
+<p>Given any class, it is possibly to extract its linearization, i.e. the
+ordered list of its ancestors plus the class itself: the super call
+follow such list to decide which is the right method to dispatch
+to. For instance, if you are considering a direct instance of <tt class="docutils literal"><span class="pre">A</span></tt>,
+<tt class="docutils literal"><span class="pre">object</span></tt> is the only class the super call can dispatch to:</p>
+<pre class="literal-block">&gt;&gt;&gt; A.mro()
+[&lt;class '__main__.A'&gt;, &lt;class 'object'&gt;]
+</pre>
+<p>If you are considering a direct instance of <tt class="docutils literal"><span class="pre">C</span></tt>, <tt class="docutils literal"><span class="pre">super</span></tt> looks at the
+linearization of <tt class="docutils literal"><span class="pre">C</span></tt>:</p>
+<pre class="literal-block">&gt;&gt;&gt; C.mro()
+[&lt;class '__main__.C'&gt;, &lt;class '__main__.A'&gt;, &lt;class '__main__.B'&gt;, &lt;class
+'object'&gt;]
+</pre>
+<p>A super call in <tt class="docutils literal"><span class="pre">C</span></tt> will look first at <tt class="docutils literal"><span class="pre">A</span></tt>, then at <tt class="docutils literal"><span class="pre">B</span></tt> and finally at
+<tt class="docutils literal"><span class="pre">object</span></tt>. Finding out the linearization is non-trivial; just to give
+an example suppose we add to our hierarchy three classes <tt class="docutils literal"><span class="pre">D</span></tt>, <tt class="docutils literal"><span class="pre">E</span></tt> and <tt class="docutils literal"><span class="pre">F</span></tt>
+in this way:</p>
+<pre class="literal-block">&gt;&gt;&gt; class D: pass
+&gt;&gt;&gt; class E(A, D): pass
+&gt;&gt;&gt; class F(E, C): pass
+&gt;&gt;&gt; for c in F.mro():
+...    print(c.__name__)
+F
+E
+C
+A
+D
+B
+object
+</pre>
+<p>As you see, for an instance of <tt class="docutils literal"><span class="pre">F</span></tt> a super call in <tt class="docutils literal"><span class="pre">A.__init__</span></tt>
+will dispatch at <tt class="docutils literal"><span class="pre">D.__init__</span></tt> and not directly at <tt class="docutils literal"><span class="pre">B.__init__</span></tt>!</p>
+</div>
+<div class="section">
+<h1><a id="the-problem-with-incompatible-signatures" name="the-problem-with-incompatible-signatures">The problem with incompatible signatures</a></h1>
+<p>I have just shown that one cannot tell in advance
+where the supercall will dispatch, unless one knows the whole hierarchy:
+this is quite different from the single inheritance situation and it is
+also very much error prone and brittle.
+When you design a hierarchy you will expect for instance that
+<tt class="docutils literal"><span class="pre">A.__init__</span></tt> will call <tt class="docutils literal"><span class="pre">B.__init__</span></tt>, but adding classes (and such
+classes may be added by a third party) may change the method chain. In this
+case <tt class="docutils literal"><span class="pre">A.__init__</span></tt> (when invoked by an <tt class="docutils literal"><span class="pre">F</span></tt> instance) will call
+<tt class="docutils literal"><span class="pre">D.__init__</span></tt>. This is dangerous: for instance,
+if the behavior of your code depends on the ordering of the
+methods you may get in trouble. Things are worse if one of the methods
+in the cooperative chain does not have a compatible signature, since the
+chain will break.</p>
+<p>This problem is not theoretical and it happens even in very trivial
+hierarchies.  For instance, here is an example of incompatible
+signatures in the <tt class="docutils literal"><span class="pre">__init__</span></tt> method (this problem
+affects even Python 2.6, not only Python 3.X):</p>
+<pre class="literal-block">class X(object):
+   def __init__(self, a):
+       super().__init__()
+
+class Y(object):
+   def __init__(self, a):
+       super().__init__()
+
+class Z(X, Y):
+   def __init__(self, a):
+       super().__init__(a)
+</pre>
+<p>Here instantiating <tt class="docutils literal"><span class="pre">X</span></tt> and <tt class="docutils literal"><span class="pre">Y</span></tt> works fine, but as soon as you
+introduce <tt class="docutils literal"><span class="pre">Z</span></tt> you get in trouble since <tt class="docutils literal"><span class="pre">super().__init__(a)</span></tt> in
+<tt class="docutils literal"><span class="pre">Z.__init__</span></tt> will call <tt class="docutils literal"><span class="pre">super().__init__()</span></tt> in <tt class="docutils literal"><span class="pre">X</span></tt> which in
+turns will call <tt class="docutils literal"><span class="pre">Y.__init__</span></tt> with no arguments, resulting in a
+<tt class="docutils literal"><span class="pre">TypeError</span></tt>!  In older Python versions (from 2.2 to 2.5) such
+problem can be avoided by leveraging on the fact that
+<tt class="docutils literal"><span class="pre">object.__init__</span></tt> accepts any number of arguments (ignoring them), by
+replacing <tt class="docutils literal"><span class="pre">super().__init__()</span></tt> with <tt class="docutils literal"><span class="pre">super().__init__(a)</span></tt>. In Python
+2.6+ instead there is no real solution for this problem, except avoiding
+<tt class="docutils literal"><span class="pre">super</span></tt> in the constructor or avoiding multiple inheritance.</p>
+<p>In general if you want to support multiple inheritance you should use
+<tt class="docutils literal"><span class="pre">super</span></tt> only when the methods in a cooperative chain
+have consistent signature: that means that you
+will not use super in <tt class="docutils literal"><span class="pre">__init__</span></tt> and <tt class="docutils literal"><span class="pre">__new__</span></tt> since likely your
+constructors will have custom arguments whereas <tt class="docutils literal"><span class="pre">object.__init__</span></tt>
+and <tt class="docutils literal"><span class="pre">object.__new__</span></tt> have no arguments.  However, in practice, you may
+inherits from third party classes which do not obey this rule, or
+others could derive from your classes without following this rule and
+breakage may occur. For instance, I have used <tt class="docutils literal"><span class="pre">super</span></tt> for years in my
+<tt class="docutils literal"><span class="pre">__init__</span></tt> methods and I never had problems because in older Python
+versions <tt class="docutils literal"><span class="pre">object.__init__</span></tt> accepted any number of arguments: but in Python 3
+all that code is fragile under multiple inheritance. I am left with
+two choices: removing <tt class="docutils literal"><span class="pre">super</span></tt> or telling people that
+those classes are not intended to be used in multiple inheritance
+situations, i.e. the constructors will break if they do that.
+Nowadays I tend to favor the second choice.</p>
+<p>Luckily, usually multiple inheritance is used with mixin classes, and mixins do
+not have constructors, so that in practice the problem is mitigated.</p>
+</div>
+<div class="section">
+<h1><a id="the-intended-usage-for-super" name="the-intended-usage-for-super">The intended usage for super</a></h1>
+<p>Even if <tt class="docutils literal"><span class="pre">super</span></tt> has its shortcomings, there are meaningful use cases for
+it, assuming you think multiple inheritance is a legitimate design technique.
+For instance, if you use metaclasses and you want to support multiple
+inheritance, you <em>must</em> use <tt class="docutils literal"><span class="pre">super</span></tt> in the <tt class="docutils literal"><span class="pre">__new__</span></tt> and <tt class="docutils literal"><span class="pre">__init__</span></tt>
+methods: there is no problem, since the constructor for
+metaclasses has a fixed signature <em>(name, bases, dictionary)</em>. But metaclasses
+are extremely rare, so let me give a more meaningful example for an application
+programmer where a design bases on cooperative
+multiple inheritances could be reasonable.</p>
+<p>Suppose you have a bunch of <tt class="docutils literal"><span class="pre">Manager</span></tt> classes which
+share many common methods and which are intended to manage different resources,
+such as databases, FTP sites, etc. To be concrete, suppose there are
+two common methods: <tt class="docutils literal"><span class="pre">getinfolist</span></tt> which returns a list of strings
+describing the managed resorce (containing infos such as the URI, the
+tables in the database or the files in the site, etc.) and <tt class="docutils literal"><span class="pre">close</span></tt>
+which closes the resource (the database connection or the FTP connection).
+You can model the hierarchy with a <tt class="docutils literal"><span class="pre">Manager</span></tt> abstract base class</p>
+<pre class="literal-block">class Manager(object):
+    def close(self):
+        pass
+    def getinfolist(self):
+        return []
+</pre>
+<p>and two concrete classes <tt class="docutils literal"><span class="pre">DbManager</span></tt> and <tt class="docutils literal"><span class="pre">FtpManager</span></tt>:</p>
+<pre class="literal-block">class DbManager(Manager):
+    def __init__(self, dsn):
+        self.conn = DBConn(dsn)
+    def close(self):
+        super().close()
+        self.conn.close()
+    def getinfolist(self):
+        return super().getinfolist() + ['db info']
+</pre>
+<pre class="literal-block">class FtpManager(Manager):
+    def __init__(self, url):
+        self.ftp = FtpSite(url)
+    def close(self):
+        super().close()
+        self.ftp.close()
+    def getinfolist(self):
+        return super().getinfolist() + ['ftp info']
+</pre>
+<p>Now suppose you need to manage both a database and an FTP site:
+then you can define a <tt class="docutils literal"><span class="pre">MultiManager</span></tt> as follows:</p>
+<pre class="literal-block">class MultiManager(DbManager, FtpManager):
+    def __init__(self, dsn, url):
+        DbManager.__init__(dsn)
+        FtpManager.__init__(url)
+</pre>
+<p>Everything works: calling <tt class="docutils literal"><span class="pre">MultiManager.close</span></tt> will in turn call
+<tt class="docutils literal"><span class="pre">DbManager.close</span></tt> and <tt class="docutils literal"><span class="pre">FtpManager.close</span></tt>. There is no risk of
+running in trouble with the signature since the <tt class="docutils literal"><span class="pre">close</span></tt> and <tt class="docutils literal"><span class="pre">getinfolist</span></tt>
+methods have all the same signature (actually they take no arguments at all).
+Notice also that I did not use <tt class="docutils literal"><span class="pre">super</span></tt> in the constructor.
+You see that <tt class="docutils literal"><span class="pre">super</span></tt> is <em>essential</em> in this design: without it,
+only <tt class="docutils literal"><span class="pre">DbManager.close</span></tt> would be called and your FTP connection would leak.
+The <tt class="docutils literal"><span class="pre">getinfolist</span></tt> method works similarly: forgetting <tt class="docutils literal"><span class="pre">super</span></tt> would
+mean losing some information. An alternative not using <tt class="docutils literal"><span class="pre">super</span></tt> would require
+defining an explicit method <tt class="docutils literal"><span class="pre">close</span></tt> in the <tt class="docutils literal"><span class="pre">MultiManager</span></tt>, calling
+<tt class="docutils literal"><span class="pre">DbManager.close</span></tt> and <tt class="docutils literal"><span class="pre">FtpManager.close</span></tt> explicitly, and an explicit
+method <tt class="docutils literal"><span class="pre">getinfolist</span></tt> calling <tt class="docutils literal"><span class="pre">`DbManager.getinfolist</span></tt> and
+<tt class="docutils literal"><span class="pre">FtpManager.getinfolist</span></tt>:</p>
+<pre class="literal-block">def close(self):
+    DbManager.close(self)
+    FtpManager.close(self)
+</pre>
+<pre class="literal-block">def getinfolist(self):
+    return DbManager.getinfolist(self) + FtpManager.getinfolist(self)
+</pre>
+<p>This would be less elegant but probably clearer and safer so you can always
+decide not to use <tt class="docutils literal"><span class="pre">super</span></tt> if you really hate it. However, if you have
+<tt class="docutils literal"><span class="pre">N</span></tt> common methods, there is some boiler plate to write; moreover, every time
+you add a <tt class="docutils literal"><span class="pre">Manager</span></tt> class you must add it to the <tt class="docutils literal"><span class="pre">N</span></tt> common methods, which
+is ugly. Here <tt class="docutils literal"><span class="pre">N</span></tt> is just 2, so not using <tt class="docutils literal"><span class="pre">super</span></tt> may work well,
+but in general it is clear that the cooperative approach is more effective.
+Actually, I strongly believe (and always had) that <tt class="docutils literal"><span class="pre">super</span></tt> and the
+MRO are the <em>right</em> way to do multiple inheritance: but I also believe
+that multiple inheritance itself is <em>wrong</em>. For instance, in the
+<tt class="docutils literal"><span class="pre">MultiManager</span></tt> example I would not use multiple
+inheritance but composition and I would probably use a generalization
+such as the following:</p>
+<pre class="literal-block">class MyMultiManager(Manager):
+    def __init__(self, *managers):
+        self.managers = managers
+    def close(self):
+        for mngr in self.managers:
+            mngr.close()
+    def getinfolist(self):
+        return sum(mngr.getinfolist() for mngr in self.managers)
+</pre>
+<p>There are languages that do not provide inheritance (even single
+inheritance!)  and are perfectly fine, so you should always question
+if you should use inheritance or not. There are always many options
+and the design space is rather large.  Personally, I always use
+<tt class="docutils literal"><span class="pre">super</span></tt> but I use single-inheritance only, so that my cooperative
+hierarchies are trivial.</p>
+</div>
+<div class="section">
+<h1><a id="the-magic-of-super-in-python-3" name="the-magic-of-super-in-python-3">The magic of super in Python 3</a></h1>
+<p>Deep down, <tt class="docutils literal"><span class="pre">super</span></tt> in Python 3 is the same as in Python 2.X.
+However, on the surface - at the syntactic level, not at the semantic level -
+there is a big difference: Python 3 super is smart enough to figure out
+<em>the class it is invoked from and the first argument of the containing
+method</em>. Actually it is so smart that it works also for inner classes
+and even if the first argument is not called <tt class="docutils literal"><span class="pre">self</span></tt>.
+In Python 2.X <tt class="docutils literal"><span class="pre">super</span></tt> is dumber and you must tell the class and the
+argument explicitly: for instance our first example must be written</p>
+<pre class="literal-block">class A(object):
+    def __init__(self):
+        print('A.__init__')
+        super(A, self).__init__()
+</pre>
+<p>By the way, this syntax works both in Python 3 <em>and</em> in Python 2, this is
+why I said that deep down <tt class="docutils literal"><span class="pre">super</span></tt> is the same. The new feature in
+Python 3 is that there is a shortcut notation <tt class="docutils literal"><span class="pre">super()</span></tt> for
+<tt class="docutils literal"><span class="pre">super(A,</span> <span class="pre">self)</span></tt>. In Python 3 the (bytecode) compiler is smart enough
+to recognize that the supercall is performed inside the class <tt class="docutils literal"><span class="pre">A</span></tt> so
+that it inserts the reference to <tt class="docutils literal"><span class="pre">A</span></tt> automagically; moreover it inserts
+the reference to the first argument of the current method too. Typically
+the first argument of the current method is <tt class="docutils literal"><span class="pre">self</span></tt>, but it may be
+<tt class="docutils literal"><span class="pre">cls</span></tt> or any identifier: <tt class="docutils literal"><span class="pre">super</span></tt> will work fine in any case.</p>
+<p>Since <tt class="docutils literal"><span class="pre">super()</span></tt> knows the class it is invoked from and the class of
+the original caller, it can walk the MRO correctly. Such information
+is stored in the attributes <tt class="docutils literal"><span class="pre">.__thisclass__</span></tt> and <tt class="docutils literal"><span class="pre">.__self_class__</span></tt>
+and you may understand how it works from the following example:</p>
+<pre class="literal-block">class Mother(object):
+    def __init__(self):
+        sup = super()
+        print(sup.__thisclass__)
+        print(sup.__self_class__)
+        sup.__init__()
+</pre>
+<pre class="literal-block">class Child(Mother):
+    pass
+</pre>
+<pre class="literal-block">&gt;&gt;&gt; child = Child()
+&lt;class '__main__.Mother'&gt;
+&lt;class '__main__.Child'&gt;
+</pre>
+<p>Here <tt class="docutils literal"><span class="pre">.__self__class__</span></tt> is just the class of the first argument (<tt class="docutils literal"><span class="pre">self</span></tt>)
+but this is not always the case. The exception is the case of classmethods and
+staticmethods taking a class as first argument, such as <tt class="docutils literal"><span class="pre">__new__</span></tt>.
+Specifically, <tt class="docutils literal"><span class="pre">super(cls,</span> <span class="pre">x)</span></tt> checks if <tt class="docutils literal"><span class="pre">x</span></tt> is an instance
+of <tt class="docutils literal"><span class="pre">cls</span></tt> and then sets <tt class="docutils literal"><span class="pre">.__self_class__</span></tt> to <tt class="docutils literal"><span class="pre">x.__class__</span></tt>; otherwise
+(and that happens for classmethods and for <tt class="docutils literal"><span class="pre">__new__</span></tt>) it checks if <tt class="docutils literal"><span class="pre">x</span></tt>
+is a subclass of <tt class="docutils literal"><span class="pre">cls</span></tt> and then sets  <tt class="docutils literal"><span class="pre">.__self_class__</span></tt> to <tt class="docutils literal"><span class="pre">x</span></tt> directly.
+For instance, in the following example</p>
+<pre class="literal-block">class C0(object):
+    @classmethod
+    def c(cls):
+        print('called classmethod C0.c')
+</pre>
+<pre class="literal-block">class C1(C0):
+    @classmethod
+    def c(cls):
+        sup = super()
+        print('__thisclass__', sup.__thisclass__)
+        print('__selfclass__', sup.__self_class__)
+        sup.c()
+</pre>
+<pre class="literal-block">class C2(C1):
+    pass
+</pre>
+<p>the attribute <tt class="docutils literal"><span class="pre">.__self_class__</span></tt> is <em>not</em> the class of the first argument
+(which would be <tt class="docutils literal"><span class="pre">type</span></tt> the metaclass of all classes) but simply the first
+argument:</p>
+<pre class="literal-block">&gt;&gt;&gt; C2.c()
+__thisclass__ &lt;class '__main__.C1'&gt;
+__selfclass__ &lt;class '__main__.C2'&gt;
+called classmethod C0.c
+</pre>
+<p>There is a lot of magic going on in Python 3 <tt class="docutils literal"><span class="pre">super</span></tt>, and even more.
+For instance, this is a syntax that cannot work:</p>
+<pre class="literal-block">def __init__(self):
+    print('calling __init__')
+    super().__init__()
+
+class C(object):
+    __init__ = __init__
+
+if __name__ == '__main__':
+    c = C()
+</pre>
+<p>If you try to run this code you will get a
+<tt class="docutils literal"><span class="pre">SystemError:</span> <span class="pre">super():</span> <span class="pre">__class__</span> <span class="pre">cell</span> <span class="pre">not</span> <span class="pre">found</span></tt> and the reason is
+obvious: since the <tt class="docutils literal"><span class="pre">__init__</span></tt> method is external to the class the
+compiler cannot infer to which class it will be attached at runtime.
+On the other hand, if you are completely explicit and you use the full
+syntax, by writing the external method as</p>
+<pre class="literal-block">def __init__(self):
+    print('calling __init__')
+    super(C, self).__init__()
+</pre>
+<p>everything will work because you are explicitly telling than the method
+will be attached to the class <tt class="docutils literal"><span class="pre">C</span></tt>.</p>
+<p>I will close this section by noticing a wart of <tt class="docutils literal"><span class="pre">super</span></tt> in Python 3,
+pointed out by <a class="reference" href="http://lucumr.pocoo.org/2008/4/30/how-super-in-python3-works-and-why-its-retarded">Armin Ronacher</a> and others: the fact that <tt class="docutils literal"><span class="pre">super</span></tt>
+should be a keyword but it is not. Therefore horrors like the
+following are possible:</p>
+<pre class="literal-block">def super():
+    print("I am evil, you are NOT calling the supermethod!")
+
+class C(object):
+    def __init__(self):
+        super().__init__()
+
+if __name__ == '__main__':
+    c = C() # prints "I am evil, you are NOT calling the supermethod!"
+</pre>
+<p>DON'T DO THAT! Here the called <tt class="docutils literal"><span class="pre">__init__</span></tt> is the <tt class="docutils literal"><span class="pre">__init__</span></tt> method
+of the object <tt class="docutils literal"><span class="pre">None</span></tt>!!</p>
+<p>Of course, only an evil programmer would shadow <tt class="docutils literal"><span class="pre">super</span></tt> on purpose,
+but that may happen accidentally. Consider for instance this use case:
+you are refactoring an old code base written before the existence of
+<tt class="docutils literal"><span class="pre">super</span></tt> and using <tt class="docutils literal"><span class="pre">from</span> <span class="pre">mod</span> <span class="pre">import</span> <span class="pre">*</span></tt> (this is ugly but we know
+that there are code bases written this way), with <tt class="docutils literal"><span class="pre">mod</span></tt> defining a
+function <tt class="docutils literal"><span class="pre">super</span></tt> which has nothing to do with the <tt class="docutils literal"><span class="pre">super</span></tt>
+builtin. If in this code you replace <tt class="docutils literal"><span class="pre">Base.method(self,</span> <span class="pre">*args)</span></tt> with
+<tt class="docutils literal"><span class="pre">super().method(*args)</span></tt> you will introduce a bug. This is not common
+(it never happened to me), but still it is bug that could not happen if
+<tt class="docutils literal"><span class="pre">super</span></tt> were a keyword.</p>
+<p>Moreover, <tt class="docutils literal"><span class="pre">super</span></tt> is special and it will not work if
+you change its name as in this example:</p>
+<pre class="literal-block"># from http://lucumr.pocoo.org/2010/1/7/pros-and-cons-about-python-3
+_super = super
+class Foo(Bar):
+    def foo(self):
+        _super().foo()
+</pre>
+<p>Here the bytecode compiler will not treat specially <tt class="docutils literal"><span class="pre">_super</span></tt>, only
+<tt class="docutils literal"><span class="pre">super</span></tt>. It is unfortunate that we missed the opportunity to make <tt class="docutils literal"><span class="pre">super</span></tt>
+a keyword in Python 3, without good reasons (Python 3 was expected
+to break compatibility anyway).</p>
+</div>
+<div class="section">
+<h1><a id="references" name="references">References</a></h1>
+<p>There is plenty of material about super and multiple inheritance. You
+should probably start from the <a class="reference" href="http://www.python.org/download/releases/2.3/mro/">MRO paper</a>, then read <a class="reference" href="http://fuhm.net/super-harmful/">Super
+considered harmful</a> by James Knight. A lot of the issues with
+<tt class="docutils literal"><span class="pre">super</span></tt>, especially in old versions of Python are covered in <a class="reference" href="http://www.phyast.pitt.edu/~micheles/python/super.pdf">Things
+to know about super</a>. I did spent some time thinking about ways to
+avoid multiple inheritance; you may be interested in reading my series
+<a class="reference" href="http://www.artima.com/weblogs/viewpost.jsp?thread=246341">Mixins considered harmful</a>.</p>
+</div>
+
+
+<h1>Talk Back!</h1>
+
+<p>
+Have an opinion?
+
+
+Be the first to
+
+<a href="https://www.artima.com/forums/post.jsp?forum=106&amp;thread=281127&amp;reply=true">post a comment</a> about
+this weblog entry.
+
+
+</p><h1>RSS Feed</h1>
+
+<p>
+If you'd like to be notified whenever Michele Simionato adds a new entry to <a href="https://www.artima.com/weblogs/index.jsp?blogger=micheles">his weblog</a>, subscribe to his <a href="https://www.artima.com/weblogs/feeds/bloggers/micheles.rss">RSS feed</a>.
+
+</p><center>
+<div class="sociallinks">
+  <a href="http://digg.com/submit?phase=2&amp;url=http%3A%2F%2Fwww.artima.com%2Fweblogs%2Fviewpost.jsp%3Fthread%3D281127&amp;title=The+wonders+of+cooperative+inheritance%2C+or+using+super+in+Python+3&amp;bodytext=This+essay+is+intended+for+Python+programmers+wanting+to+understand+the+concept+of+cooperative+inheritance+and+the+usage+of+super.+It+does+not+require+any+previous+reading.+The+target+is+Python+3.0%2C+since+it+has+a+nicer+syntax+for+super%2C+even+if+most+...&amp;topic=programming">
+    <img src="./The wonders of cooperative inheritance, or using super in Python 3_files/digg.gif" alt="Digg" border="0" height="14" hspace="8" width="16">Digg
+  </a>
+  |
+  <a href="http://del.icio.us/post?url=http%3A%2F%2Fwww.artima.com%2Fweblogs%2Fviewpost.jsp%3Fthread%3D281127&amp;title=The+wonders+of+cooperative+inheritance%2C+or+using+super+in+Python+3">
+    <img src="./The wonders of cooperative inheritance, or using super in Python 3_files/delicious.gif" alt="del.icio.us" border="0" height="16" hspace="8" width="16" vspace="1">del.icio.us
+  </a>
+  |
+  <a href="http://programming.reddit.com/submit?url=http%3A%2F%2Fwww.artima.com%2Fweblogs%2Fviewpost.jsp%3Fthread%3D281127&amp;title=The+wonders+of+cooperative+inheritance%2C+or+using+super+in+Python+3">
+    <img src="./The wonders of cooperative inheritance, or using super in Python 3_files/reddit.gif" alt="Reddit" border="0" height="18" hspace="8" width="18">Reddit
+  </a>  
+</div>
+</center>
+
+<h1>About the Blogger</h1>
+
+<p>
+<table><tbody><tr valign="bottom"><td><img src="./The wonders of cooperative inheritance, or using super in Python 3_files/micheleSimionato.jpg" align="right"></td><td>Michele Simionato started his career as a Theoretical Physicist, working in Italy, France and the U.S. He turned to programming in 2003; since then he has been working professionally as a Python developer and now he lives in Milan, Italy. Michele is well known in the Python community for his posts in the newsgroup(s), his articles and his Open Source libraries and recipes. His interests include object oriented programming, functional programming, and in general programming metodologies that enable us to manage the complexity of modern software developement.</td></tr></tbody></table></p><p>
+
+</p><div class="sp">This weblog entry is Copyright © 2010 Michele Simionato. All rights reserved.</div>
+</div>
+
+
+<hr width="100%">
+<table width="50%" align="center">
+<tbody><tr>
+<td>
+<div class="horizontaltextadbox">
+<div class="adheadline">Sponsored Links</div>
+<div id="sponsoredlinks">
+</div>
+</div>
+</td>
+</tr>
+</tbody></table>
+<hr width="100%">
+<center>
+<script type="text/javascript"><!--
+google_ad_client = "pub-3911176865765226";
+google_alternate_color = "ffffff";
+google_ad_width = 728;
+google_ad_height = 15;
+google_ad_format = "728x15_0ads_al";
+google_ad_channel = "";
+google_color_border = "ffffff";
+google_color_bg = "FFFFFF";
+google_color_link = "003090";
+google_color_text = "000000";
+google_color_url = "666666";
+//--></script>
+<script type="text/javascript" src="./The wonders of cooperative inheritance, or using super in Python 3_files/f.txt">
+</script>
+<br>
+<br>
+<!-- SiteSearch Google -->
+<form method="get" action="https://www.google.com/custom">
+<table border="0" bgcolor="#ffffff">
+<tbody><tr><td nowrap="nowrap" valign="top" align="left" height="32">
+<a href="https://www.google.com/">
+<img src="./The wonders of cooperative inheritance, or using super in Python 3_files/Logo_25wht.gif" border="0" alt="Google"></a>
+</td>
+<td nowrap="nowrap">
+<input type="hidden" name="domains" value="Artima.com">
+<input type="text" name="q" size="31" maxlength="255" value="">
+<input type="submit" name="sa" value="Search">
+</td></tr>
+<tr>
+<td>&nbsp;</td>
+<td nowrap="nowrap">
+<font size="-1" color="#000000">
+<input type="radio" name="sitesearch" value=""> Web
+<input type="radio" name="sitesearch" value="Artima.com" checked="checked">Artima.com
+</font>&nbsp;&nbsp;
+<input type="hidden" name="client" value="pub-3911176865765226">
+<input type="hidden" name="forid" value="1">
+<input type="hidden" name="ie" value="ISO-8859-1">
+<input type="hidden" name="oe" value="ISO-8859-1">
+<input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:FFFFFF;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;LH:50;LW:150;L:https://www.artima.com/images/artima150.gif;S:https://www.artima.com;FORID:1;">
+<input type="hidden" name="hl" value="en">
+</td></tr></tbody></table>
+</form>
+<!-- SiteSearch Google -->
+</center>
+<br>
+<div class="sp">
+<div style="text-align: center">
+<a href="https://www.artima.com/copyright.html">Copyright</a> © 1996-2018 Artima, Inc. All Rights Reserved. - <a href="https://www.artima.com/privacy.html">Privacy Policy</a> - <a href="https://www.artima.com/termsofuse.html">Terms of Use</a>
+</div>
+</div>
+<br>
+<script language="JavaScript" type="text/javascript">
+<!--
+function initBannerVarForZone(zone) {
+        initBannerVarForZoneWithScript(zone, 'adjs_modified');
+}
+
+function initBannerVarForZoneWithScript(zone, phpScript) {
+
+        if (!document.phpAds_used) document.phpAds_used = ',';
+        phpAds_random = new String (Math.random());
+        phpAds_random = phpAds_random.substring(2,11);
+
+        var nextScriptSrc = 'https://www.artima.com/zcr/' + phpScript + '.php?n=' +
+                phpAds_random  +
+                '&amp;what=zone:' + zone + '&amp;target=_top&amp;block=1&amp;blockcampaign=1' +
+                '&amp;exclude=' + document.phpAds_used;
+
+        document.write("<script language='JavaScript' type='text/javascript' src='");
+        document.write(nextScriptSrc);
+        document.write("'><\/script>");
+
+}
+
+function replaceDiv(divID) {
+        document.getElementById(divID).innerHTML = phpadsbanner;
+}
+-->
+</script>
+<script language="JavaScript" type="text/javascript">
+<!--
+initBannerVarForZone(3);
+-->
+</script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+replaceDiv('leftskyscraper');
+-->
+</script>
+<script language="JavaScript" type="text/javascript">
+<!--
+initBannerVarForZoneWithScript(4, 'textman');
+-->
+</script>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+replaceDiv('sponsoredlinks');
+-->
+</script>
+
+
+</body></html>

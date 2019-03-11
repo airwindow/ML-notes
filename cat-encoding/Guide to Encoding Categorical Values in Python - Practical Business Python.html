@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://pbpython.com/categorical-encoding.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Guide to Encoding Categorical Values in&nbsp;Python - Practical Business Python</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Overview of multiple approaches to encoding categorical values using python">
+    <meta name="author" content="Chris Moffitt">
+    <meta name="generator" content="Pelican (VoidyBootstrap theme)">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Guide to Encoding Categorical Values in Python">
+    <meta name="twitter:description" content="Overview of multiple approaches to encoding categorical values using python">
+    <meta name="twitter:site" content="@chris1610">
+    <meta name="twitter:creator" content="@chris1610">
+    <meta name="twitter:domain" content="https://pbpython.com">
+    <meta property="twitter:image" content="https://pbpython.com/images/encoding-heading.png">
+
+        <link rel="stylesheet" href="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/bootstrap.min.css">
+        <link href="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/css" rel="stylesheet" type="text/css">
+        <link href="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/css(1)" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" href="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/font-awesome.min.css">
+
+
+      <link rel="stylesheet" href="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/friendly.css">
+      <link rel="stylesheet" href="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/voidybootstrap.css">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="https://pbpython.com/favicon.ico">
+
+        <link href="https://pbpython.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Practical Business Python Atom Feed">
+<script async="" src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/async-ads.js"></script><script type="text/javascript" async="" src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/f.txt"></script><script async="" src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/analytics.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-55110683-1', '');
+  ga('send', 'pageview');
+
+</script>
+  <script type="text/javascript" async="" src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/embed.js"></script><script async="" type="text/javascript" src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/count.js"></script><link rel="preload" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.7881ba4704e5c647ac74c94714fe89c0.css"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.505b628fe4a369d7faa766dd8c23b076.js"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.c9237ca4eec89ddb1320c66204dab595.js"><link rel="preload" as="script" href="https://disqus.com/next/config.js"><script src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/cse_element__en.js" type="text/javascript"></script><link type="text/css" rel="stylesheet" href="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/default+en.css"><link type="text/css" rel="stylesheet" href="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/default.css"><style type="text/css">.gsc-control-cse{font-family:arial, sans-serif}.gsc-control-cse .gsc-table-result{font-family:arial, sans-serif}.gsc-control-cse{border-color:#FFFFFF;background-color:#FFFFFF}input.gsc-input,.gsc-input-box,.gsc-input-box-hover,.gsc-input-box-focus{border-color:#D9D9D9}.gsc-search-button-v2,.gsc-search-button-v2:hover,.gsc-search-button-v2:focus{border-color:#666666;background-color:#999999;background-image:none;filter:none}.gsc-search-button-v2 svg{fill:#FFFFFF}.gsc-tabHeader.gsc-tabhInactive{border-color:#E9E9E9;background-color:#E9E9E9}.gsc-tabHeader.gsc-tabhActive{border-color:#FF9900;border-bottom-color:#FFFFFF;background-color:#FFFFFF}.gsc-tabsArea{border-color:#FF9900}.gsc-webResult.gsc-result,.gsc-results .gsc-imageResult{border-color:#FFFFFF;background-color:#FFFFFF}.gsc-webResult.gsc-result:hover,.gsc-imageResult:hover{border-color:#FFFFFF;background-color:#FFFFFF}.gs-webResult.gs-result a.gs-title:link,.gs-webResult.gs-result a.gs-title:link b,.gs-imageResult a.gs-title:link,.gs-imageResult a.gs-title:link b{color:#0000CC}.gs-webResult.gs-result a.gs-title:visited,.gs-webResult.gs-result a.gs-title:visited b,.gs-imageResult a.gs-title:visited,.gs-imageResult a.gs-title:visited b{color:#0000CC}.gs-webResult.gs-result a.gs-title:hover,.gs-webResult.gs-result a.gs-title:hover b,.gs-imageResult a.gs-title:hover,.gs-imageResult a.gs-title:hover b{color:#0000CC}.gs-webResult.gs-result a.gs-title:active,.gs-webResult.gs-result a.gs-title:active b,.gs-imageResult a.gs-title:active,.gs-imageResult a.gs-title:active b{color:#0000CC}.gsc-cursor-page{color:#0000CC}a.gsc-trailing-more-results:link{color:#0000CC}.gs-webResult .gs-snippet,.gs-imageResult .gs-snippet,.gs-fileFormatType{color:#000000}.gs-webResult div.gs-visibleUrl,.gs-imageResult div.gs-visibleUrl{color:#008000}.gs-webResult div.gs-visibleUrl-short{color:#008000}.gs-webResult div.gs-visibleUrl-short{display:none}.gs-webResult div.gs-visibleUrl-long{display:block}.gs-promotion div.gs-visibleUrl-short{display:none}.gs-promotion div.gs-visibleUrl-long{display:block}.gsc-cursor-box{border-color:#FFFFFF}.gsc-results .gsc-cursor-box .gsc-cursor-page{border-color:#E9E9E9;background-color:#FFFFFF;color:#0000CC;}.gsc-results .gsc-cursor-box .gsc-cursor-current-page{border-color:#FF9900;background-color:#FFFFFF;color:#0000CC;}.gsc-webResult.gsc-result.gsc-promotion{border-color:#336699;background-color:#FFFFFF}.gsc-completion-title{color:#0000CC}.gsc-completion-snippet{color:#000000}.gs-promotion a.gs-title:link,.gs-promotion a.gs-title:link *,.gs-promotion .gs-snippet a:link{color:#0000CC}.gs-promotion a.gs-title:visited,.gs-promotion a.gs-title:visited *,.gs-promotion .gs-snippet a:visited{color:#0000CC}.gs-promotion a.gs-title:hover,.gs-promotion a.gs-title:hover *,.gs-promotion .gs-snippet a:hover{color:#0000CC}.gs-promotion a.gs-title:active,.gs-promotion a.gs-title:active *,.gs-promotion .gs-snippet a:active{color:#0000CC}.gs-promotion .gs-snippet,.gs-promotion .gs-title .gs-promotion-title-right,.gs-promotion .gs-title .gs-promotion-title-right *{color:#000000}.gs-promotion .gs-visibleUrl,.gs-promotion .gs-visibleUrl-short{color:#008000}.gcsc-find-more-on-google{color:#0000CC}.gcsc-find-more-on-google-magnifier{fill:#0000CC}</style><style type="text/css">.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;position:relative;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{vertical-align:middle;opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsq_a{padding:0}.gsq_a{padding:0}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gssb_a{padding:0 9px}.gsib_a{padding-right:8px;padding-left:8px}.gsst_a{padding-top:5.5px}.gssb_e{border:0}.gssb_l{margin:5px 0}input.gsc-input::-webkit-input-placeholder{font-size:14px}input.gsc-input:-moz-placeholder{font-size:14px}input.gsc-input::-moz-placeholder{font-size:14px}input.gsc-input:-ms-input-placeholder{font-size:14px}input.gsc-input:focus::-webkit-input-placeholder{color:transparent}input.gsc-input:focus:-moz-placeholder{color:transparent}input.gsc-input:focus::-moz-placeholder{color:transparent}input.gsc-input:focus:-ms-input-placeholder{color:transparent}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style></head>
+
+  <body>
+    <div class="navbar navbar-default" role="navigation">
+      <div class="container">
+	   <div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar-collapse">
+		  <span class="sr-only">Toggle navigation</span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		  <span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="https://pbpython.com/" rel="home">
+          <i class="fa fa-home fa-fw fa-lg"> </i> </a>
+       </div>
+
+      <div class="collapse navbar-collapse" id="main-navbar-collapse">
+        <ul class="nav navbar-nav">
+          <!-- <li> <a href="https://pbpython.com/">Home</a> </li> -->
+            <li><a href="https://pbpython.com/">Home</a></li>
+            <li><a href="https://pbpython.com/pages/about-site.html">About</a></li>
+            <li><a href="https://pbpython.com/pages/resources.html">Resources</a></li>
+            <li><a href="https://pbpython.com/pages/mailinglist.html">Mailing List</a></li>
+            <li class="divider"></li>
+            <li class="">
+              <a href="https://pbpython.com/archives.html">Archives</a>
+            </li>
+          <li class="divider"></li>
+            <li><a href="https://pbpython.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">
+                <i class="fa fa-rss fa-fw fa-lg"></i> </a></li>
+        </ul> <!-- /nav -->
+      </div> <!-- /navbar-collapse -->
+	  </div> <!-- /container -->
+    </div> <!-- /navbar -->
+
+	<div class="jumbotron" id="overview">
+	  <div class="container">
+		<h1><a href="https://pbpython.com/">Practical Business Python</a></h1>
+		<p class="lead">Taking care of business, one python script at a time</p>
+	  </div>
+	</div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9" id="content">
+<article itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+  <header class="article-header">
+<abbr class="article-header-date">
+  Mon 06 February 2017
+</abbr> <h1>
+  <a href="https://pbpython.com/categorical-encoding.html" rel="bookmark" title="Permalink to Guide to Encoding Categorical Values in Python">
+    Guide to Encoding Categorical Values in&nbsp;Python
+  </a>
+</h1><div class="article-header-info">
+  <p>
+      Posted by <a href="https://pbpython.com/author/chris-moffitt.html">Chris Moffitt</a>
+    in 
+    <a href="https://pbpython.com/category/articles.html">
+      articles</a>
+    &nbsp;&nbsp;
+  </p>
+</div> <!-- /.article-header-info -->  </header>
+  <div class="content-body" itemprop="text articleBody">
+      <img class="article-image img-responsive" alt="article header image" itemprop="image" src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/encoding-heading.png">
+	<div class="section" id="introduction">
+<h2>Introduction</h2>
+<p>In many practical Data Science activities, the data set will contain categorical
+variables. These variables are typically stored as text values which represent
+various traits. Some examples include color (“Red”, “Yellow”, “Blue”), size (“Small”, “Medium”, “Large”)
+or geographic designations (State or Country). Regardless of
+what the value is used for, the challenge is determining how to use this data in the analysis.
+Many machine learning algorithms can support categorical values without
+further manipulation but there are many more algorithms that do not. Therefore, the analyst is
+faced with the challenge of figuring out how to turn these text attributes into
+numerical values for further&nbsp;processing.</p>
+<p>As with many other aspects of the Data Science world, there is no single answer
+on how to approach this problem. Each approach has trade-offs and has potential
+impact on the outcome of the analysis. Fortunately, the python tools of pandas
+and scikit-learn provide several approaches that can be applied to transform the
+categorical data into suitable numeric values.
+This article will be a survey of some of the various common (and a few more complex)
+approaches in the hope that it will help others apply these techniques to their
+real world&nbsp;problems.</p>
+</div>
+<div class="section" id="the-data-set">
+<h2>The Data&nbsp;Set</h2>
+<p>For this article, I was able to find a good dataset at the <a class="reference external" href="http://mlr.cs.umass.edu/ml/index.html"><span class="caps">UCI</span> Machine Learning Repository</a>.
+This particular <a class="reference external" href="http://mlr.cs.umass.edu/ml/datasets/Automobile">Automobile Data Set</a> includes a good mix of categorical values
+as well as continuous values and serves as a useful example that is relatively
+easy to understand. Since domain understanding is an important aspect when deciding
+how to encode various categorical values - this data set makes a good case&nbsp;study.</p>
+<p>Before we get started encoding the various values, we need to important the
+data and do some minor cleanups. Fortunately, pandas makes this&nbsp;straightforward:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c1"># Define the headers since the data does not have any</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"symboling"</span><span class="p">,</span> <span class="s2">"normalized_losses"</span><span class="p">,</span> <span class="s2">"make"</span><span class="p">,</span> <span class="s2">"fuel_type"</span><span class="p">,</span> <span class="s2">"aspiration"</span><span class="p">,</span>
+           <span class="s2">"num_doors"</span><span class="p">,</span> <span class="s2">"body_style"</span><span class="p">,</span> <span class="s2">"drive_wheels"</span><span class="p">,</span> <span class="s2">"engine_location"</span><span class="p">,</span>
+           <span class="s2">"wheel_base"</span><span class="p">,</span> <span class="s2">"length"</span><span class="p">,</span> <span class="s2">"width"</span><span class="p">,</span> <span class="s2">"height"</span><span class="p">,</span> <span class="s2">"curb_weight"</span><span class="p">,</span>
+           <span class="s2">"engine_type"</span><span class="p">,</span> <span class="s2">"num_cylinders"</span><span class="p">,</span> <span class="s2">"engine_size"</span><span class="p">,</span> <span class="s2">"fuel_system"</span><span class="p">,</span>
+           <span class="s2">"bore"</span><span class="p">,</span> <span class="s2">"stroke"</span><span class="p">,</span> <span class="s2">"compression_ratio"</span><span class="p">,</span> <span class="s2">"horsepower"</span><span class="p">,</span> <span class="s2">"peak_rpm"</span><span class="p">,</span>
+           <span class="s2">"city_mpg"</span><span class="p">,</span> <span class="s2">"highway_mpg"</span><span class="p">,</span> <span class="s2">"price"</span><span class="p">]</span>
+
+<span class="c1"># Read in the CSV file and convert "?" to NaN</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"http://mlr.cs.umass.edu/ml/machine-learning-databases/autos/imports-85.data"</span><span class="p">,</span>
+                  <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="s2">"?"</span> <span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>symboling</th>
+<th>normalized_losses</th>
+<th>make</th>
+<th>fuel_type</th>
+<th>aspiration</th>
+<th>num_doors</th>
+<th>body_style</th>
+<th>drive_wheels</th>
+<th>engine_location</th>
+<th>wheel_base</th>
+<th>…</th>
+<th>engine_size</th>
+<th>fuel_system</th>
+<th>bore</th>
+<th>stroke</th>
+<th>compression_ratio</th>
+<th>horsepower</th>
+<th>peak_rpm</th>
+<th>city_mpg</th>
+<th>highway_mpg</th>
+<th>price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>3</td>
+<td>NaN</td>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>two</td>
+<td>convertible</td>
+<td>rwd</td>
+<td>front</td>
+<td>88.6</td>
+<td>…</td>
+<td>130</td>
+<td>mpfi</td>
+<td>3.47</td>
+<td>2.68</td>
+<td>9.0</td>
+<td>111.0</td>
+<td>5000.0</td>
+<td>21</td>
+<td>27</td>
+<td>13495.0</td>
+</tr>
+<tr>
+<th>1</th>
+<td>3</td>
+<td>NaN</td>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>two</td>
+<td>convertible</td>
+<td>rwd</td>
+<td>front</td>
+<td>88.6</td>
+<td>…</td>
+<td>130</td>
+<td>mpfi</td>
+<td>3.47</td>
+<td>2.68</td>
+<td>9.0</td>
+<td>111.0</td>
+<td>5000.0</td>
+<td>21</td>
+<td>27</td>
+<td>16500.0</td>
+</tr>
+<tr>
+<th>2</th>
+<td>1</td>
+<td>NaN</td>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>two</td>
+<td>hatchback</td>
+<td>rwd</td>
+<td>front</td>
+<td>94.5</td>
+<td>…</td>
+<td>152</td>
+<td>mpfi</td>
+<td>2.68</td>
+<td>3.47</td>
+<td>9.0</td>
+<td>154.0</td>
+<td>5000.0</td>
+<td>19</td>
+<td>26</td>
+<td>16500.0</td>
+</tr>
+<tr>
+<th>3</th>
+<td>2</td>
+<td>164.0</td>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>four</td>
+<td>sedan</td>
+<td>fwd</td>
+<td>front</td>
+<td>99.8</td>
+<td>…</td>
+<td>109</td>
+<td>mpfi</td>
+<td>3.19</td>
+<td>3.40</td>
+<td>10.0</td>
+<td>102.0</td>
+<td>5500.0</td>
+<td>24</td>
+<td>30</td>
+<td>13950.0</td>
+</tr>
+<tr>
+<th>4</th>
+<td>2</td>
+<td>164.0</td>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>four</td>
+<td>sedan</td>
+<td>4wd</td>
+<td>front</td>
+<td>99.4</td>
+<td>…</td>
+<td>136</td>
+<td>mpfi</td>
+<td>3.19</td>
+<td>3.40</td>
+<td>8.0</td>
+<td>115.0</td>
+<td>5500.0</td>
+<td>18</td>
+<td>22</td>
+<td>17450.0</td>
+</tr>
+</tbody>
+</table>
+</div><p>The final check we want to do is see what data types we&nbsp;have:</p>
+<div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+<pre class="literal-block">symboling              int64
+normalized_losses    float64
+make                  object
+fuel_type             object
+aspiration            object
+num_doors             object
+body_style            object
+drive_wheels          object
+engine_location       object
+wheel_base           float64
+length               float64
+width                float64
+height               float64
+curb_weight            int64
+engine_type           object
+num_cylinders         object
+engine_size            int64
+fuel_system           object
+bore                 float64
+stroke               float64
+compression_ratio    float64
+horsepower           float64
+peak_rpm             float64
+city_mpg               int64
+highway_mpg            int64
+price                float64
+dtype: object
+</pre>
+<p>Since this article will only focus on encoding the categorical variables,
+we are going to include only the <code class="code">
+object</code>
+ columns in our dataframe. Pandas has a
+helpful <code class="code">
+select_dtypes</code>
+ function which we can use to build a new dataframe
+containing only the object&nbsp;columns.</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'object'</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">obj_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>make</th>
+<th>fuel_type</th>
+<th>aspiration</th>
+<th>num_doors</th>
+<th>body_style</th>
+<th>drive_wheels</th>
+<th>engine_location</th>
+<th>engine_type</th>
+<th>num_cylinders</th>
+<th>fuel_system</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>two</td>
+<td>convertible</td>
+<td>rwd</td>
+<td>front</td>
+<td>dohc</td>
+<td>four</td>
+<td>mpfi</td>
+</tr>
+<tr>
+<th>1</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>two</td>
+<td>convertible</td>
+<td>rwd</td>
+<td>front</td>
+<td>dohc</td>
+<td>four</td>
+<td>mpfi</td>
+</tr>
+<tr>
+<th>2</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>two</td>
+<td>hatchback</td>
+<td>rwd</td>
+<td>front</td>
+<td>ohcv</td>
+<td>six</td>
+<td>mpfi</td>
+</tr>
+<tr>
+<th>3</th>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>four</td>
+<td>sedan</td>
+<td>fwd</td>
+<td>front</td>
+<td>ohc</td>
+<td>four</td>
+<td>mpfi</td>
+</tr>
+<tr>
+<th>4</th>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>four</td>
+<td>sedan</td>
+<td>4wd</td>
+<td>front</td>
+<td>ohc</td>
+<td>five</td>
+<td>mpfi</td>
+</tr>
+</tbody>
+</table>
+</div><p>Before going any further, there are a couple of null values in the data that
+we need to clean&nbsp;up.</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span><span class="p">[</span><span class="n">obj_df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>make</th>
+<th>fuel_type</th>
+<th>aspiration</th>
+<th>num_doors</th>
+<th>body_style</th>
+<th>drive_wheels</th>
+<th>engine_location</th>
+<th>engine_type</th>
+<th>num_cylinders</th>
+<th>fuel_system</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>27</th>
+<td>dodge</td>
+<td>gas</td>
+<td>turbo</td>
+<td>NaN</td>
+<td>sedan</td>
+<td>fwd</td>
+<td>front</td>
+<td>ohc</td>
+<td>four</td>
+<td>mpfi</td>
+</tr>
+<tr>
+<th>63</th>
+<td>mazda</td>
+<td>diesel</td>
+<td>std</td>
+<td>NaN</td>
+<td>sedan</td>
+<td>fwd</td>
+<td>front</td>
+<td>ohc</td>
+<td>four</td>
+<td>idi</td>
+</tr>
+</tbody>
+</table>
+</div><p>For the sake of simplicity, just fill in the value with the number 4 (since that
+is the most common&nbsp;value):</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span><span class="p">[</span><span class="s2">"num_doors"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+<pre class="literal-block">four    114
+two      89
+Name: num_doors, dtype: int64
+</pre>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span> <span class="o">=</span> <span class="n">obj_df</span><span class="o">.</span><span class="n">fillna</span><span class="p">({</span><span class="s2">"num_doors"</span><span class="p">:</span> <span class="s2">"four"</span><span class="p">})</span>
+</pre></div>
+<p>Now that the data does not have any null values, we can look at options
+for encoding the categorical&nbsp;values.</p>
+</div>
+<div class="section" id="approach-1-find-and-replace">
+<h2>Approach #1 - Find and&nbsp;Replace</h2>
+<p>Before we go into some of the more “standard” approaches for encoding categorical
+data, this data set highlights one potential approach I’m calling “find and&nbsp;replace.”</p>
+<p>There are two columns of data where the values are words used to represent
+numbers. Specifically the number of cylinders in the engine and number of doors on the car.
+Pandas makes it easy for us to directly replace the text values with their
+numeric equivalent by using <code class="code">
+replace</code>
+.</p>
+<p>We have already seen that the num_doors data only includes 2 or 4 doors. The
+number of cylinders only includes 7 values and they are easily translated to
+valid&nbsp;numbers:</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span><span class="p">[</span><span class="s2">"num_cylinders"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+<pre class="literal-block">four      159
+six        24
+five       11
+eight       5
+two         4
+twelve      1
+three       1
+Name: num_cylinders, dtype: int64
+</pre>
+<p>If you review the <code class="code">
+replace</code>
+<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.replace.html">documentation</a>, you can see that it is a powerful
+command that has many options. For our uses, we are going to create a
+mapping dictionary that contains each column to process as well as a dictionary
+of the values to&nbsp;translate.</p>
+<p>Here is the complete dictionary for cleaning up the <code class="code">
+num_doors</code>
+ and
+<code class="code">
+num_cylinders</code>
+ columns:</p>
+<div class="highlight"><pre><span></span><span class="n">cleanup_nums</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"num_doors"</span><span class="p">:</span>     <span class="p">{</span><span class="s2">"four"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"two"</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+                <span class="s2">"num_cylinders"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"four"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"six"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s2">"five"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">"eight"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+                                  <span class="s2">"two"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"twelve"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s2">"three"</span><span class="p">:</span><span class="mi">3</span> <span class="p">}}</span>
+</pre></div>
+<p>To convert the columns to numbers using <code class="code">
+replace</code>
+:</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">cleanup_nums</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">obj_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>make</th>
+<th>fuel_type</th>
+<th>aspiration</th>
+<th>num_doors</th>
+<th>body_style</th>
+<th>drive_wheels</th>
+<th>engine_location</th>
+<th>engine_type</th>
+<th>num_cylinders</th>
+<th>fuel_system</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>convertible</td>
+<td>rwd</td>
+<td>front</td>
+<td>dohc</td>
+<td>4</td>
+<td>mpfi</td>
+</tr>
+<tr>
+<th>1</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>convertible</td>
+<td>rwd</td>
+<td>front</td>
+<td>dohc</td>
+<td>4</td>
+<td>mpfi</td>
+</tr>
+<tr>
+<th>2</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>hatchback</td>
+<td>rwd</td>
+<td>front</td>
+<td>ohcv</td>
+<td>6</td>
+<td>mpfi</td>
+</tr>
+<tr>
+<th>3</th>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>4</td>
+<td>sedan</td>
+<td>fwd</td>
+<td>front</td>
+<td>ohc</td>
+<td>4</td>
+<td>mpfi</td>
+</tr>
+<tr>
+<th>4</th>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>4</td>
+<td>sedan</td>
+<td>4wd</td>
+<td>front</td>
+<td>ohc</td>
+<td>5</td>
+<td>mpfi</td>
+</tr>
+</tbody>
+</table>
+</div><p>The nice benefit to this approach is that pandas “knows” the types of values in
+the columns so the <code class="code">
+object</code>
+ is now a <code class="code">
+int64</code>
+</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+<pre class="literal-block">make               object
+fuel_type          object
+aspiration         object
+num_doors           int64
+body_style         object
+drive_wheels       object
+engine_location    object
+engine_type        object
+num_cylinders       int64
+fuel_system        object
+dtype: object
+</pre>
+<p>While this approach may only work in certain scenarios it is a very useful demonstration
+of how to convert text values to numeric when there is an “easy” human interpretation of
+the data. This concept is also useful for more general data&nbsp;cleanup.</p>
+</div>
+<div class="section" id="approach-2-label-encoding">
+<h2>Approach #2 - Label&nbsp;Encoding</h2>
+<p>Another approach to encoding categorical values is to use a technique called label encoding.
+Label encoding is simply converting each value in a column to a number. For example,
+the <code class="code">
+body_style</code>
+ column contains 5 different values. We could choose to encode
+it like&nbsp;this:</p>
+<ul class="simple">
+<li>convertible -&gt;&nbsp;0</li>
+<li>hardtop -&gt;&nbsp;1</li>
+<li>hatchback -&gt;&nbsp;2</li>
+<li>sedan -&gt;&nbsp;3</li>
+<li>wagon -&gt;&nbsp;4</li>
+</ul>
+<p>This process reminds me of Ralphie using his secret decoder ring in “A Christmas&nbsp;Story”</p>
+<div class="figure" style="width: 854px; height: auto; max-width: 100%;">
+<img alt="Ralphie as a young data scientist" src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/ralphie-datascientist.png" style="width: 854px; height: auto; max-width: 100%;">
+</div>
+<p>One trick you can use in pandas is to convert a column to a category, then
+use those category values for your label&nbsp;encoding:</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span><span class="p">[</span><span class="s2">"body_style"</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj_df</span><span class="p">[</span><span class="s2">"body_style"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">'category'</span><span class="p">)</span>
+<span class="n">obj_df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+<pre class="literal-block">make                 object
+fuel_type            object
+aspiration           object
+num_doors             int64
+body_style         category
+drive_wheels         object
+engine_location      object
+engine_type          object
+num_cylinders         int64
+fuel_system          object
+dtype: object
+</pre>
+<p>Then you can assign the encoded variable to a new column using the <code class="code">
+cat.codes</code>
+ accessor:</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span><span class="p">[</span><span class="s2">"body_style_cat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj_df</span><span class="p">[</span><span class="s2">"body_style"</span><span class="p">]</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">codes</span>
+<span class="n">obj_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>make</th>
+<th>fuel_type</th>
+<th>aspiration</th>
+<th>num_doors</th>
+<th>body_style</th>
+<th>drive_wheels</th>
+<th>engine_location</th>
+<th>engine_type</th>
+<th>num_cylinders</th>
+<th>fuel_system</th>
+<th>body_style_cat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>convertible</td>
+<td>rwd</td>
+<td>front</td>
+<td>dohc</td>
+<td>4</td>
+<td>mpfi</td>
+<td>0</td>
+</tr>
+<tr>
+<th>1</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>convertible</td>
+<td>rwd</td>
+<td>front</td>
+<td>dohc</td>
+<td>4</td>
+<td>mpfi</td>
+<td>0</td>
+</tr>
+<tr>
+<th>2</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>hatchback</td>
+<td>rwd</td>
+<td>front</td>
+<td>ohcv</td>
+<td>6</td>
+<td>mpfi</td>
+<td>2</td>
+</tr>
+<tr>
+<th>3</th>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>4</td>
+<td>sedan</td>
+<td>fwd</td>
+<td>front</td>
+<td>ohc</td>
+<td>4</td>
+<td>mpfi</td>
+<td>3</td>
+</tr>
+<tr>
+<th>4</th>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>4</td>
+<td>sedan</td>
+<td>4wd</td>
+<td>front</td>
+<td>ohc</td>
+<td>5</td>
+<td>mpfi</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+</div><p>The nice aspect of this approach is that you get the benefits of pandas categories
+(compact data size, ability to order, plotting support) but can easily be converted to
+numeric values for further&nbsp;analysis.</p>
+</div>
+<div class="section" id="approach-3-one-hot-encoding">
+<h2>Approach #3 - One Hot&nbsp;Encoding</h2>
+<p>Label encoding has the advantage that it is straightforward but it has the disadvantage
+that the numeric values can be “misinterpreted” by the algorithms. For example, the value
+of 0 is obviously less than the value of 4 but does that really correspond to
+the data set in real life? Does a wagon have “4X” more weight in our calculation
+than the convertible? In this example, I don’t think&nbsp;so.</p>
+<p>A common alternative approach is called one hot encoding (but also goes by several
+different names shown below). Despite the different names, the basic strategy is
+to convert each category value into a new column and assigns a 1 or 0 (True/False)
+value to the column. This has the benefit of not weighting a value improperly but
+does have the downside of adding more columns to the data&nbsp;set.</p>
+<p>Pandas supports this feature using <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html">get_dummies</a>.  This function is named
+this way because it creates dummy/indicator variables (aka 1 or&nbsp;0).</p>
+<p>Hopefully a simple example will make this more clear. We can look at the column
+<code class="code">
+drive_wheels</code>
+ where we have values of <code class="code">
+4wd</code>
+, <code class="code">
+fwd</code>
+ or <code class="code">
+rwd</code>
+.
+By using <code class="code">
+get_dummies</code>
+ we can convert this to three columns with a 1 or 0 corresponding
+to the correct&nbsp;value:</p>
+<div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">obj_df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"drive_wheels"</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>make</th>
+<th>fuel_type</th>
+<th>aspiration</th>
+<th>num_doors</th>
+<th>body_style</th>
+<th>engine_location</th>
+<th>engine_type</th>
+<th>num_cylinders</th>
+<th>fuel_system</th>
+<th>body_style_cat</th>
+<th>drive_wheels_4wd</th>
+<th>drive_wheels_fwd</th>
+<th>drive_wheels_rwd</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>convertible</td>
+<td>front</td>
+<td>dohc</td>
+<td>4</td>
+<td>mpfi</td>
+<td>0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<th>1</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>convertible</td>
+<td>front</td>
+<td>dohc</td>
+<td>4</td>
+<td>mpfi</td>
+<td>0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>hatchback</td>
+<td>front</td>
+<td>ohcv</td>
+<td>6</td>
+<td>mpfi</td>
+<td>2</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<th>3</th>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>4</td>
+<td>sedan</td>
+<td>front</td>
+<td>ohc</td>
+<td>4</td>
+<td>mpfi</td>
+<td>3</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>4</th>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>4</td>
+<td>sedan</td>
+<td>front</td>
+<td>ohc</td>
+<td>5</td>
+<td>mpfi</td>
+<td>3</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+</div><p>The new data set contains three new&nbsp;columns:</p>
+<ul class="simple">
+<li><code class="code">
+drive_wheels_4wd</code>
+</li>
+<li><code class="code">
+drive_wheels_rwd</code>
+</li>
+<li><code class="code">
+drive_wheels_fwd</code>
+</li>
+</ul>
+<p>This function is powerful because you can pass as many category columns as you would like
+and choose how to label the columns using <code class="code">
+prefix</code>
+. Proper naming will make the
+rest of the analysis just a little bit&nbsp;easier.</p>
+<div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">obj_df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"body_style"</span><span class="p">,</span> <span class="s2">"drive_wheels"</span><span class="p">],</span> <span class="n">prefix</span><span class="o">=</span><span class="p">[</span><span class="s2">"body"</span><span class="p">,</span> <span class="s2">"drive"</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>make</th>
+<th>fuel_type</th>
+<th>aspiration</th>
+<th>num_doors</th>
+<th>engine_location</th>
+<th>engine_type</th>
+<th>num_cylinders</th>
+<th>fuel_system</th>
+<th>body_style_cat</th>
+<th>body_convertible</th>
+<th>body_hardtop</th>
+<th>body_hatchback</th>
+<th>body_sedan</th>
+<th>body_wagon</th>
+<th>drive_4wd</th>
+<th>drive_fwd</th>
+<th>drive_rwd</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>front</td>
+<td>dohc</td>
+<td>4</td>
+<td>mpfi</td>
+<td>0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<th>1</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>front</td>
+<td>dohc</td>
+<td>4</td>
+<td>mpfi</td>
+<td>0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2</th>
+<td>alfa-romero</td>
+<td>gas</td>
+<td>std</td>
+<td>2</td>
+<td>front</td>
+<td>ohcv</td>
+<td>6</td>
+<td>mpfi</td>
+<td>2</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+</tr>
+<tr>
+<th>3</th>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>4</td>
+<td>front</td>
+<td>ohc</td>
+<td>4</td>
+<td>mpfi</td>
+<td>3</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>4</th>
+<td>audi</td>
+<td>gas</td>
+<td>std</td>
+<td>4</td>
+<td>front</td>
+<td>ohc</td>
+<td>5</td>
+<td>mpfi</td>
+<td>3</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table>
+</div><p>The other concept to keep in mind is that <code class="code">
+get_dummies</code>
+ returns the full dataframe
+so you will need to filter out the objects using <code class="code">
+select_dtypes</code>
+ when you
+are ready to do the final&nbsp;analysis.</p>
+<p>One hot encoding, is very useful but it can cause the number of columns to expand
+greatly if you have very many unique values in a column. For the number of values
+in this example, it is not a problem. However you can see how this gets really
+challenging to manage when you have many more&nbsp;options.</p>
+</div>
+<div class="section" id="approach-4-custom-binary-encoding">
+<h2>Approach #4 - Custom Binary&nbsp;Encoding</h2>
+<p>Depending on the data set, you may be able to use some combination of label encoding
+and one hot encoding to create a binary column that meets your needs for further&nbsp;analysis.</p>
+<p>In this particular data set, there is a column called <code class="code">
+engine_type</code>
+ that contains
+several different&nbsp;values:</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span><span class="p">[</span><span class="s2">"engine_type"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+<pre class="literal-block">ohc      148
+ohcf      15
+ohcv      13
+l         12
+dohc      12
+rotor      4
+dohcv      1
+Name: engine_type, dtype: int64
+</pre>
+<p>For the sake of discussion, maybe all we care about is whether or not the engine
+is an Overhead Cam (<span class="caps">OHC</span>) or not. In other words, the various versions of <span class="caps">OHC</span> are all the same
+for this analysis. If this is the case, then we could use the <code class="code">
+str</code>
+ accessor
+plus <code class="code">
+np.where</code>
+ to create a new column the indicates whether or not the car
+has an <span class="caps">OHC</span>&nbsp;engine.</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span><span class="p">[</span><span class="s2">"OHC_Code"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">obj_df</span><span class="p">[</span><span class="s2">"engine_type"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">"ohc"</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+<p>I find that this is a handy function I use quite a bit but sometimes forget the syntax
+so here is a graphic showing what we are&nbsp;doing:</p>
+<div class="figure" style="width: 930px; height: auto; max-width: 100%;">
+<img alt="example of np.where" src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/np-where-2.png" style="width: 930px; height: auto; max-width: 100%;">
+</div>
+<p>The resulting dataframe looks like this (only showing a subset of&nbsp;columns):</p>
+<div class="highlight"><pre><span></span><span class="n">obj_df</span><span class="p">[[</span><span class="s2">"make"</span><span class="p">,</span> <span class="s2">"engine_type"</span><span class="p">,</span> <span class="s2">"OHC_Code"</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>make</th>
+<th>engine_type</th>
+<th>OHC_Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>alfa-romero</td>
+<td>dohc</td>
+<td>1</td>
+</tr>
+<tr>
+<th>1</th>
+<td>alfa-romero</td>
+<td>dohc</td>
+<td>1</td>
+</tr>
+<tr>
+<th>2</th>
+<td>alfa-romero</td>
+<td>ohcv</td>
+<td>1</td>
+</tr>
+<tr>
+<th>3</th>
+<td>audi</td>
+<td>ohc</td>
+<td>1</td>
+</tr>
+<tr>
+<th>4</th>
+<td>audi</td>
+<td>ohc</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div><p>This approach can be really useful if there is an option to consolidate to a
+simple Y/N value in a column. This also highlights how important domain
+knowledge is to solving the problem in the most efficient manner&nbsp;possible.</p>
+</div>
+<div class="section" id="scikit-learn">
+<h2>Scikit-Learn</h2>
+<p>In addition to the pandas approach, scikit-learn provides <a class="reference external" href="http://scikit-learn.org/stable/modules/preprocessing.html#encoding-categorical-features">similar functionality</a>.
+Personally, I find using pandas a little simpler but I think it is important
+to be aware of how to execute the processes in&nbsp;scikit-learn.</p>
+<p>For instance, if we want to do a label encoding on the make of the car, we need
+to instantiate a <code class="code">
+LabelEncoder</code>
+ object and <code class="code">
+fit_transform</code>
+ the&nbsp;data:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelEncoder</span>
+
+<span class="n">lb_make</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="n">obj_df</span><span class="p">[</span><span class="s2">"make_code"</span><span class="p">]</span> <span class="o">=</span> <span class="n">lb_make</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">obj_df</span><span class="p">[</span><span class="s2">"make"</span><span class="p">])</span>
+<span class="n">obj_df</span><span class="p">[[</span><span class="s2">"make"</span><span class="p">,</span> <span class="s2">"make_code"</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>make</th>
+<th>make_code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>alfa-romero</td>
+<td>0</td>
+</tr>
+<tr>
+<th>1</th>
+<td>alfa-romero</td>
+<td>0</td>
+</tr>
+<tr>
+<th>2</th>
+<td>alfa-romero</td>
+<td>0</td>
+</tr>
+<tr>
+<th>3</th>
+<td>audi</td>
+<td>1</td>
+</tr>
+<tr>
+<th>4</th>
+<td>audi</td>
+<td>1</td>
+</tr>
+<tr>
+<th>5</th>
+<td>audi</td>
+<td>1</td>
+</tr>
+<tr>
+<th>6</th>
+<td>audi</td>
+<td>1</td>
+</tr>
+<tr>
+<th>7</th>
+<td>audi</td>
+<td>1</td>
+</tr>
+<tr>
+<th>8</th>
+<td>audi</td>
+<td>1</td>
+</tr>
+<tr>
+<th>9</th>
+<td>audi</td>
+<td>1</td>
+</tr>
+<tr>
+<th>10</th>
+<td>bmw</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+</div><p>Scikit-learn also supports binary encoding by using the <code class="code">
+LabelBinarizer.</code>
+
+We use a similar process as above to transform the data but the process of creating
+a pandas DataFrame adds a couple of extra&nbsp;steps.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">LabelBinarizer</span>
+
+<span class="n">lb_style</span> <span class="o">=</span> <span class="n">LabelBinarizer</span><span class="p">()</span>
+<span class="n">lb_results</span> <span class="o">=</span> <span class="n">lb_style</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">obj_df</span><span class="p">[</span><span class="s2">"body_style"</span><span class="p">])</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lb_results</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">lb_style</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>convertible</th>
+<th>hardtop</th>
+<th>hatchback</th>
+<th>sedan</th>
+<th>wagon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<th>1</th>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<th>2</th>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<th>3</th>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<th>4</th>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div><p>The next step would be to join this data back to the original dataframe but in the
+interest of article length, I’ll skip&nbsp;that.</p>
+</div>
+<div class="section" id="advanced-approaches">
+<h2>Advanced&nbsp;Approaches</h2>
+<p>There are even more advanced algorithms for categorical encoding. I do not have
+a lot of personal experience with them but for the sake of rounding out this guide, I wanted
+to included them. This <a class="reference external" href="http://www.willmcginnis.com/2015/11/29/beyond-one-hot-an-exploration-of-categorical-variables/">article</a> provides some additional technical
+background. The other nice aspect is that the author of the article
+has created a scikit-learn contrib package call <a class="reference external" href="http://contrib.scikit-learn.org/categorical-encoding/">categorical-encoding</a> which
+implements many of these approaches. It is a very nice tool for approaching this
+problem from a different&nbsp;perspective.</p>
+<p>Here is a brief introduction to using the library for some other types of encoding.
+For the first example, we will try doing a <a class="reference external" href="http://www.ats.ucla.edu/stat/sas/webbooks/reg/chapter5/sasreg5.htm#backward">Backward Difference encoding</a>.</p>
+<p>First we get a clean dataframe and setup the <code class="code">
+BackwardDifferenceEncoder</code>
+:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">category_encoders</span> <span class="kn">as</span> <span class="nn">ce</span>
+
+<span class="c1"># Get a new clean dataframe</span>
+<span class="n">obj_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'object'</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># Specify the columns to encode then fit and transform</span>
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">backward_difference</span><span class="o">.</span><span class="n">BackwardDifferenceEncoder</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s2">"engine_type"</span><span class="p">])</span>
+<span class="n">encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_df</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Only display the first 8 columns for brevity</span>
+<span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">obj_df</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>col_engine_type_0</th>
+<th>col_engine_type_1</th>
+<th>col_engine_type_2</th>
+<th>col_engine_type_3</th>
+<th>col_engine_type_4</th>
+<th>col_engine_type_5</th>
+<th>col_engine_type_6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1.0</td>
+<td>0.142857</td>
+<td>0.285714</td>
+<td>0.428571</td>
+<td>0.571429</td>
+<td>0.714286</td>
+<td>-0.142857</td>
+</tr>
+<tr>
+<th>1</th>
+<td>1.0</td>
+<td>0.142857</td>
+<td>0.285714</td>
+<td>0.428571</td>
+<td>0.571429</td>
+<td>0.714286</td>
+<td>-0.142857</td>
+</tr>
+<tr>
+<th>2</th>
+<td>1.0</td>
+<td>0.142857</td>
+<td>0.285714</td>
+<td>0.428571</td>
+<td>0.571429</td>
+<td>0.714286</td>
+<td>0.857143</td>
+</tr>
+<tr>
+<th>3</th>
+<td>1.0</td>
+<td>-0.857143</td>
+<td>-0.714286</td>
+<td>-0.571429</td>
+<td>-0.428571</td>
+<td>-0.285714</td>
+<td>-0.142857</td>
+</tr>
+<tr>
+<th>4</th>
+<td>1.0</td>
+<td>-0.857143</td>
+<td>-0.714286</td>
+<td>-0.571429</td>
+<td>-0.428571</td>
+<td>-0.285714</td>
+<td>-0.142857</td>
+</tr>
+</tbody>
+</table>
+</div><p>The interesting thing is that you can see that the result are not the standard
+1’s and 0’s we saw in the earlier encoding&nbsp;examples.</p>
+<p>If we try a <a class="reference external" href="http://www.ats.ucla.edu/stat/sas/webbooks/reg/chapter5/sasreg5.htm#ORTHOGONAL">polynomial encoding</a>, we get a different distribution of values used
+to encode the&nbsp;columns:</p>
+<div class="highlight"><pre><span></span><span class="n">encoder</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">polynomial</span><span class="o">.</span><span class="n">PolynomialEncoder</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s2">"engine_type"</span><span class="p">])</span>
+<span class="n">encoder</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_df</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">encoder</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">obj_df</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="table table-condensed">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>col_engine_type_0</th>
+<th>col_engine_type_1</th>
+<th>col_engine_type_2</th>
+<th>col_engine_type_3</th>
+<th>col_engine_type_4</th>
+<th>col_engine_type_5</th>
+<th>col_engine_type_6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>1.0</td>
+<td>-5.669467e-01</td>
+<td>5.455447e-01</td>
+<td>-4.082483e-01</td>
+<td>0.241747</td>
+<td>-1.091089e-01</td>
+<td>0.032898</td>
+</tr>
+<tr>
+<th>1</th>
+<td>1.0</td>
+<td>-5.669467e-01</td>
+<td>5.455447e-01</td>
+<td>-4.082483e-01</td>
+<td>0.241747</td>
+<td>-1.091089e-01</td>
+<td>0.032898</td>
+</tr>
+<tr>
+<th>2</th>
+<td>1.0</td>
+<td>3.779645e-01</td>
+<td>3.970680e-17</td>
+<td>-4.082483e-01</td>
+<td>-0.564076</td>
+<td>-4.364358e-01</td>
+<td>-0.197386</td>
+</tr>
+<tr>
+<th>3</th>
+<td>1.0</td>
+<td>1.347755e-17</td>
+<td>-4.364358e-01</td>
+<td>1.528598e-17</td>
+<td>0.483494</td>
+<td>8.990141e-18</td>
+<td>-0.657952</td>
+</tr>
+<tr>
+<th>4</th>
+<td>1.0</td>
+<td>1.347755e-17</td>
+<td>-4.364358e-01</td>
+<td>1.528598e-17</td>
+<td>0.483494</td>
+<td>8.990141e-18</td>
+<td>-0.657952</td>
+</tr>
+</tbody>
+</table>
+</div><p>There are several different algorithms included in this package and the best way to
+learn is to try them out and see if it helps you with the accuracy of your
+analysis. The code shown above should give you guidance on how to plug in the
+other approaches and see what kind of results you&nbsp;get.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>Encoding categorical variables is an important step in the data science process.
+Because there are multiple approaches to encoding variables, it is important to
+understand the various options and how to implement them on your own data sets.
+The python data science ecosystem has many helpful approaches to handling these problems.
+I encourage you to keep these ideas in mind the next time you find yourself analyzing
+categorical variables. For more details on the code in this article, feel free
+to review the <a class="reference external" href="https://github.com/chris1610/pbpython/blob/master/notebooks/Category-Encoding-Article.ipynb">notebook</a>.</p>
+</div>
+
+  </div>
+
+<ul class="pager">
+	 <li class="previous">
+		 <a href="https://pbpython.com/analyze-this-fanduel.html">← Data Science Challenge - Predicting Baseball Fanduel&nbsp;Points</a>
+	 </li>
+	 <li class="next">
+		 <a href="https://pbpython.com/python-word-template.html">Populating <span class="caps">MS</span> Word Templates with&nbsp;Python →</a>
+	 </li>
+</ul> 
+
+<div class="article-tag-list">
+<div class="article-tag-list">
+<span class="label label-default">Tags</span>
+	<a href="https://pbpython.com/tag/pandas.html"><i class="fa fa-tag"></i>pandas</a>&nbsp;
+	<a href="https://pbpython.com/tag/scikit-learn.html"><i class="fa fa-tag"></i>scikit-learn</a>&nbsp;
+</div></div>
+
+  <div class="comments">
+	<h2>Comments</h2>
+	<div id="disqus_thread"><iframe id="dsq-app7139" name="dsq-app7139" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 5417px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+	<script type="text/javascript">
+				   (function() {
+						var dsq = document.createElement('script');
+						dsq.type = 'text/javascript'; dsq.async = true;
+						dsq.src = '//pbizpython.disqus.com/embed.js';
+						(document.getElementsByTagName('head')[0] ||
+						 document.getElementsByTagName('body')[0]).appendChild(dsq);
+				  })();
+	</script>
+  </div>
+</article>
+        </div><!-- /content -->
+
+        <div class="col-md-3 sidebar-nav" id="sidebar">
+
+<div class="col-xs-6 col-md-12">
+  <!-- Begin MailChimp Signup Form -->
+  <link href="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/slim-10_7.css" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    #mc_embed_signup{background: url(/images/cream_dust.png) repeat 0 0; clear:left; font:14px 'Average Sans',sans-serif; }
+    /* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+       We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+  </style>
+  <div id="mc_embed_signup">
+  <form action="https://pbpython.us18.list-manage.com/subscribe/post?u=a8d00d9b4326fefe925280de8&amp;id=7e9f14af60" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
+      <div id="mc_embed_signup_scroll">
+    <label for="mce-EMAIL">Subscribe to the <a href="https://pbpython.com/pages/mailinglist.html">mailing list</a></label>
+    <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="email address" required="">
+      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a8d00d9b4326fefe925280de8_7e9f14af60" tabindex="-1" value=""></div>
+      <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+      </div>
+  </form>
+  </div>
+
+  <!--End mc_embed_signup-->
+
+
+<h4><i class="fa fa-comment fa-fw fa-lg"></i> Social</h4>
+<ul class="list-unstyled social-links">
+    <li><a href="https://github.com/chris1610/pbpython" target="_blank">
+	  <i class="fa fa-github fa-fw fa-lg" title="Github"></i>
+		Github
+	</a></li>
+    <li><a href="https://twitter.com/chris1610" target="_blank">
+	  <i class="fa fa-twitter fa-fw fa-lg" title="Twitter"></i>
+		Twitter
+	</a></li>
+    <li><a href="http://www.linkedin.com/in/cmoffitt" target="_blank">
+	  <i class="fa fa-linkedin fa-fw fa-lg" title="LinkedIn"></i>
+		LinkedIn
+	</a></li>
+</ul>
+
+
+
+
+
+<h4><i class="fa fa-thumbs-up fa-fw fa-lg"></i>Popular</h4>
+<ul class="list-unstyled popular-links">
+  <li><a href="https://pbpython.com/pandas-pivot-table-explained.html">
+  <i class="fa fa-fw fa-file-text"></i>Pandas Pivot Table Explained</a></li>
+  <li><a href="https://pbpython.com/excel-pandas-comp.html">
+  <i class="fa fa-fw fa-file-text"></i>Common Excel Tasks Demonstrated in Pandas</a></li>
+  <li><a href="https://pbpython.com/visualization-tools-1.html">
+  <i class="fa fa-fw fa-file-text"></i>Overview of Python Visualization Tools</a></li>
+  <li><a href="https://pbpython.com/web-scraping-mn-budget.html">
+  <i class="fa fa-fw fa-file-text"></i>Web Scraping - It's Your Civic Duty</a></li>
+  <li><a href="https://pbpython.com/simple-graphing-pandas.html">
+  <i class="fa fa-fw fa-file-text"></i>Simple Graphing with IPython and Pandas</a></li>
+</ul>
+
+
+<h4><i class="fa fa-tags fa-fw fa-lg"></i> Tags</h4>
+<p class="tag-cloud">
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/notebooks.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>notebooks
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/xlwings.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>xlwings
+    </a>
+</span>
+<span class="tag-2">
+    <a href="https://pbpython.com/tag/plotting.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>plotting
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/powerpoint.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>powerpoint
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/ggplot.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>ggplot
+    </a>
+</span>
+<span class="tag-3">
+    <a href="https://pbpython.com/tag/stdlib.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>stdlib
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/barnum.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>barnum
+    </a>
+</span>
+<span class="tag-3">
+    <a href="https://pbpython.com/tag/pdf.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>pdf
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/python.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>python
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/altair.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>altair
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/scikit-learn.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>scikit-learn
+    </a>
+</span>
+<span class="tag-3">
+    <a href="https://pbpython.com/tag/process.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>process
+    </a>
+</span>
+<span class="tag-2">
+    <a href="https://pbpython.com/tag/csv.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>csv
+    </a>
+</span>
+<span class="tag-2">
+    <a href="https://pbpython.com/tag/seaborn.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>seaborn
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/cases.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>cases
+    </a>
+</span>
+<span class="tag-3">
+    <a href="https://pbpython.com/tag/gui.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>gui
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/vcs.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>vcs
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/plotly.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>plotly
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/scikit.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>scikit
+    </a>
+</span>
+<span class="tag-3">
+    <a href="https://pbpython.com/tag/bokeh.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>bokeh
+    </a>
+</span>
+<span class="tag-3">
+    <a href="https://pbpython.com/tag/analyze-this.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>analyze-this
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/matplot.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>matplot
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/outlook.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>outlook
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/word.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>word
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/notebook.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>notebook
+    </a>
+</span>
+<span class="tag-3">
+    <a href="https://pbpython.com/tag/pelican.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>pelican
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/mlxtend.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>mlxtend
+    </a>
+</span>
+<span class="tag-3">
+    <a href="https://pbpython.com/tag/xlsxwriter.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>xlsxwriter
+    </a>
+</span>
+<span class="tag-2">
+    <a href="https://pbpython.com/tag/ipython.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>ipython
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/numpy.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>numpy
+    </a>
+</span>
+<span class="tag-1">
+    <a href="https://pbpython.com/tag/excel.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>excel
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/pygal.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>pygal
+    </a>
+</span>
+<span class="tag-2">
+    <a href="https://pbpython.com/tag/matplotlib.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>matplotlib
+    </a>
+</span>
+<span class="tag-3">
+    <a href="https://pbpython.com/tag/oauth2.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>oauth2
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/sets.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>sets
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/beautifulsoup.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>beautifulsoup
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/s3.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>s3
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/vega.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>vega
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/jinja.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>jinja
+    </a>
+</span>
+<span class="tag-3">
+    <a href="https://pbpython.com/tag/google.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>google
+    </a>
+</span>
+<span class="tag-1">
+    <a href="https://pbpython.com/tag/pandas.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>pandas
+    </a>
+</span>
+<span class="tag-4">
+    <a href="https://pbpython.com/tag/github.html">
+        <i class="fa fa-tag fa-fw fa-lg"></i>github
+    </a>
+</span>
+</p>
+
+<h4><i class="fa fa-rss fa-fw fa-lg"></i> Feeds</h4>
+<ul class="list-unstyled">
+    <li><a href="https://pbpython.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">
+		<i class="fa fa-rss-square fa-fw fa-lg"></i> Atom Feed</a></li>
+</ul>
+
+<hr>
+<h4><i class="fa fa-gavel fa-fw" aria-hidden="true"></i> Disclosure</h4>
+<p class="tag-3">We are a participant in the Amazon Services LLC Associates Program,
+an affiliate advertising program designed to provide a means for us to earn
+fees by linking to Amazon.com and affiliated sites.</p>
+
+<hr>
+  <script>
+    (function() {
+      var cx = '006852874439469852271:h7e4xnwk6bc';
+      var gcse = document.createElement('script');
+      gcse.type = 'text/javascript';
+      gcse.async = true;
+      gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(gcse, s);
+    })();
+  </script>
+  <div id="___gcse_0"><div class="gsc-control-cse gsc-control-cse-en"><div class="gsc-control-wrapper-cse" dir="ltr"><form class="gsc-search-box gsc-search-box-tools" accept-charset="utf-8"><table cellspacing="0" cellpadding="0" class="gsc-search-box"><tbody><tr><td class="gsc-input"><div class="gsc-input-box" id="gsc-iw-id1"><table cellspacing="0" cellpadding="0" id="gs_id50" class="gstl_50 gsc-input" style="width: 100%; padding: 0px;"><tbody><tr><td id="gs_tti50" class="gsib_a"><input autocomplete="off" type="text" size="10" class="gsc-input" name="search" title="search" id="gsc-i-id1" placeholder="Custom Search" dir="ltr" spellcheck="false" x-webkit-grammar="builtin:search" lang="en" style="width: 100%; padding: 0px; border: none; margin: -0.0625em 0px 0px; height: 1.25em; background: url(&quot;https://www.google.com/cse/static/images/1x/googlelogo_lightgrey_46x16dp.png&quot;) left center no-repeat rgb(255, 255, 255); text-indent: 48px; outline: none;"></td><td class="gsib_b"><div class="gsst_b" id="gs_st50" dir="ltr"><a class="gsst_a" href="javascript:void(0)" style="display: none;"><span class="gscb_a" id="gs_cb50">×</span></a></div></td></tr></tbody></table></div></td><td class="gsc-search-button"><button class="gsc-search-button gsc-search-button-v2"><svg width="13" height="13" viewBox="0 0 13 13"><title>search</title><path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z"></path></svg></button></td><td class="gsc-clear-button"><div class="gsc-clear-button" title="clear results">&nbsp;</div></td></tr></tbody></table></form><div class="gsc-results-wrapper-overlay"><div class="gsc-results-close-btn" tabindex="0"></div><div class="gsc-tabsAreaInvisible"><div class="gsc-tabHeader gsc-inline-block gsc-tabhActive">Custom Search</div><span class="gs-spacer"> </span></div><div class="gsc-tabsAreaInvisible"></div><div class="gsc-above-wrapper-area-invisible"><table cellspacing="0" cellpadding="0" class="gsc-above-wrapper-area-container"><tbody><tr><td class="gsc-result-info-container"><div class="gsc-result-info-invisible"></div></td><td class="gsc-orderby-container"><div class="gsc-orderby-invisible"><div class="gsc-orderby-label gsc-inline-block">Sort by:</div><div class="gsc-option-menu-container gsc-inline-block"><div class="gsc-selected-option-container gsc-inline-block"><div class="gsc-selected-option">Relevance</div><div class="gsc-option-selector"></div></div><div class="gsc-option-menu-invisible"><div class="gsc-option-menu-item gsc-option-menu-item-highlighted"><div class="gsc-option">Relevance</div></div><div class="gsc-option-menu-item"><div class="gsc-option">Date</div></div></div></div></div></td></tr></tbody></table></div><div class="gsc-adBlockInvisible"></div><div class="gsc-wrapper"><div class="gsc-adBlockInvisible"></div><div class="gsc-resultsbox-invisible"><div class="gsc-resultsRoot gsc-tabData gsc-tabdActive"><table cellspacing="0" cellpadding="0" class="gsc-resultsHeader"><tbody><tr><td class="gsc-twiddleRegionCell"><div class="gsc-twiddle"><div class="gsc-title">Web</div></div><div class="gsc-stats"></div><div class="gsc-results-selector gsc-all-results-active"><div class="gsc-result-selector gsc-one-result" title="show one result">&nbsp;</div><div class="gsc-result-selector gsc-more-results" title="show more results">&nbsp;</div><div class="gsc-result-selector gsc-all-results" title="show all results">&nbsp;</div></div></td><td class="gsc-configLabelCell"></td></tr></tbody></table><div><div class="gsc-expansionArea"></div></div></div></div></div></div><div class="gsc-modal-background-image" tabindex="0"></div></div></div></div>
+
+<hr>
+<a href="https://www.python.org/psf-landing/">
+  <img src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/Supporting-member-badge-colour.png" alt="PSF Supporting Member">
+</a>
+</div>        </div><!--/sidebar -->
+      </div><!--/row-->
+    </div><!--/container-->
+
+    <footer id="site-footer">
+      <address id="site-colophon">
+        <p class="text-center text-muted">
+	Ⓒ 2014-2019 Practical Business Python &nbsp;•&nbsp;
+        Site built using <a href="http://getpelican.com/" target="_blank">Pelican</a>
+        &nbsp;•&nbsp; Theme based on
+        <a href="http://www.voidynullness.net/page/voidy-bootstrap-pelican-theme/" target="_blank">VoidyBootstrap</a> by
+        <a href="http://www.robertiwancz.com/" target="_blank">RKI</a>
+        </p>
+      </address><!-- /colophon  -->
+    </footer>
+
+<!-- DISQUS script for displaying comment count -->
+<script type="text/javascript">
+    var disqus_shortname = 'pbizpython';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+    <!-- javascript -->
+	<script src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/jquery.min.js"></script><iframe style="display: none;" src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/saved_resource(1).html"></iframe>
+	<script src="./Guide to Encoding Categorical Values in Python - Practical Business Python_files/bootstrap.min.js"></script>
+
+
+  
+<table cellspacing="0" cellpadding="0" class="gstl_50 gssb_c" style="width: 183px; display: none; top: 1264px; left: 1043px; position: absolute;"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%;"></td></tr></tbody></table></body></html>
