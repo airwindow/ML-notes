@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://joelabrahamsson.com/elasticsearch-101/ -->
+<html lang="en" class="wf-adelle-n7-active wf-dejarip-n4-active wf-dejarip-i4-active wf-dejarip-n7-active wf-sourcecodepro-n5-active wf-sourcecodepro-n7-active wf-dejarip-n5-active wf-active"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>ElasticSearch 101 - A getting started tutorial</title>
+        <meta name="blue:id" content="_dfe15cc9-7abd-4517-9429-3a4ed2017a5c_en">
+        <meta name="blue:type" content="Joel_Web_Models_Pages_ArticlePage">
+        <meta name="description" content="A tutorial for getting started with ElasticSearch, the highly scalable open source search engine with a REST API that is hard not to love. Covers running ElasticSearch, CRUD operations, basic search and mappings.">
+        <meta name="author" content="Joel Abrahamsson">
+        <meta name="viewport" content="width=device-width">
+        <meta name="google-site-verification" content="SIM5QHInwteCQmWlvIr0Snfy_iovieB9yXozU0Qo7XE">
+            <meta property="og:title" content="ElasticSearch 101 - A getting started tutorial">
+            <meta property="og:type" content="article">
+            <meta property="og:url" content="http://joelabrahamsson.com/elasticsearch-101/">
+                <meta property="og:image" content="http://joelabrahamsson.com/PageFiles/669/bonsai.png">    
+        <meta property="og:site_name" content="JoelAbrahamsson.com">
+        <meta property="fb:admins" content="757262274">
+        <link rel="shortcut icon" href="http://joelabrahamsson.com/favicon.ico" type="image/x-icon">
+        <link rel="author" href="https://plus.google.com/116679657162094848030">
+        <link rel="start" title="Joel Abrahamsson" href="http://joelabrahamsson.com/">
+        <link rel="canonical" href="http://joelabrahamsson.com/elasticsearch-101/">
+        <script src="./ElasticSearch 101 - A getting started tutorial_files/cb=gapi.loaded_1" async=""></script><script src="./ElasticSearch 101 - A getting started tutorial_files/cb=gapi(1).loaded_0" async=""></script><script id="twitter-wjs" src="./ElasticSearch 101 - A getting started tutorial_files/widgets.js"></script><script type="text/javascript" async="" src="./ElasticSearch 101 - A getting started tutorial_files/plusone.js" gapi_processed="true"></script><script type="text/javascript" src="./ElasticSearch 101 - A getting started tutorial_files/vpq5ijw.js"></script>
+        <style type="text/css">.container h1,.container h2,.container h3,.container h4,.contentMainWrapper h1,.contentMainWrapper h2,.contentMainWrapper h3,.contentMainWrapper h4,.tk-adelle,h4{font-family:"adelle",serif;}.tagLine,.tk-dejarip,li,p{font-family:"dejarip",sans-serif;}.tk-source-code-pro{font-family:"source-code-pro",sans-serif;}</style><style type="text/css">@font-face{font-family:adelle;src:url(https://use.typekit.net/af/dc4777/000000000000000000012b41/27/l?subset_id=2&fvd=n7&v=3) format("woff2"),url(https://use.typekit.net/af/dc4777/000000000000000000012b41/27/d?subset_id=2&fvd=n7&v=3) format("woff"),url(https://use.typekit.net/af/dc4777/000000000000000000012b41/27/a?subset_id=2&fvd=n7&v=3) format("opentype");font-weight:700;font-style:normal;}@font-face{font-family:dejarip;src:url(https://use.typekit.net/af/7d276f/00000000000000000000e822/27/l?subset_id=2&fvd=n4&v=3) format("woff2"),url(https://use.typekit.net/af/7d276f/00000000000000000000e822/27/d?subset_id=2&fvd=n4&v=3) format("woff"),url(https://use.typekit.net/af/7d276f/00000000000000000000e822/27/a?subset_id=2&fvd=n4&v=3) format("opentype");font-weight:400;font-style:normal;}@font-face{font-family:dejarip;src:url(https://use.typekit.net/af/2eae7d/00000000000000000000e823/27/l?subset_id=2&fvd=i4&v=3) format("woff2"),url(https://use.typekit.net/af/2eae7d/00000000000000000000e823/27/d?subset_id=2&fvd=i4&v=3) format("woff"),url(https://use.typekit.net/af/2eae7d/00000000000000000000e823/27/a?subset_id=2&fvd=i4&v=3) format("opentype");font-weight:400;font-style:italic;}@font-face{font-family:dejarip;src:url(https://use.typekit.net/af/22ba8e/00000000000000000000e826/27/l?subset_id=2&fvd=n7&v=3) format("woff2"),url(https://use.typekit.net/af/22ba8e/00000000000000000000e826/27/d?subset_id=2&fvd=n7&v=3) format("woff"),url(https://use.typekit.net/af/22ba8e/00000000000000000000e826/27/a?subset_id=2&fvd=n7&v=3) format("opentype");font-weight:700;font-style:normal;}@font-face{font-family:dejarip;src:url(https://use.typekit.net/af/65426d/00000000000000000000e824/27/l?subset_id=2&fvd=n5&v=3) format("woff2"),url(https://use.typekit.net/af/65426d/00000000000000000000e824/27/d?subset_id=2&fvd=n5&v=3) format("woff"),url(https://use.typekit.net/af/65426d/00000000000000000000e824/27/a?subset_id=2&fvd=n5&v=3) format("opentype");font-weight:500;font-style:normal;}@font-face{font-family:source-code-pro;src:url(https://use.typekit.net/af/756772/0000000000000000000179d5/27/l?subset_id=2&fvd=n7&v=3) format("woff2"),url(https://use.typekit.net/af/756772/0000000000000000000179d5/27/d?subset_id=2&fvd=n7&v=3) format("woff"),url(https://use.typekit.net/af/756772/0000000000000000000179d5/27/a?subset_id=2&fvd=n7&v=3) format("opentype");font-weight:700;font-style:normal;}@font-face{font-family:source-code-pro;src:url(https://use.typekit.net/af/9d892f/0000000000000000000179d1/27/l?subset_id=2&fvd=n5&v=3) format("woff2"),url(https://use.typekit.net/af/9d892f/0000000000000000000179d1/27/d?subset_id=2&fvd=n5&v=3) format("woff"),url(https://use.typekit.net/af/9d892f/0000000000000000000179d1/27/a?subset_id=2&fvd=n5&v=3) format("opentype");font-weight:500;font-style:normal;}</style><script type="text/javascript">try { Typekit.load(); } catch (e) { }</script>
+        <link href="./ElasticSearch 101 - A getting started tutorial_files/css" rel="stylesheet">
+
+        <script src="./ElasticSearch 101 - A getting started tutorial_files/js"></script>
+
+        <!--[if lt IE 9]>
+              <script src="/static/js/html5shiv.js"></script>
+        <![endif]-->
+         
+    <script type="text/javascript" async="" src="./ElasticSearch 101 - A getting started tutorial_files/embed.js"></script><script charset="utf-8" src="./ElasticSearch 101 - A getting started tutorial_files/button.dd024c345fc26f7c7a8d9938b67e5d3d.js"></script><link rel="preload" as="style" href="https://c.disquscdn.com/next/embed/styles/lounge.9974049bf7b0591e5d4f055cb67f3ee3.css"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/common.bundle.880980e048a2432334f13013030456ac.js"><link rel="preload" as="script" href="https://c.disquscdn.com/next/embed/lounge.bundle.7ca5005d1897180d07d928e89d2628be.js"><link rel="preload" as="script" href="https://disqus.com/next/config.js"></head>
+    <body data-spy="scroll" data-target="#toc-list" class="main-site">
+        
+        
+<div class="header">
+    <div class="container">
+        <a href="http://joelabrahamsson.com/"><img class="logo" alt="" src="./ElasticSearch 101 - A getting started tutorial_files/hat_white.png"></a>
+        <div class="top-links pull-right">
+            <a href="http://joelabrahamsson.com/sv/" title="På svenska"><i class="icon-flag"></i> På svenska</a> | 
+            <a href="http://feeds.feedburner.com/JoelAbrahamsson" title="Subscribe using RSS"><i class="icon-rss"></i></a>
+            <a href="http://twitter.com/joelabrahamsson" title="Joel Abrahamsson on Twitter"><i class="icon-twitter"></i></a>&nbsp;
+            <a href="http://www.linkedin.com/in/joelabrahamsson" title="Joel Abrahamsson on LinkedIn"><i class="icon-linkedin-sign"></i></a>&nbsp;
+            <a href="http://www.github.com/joelabrahamsson/" title="Joel Abrahamsson on GitHub"><i class="icon-github-alt"></i></a>
+        </div>
+        <div id="top-nav" class="row-fluid">
+            <div class="navbar span12">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li>
+                                            <a href="http://joelabrahamsson.com/episerver/" title="EPiServer tutorials and notes by Joel Abrahamsson">EPiServer</a>
+                                        </li><li>
+                                            <a href="http://joelabrahamsson.com/aspnet/" title="ASP.NET tutorials and notes">ASP.NET</a>
+                                        </li><li>
+                                            <a href="http://joelabrahamsson.com/programming/" title="Programming">Programming</a>
+                                        </li><li class="active">
+                                            <a href="http://joelabrahamsson.com/search-engines/" title="Search Engines">Search</a>
+                                        </li><li>
+                                            <a href="http://joelabrahamsson.com/life/" title="Life">Life</a>
+                                        </li><li>
+                                            <a href="http://joelabrahamsson.com/about-joel/" title="About Joel Abrahamsson">About</a>
+                                        </li>
+                    </ul>
+<form action="http://joelabrahamsson.com/search/" class="navbar-form pull-right" method="get">                        <input type="text" name="q" placeholder="Search" class="search-query">
+</form>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <div class="container main-container">
+            
+<div class="row-fluid">
+    <div class="span9">
+<ol class="breadcrumb" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><li>You are here:&nbsp;</li><li itemprop="url"><span itemprop="title"><a href="http://joelabrahamsson.com/">Home</a></span><span class="divider">/</span></li><li itemprop="url"><span itemprop="title"><a href="http://joelabrahamsson.com/search-engines/">Search Engines</a></span><span class="divider">/</span></li><li itemprop="url"><span itemprop="title">ElasticSearch 101</span></li></ol>
+    </div>
+</div>
+
+
+<article itemtype="http://schema.org/Article" itemscope="">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="article-header">
+                <span class="category" data-epi-overlay-z-index="123">
+                    <a href="http://joelabrahamsson.com/search-engines/" title="Search Engines">Search Engines</a>
+                </span>
+                <span class="date">July 02, 2013</span>
+                <h1 itemprop="name">
+                    ElasticSearch 101<br>– a getting started tutorial
+                </h1>
+            </div>
+        
+            <div class="row-fluid article-info">
+                    <div itemprop="keywords" class="tags span4 tk-dejarip">
+                        <span class="legend">Tags</span>
+        <a href="http://joelabrahamsson.com/tag/elasticsearch/" title="Tutorials, examples and notes about ElasticSearch">elasticsearch</a>,&nbsp;
+        <a href="http://joelabrahamsson.com/tag/tutorial/" title="Tutorials, examples and notes about tutorial">tutorial</a>,&nbsp;
+        <a href="http://joelabrahamsson.com/tag/code-samples/" title="Tutorials, examples and notes about code samples">code samples</a>,&nbsp;
+        <a href="http://joelabrahamsson.com/tag/open-source/" title="Tutorials, examples and notes about open source">open source</a>
+
+                    </div>
+                                            </div>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span9">
+                            <div class="alert alert-info">
+                    <button data-dismiss="alert" class="close" type="button">×</button>
+                    <p>If you find this ElasticSearch tutorial useful you may also want to check out my book <a href="https://leanpub.com/elasticsearch-quick-start">ElasticSearch Quick Start</a> which started out as a more ambitious, but still succinct, version of this post.</p>
+                </div>
+                            <p class="lead">ElasticSearch is a highly scalable open source search engine with a REST API that is hard not to love. In this tutorial we'll look at some of the key concepts when getting started with ElasticSearch. </p>
+            <div class="main-body">
+                <h2 id="downloading-and-running-elasticsearch">Downloading and running ElasticSearch</h2>
+<p>ElasticSearch can be downloaded packaged in various formats such as ZIP and TAR.GZ from <a title="Download ElasticSearch" href="http://www.elasticsearch.org/download/">elasticsearch.org</a>. After downloading and extracting a package running it couldn't be much easier, at least if you already have a Java runtime installed.</p>
+<h3>Running ElasticSearch on Windows</h3>
+<p>To run ElasticSearch on Windows we run elasticsearch.bat located in the bin folder from a command window. This will start ElasticSearch running in the foreground in the console, meaning we'll see errors in the console and can shut it down using CTRL+C.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/0_running_elasticsearch_on_windows.png" alt="Console command for running elasticsearch on Windows and following output from elasticsearch" width="675" height="340"></p>
+<p>If we don't have a Java runtime installed or not correctly configured we'll not see output like the one above but instead a message saying "JAVA_HOME environment variable must be set!". To fix that first&nbsp;<a href="http://java.com/en/download/index.jsp">download</a> and install Java if you don't already have it installed. Second, ensure that you have a JAVA_HOME environment variable configured correctly (Google it if unsure of how).</p>
+<h3>Running ElasticSearch on OS X&nbsp;</h3>
+<p>To run ElasticSearch on OS X we run the shell script elasticsearch in the bin folder. This starts ElasticSearch in the background, meaning that if we want to see output from it in the console and be able to shut it down we should add a -f flag.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/0_running_elasticsearch_on_osx.png" alt="Console command for running elasticsearch on OS X and following output from elasticsearch" width="649" height="400"></p>
+<p>If the script is unable to find a suitable Java runtime it will help you download it (nice!).</p>
+<h2 id="using-the-rest-api-with-sense">Using the REST API with Sense</h2>
+<p>Once you have an instance of ElasticSearch up and running you can talk to it using it's JSON based REST API residing at localhost port 9200. You can use any HTTP client to talk to it. In ElasticSearch's own documentation all examples use curl, which makes for concise examples. However, when playing with the API you may find a graphical client &nbsp;such as <a href="http://fiddler2.com/">Fiddler</a> or <a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/">RESTClient</a> more convenient.&nbsp;</p>
+<p><strong>Even more convenient</strong> is the Chrome plug-in <a href="https://chrome.google.com/webstore/detail/sense/doinijnbnggojdlcjifpdckfokbbfpbo">Sense</a>. Sense provides a simple user interface specifically for using ElasticSearch's REST API. It also has a number of convenient features such as autocomplete for ElasticSearch's query syntax and copying and pasting requests in curl format, making it easy to run examples from the documentation.</p>
+<p>We'll be looking at a combination of curl requests and screenshots from Sense throughout this tutorial and I recommend you to install Sense and use it to follow along.</p>
+<p>Once you have installed it you'll find Sense's icon in the upper right corner in Chrome. The first time you click it and run Sense a very simple sample request is prepared for you.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/1_sense_default_query.png" alt="Chrome plugin Sense with a basic elasticsearch query highlighted in the request body panel" width="700" height="319"></p>
+<p>The above request will perform the simplest of search queries, matching all documents in all indexes on the server. Running it against a vanilla installation of ElasticSearch produces an error in the response as there aren't any indexes.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/2_query_error.png" alt="" width="700" height="323"></p>
+<p>Our next step is to index some data, fixing this issue.</p>
+<h2 id="crud">CRUD</h2>
+<p>While we may want to use ElasticSearch primarily for searching the first step is to populate an index with some data, meaning the "Create" of CRUD, or rather, "indexing". While we're at it we'll also look at how to update, read and delete individual documents.</p>
+<h3>Indexing</h3>
+<p>In ElasticSearch indexing corresponds to both "Create" and "Update" in CRUD - if we index a document with a given type and ID that doesn't already exists it's inserted. If a document with the same type and ID already exists it's overwritten.</p>
+<p><strong>In order to index</strong> a first JSON object we make a PUT request to the REST API to a URL made up of the index name, type name and ID. That is: http://localhost:9200/&lt;index&gt;/&lt;type&gt;/[&lt;id&gt;].</p>
+<p>Index and type are required while the id part is optional. If we don't specify an ID ElasticSearch will generate one for us. However, if we don't specify an id we should use POST instead of PUT.</p>
+<p><strong>The index name</strong> is arbitrary. If there isn't an index with that name on the server already one will be created using default configuration.</p>
+<p>As for the type name it too is arbitrary. It serves several purposes, including:</p>
+<ul>
+<li>Each type has its own ID space.</li>
+<li>Different types can have different mappings ("schema" that defines how properties/fields should be indexed).</li>
+<li>Although it's possible, and common, to search over multiple types, it's easy to search only for one or more specific type(s).</li>
+</ul>
+<p>Let's index something! We can put just about anything into our index as long as it can be represented as a single JSON object. In this tutorial we'll be indexing and searching for movies. Here's a classic one:</p>
+<pre class="prettyprint"><span class="pun">{</span><span class="pln">
+    </span><span class="str">"title"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"The Godfather"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"director"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"Francis Ford Coppola"</span><span class="pun">,</span><span class="pln">
+    </span><span class="str">"year"</span><span class="pun">:</span><span class="pln"> </span><span class="lit">1972</span><span class="pln">
+</span><span class="pun">}</span></pre>
+<p>To index that we decide on an index name ("movies"), a type name ("movie") and an id ("1") and make a request following the pattern described above with the JSON object in the body.</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPUT </span><span class="str">"http://localhost:9200/movies/movie/1"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "title": "The Godfather",
+    "director": "Francis Ford Coppola",
+    "year": 1972
+}'</span></pre>
+<p>You can either run that using curl or use Sense. With Sense you can either populate the URL, method and body yourself or you can copy the above curl example, place the cursor in the body field in Sense and press Ctrl/Command + Shift + V and all of the fields will be populated for you.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/3_sense_first_indexing.png" alt="" width="700" height="119"></p>
+<p>After executing the request we receive a response from ElasticSearch in the form of a JSON object.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/4_sense_first_indexing_result.png" alt="" width="700" height="370"></p>
+<p>The response object contains information about the indexing operation, such as whether it was successful ("ok") and the documents ID which can be of interest if we don't specify that ourselves.</p>
+<p>If we now run the default search request that Sense provides (accessible using the "History" button in Sense given that you indeed executed it) that failed before we'll see a different result.&nbsp;</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/6_sense_search_result.png" alt="" width="431" height="529"></p>
+<p>Instead of an error we're seeing a search result. We'll get to searching later, but for now let's rejoice in the fact that we've indexed something!</p>
+<p>Now that we've got a movie in our index let's look at how we can update it, adding a list of genres to it. In order to do that we simply index it again using the same ID. In other words, we make the exact same indexing request as as before but with an extended JSON object containing genres.</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPUT </span><span class="str">"http://localhost:9200/movies/movie/1"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "title": "The Godfather",
+    "director": "Francis Ford Coppola",
+    "year": 1972,
+    "genres": ["Crime", "Drama"]
+}'</span></pre>
+<p>The response from ElasticSearch is the same as before with one difference, the _version property in the result object has value two instead of one.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/7_sense_update_result.png" alt="" width="223" height="151"></p>
+<p>The version number can be used to track how many times a document has been indexed. It's primary purpose however is to allow for optimistic concurrency control as we can supply a version in indexing requests as well and ElasticSearch will then only overwrite the document if the supplied version is higher than what's in the index.</p>
+<h3>Getting by ID</h3>
+<p>We've so far covered indexing new documents as well as updating existing ones. We've also seen an example of a simple search request and that our indexed movie appeared in that.</p>
+<p>While it's possible to search for documents in the index that's overkill if we only want to retrieve a single one with a known ID. A simple and faster approach would be to retrieve it by ID, using GET.</p>
+<p><strong>In order to do</strong> that we make a GET request to the same URL as when we indexed it, only this time the ID part of the URL is mandatory. In other words, in order to retrieve a document by ID from ElasticSearch we make a GET request to&nbsp;http://localhost:9200/&lt;index&gt;/&lt;type&gt;/&lt;id&gt;.</p>
+<p>Let's try it with our movie using the following request:</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XGET </span><span class="str">"http://localhost:9200/movies/movie/1"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">''</span></pre>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/8_sense_get_result.png" alt="" width="700" height="520"></p>
+<p>As you can see the result object contains similar metadata as we've saw when indexing, such as index, type and version information. Last but not least it has a property named "_source" which contains the actual document.</p>
+<p>There's not much more to say about GET as it's pretty straightforward. Let's move on to the final CRUD operation.</p>
+<h3>Deleting documents</h3>
+<p>In order to remove a single document from the index by ID we again use the same URL as for indexing and getting it, only this time we change the HTTP method to DELETE.</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XDELETE </span><span class="str">"http://localhost:9200/movies/movie/1"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">''</span></pre>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/9_sense_delete_result.png" alt="" width="610" height="217"></p>
+<p>The response object contains some of the usual suspects in terms of meta data, along with a property named "_found" indicating that the document was indeed found and that the operation was successful.</p>
+<p>If we, after executing the DELETE call, switch back to GET we can verify that the document has indeed been deleted.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/10_sense_404.png" alt="" width="400" height="62"></p>
+<h2 id="searching">Searching</h2>
+<p>So, we've covered the basics of working with data in an ElasticSearch index and it's time to move on to more exciting things - searching. However, considering the last thing we did was to delete the only document we had from our index we'll first need some sample data. Below is a number of indexing requests that we'll use.</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPUT </span><span class="str">"http://localhost:9200/movies/movie/1"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "title": "The Godfather",
+    "director": "Francis Ford Coppola",
+    "year": 1972,
+    "genres": ["Crime", "Drama"]
+}'</span><span class="pln">
+
+curl </span><span class="pun">-</span><span class="pln">XPUT </span><span class="str">"http://localhost:9200/movies/movie/2"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "title": "Lawrence of Arabia",
+    "director": "David Lean",
+    "year": 1962,
+    "genres": ["Adventure", "Biography", "Drama"]
+}'</span><span class="pln">
+
+curl </span><span class="pun">-</span><span class="pln">XPUT </span><span class="str">"http://localhost:9200/movies/movie/3"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "title": "To Kill a Mockingbird",
+    "director": "Robert Mulligan",
+    "year": 1962,
+    "genres": ["Crime", "Drama", "Mystery"]
+}'</span><span class="pln">
+
+curl </span><span class="pun">-</span><span class="pln">XPUT </span><span class="str">"http://localhost:9200/movies/movie/4"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "title": "Apocalypse Now",
+    "director": "Francis Ford Coppola",
+    "year": 1979,
+    "genres": ["Drama", "War"]
+}'</span><span class="pln">
+
+curl </span><span class="pun">-</span><span class="pln">XPUT </span><span class="str">"http://localhost:9200/movies/movie/5"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "title": "Kill Bill: Vol. 1",
+    "director": "Quentin Tarantino",
+    "year": 2003,
+    "genres": ["Action", "Crime", "Thriller"]
+}'</span><span class="pln">
+
+curl </span><span class="pun">-</span><span class="pln">XPUT </span><span class="str">"http://localhost:9200/movies/movie/6"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "title": "The Assassination of Jesse James by the Coward Robert Ford",
+    "director": "Andrew Dominik",
+    "year": 2007,
+    "genres": ["Biography", "Crime", "Drama"]
+}'</span></pre>
+<p>It's worth pointing out that ElasticSearch has and endpoint (_bulk) for indexing multiple documents with a single request however that's out of scope for this tutorial so we're keeping it simple and using six separate requests.</p>
+<h3>The _search endpoint</h3>
+<p>Now that we have put some movies into our index, let's see if we can find them again by searching. In order to search with ElasticSearch we use the _search endpoint, optionally with an index and type. That is, we make requests to an URL following this pattern: &lt;index&gt;/&lt;type&gt;/_search where index and type are both optional.</p>
+<p>In other words, in order to search for our movies we can make POST requests to either of the following URLs:</p>
+<ul>
+<li><strong class="code-concept">http://localhost:9200/_search</strong> - Search across all indexes and all types.</li>
+<li><strong class="code-concept">http://localhost:9200/movies/_search</strong> - Search across all types in the movies index.</li>
+<li><strong class="code-concept">http://localhost:9200/movies/movie/_search</strong> - Search explicitly for documents of type movie within the movies index.</li>
+</ul>
+<p>As we only have a single index and a single type which one we use doesn't matter. We'll use the first URL for the sake of brevity.</p>
+<h3>Search request body and ElasticSearch's query DSL</h3>
+<p>If we simply send a request to one of the above URL's we'll get all of our movies back. In order to make a more useful search request we also need to supply a request body with a query. The request body should be a JSON object which, among other things, can contain a property named "query" in which we can use <a href="http://www.elasticsearch.org/guide/reference/query-dsl/">ElasticSearch's query DSL</a>.</p>
+<pre class="prettyprint"><span class="pun">{</span><span class="pln">
+    </span><span class="str">"query"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="com">//Query DSL here</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></pre>
+<p>One may wonder what the query DSL is. It's ElasticSearch's own domain specific language based on JSON in which queries and filters can be expressed. Think of it like ElasticSearch's equivalent of SQL for a relational database. Here's part of how ElasticSearch's own documentation explains it:</p>
+<blockquote>Think of the Query DSL as an AST of queries. Certain queries can contain other queries (like the bool query), other can contain filters (like the constant_score), and some can contain both a query and a filter (like the filtered). Each of those can contain any query of the list of queries or any filter from the list of filters, resulting in the ability to build quite complex (and interesting) queries.</blockquote>
+<h3>Basic free text search</h3>
+<p>The query DSL features a long list of different types of queries that we can use. For "ordinary" free text search we'll most likely want to use one called "query string query".</p>
+<p>A <a href="http://www.elasticsearch.org/guide/reference/query-dsl/query-string-query/">query string query</a>&nbsp;is an advanced query with a lot of different options that ElasticSearch will parse and transform into a tree of simpler queries. Still, it can be very easy to use if we ignore all of its optional parameters and simply feed it a string to search for.</p>
+<p>Let's try a search for the word "kill" which is present in the title of two of our movies:</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPOST </span><span class="str">"http://localhost:9200/_search"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "query": {
+        "query_string": {
+            "query": "kill"
+        }
+    }
+}'</span></pre>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/11_sense_query_string_query.png" alt="" width="700" height="480"></p>
+<p>Let's execute the request and take a look at the result.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/12_search_result.png" alt="" width="700" height="943"></p>
+<p>As expected we're getting two hits, one for each of the movies with the word "kill" in the title. Let's look at another scenario, searching in specific fields.</p>
+<h3>Specifying fields to search in</h3>
+<p>In the previous example we used a very simple query, a query string query with only a single property, "query". As mentioned before the query string query has a number of settings that we can specify and if we don't it will use sensible default values.</p>
+<p><strong>One such setting</strong> is called "fields" and can be used to specify a list of fields to search in. If we don't use that the query will default to searching in a special field called "_all" that ElasticSearch automatically generates based on all of the individual fields in a document.</p>
+<p>Let's try to search for movies only by title. That is, if we search for "ford" we want to get a hit for "The Assassination of Jesse James by the Coward Robert <strong>Ford</strong>" but not for either of the movies directed by Francis <strong>Ford</strong> Coppola.</p>
+<p>In order to do that we modify the previous search request body so that the query string query has a fields property with an array of fields we want to search in:</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPOST </span><span class="str">"http://localhost:9200/_search"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "query": {
+        "query_string": {
+            "query": "ford",
+            "fields": ["title"]
+        }
+    }
+}'</span></pre>
+<p>Let's execute that and see what happens:</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/13_sense_with_fields.png" alt="" width="522" height="143"></p>
+<p>As expected we get a single hit, the movie with the word "ford" in its title. Compare that to a request were we've removed the fields property from the query:</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/14_sense_without_fields.png" alt="" width="527" height="137"></p>
+<h2 id="filtering">Filtering</h2>
+<p>We've covered a couple of simple free text search queries above. Let's look at another one where we search for "drama" without explicitly specifying fields:</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPOST </span><span class="str">"http://localhost:9200/_search"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "query": {
+        "query_string": {
+            "query": "drama"
+        }
+    }
+}'</span></pre>
+<p>As we have five movies in our index containing the word "drama" in the _all field (from the category field) we get five hits for the above query. Now, imagine that we want to limit these hits to movies released in 1962. In order to do that we need to apply a filter requiring the "year" field to equal 1962.</p>
+<p>To add such a filter we modify our search request body so that our current top level query, the query string query, is wrapped in a filtered query:</p>
+<pre class="prettyprint"><span class="pun">{</span><span class="pln">
+    </span><span class="str">"query"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+        </span><span class="str">"filtered"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+            </span><span class="str">"query"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+                </span><span class="str">"query_string"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+                    </span><span class="str">"query"</span><span class="pun">:</span><span class="pln"> </span><span class="str">"drama"</span><span class="pln">
+                </span><span class="pun">}</span><span class="pln">
+            </span><span class="pun">},</span><span class="pln">
+            </span><span class="str">"filter"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+                </span><span class="com">//Filter to apply to the query</span><span class="pln">
+            </span><span class="pun">}</span><span class="pln">
+        </span><span class="pun">}</span><span class="pln">
+    </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></pre>
+<p>A filtered query is a query that has two properties, query and filter. When executed it filters the result of the query using the filter. To finalize the query we'll need to add a filter requiring the year field to have value 1962.</p>
+<p>ElasticSearch's query DSL has a wide range of filters to choose from. For this simple case where a certain field should match a specific value a <a href="http://www.elasticsearch.org/guide/reference/query-dsl/term-filter/">term filter </a>will work well.</p>
+<pre class="prettyprint"><span class="str">"filter"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="str">"term"</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln"> </span><span class="str">"year"</span><span class="pun">:</span><span class="pln"> </span><span class="lit">1962</span><span class="pln"> </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></pre>
+<p>The complete search request now looks like this:</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPOST </span><span class="str">"http://localhost:9200/_search"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "query": {
+        "filtered": {
+            "query": {
+                "query_string": {
+                    "query": "drama"
+                }
+            },
+            "filter": {
+                "term": { "year": 1962 }
+            }
+        }
+    }
+}'</span></pre>
+<p>When we execute it we, as expected, only get two hits, both with year == 1962.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/15_sense_with_filter.png" alt="" width="332" height="410"></p>
+<h3>Filtering without a query</h3>
+<p>In the above example we limit the results of a query string query using a filter. What if all we want to do is apply a filter? That is, we want all movies matching a certain criteria.</p>
+<p>In such cases we still use the "query" property in the search request body, which expects a query. In other words, we can't just add a filter, we need to wrap it in some sort of query.</p>
+<p>One solution for doing this is to modify our current search request, replacing the query string query in the filtered query with a match_all query which is a query that simply matches everything. Like this:</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPOST </span><span class="str">"http://localhost:9200/_search"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "query": {
+        "filtered": {
+            "query": {
+                "match_all": {
+                }
+            },
+            "filter": {
+                "term": { "year": 1962 }
+            }
+        }
+    }
+}'</span></pre>
+<p>Another, simpler option is to use a constant score query:</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPOST </span><span class="str">"http://localhost:9200/_search"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "query": {
+        "constant_score": {
+            "filter": {
+                "term": { "year": 1962 }
+            }
+        }
+    }
+}'</span></pre>
+<h2 id="mapping">Mapping</h2>
+<p>Let's look at a search request similar to the last one, only this time we filter by author instead of year.</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPOST </span><span class="str">"http://localhost:9200/_search"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "query": {
+        "constant_score": {
+            "filter": {
+                "term": { "director": "Francis Ford Coppola" }
+            }
+        }
+    }
+}'</span></pre>
+<p>As we have two movies directed by Francis Ford Coppola in our index it doesn't seem too far fetched that this request should result in two hits, right? That's not the case however.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/16_sense_no_hits_with_filter.png" alt="" width="668" height="282"></p>
+<p>What's going on here? &nbsp;We've obviously indexed two movies with "Francis Ford Coppola" as director and that's what we see in search results as well. Well, while ElasticSearch has a JSON object with that data that it returns to us in search results in the form of the _source property that's not what it has in its index.</p>
+<p><strong>When we index</strong> a document with ElasticSearch it (simplified) does two things: it stores the original data untouched for later retrieval in the form of _source and it indexes each JSON property into one or more fields in a Lucene index. During the indexing it processes each field according to how the field is mapped. If it isn't mapped default mappings depending on the fields type (string, number etc) is used.</p>
+<p>As we haven't supplied any mappings for our index ElasticSearch uses the default mappings for strings for the director field. This means that in the index the director fields value isn't "Francis Ford Coppola". Instead it's something more like ["francis", "ford", "coppola"].</p>
+<p>We can verify that by modifying our filter to instead match "francis" (or "ford" or "coppola"):</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/17_sense_francis.png" alt="" width="700" height="291"></p>
+<p>So, what to do if we want to filter by the exact name of the director? We modify how it's mapped. There are a number of ways to add mappings to ElasticSearch, through a configuration file, as part of a HTTP request that creates and index and by calling the _mapping endpoint.</p>
+<p>Using the last approach we could in theory fix the above issue by adding a mapping for the "director" field instructing ElasticSearch not to analyze (tokenize etc.) the field at all when indexing it, like this:</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPUT </span><span class="str">"http://localhost:9200/movies/movie/_mapping"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+   "movie": {
+      "properties": {
+         "director": {
+            "type": "string",
+            "index": "not_analyzed"
+        }
+      }
+   }
+}'</span></pre>
+<p>There are however a couple of issues if we do this. First of all, it won't work as there already is a mapping for the field:</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/18_mapping_error.png" alt="" width="700" height="55"></p>
+<p>In many cases it's not possible to modify existing mappings. Often the easiest work around for that is to create a new index with the desired mappings and re-index all of the data into the new index.&nbsp;</p>
+<p>The second problem with adding the above mapping is that, even if we could add it, we would have limited our ability to search in the director field. That is, while a search for the exact value in the field would match we wouldn't be able to search for single words in the field.</p>
+<p><strong>Luckily, there's a</strong> simple solution to our problem. We add a mapping that upgrades the field to a multi field. What that means is that we'll map the field multiple times for indexing. Given that one of the ways we map it match the existing mapping both by name and settings that will work fine and we won't have to create a new index.</p>
+<p>Here's a request that does that:</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPUT </span><span class="str">"http://localhost:9200/movies/movie/_mapping"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+   "movie": {
+      "properties": {
+         "director": {
+            "type": "multi_field",
+            "fields": {
+                "director": {"type": "string"},
+                "original": {"type" : "string", "index" : "not_analyzed"}
+            }
+         }
+      }
+   }
+}'</span></pre>
+<p>This time when we try to add the mappings ElasticSearch is happy to do so.</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/19_mappings_added.png" alt="" width="700" height="280"></p>
+<p>So, what did we just do? We told ElasticSearch that whenever it sees a property named "director" in a movie document that is about to be indexed in the movies index it should index it multiple times. Once into a field with the same name (director) and once into a field named "director.original" and the latter field should not be analyzed, maintaining the original value allowing is to filter by the exact director name.</p>
+<p><strong>With our new</strong> shiny mapping in place we can re-index one or both of the movies directed by Francis Ford Coppola (copy from the list of initial indexing requests above) and try the search request that filtered by author again. Only, this time we don't filter on the "director" field (which is indexed the same way as before) but instead on the "director.original" field:</p>
+<pre class="prettyprint"><span class="pln">curl </span><span class="pun">-</span><span class="pln">XPOST </span><span class="str">"http://localhost:9200/_search"</span><span class="pln"> </span><span class="pun">-</span><span class="pln">d</span><span class="str">'
+{
+    "query": {
+        "constant_score": {
+            "filter": {
+                "term": { "director.original": "Francis Ford Coppola" }
+            }
+        }
+    }
+}'</span></pre>
+<p>Executing it shows that it indeed works:</p>
+<p><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/20_sense_filter_success.png" alt="" width="700" height="350"></p>
+<h2 id="where-to-go-from-here">Where to go from here</h2>
+<p>We've covered quite a lot of things in this article. Still, we've barely scratched the surface of ElasticSearch's goodness.</p>
+<p>For instance, there's a lot more to searching with ElasticSearch than we've seen here. We can create <a href="http://www.elasticsearch.org/guide/reference/api/search/">search requests</a> where we specify how many hits we want, use <a href="http://www.elasticsearch.org/guide/reference/api/search/highlighting/">highlighting</a>, get <a href="http://www.elasticsearch.org/guide/reference/api/search/suggest/">spelling suggestions</a> and much more. Also, the <a href="http://www.elasticsearch.org/guide/reference/query-dsl/">query DSL</a> contains many interesting queries and filters that we can use. Then there's of course also a whole range of <a href="http://www.elasticsearch.org/guide/reference/api/search/facets/">facets</a> that we can use&nbsp;to extract statistics from our data or build navigations.</p>
+<p><strong>As if that</strong> wasn't enough, we can go far, far beyond the simple mapping example we've seen here to accomplish wonderful and interesting things. And then there are of course plenty of performance optimizations and considerations. And functionality to find similar content. And, and, and...</p>
+<p>But for now, thanks for reading! I hope you found this tutorial useful on your way to discovering the great open source project ElasticSearch.</p>
+<h3>My book</h3>
+<p>If you found this tutorial useful you may want to <a href="https://leanpub.com/elasticsearch-quick-start">check out my book on Leanpub</a>. I wrote it as a longer, more complete, version of this tutorial.</p>
+                <p><em>PS. For updates about new posts, sites I find useful and the occasional rant you can <a href="http://twitter.com/joelabrahamsson">follow me on Twitter</a>. You are also most welcome to subscribe to <a href="http://feeds.feedburner.com/JoelAbrahamsson">the RSS-feed.</a></em></p>                    <div class="similar-pages">
+    <h3>Similar articles</h3>
+        <ul>
+                <li><a href="http://joelabrahamsson.com/extending-aspnet-mvc-music-store-with-elasticsearch/" title="Extending ASP.NET MVC Music Store with elasticsearch">Extending ASP.NET MVC Music Store with elasticsearch</a></li>  
+                <li><a href="http://joelabrahamsson.com/elasticsearch-nested-mapping-and-filter/" title="ElasticSearch - nested mappings and filters">ElasticSearch - nested mappings and filters</a></li>  
+                <li><a href="http://joelabrahamsson.com/introducing-truffler-advanced-search-made-easy/" title="Introducing Truffler – Advanced search made easy">Introducing Truffler – Advanced search made easy</a></li>  
+                <li><a href="http://joelabrahamsson.com/dynamic-mappings-and-dates-in-elasticsearch/" title="Dynamic mappings and dates in ElasticSearch">Dynamic mappings and dates in ElasticSearch</a></li>  
+                <li><a href="http://joelabrahamsson.com/getting-to-know-lucenenet-part-three-time-to-crawl/" title="Getting to know Lucene.Net part three - time to crawl">Getting to know Lucene.Net part three - time to crawl</a></li>  
+                <li><a href="http://joelabrahamsson.com/building-a-search-page-for-an-episerver-site-using-truffler-part-2/" title="Building a search page for an EPiServer site using Truffler - Part 2">Building a search page for an EPiServer site using Truffler - Part 2</a></li>  
+                <li><a href="http://joelabrahamsson.com/grouping-in-elasticsearch-using-child-documents/" title="Grouping in ElasticSearch using child documents">Grouping in ElasticSearch using child documents</a></li>  
+                <li><a href="http://joelabrahamsson.com/truffler-update-dotting-the-is-and-crossing-the-ts/" title="Truffler update – dotting the i’s and crossing the t’s">Truffler update – dotting the i’s and crossing the t’s</a></li>  
+        </ul>
+    </div>
+            </div>
+
+<div class="author-info clearfix">
+        <img src="./ElasticSearch 101 - A getting started tutorial_files/joel_abrahamsson_djungle.jpg" alt="Joel Abrahamsson" width="150">
+    <h4>Joel Abrahamsson</h4>
+    <p>I'm a passionate web developer and systems architect living in Stockholm, Sweden. I work as CTO for a large media site and enjoy developing with all technologies, especially .NET, Node.js, and ElasticSearch. <a title="About Joel Abrahamsson" href="http://joelabrahamsson.com/about-joel/">Read more</a></p>
+</div>            
+            <div class="comments">
+                <h3>Comments</h3>
+                    <div id="disqus_thread"><iframe id="dsq-app9198" name="dsq-app9198" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./ElasticSearch 101 - A getting started tutorial_files/saved_resource.html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 7717px !important;" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+                    <script type="text/javascript">
+                        var disqus_shortname = 'joelabrahamsson';
+                        var disqus_identifier = 'dfe15cc9-7abd-4517-9429-3a4ed2017a5c';
+                        var disqus_developer = 0;
+                        /* * * DON'T EDIT BELOW THIS LINE * * */
+                        (function() {
+                            var dsq = document.createElement('script');
+                            dsq.type = 'text/javascript';
+                            dsq.async = true;
+                            dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                        })();
+                    </script>
+                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                    
+            </div>
+        </div>
+        <div class="span3">
+                <div id="toc" class="toc sidebar-module hidden-phone hidden-tablet">
+                    <h4 class="legend">In this article</h4>
+                    <div id="toc-list">
+                        <ul class="nav nav-list">
+                            <li class=""><a href="http://joelabrahamsson.com/elasticsearch-101/#downloading-and-running-elasticsearch">Downloading and running ElasticSearch</a></li><li class=""><a href="http://joelabrahamsson.com/elasticsearch-101/#using-the-rest-api-with-sense">Using the REST API with Sense</a></li><li class=""><a href="http://joelabrahamsson.com/elasticsearch-101/#crud">CRUD</a></li><li class=""><a href="http://joelabrahamsson.com/elasticsearch-101/#searching">Searching</a></li><li class=""><a href="http://joelabrahamsson.com/elasticsearch-101/#filtering">Filtering</a></li><li class="active"><a href="http://joelabrahamsson.com/elasticsearch-101/#mapping">Mapping</a></li><li class=""><a href="http://joelabrahamsson.com/elasticsearch-101/#where-to-go-from-here">Where to go from here</a></li>
+                        </ul>
+                    </div>
+                </div>
+            
+<div class="sidebar-module share-box clearfix">
+    <h4>Sharing is caring <i class="icon-heart-empty"></i></h4>
+    <div class="social">
+        <span class="google">
+            <div id="___plusone_0" style="position: absolute; width: 450px; left: -10000px;"><iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position:absolute;top:-10000px;width:450px;margin:0px;border-style:none" tabindex="0" vspace="0" width="100%" id="I0_1552675129369" name="I0_1552675129369" src="./ElasticSearch 101 - A getting started tutorial_files/fastbutton.html" data-gapiattached="true"></iframe></div><div class="g-plusone" data-size="tall" data-annotation="none" data-gapiscan="true" data-onload="true" data-gapistub="true"></div>
+        </span>
+        <span class="twitter">
+            <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 61px; height: 20px;" title="Twitter Tweet Button" src="./ElasticSearch 101 - A getting started tutorial_files/tweet_button.2e9f365dae390394eb8d923cba8c5b11.en.html"></iframe>
+        </span>
+        <span class="facebook">
+            
+            <iframe src="./ElasticSearch 101 - A getting started tutorial_files/like.html" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:21px;" allowtransparency="true"></iframe>
+        </span>    
+        
+    </div>
+    
+    <script type="text/javascript">
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    </script>
+    
+    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = "//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+    
+    
+    
+</div>
+
+             
+            
+
+
+            <div id="article-topic" style="margin-top: 19898px; position: relative; width: 270px; top: 0px;">
+            </div>
+<div><div><div class="html-block clearfix">
+        <h2>My book</h2>   
+    <div class="content">
+        <div style="margin-top: 5px;"><a title="The book ElasticSearch Quick Start on Leanpub" href="http://leanpub.com/elasticsearch-quick-start"><img class="thumbnail-centered" src="./ElasticSearch 101 - A getting started tutorial_files/es_book_tsr.jpg" alt=""></a></div>
+<p><a href="http://leanpub.com/elasticsearch-quick-start">Check out my book on Leanpub!</a></p>
+    </div>
+</div></div></div>
+        </div>
+    </div>
+</article>
+<div class="row-fluid">
+    <div class="span9">
+            <section class="list">
+                <h1>More about Search Engines</h1>
+                <ul class="unstyled article-list ">
+        <li class="clearfix">
+<div class="article-info-row clearfix">
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/search-engines/" title="Search Engines">Search Engines</a></span>
+    <span class="publish-date pull-right">January 18, 2015</span>
+</div>
+<a href="http://joelabrahamsson.com/book-announcement-elasticsearch-quick-start/" title="Book announcement: ElasticSearch Quick Start">
+    <h3>Book announcement: ElasticSearch Quick Start</h3>
+        <img class="thumbnail pull-left" alt="" src="./ElasticSearch 101 - A getting started tutorial_files/es_book_announcement_tsr.jpg">   
+    <p>
+            <i class="icon-chevron-right"></i>
+        I'm happy to announce a book that I've been meaning to write for quite some time - An introduction to ElasticSearch for developers in tutorial form.</p>
+</a>
+
+        </li>   
+        <li class="clearfix">
+<div class="article-info-row clearfix">
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/search-engines/" title="Search Engines">Search Engines</a></span>
+    <span class="publish-date pull-right">June 07, 2014</span>
+</div>
+<a href="http://joelabrahamsson.com/dynamic-mappings-and-dates-in-elasticsearch/" title="Dynamic mappings and dates in ElasticSearch">
+    <h3>Dynamic mappings and dates in ElasticSearch</h3>
+        <img class="thumbnail pull-left" alt="" src="./ElasticSearch 101 - A getting started tutorial_files/es_dates_tsr.png">   
+    <p>
+            <i class="icon-chevron-right"></i>
+        JSON doesn't have a date type. Yet ElasticSearch can automatically map date fields for us. While this "just works" most of the time, it can be a good idea to help ElasticSearch help us by instead using naming conventions for dates. Here's why, and how.</p>
+</a>
+
+        </li>   
+        <li class="clearfix">
+<div class="article-info-row clearfix">
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/search-engines/" title="Search Engines">Search Engines</a></span>
+    <span class="publish-date pull-right">June 06, 2014</span>
+</div>
+<a href="http://joelabrahamsson.com/elasticsearch-nested-mapping-and-filter/" title="ElasticSearch - nested mappings and filters">
+    <h3>ElasticSearch - nested mappings and filters</h3>
+        <img class="thumbnail pull-left" alt="" src="./ElasticSearch 101 - A getting started tutorial_files/es_nested_tsr.png">   
+    <p>
+            <i class="icon-chevron-right"></i>
+        There's one situation where we need to help ElasticSearch to understand the structure of our data in order to be able to query it fully - when dealing with arrays of complex objects.</p>
+</a>
+
+        </li>   
+        <li class="clearfix">
+<div class="article-info-row clearfix">
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/search-engines/" title="Search Engines">Search Engines</a></span>
+    <span class="publish-date pull-right">October 26, 2013</span>
+</div>
+<a href="http://joelabrahamsson.com/grouping-in-elasticsearch-using-child-documents/" title="Grouping in ElasticSearch using child documents">
+    <h3>Grouping in ElasticSearch using child documents</h3>
+        <img class="thumbnail pull-left" alt="" src="./ElasticSearch 101 - A getting started tutorial_files/files.png">   
+    <p>
+            <i class="icon-chevron-right"></i>
+        How to answer questions such as "average number of orders per customer during November?" that would be easy using GROUP BY in a relational database isn't always obvious when using ElasticSearch. Here's one solution, using child documents.</p>
+</a>
+
+        </li>   
+        <li class="clearfix">
+<div class="article-info-row clearfix">
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/episerver/" title="EPiServer tutorials and notes by Joel Abrahamsson">EPiServer</a></span>
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/episerver/find/" title="About EPiServer Find by Joel Abrahamsson">Find</a></span>
+    <span class="publish-date pull-right">February 25, 2013</span>
+</div>
+<a href="http://joelabrahamsson.com/find-greatness-with-episerver-find/" title="Find greatness with EPiServer Find">
+    <h3>Find greatness with EPiServer Find</h3>
+        <img class="thumbnail pull-left" alt="" src="./ElasticSearch 101 - A getting started tutorial_files/find_greatness2.png">   
+    <p>
+            <i class="icon-chevron-right"></i>
+        Sometimes I meet partner developers who haven’t had the chance to try out Find yet. For those it’s not really clear what Find is, or rather why it’s something quite different compared to “traditional” search solutions. So far this year I've worked with three EPiServer 7 sites. They all use EPiServer Find. Here's why.</p>
+</a>
+
+        </li>   
+        <li class="clearfix">
+<div class="article-info-row clearfix">
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/episerver/" title="EPiServer tutorials and notes by Joel Abrahamsson">EPiServer</a></span>
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/episerver/find/" title="About EPiServer Find by Joel Abrahamsson">Find</a></span>
+    <span class="publish-date pull-right">January 08, 2013</span>
+</div>
+<a href="http://joelabrahamsson.com/episerver-find-training/" title="EPiServer Find Training">
+    <h3>EPiServer Find Training</h3>
+    <p>
+            <i class="icon-chevron-right"></i>
+        Come and learn how to do content retrieval and great free text search using EPiServer Find.</p>
+</a>
+
+        </li>   
+        <li class="clearfix">
+<div class="article-info-row clearfix">
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/episerver/" title="EPiServer tutorials and notes by Joel Abrahamsson">EPiServer</a></span>
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/episerver/find/" title="About EPiServer Find by Joel Abrahamsson">Find</a></span>
+    <span class="publish-date pull-right">November 12, 2012</span>
+</div>
+<a href="http://joelabrahamsson.com/building-a-search-page-for-an-episerver-7-site-with-episerver-find/" title="Building a search page for an EPiServer 7 site with EPiServer Find">
+    <h3>Building a search page for an EPiServer 7 site with EPiServer Find</h3>
+        <img class="thumbnail pull-left" alt="" src="./ElasticSearch 101 - A getting started tutorial_files/alloy_find_search_page.jpg">   
+    <p>
+            <i class="icon-chevron-right"></i>
+        Downloadable and annotated source code for a ready-to-use search page using EPiServer Find.</p>
+</a>
+
+        </li>   
+        <li class="clearfix">
+<div class="article-info-row clearfix">
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/search-engines/" title="Search Engines">Search Engines</a></span>
+    <span class="publish-date pull-right">May 29, 2012</span>
+</div>
+<a href="http://joelabrahamsson.com/extending-aspnet-mvc-music-store-with-elasticsearch/" title="Extending ASP.NET MVC Music Store with elasticsearch">
+    <h3>Extending ASP.NET MVC Music Store with elasticsearch</h3>
+    <p>
+            <i class="icon-chevron-right"></i>
+        ElasticSearch is a great and powerful open source search engine that can be used to solve a great range of problems. Here we'll take a look at how we can use ElasticSearch in an ASP.NET MVC application.</p>
+</a>
+
+        </li>   
+        <li class="clearfix">
+<div class="article-info-row clearfix">
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/episerver/" title="EPiServer tutorials and notes by Joel Abrahamsson">EPiServer</a></span>
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/episerver/find/" title="About EPiServer Find by Joel Abrahamsson">Find</a></span>
+    <span class="publish-date pull-right">May 07, 2012</span>
+</div>
+<a href="http://joelabrahamsson.com/building-a-search-page-for-an-episerver-site-using-truffler-part-2/" title="Building a search page for an EPiServer site using Truffler - Part 2">
+    <h3>Building a search page for an EPiServer site using Truffler - Part 2</h3>
+    <p>
+            <i class="icon-chevron-right"></i>
+        The time has come to extend the search page created in the previous article with stemming and highlighting.</p>
+</a>
+
+        </li>   
+        <li class="clearfix">
+<div class="article-info-row clearfix">
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/episerver/" title="EPiServer tutorials and notes by Joel Abrahamsson">EPiServer</a></span>
+        <span class="category-label pull-left"><a href="http://joelabrahamsson.com/episerver/find/" title="About EPiServer Find by Joel Abrahamsson">Find</a></span>
+    <span class="publish-date pull-right">May 07, 2012</span>
+</div>
+<a href="http://joelabrahamsson.com/building-a-search-page-for-an-episerver-site-using-truffler/" title="Building a search page for an EPiServer site using Truffler">
+    <h3>Building a search page for an EPiServer site using Truffler</h3>
+    <p>
+            <i class="icon-chevron-right"></i>
+        This is the first in a series of posts about building search functionality for EPiServer CMS based sites using Truffler. While Truffler can be used for many things such as querying for data and finding related content we’ll here focus on the traditional search page.</p>
+</a>
+
+        </li>   
+</ul>
+
+            </section>
+    </div>
+</div>
+        </div>
+<div class="footer">
+    <div class="container">
+        <div id="footer-nav" class="row-fluid">
+            <div class="navbar span12">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li>
+                                            <a href="http://joelabrahamsson.com/episerver/">EPiServer</a>
+                                        </li><li>
+                                            <a href="http://joelabrahamsson.com/aspnet/">ASP.NET</a>
+                                        </li><li>
+                                            <a href="http://joelabrahamsson.com/programming/">Programming</a>
+                                        </li><li class="active">
+                                            <a href="http://joelabrahamsson.com/search-engines/">Search</a>
+                                        </li><li>
+                                            <a href="http://joelabrahamsson.com/life/">Life</a>
+                                        </li><li>
+                                            <a href="http://joelabrahamsson.com/about-joel/">About</a>
+                                        </li>
+                        <li>
+                            <a href="http://joelabrahamsson.com/search/">Archive and search</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+         
+        <script src="./ElasticSearch 101 - A getting started tutorial_files/js(1)" type="text/javascript"></script>
+        <script type="text/javascript">try { clicky.init(116511); } catch (e) { }</script>
+            <noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/116511ns.gif" /></p></noscript>
+    
+
+<script type="text/javascript" async="" src="./ElasticSearch 101 - A getting started tutorial_files/in.php"></script><iframe scrolling="no" frameborder="0" allowtransparency="true" src="./ElasticSearch 101 - A getting started tutorial_files/widget_iframe.2e9f365dae390394eb8d923cba8c5b11.html" title="Twitter settings iframe" style="display: none;"></iframe><iframe name="oauth2relay703399419" id="oauth2relay703399419" src="./ElasticSearch 101 - A getting started tutorial_files/postmessageRelay.html" tabindex="-1" aria-hidden="true" style="width: 1px; height: 1px; position: absolute; top: -100px;"></iframe><iframe style="display: none;" src="./ElasticSearch 101 - A getting started tutorial_files/saved_resource(1).html"></iframe><iframe id="dsq-app9201" name="dsq-app9201" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./ElasticSearch 101 - A getting started tutorial_files/saved_resource(2).html" style="width: 1px !important; min-width: 100% !important; border: none !important; overflow: hidden !important; height: 100% !important; position: fixed !important; top: 0px !important; right: 0px !important; left: auto !important; bottom: auto !important; z-index: 2147483647 !important; display: none !important;"></iframe></body></html>
